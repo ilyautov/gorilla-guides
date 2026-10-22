@@ -1,0 +1,23 @@
+[
+ {
+  "text": "Короче. Этот ролик собран из кода, без монтажки.",
+  "pause": 0.12,
+  "tail": false,
+  "engine": "omnivoice",
+  "omni_speed": 1.0
+ },
+ {
+  "text": "Голос, кадры и звук считает скрипт за пару минут.",
+  "pause": 0.12,
+  "tail": false,
+  "engine": "omnivoice",
+  "omni_speed": 1.0
+ },
+ {
+  "text": "В сцене всего двести строк. Повтори по инструкции.",
+  "pause": 0.0,
+  "tail": false,
+  "engine": "omnivoice",
+  "omni_speed": 1.0
+ }
+]

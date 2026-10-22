@@ -1,0 +1,11 @@
+{
+ "title": "Демо: ролик из кода",
+ "music": {
+  "file": null,
+  "offset": 0,
+  "gain": 0.3,
+  "credit": "",
+  "note": "file: путь к треку с открытой лицензией (например assets/audio/music-src.mp3, CC BY — кредит в описание). null = tools/sound.py синтезирует тихий пэд сам"
+ },
+ "max_duration": 60
+}

@@ -1,0 +1,15 @@
+# всё, что собирается или качается, в git не кладём
+build/
+output/
+qa/
+story.json
+voice-track.json
+assets/fonts/*
+!assets/fonts/.keep
+assets/audio/*
+!assets/audio/.keep
+voice/*.wav
+voice/asr-*.json
+voice/list.txt
+node_modules/
+__pycache__/

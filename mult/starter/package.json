@@ -1,0 +1,6 @@
+{
+  "name": "reel-starter",
+  "private": true,
+  "description": "Сцена рила на TypeScript + Canvas; нужен только компилятор",
+  "devDependencies": {"typescript": "5.9.3"}
+}

@@ -1,0 +1,7 @@
+# окружение пайплайна (не OmniVoice: у него свой venv, см. README)
+numpy
+scipy
+soundfile
+pillow
+playwright
+faster-whisper

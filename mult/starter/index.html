@@ -1,0 +1,11 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><title>Reel scene</title>
+<style>
+/* Шрифты качает tools/fonts.sh (Onest и PT Serif, обе OFL). Нет файлов — сцена рисует запасными. */
+@font-face{font-family:Onest;src:url(assets/fonts/onest-cyrillic-700-normal.woff2);font-weight:700;unicode-range:U+0400-052F}
+@font-face{font-family:Onest;src:url(assets/fonts/onest-latin-700-normal.woff2);font-weight:700}
+@font-face{font-family:Onest;src:url(assets/fonts/onest-cyrillic-400-normal.woff2);font-weight:400;unicode-range:U+0400-052F}
+@font-face{font-family:Onest;src:url(assets/fonts/onest-latin-400-normal.woff2);font-weight:400}
+@font-face{font-family:Accent;src:url(assets/fonts/pt-serif-cyrillic-400-italic.woff2);font-style:italic;font-weight:400;unicode-range:U+0400-052F}
+@font-face{font-family:Accent;src:url(assets/fonts/pt-serif-latin-400-italic.woff2);font-style:italic;font-weight:400}
+*{box-sizing:border-box}html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000}canvas{display:block;width:1080px;height:1920px}
+</style><canvas id="film" width="1080" height="1920"></canvas><script src="build/scene.js"></script></html>
