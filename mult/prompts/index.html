@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Рилс через Claude Code: схемы и промпты</title>
+<meta name="description" content="Схемы и готовые промпты для Claude Code: как собрать вертикальный рил от разбора хита до кодового слова.">
+<meta property="og:title" content="Рилс через Claude Code: схемы и промпты">
+<meta property="og:description" content="Схемы и готовые промпты для Claude Code: как собрать вертикальный рил от разбора хита до кодового слова.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+/* Схемы: блоки и стрелки на flex, на телефоне в столбик */
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px;margin:14px 0}
+.flow .b{flex:1 1 120px;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.flow .b b{display:block;font-size:15px}
+.flow .b small{display:block;color:var(--muted);font-size:12.5px;line-height:1.35;margin-top:3px}
+.flow .b.k{background:var(--lime);border-color:var(--lime);color:#1a2023}
+.flow .b.k small{color:#425319}
+.flow .ar{align-self:center;color:var(--muted);font-weight:700}
+@media (max-width:560px){.flow{flex-direction:column}.flow .ar{transform:rotate(90deg);align-self:center}}
+.tl{display:flex;border-radius:10px;overflow:hidden;margin:14px 0 6px;font-size:12.5px;line-height:1.3}
+.tl div{padding:10px 8px;min-width:0;color:#1a2023}
+.tl .h{flex:8;background:#ff6b6b}.tl .m{flex:60;background:var(--lime)}.tl .u{flex:12;background:#7fd3ff}.tl .c{flex:12;background:#ffc94d}.tl .t{flex:8;background:#d9a8ff}
+.tlx{display:flex;justify-content:space-between;font:12px var(--mono);color:var(--muted)}
+.cuts{position:relative;height:28px;margin:4px 0 14px;background:color-mix(in srgb,var(--fg) 6%,transparent);border-radius:6px}
+.cuts i{position:absolute;top:4px;bottom:4px;width:2px;background:var(--olive)}
+.cuts span{position:absolute;right:8px;top:5px;font-size:12px;color:var(--muted)}
+.who{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:10px}
+.who div{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 14px;min-width:0}
+.tag{font:600 12px var(--mono);background:color-mix(in srgb,var(--fg) 8%,transparent);border-radius:5px;padding:1px 6px;margin-right:4px;white-space:nowrap}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="kicker">Инструкция к ролику @gorilla_under_hood · слово «мульт»</div>
+  <h1>Рилс через <span class="hl">Claude Code</span>: схемы и промпты</h1>
+  <p class="lede">Восемь шагов от чужого хита до своего ролика с кодовым словом. На каждом шаге готовый промпт: копируете, подставляете своё в &lt;угловые скобки&gt;, вставляете в Claude Code.</p>
+  <div class="safe"><span>локально на ноутбуке</span><span>без платных видеонейросетей</span><span>код открыт</span></div>
+</header>
+
+<section>
+<h2>Схема всего конвейера</h2>
+<div class="flow">
+  <div class="b"><b>Хит-образец</b><small>чужой рил, который залетел</small></div><span class="ar">→</span>
+  <div class="b"><b>Сценарий</b><small>боль, шаги, кодовое слово</small></div><span class="ar">→</span>
+  <div class="b"><b>Голос</b><small>клон своего голоса, проверка ASR</small></div><span class="ar">→</span>
+  <div class="b"><b>Картинка</b><small>сцена кодом: Canvas или three.js</small></div>
+</div>
+<div class="flow">
+  <div class="b"><b>Звук</b><small>шмыг на склейках, музыка, громкость</small></div><span class="ar">→</span>
+  <div class="b"><b>Сборка и проверка</b><small>лист кадров, ASR, LUFS</small></div><span class="ar">→</span>
+  <div class="b"><b>Пост</b><small>подпись, кодовое слово</small></div><span class="ar">→</span>
+  <div class="b k"><b>Инструкция</b><small>страница, которую шлёте в директ</small></div>
+</div>
+<p>Всё, кроме вкуса, делает Claude Code. Ваша работа: выбрать тему, утвердить сценарий, посмотреть ролик и сказать, что не так.</p>
+<div class="who">
+  <div><b>Вы</b><br>тема, «да» на сценарий, просмотр, короткий фидбек, публикация</div>
+  <div><b>Claude Code</b><br>разбор хита, сценарий, код сцены и звука, сборка, проверка</div>
+  <div><b>Открытые модели</b><br><span class="tag">OmniVoice</span> голос <span class="tag">faster-whisper</span> проверка речи <span class="tag">ffmpeg</span> сборка</div>
+</div>
+</section>
+
+<section>
+<h2>Схема ролика на 30 секунд</h2>
+<div class="tl"><div class="h">боль<br>0–2 с</div><div class="m">шаги или абсурд, склейка каждые 2–3 с</div><div class="u">польза</div><div class="c">кодовое слово</div><div class="t">твист</div></div>
+<div class="tlx"><span>0 с</span><span>10</span><span>20</span><span>30 с</span></div>
+<div class="cuts" aria-label="склейки"><i style="left:7%"></i><i style="left:15%"></i><i style="left:23%"></i><i style="left:31%"></i><i style="left:40%"></i><i style="left:48%"></i><i style="left:56%"></i><i style="left:64%"></i><i style="left:72%"></i><i style="left:80%"></i><i style="left:88%"></i><span>| = склейка + шмыг</span></div>
+<ul>
+<li><b>Боль за 2 секунды.</b> Зритель узнаёт себя: «Твоё голосовое в чате…», «Приставка тормозит…».</li>
+<li><b>Одна мысль на фразу,</b> на каждую фразу новый кадр. Кадр не стоит ни секунды.</li>
+<li><b>Два крючка на комменты:</b> кодовое слово за инструкцией и деталь, о которой хочется написать (угадайка «А или Б?», спорная фраза, странный звук).</li>
+</ul>
+</section>
+
+<section>
+<h2><span class="step">0</span>Подготовка</h2>
+<p>Нужен Claude Code на Mac с M-чипом (или Linux), около 15 ГБ места. Проще всего начать с нашего стартового набора: он уже собирает 10-секундный рил.</p>
+<div class="code"><pre><code>Склонируй https://github.com/ilyautov/gorilla-guides и перейди в mult/starter.
+Установи всё по README: Python 3.11 venv, ffmpeg, Node 18+, playwright chromium,
+отдельный venv для OmniVoice. Перед каждой установкой скажи, что ставишь и сколько
+места займёт, и жди моего «да». В конце прогони ./make.sh fake и ./make.sh all
+и покажи мне qa/sheet.jpg.</code></pre></div>
+<p class="warn">Веса OmniVoice под лицензией CC-BY-NC: только некоммерческое использование. Если ролики рекламируют что-то платное, нужен другой голосовой движок.</p>
+</section>
+
+<section>
+<h2><span class="step">1</span>Разобрать хит-образец</h2>
+<p>Берём ролик, который уже набрал миллион, и разбираем его грамматику: темп, кадр, структуру. Текст и сюжет не копируем.</p>
+<div class="code"><pre><code>Вот залетевший рил: &lt;ссылка&gt;. Скачай его через yt-dlp в refs/.
+1. Сделай лист кадров каждые 0,5 с: ffmpeg fps=2,scale=270:-1,tile=8x6.
+2. Найди склейки: select='gt(scene,0.3)'.
+3. Расшифруй речь faster-whisper large-v3 с таймкодами слов.
+Заполни карточку: хук первой секунды, длина, средний интервал склеек,
+сколько предметов в кадре, как сделаны субтитры, структура по секундам,
+чем просят коммент, есть ли кодовое слово. Посмотри лист кадров сам.
+Мы берём грамматику, не текст и не сюжет.</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">2</span>Сценарий</h2>
+<div class="code"><pre><code>По карточке разбора напиши сценарий рила до 35 секунд. Тема: &lt;тема&gt;.
+Правила:
+- первая фраза — боль зрителя, укладывается в 2 секунды;
+- одна мысль на фразу, не длиннее 8 слов; на каждую фразу новый кадр;
+- одна крупная цифра на экране, проверенная;
+- перед концом одна полезная фраза;
+- в конце: «Напиши „&lt;СЛОВО&gt;“, пришлю инструкцию»;
+- одна деталь, о которой захочется спорить в комментах.
+Формат: таблица «реплика | что в кадре». Не повторяй фразы образца.
+Каждый факт отметь источником. Покажи мне до сборки, ничего не синтезируй.</code></pre></div>
+<p>Для скетча с персонажами добавьте:</p>
+<div class="code"><pre><code>Формат скетча: я, Claude и маскот. Реплика → реакция каждые 2,5–3 с.
+Claude отвечает невозмутимо, абсурд растёт в 3–4 шага, финал — твист,
+которого не ждут. Над персонажами ярлыки ролей.</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">3</span>Голос</h2>
+<div class="flow">
+  <div class="b"><b>Образец 10–15 с</b><small>свой голос, тихая комната</small></div><span class="ar">→</span>
+  <div class="b"><b>3 дубля на фразу</b><small>OmniVoice</small></div><span class="ar">→</span>
+  <div class="b"><b>ASR каждого дубля</b><small>faster-whisper</small></div><span class="ar">→</span>
+  <div class="b k"><b>Лучший дубль</b><small>подрезка, разметка слов</small></div>
+</div>
+<div class="code"><pre><code>Мой образец голоса: voice/my-voice.wav и voice/my-voice.txt с точной расшифровкой.
+Синтезируй каждую реплику из voice/chunks.json клоном OmniVoice, по 3 дубля.
+Цифры и латиницу пиши словами по-русски («Claude» → «Клод»).
+Каждый дубль прогони через faster-whisper и сравни с текстом; бери дубль
+с лучшим совпадением, а если все плохие — перепиши фразу, а не перебирай seed.
+Подрежь тишину по ASR, склей с паузами 0,15–0,3 с, сохрани таймкоды слов
+в voice-track.json. Покажи таблицу: реплика, выбранный дубль, совпадение.</code></pre></div>
+<p>Клонируйте только свой голос или голос человека, который разрешил.</p>
+</section>
+
+<section>
+<h2><span class="step">4</span>Картинка</h2>
+<div class="code"><pre><code>Сделай сцену на TypeScript + Canvas 2D, 1080×1920, 30 кадров в секунду.
+Функция setTime(t) рисует кадр без Date.now и без случайности без seed:
+один и тот же t — один и тот же кадр.
+- Склейка на начало каждой реплики из voice-track.json.
+- Кадр всё время движется: ручная камера (сумма синусов, 2–4 px),
+  whip-переход 0,2 с, punch-зум 6 % за 0,16 с на ключевое слово.
+- Один крупный предмет в кадре. Никаких слайдов, таблиц и списков.
+- Субтитры по словам вверху, текущее слово ярче, цифры цветом #d6ff43.
+- Интерфейсы (чат, терминал, телефон) рисуй как настоящие, без логотипов брендов.
+Рендер покадрово в headless Chromium, потом ffmpeg в mp4.
+Сделай лист кадров каждые 0,75 с и проверь сам: ничего не обрезано и не налезает.</code></pre></div>
+<p>Для 3D-скетча замените первые строки на «three.js, низкополигональные персонажи, рот открывается по сглаженной громкости голоса, иначе персонаж дёргается».</p>
+</section>
+
+<section>
+<h2><span class="step">5</span>Звук и тот самый шмыг</h2>
+<p>Под нашим роликом про телевизор топ-комментом стало «Кто там шмыгает постоянно?». Это звук на склейках, и сделан он кодом:</p>
+<div class="code"><pre><code>def whoosh(d=.3):
+    t = t_(d); w = rng.normal(size=len(t)); w = np.convolve(w, np.ones(6) / 6, mode='same'); return w * np.sin(np.pi * t / d) ** 2
+
+for at in shots[1:]: put(sfx, at - .12, whoosh(), .10, rng.uniform(-.5, .5))</code></pre></div>
+<p>Шум сглаживается окном из 6 сэмплов, огибающая — синус в квадрате, 0,3 секунды, за 0,12 с до склейки, громкость 0,10, случайно влево-вправо.</p>
+<div class="code"><pre><code>Собери звук на numpy в 48 кГц стерео:
+- голос, под ним музыка с даккингом до 32 % на время речи (сглаживание 0,25 с);
+- на каждую склейку шмыг: белый шум, сглаженный окном 6 сэмплов, огибающая
+  sin² длиной 0,3 с, ставится за 0,12 с до склейки, громкость 0,10,
+  случайная панорама от −0,5 до 0,5;
+- щелчки на появление кнопок и цифр, тоже синтезом, без чужих сэмплов.
+Мастер: ffmpeg loudnorm I=-15:TP=-3, потом alimiter. Музыка только с лицензией
+CC BY или своя, кредит в подпись.</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">6</span>Сборка и проверка</h2>
+<div class="code"><pre><code>Сведи картинку и звук в output/final.mp4 (H.264, AAC 192k) и проверь:
+1. лист кадров qa/sheet.jpg — посмотри сам, исправь обрезанное и наложения;
+2. ASR готового ролика против сценария, совпадение не ниже 0,95;
+3. громкость −15 LUFS ±1, истинный пик не выше −1 dBTP;
+4. длина не больше заявленной.
+Запиши результат в qa/final-result.json. Не публикуй ничего: покажи мне ролик
+и напиши слабые места честно.</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">7</span>Пост и кодовое слово</h2>
+<div class="flow">
+  <div class="b"><b>Рил</b><small>«напиши „слово“»</small></div><span class="ar">→</span>
+  <div class="b"><b>Комменты</b><small>алгоритм видит обсуждение</small></div><span class="ar">→</span>
+  <div class="b"><b>Директ</b><small>ссылка на инструкцию</small></div><span class="ar">→</span>
+  <div class="b k"><b>Страница</b><small>и ваш канал внизу</small></div>
+</div>
+<div class="code"><pre><code>Напиши подпись к ролику: первая строка повторяет хук, дальше 2–3 строки сути,
+призыв написать «&lt;СЛОВО&gt;», ссылки на мой канал, кредит музыки, 5–7 хештегов.
+Сделай страницу-инструкцию для этого слова в моём репозитории GitHub Pages
+в том же стиле, что остальные, и добавь строку на главную.
+Покажи страницу до пуша.</code></pre></div>
+<p>Готовый пример: <a href="../../">этот сайт</a>, по странице на каждое кодовое слово.</p>
+</section>
+
+<section>
+<h2>Полная версия</h2>
+<p>Весь стек с числами, рецептами звуков, приёмами камеры и граблями: <a href="../">Фабрика рилсов на Claude Code</a>. Код стартового набора: <a href="https://github.com/ilyautov/gorilla-guides/tree/main/mult/starter">mult/starter</a>.</p>
+</section>
+
+<a class="back" href="../../">← Все инструкции</a>
+<footer>
+Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+</footer>
+</main>
+<script src="../../copy.js"></script>
+</body>
+</html>
