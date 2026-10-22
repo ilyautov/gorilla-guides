@@ -31,6 +31,12 @@
 .who{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:10px}
 .who div{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 14px;min-width:0}
 .tag{font:600 12px var(--mono);background:color-mix(in srgb,var(--fg) 8%,transparent);border-radius:5px;padding:1px 6px;margin-right:4px;white-space:nowrap}
+.tblw{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.tblw table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px;line-height:1.4}
+.tblw th,.tblw td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+.tblw tr:last-child td{border-bottom:0}
+.tblw th{font-weight:700;background:color-mix(in srgb,var(--lime) 35%,transparent)}
+.tblw td:first-child{font-weight:600}
 </style>
 </head>
 <body>
@@ -38,7 +44,7 @@
 <header>
   <div class="kicker">Инструкция к ролику @gorilla_under_hood · слово «мульт»</div>
   <h1>Рилс через <span class="hl">Claude Code</span>: схемы и промпты</h1>
-  <p class="lede">Восемь шагов от чужого хита до своего ролика с кодовым словом. На каждом шаге готовый промпт: копируете, подставляете своё в &lt;угловые скобки&gt;, вставляете в Claude Code.</p>
+  <p class="lede">Технологии, сравнение движков и восемь шагов от чужого хита до своего ролика с кодовым словом. На каждом шаге готовый промпт: копируете, подставляете своё в &lt;угловые скобки&gt;, вставляете в Claude Code.</p>
   <div class="safe"><span>локально на ноутбуке</span><span>без платных видеонейросетей</span><span>код открыт</span></div>
 </header>
 
@@ -74,6 +80,67 @@
 <li><b>Одна мысль на фразу,</b> на каждую фразу новый кадр. Кадр не стоит ни секунды.</li>
 <li><b>Два крючка на комменты:</b> кодовое слово за инструкцией и деталь, о которой хочется написать (угадайка «А или Б?», спорная фраза, странный звук).</li>
 </ul>
+</section>
+
+<section>
+<h2>Технологии: что за что отвечает</h2>
+<p>Всё работает на одном ноутбуке: Apple M1 Max, 64 ГБ памяти. Облачных видеонейросетей в конвейере нет.</p>
+<div class="tblw"><table>
+<tr><th>Задача</th><th>Чем делаем</th><th>Лицензия</th><th>Скорость у нас</th></tr>
+<tr><td>Сценарий, код, сборка</td><td>Claude Code</td><td>подписка</td><td>—</td></tr>
+<tr><td>Голос (клон своего)</td><td>OmniVoice (k2-fsa)</td><td>код Apache-2.0, веса CC-BY-NC</td><td>1,35 с счёта на 1 с речи</td></tr>
+<tr><td>Голос с характером</td><td>Chatterbox Multilingual</td><td>MIT</td><td>~2,4 с на 1 с речи</td></tr>
+<tr><td>Проверка речи</td><td>faster-whisper large-v3</td><td>MIT</td><td>секунды</td></tr>
+<tr><td>2D-картинка</td><td>TypeScript + Canvas, рендер Playwright</td><td>свой код</td><td>~1 мин на ролик</td></tr>
+<tr><td>3D-скетчи</td><td>three.js 0.169</td><td>MIT</td><td>0,03 с на кадр</td></tr>
+<tr><td>Живые шоты, губы</td><td>LTX-2.5 через ltx-2-mlx</td><td>открытые веса, вход на HF</td><td>50–100 с счёта на 1 с видео</td></tr>
+<tr><td>3D-карты</td><td>MapLibre GL JS 5.6, AWS Terrain</td><td>BSD-3</td><td>0,13 с на кадр</td></tr>
+<tr><td>Звук</td><td>numpy, всё синтезом</td><td>свой код</td><td>секунды</td></tr>
+<tr><td>Сведение, громкость</td><td>ffmpeg 8.1, loudnorm</td><td>LGPL/GPL</td><td>секунды</td></tr>
+<tr><td>Скачать образец</td><td>yt-dlp</td><td>Unlicense</td><td>секунды</td></tr>
+</table></div>
+</section>
+
+<section>
+<h2>Движки монтажа: сравнение</h2>
+<p>Свои Canvas-сцены появились не сразу. До них мы прошли два готовых движка.</p>
+<div class="tblw"><table>
+<tr><th></th><th>Diffusion Studio</th><th>HyperFrames</th><th>Свои Canvas-сцены</th><th>three.js</th></tr>
+<tr><td>Что это</td><td>видеоредактор для агентов: проект на JSX, холст, CLI <code>dapi</code></td><td>от HeyGen: ролик = HTML-страница + GSAP, рендер по кадрам</td><td>функция <code>setTime(t)</code> рисует кадр в Canvas, рендер 30 строк</td><td>3D-сцена с персонажами из примитивов</td></tr>
+<tr><td>Лицензия</td><td>MPL-2.0, облачные функции за кредиты</td><td>Apache-2.0</td><td>свой код</td><td>MIT</td></tr>
+<tr><td>Когда у нас</td><td>начало сентября, 2 ролика</td><td>сентябрь — начало октября: тренды, лонги</td><td>с середины октября, основной для рилсов</td><td>октябрь, скетчи</td></tr>
+<tr><td>Плюсы</td><td>холст и код синхронны, удобно править мышкой</td><td>агенту легко писать HTML; проверка перекрытий и контраста; 406 готовых карточек</td><td>камера, смаз, панч поверх готового кадра; нет вёрстки, которая тянет к слайду</td><td>персонажи, жесты, рот по голосу; быстро</td></tr>
+<tr><td>Минусы</td><td>правки с холста переносить в исходник руками; не ставится в общий замок</td><td>вёрстка тянет к «презентации»; камера спорит с анимацией плана</td><td>нет автопроверки перекрытий: смотрим лист кадров глазами</td><td>нужен замер дёрганья, иначе персонажи трясутся</td></tr>
+<tr><td>Сейчас</td><td>заморожен</td><td>справочник: правила моушена, пружина, карточки</td><td><b>основной</b></td><td><b>скетчи</b></td></tr>
+</table></div>
+<p>Что взяли из HyperFrames навсегда: сцена — чистая функция времени (никаких <code>Math.random()</code> и <code>Date.now()</code>), пружинный ease и таблица длительностей: слово выезжает <code>expo.out</code> 0,20–0,33 с, осадка карточки <code>back.out</code> 0,3–0,5 с, проезд камеры <code>power2.inOut</code> 1,2–2,3 с.</p>
+</section>
+
+<section>
+<h2>Генерация видео: локально или в облаке</h2>
+<div class="tblw"><table>
+<tr><th></th><th>LTX-2.5 локально</th><th>Облако (Kling, Veo и др. через агрегатор)</th></tr>
+<tr><td>Цена</td><td>0 ₽, только электричество</td><td>~$4–8 за шортс со вставками</td></tr>
+<tr><td>Скорость</td><td>50–100 с счёта на 1 с видео</td><td>минуты на клип</td></tr>
+<tr><td>Железо</td><td>от 32 ГБ памяти (с <code>--low-ram</code> 16), веса 42 ГБ</td><td>любое</td></tr>
+<tr><td>Что умеет у нас</td><td>фото + голос → говорящий человек или персонаж (a2v), вставки 2–4 с</td><td>B-roll, персонаж по референсу</td></tr>
+</table></div>
+<p>Наш вывод: генеративное видео — только короткие вставки внутри монтажа. Ролик держат склейки, субтитры и звук, а не нейросеть.</p>
+</section>
+
+<section>
+<h2>Голос: слепой тест шести синтезаторов</h2>
+<p>Один референс (живой голос, 7,3 с), четыре фразы, варианты перемешаны, слушали не зная, где какой.</p>
+<div class="tblw"><table>
+<tr><th>Движок</th><th>с на 1 с речи</th><th>Память</th><th>Лицензия</th><th>На слух</th></tr>
+<tr><td>OmniVoice</td><td>1,35</td><td>4,4 ГБ</td><td>код Apache-2.0, веса CC-BY-NC</td><td><b>победитель</b></td></tr>
+<tr><td>VoxCPM2 (2B)</td><td>1,23</td><td>13,3 ГБ</td><td>Apache-2.0</td><td>«норм»</td></tr>
+<tr><td>Qwen3-TTS 1.7B</td><td>1,66</td><td>6,1 ГБ</td><td>Apache-2.0</td><td>«хочется быстрее»</td></tr>
+<tr><td>CosyVoice3 0.5B</td><td>4,50</td><td>7,6 ГБ</td><td>Apache-2.0</td><td>непонятно</td></tr>
+<tr><td>F5-TTS (рус.)</td><td>4,84</td><td>4,5 ГБ</td><td>CC-BY-NC-4.0</td><td>мимо</td></tr>
+<tr><td>Fish Audio S2-Pro</td><td>3,45</td><td>28,7 ГБ</td><td>некоммерческая</td><td>плохо</td></tr>
+</table></div>
+<p>Распознавание речи их почти не различает: оно не слышит ударений. Решает только ухо, поэтому тест слепой. Нужна коммерция — берите VoxCPM2 или Qwen3-TTS (Apache-2.0).</p>
 </section>
 
 <section>
