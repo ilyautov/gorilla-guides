@@ -6,6 +6,7 @@
 
 | Кодовое слово | Страница |
 |---|---|
+| голос | [Свой голос и защита родителей](https://ilyautov.github.io/gorilla-guides/golos/) |
 | тормоз | [Приставка тормозит](https://ilyautov.github.io/gorilla-guides/tormoz/) |
 | LG | [LG и Samsung без рекламы](https://ilyautov.github.io/gorilla-guides/lg/) |
 | реклама | [Меньше рекламы на телефоне](https://ilyautov.github.io/gorilla-guides/reklama/) |
