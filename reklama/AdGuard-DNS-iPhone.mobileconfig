@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>DNSSettings</key>
+			<dict>
+				<key>DNSProtocol</key>
+				<string>HTTPS</string>
+				<key>ServerURL</key>
+				<string>https://dns.adguard-dns.com/dns-query</string>
+				<key>ServerAddresses</key>
+				<array>
+					<string>94.140.14.14</string>
+					<string>94.140.15.15</string>
+				</array>
+			</dict>
+			<key>PayloadDescription</key>
+			<string>Шифрованный DNS AdGuard (DNS-over-HTTPS): блокирует адреса рекламы и трекеров во всех приложениях и браузерах.</string>
+			<key>PayloadDisplayName</key>
+			<string>AdGuard DNS (без рекламы)</string>
+			<key>PayloadIdentifier</key>
+			<string>tech.aifrontier.adguard-dns.dnssettings.6339139F-F6A2-4B2A-A41C-E00A4F8A5698</string>
+			<key>PayloadType</key>
+			<string>com.apple.dnsSettings.managed</string>
+			<key>PayloadUUID</key>
+			<string>6339139F-F6A2-4B2A-A41C-E00A4F8A5698</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDescription</key>
+	<string>Телефон спрашивает адреса сайтов не у провайдера, а у бесплатного фильтра AdGuard DNS. Удаляется в «Настройки → Основные → VPN и управление устройством». Реклама внутри YouTube и Instagram не уходит.</string>
+	<key>PayloadDisplayName</key>
+	<string>Без рекламы: AdGuard DNS</string>
+	<key>PayloadIdentifier</key>
+	<string>tech.aifrontier.adguard-dns</string>
+	<key>PayloadOrganization</key>
+	<string>@gorilla_under_hood</string>
+	<key>PayloadRemovalDisallowed</key>
+	<false/>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>F944E2ED-6E41-42CE-BF53-684F8D8504F9</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>
