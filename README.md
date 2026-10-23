@@ -6,6 +6,7 @@
 
 | Кодовое слово | Страница |
 |---|---|
+| резюме | [Резюме и робот-рекрутер](https://ilyautov.github.io/gorilla-guides/rezyume/) |
 | фото | [Память заполнена: мусор в «Фото»](https://ilyautov.github.io/gorilla-guides/foto/) |
 | зануда | [Ноутбук-зануда](https://ilyautov.github.io/gorilla-guides/zanuda/) + [архив](zanuda/zanuda.zip) и [код](zanuda/files/) |
 | мульт | [Схемы и промпты](https://ilyautov.github.io/gorilla-guides/mult/prompts/), [полный гайд](https://ilyautov.github.io/gorilla-guides/mult/) + [стартовый код](mult/starter/) |
