@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Сотрудник за 0 ₽</title>
+<meta name="description" content="Бесплатный набор small-business-ru: разбор заявок, письма должникам, проверка контрагента по ИНН, бриф на понедельник. Установка, пять поручений обычными словами и три подвоха честно.">
+<meta property="og:title" content="Сотрудник за 0 ₽">
+<meta property="og:description" content="Бесплатный набор small-business-ru: разбор заявок, письма должникам, проверка контрагента по ИНН, бриф на понедельник. Установка, пять поручений обычными словами и три подвоха честно.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.tbl td,.tbl th{padding:7px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.tbl td:last-child,.tbl th:last-child{text-align:right;font-family:var(--mono);white-space:nowrap}
+.tbl tr:last-child td{border-bottom:0}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
+  <h1>Сотрудник <span class="hl">за&nbsp;0&nbsp;₽</span>. Подвохов три</h1>
+  <p class="lede">«Сотрудник» из ролика — это открытый набор AI-скиллов <a href="https://github.com/ilyautov/small-business-ru">small-business-ru</a> для малого бизнеса: заявки, долги, проверка компаний, деньги, налоги УСН, договоры. Здесь: что он умеет, как поставить, пять поручений обычными словами и три подвоха без прикрас.</p>
+  <div class="safe"><span>скиллы бесплатные</span><span>открытый код Apache-2.0</span><span>ничего не отправляет без вас</span><span>где нет данных — «не проверено»</span></div>
+</header>
+
+<section>
+<h2><span class="step">0</span>Что было в ролике</h2>
+<p><b>Мастерская кухонь в ролике вымышленная, все заявки, должники и выписки — пример.</b> Я дал «сотруднику» четыре задачи обычными словами. Каждая — отдельный запуск Claude Code по подписке, скиллы подключены из репозитория. Время — сколько шёл каждый запуск:</p>
+<table class="tbl">
+<tr><th>Задача</th><th>Время</th></tr>
+<tr><td>Разобрать 20 заявок: кому звонить первым и что сказать (<code>lead-triage</code>). Семь — звонить сегодня, две — вообще не заявки</td><td>48 с</td></tr>
+<tr><td>Письма должникам, ничего не отправлять (<code>invoice-chase</code>). Четыре черновика, тон под каждого клиента</td><td>55 с</td></tr>
+<tr><td>Проверить компанию по ИНН перед отсрочкой (<code>counterparty-guard</code>). Брали крупную публичную компанию</td><td>68 с</td></tr>
+<tr><td>Бриф на понедельник по файлам (<code>monday-brief</code>)</td><td>56 с</td></tr>
+</table>
+<p>Самое интересное — в брифе. Скилл сам заметил, что горячая заявка на 1,2 млн ₽ пришла от клиента, который уже 57 дней должен 240 000 ₽, и посоветовал сначала закрыть долг. Дословно: «Это тот же клиент, что должен 240 000 ₽».</p>
+</section>
+
+<section>
+<h2><span class="step">1</span>Что он умеет</h2>
+<p>34 скилла. Вызывать по имени не нужно: скажите, что болит, и роутер сам подберёт сценарий.</p>
+<ul>
+<li><b>Клиенты и продажи:</b> разбор заявок и кому звонить (<code>lead-triage</code>, <code>call-list</code>), порядок в CRM, ответы на жалобы и отзывы.</li>
+<li><b>Деньги:</b> кто должен и письма-напоминания (<code>invoice-chase</code>), прогноз денег на 3 месяца и «хватит ли на зарплату» (<code>cash-flow-snapshot</code>), маржа и цены (<code>margin-analyzer</code>), закрытие месяца.</li>
+<li><b>Проверка контрагента по ИНН:</b> ЕГРЮЛ, суды, приставы, банкротства, финансы → светофор 🟢/🟡/🔴 (<code>counterparty-guard</code>).</li>
+<li><b>Налоги УСН:</b> что горит, когда платить и сколько примерно (<code>tax-calendar-proactive</code>).</li>
+<li><b>Договоры:</b> что я подписываю и где риски, по ГК РФ (<code>contract-review</code>).</li>
+<li><b>Найм:</b> вакансия, вопросы для собеседования, оффер по ТК РФ.</li>
+<li><b>Брифы:</b> утро понедельника, итоги пятницы, квартал (<code>monday-brief</code> и др.).</li>
+</ul>
+<p>Полный список с примерами фраз: <a href="https://github.com/ilyautov/small-business-ru/blob/main/USAGE.md">USAGE.md</a>.</p>
+</section>
+
+<section>
+<h2><span class="step">2</span>Установка</h2>
+<p>В Claude Code или Cowork:</p>
+<div class="code"><pre><code>/plugin marketplace add ilyautov/small-business-ru
+/plugin install small-business-ru@small-business-ru</code></pre></div>
+<p>Любой другой агент ставится одной командой:</p>
+<div class="code"><pre><code>npx skills add ilyautov/small-business-ru</code></pre></div>
+<p>Потом скажите <b>«настрой меня»</b>: скилл спросит про ваш бизнес и поможет подключить инструменты. 1С, банк, CRM подключать не обязательно — всё работает и на выгрузках CSV/Excel.</p>
+</section>
+
+<section>
+<h2><span class="step">3</span>Пять поручений обычными словами</h2>
+<p>Положите файлы в папку, откройте там Claude Code и скажите (имена файлов подставьте свои). Первые четыре — дословно задачи из ролика.</p>
+<div class="code"><pre><code>В файле zayavki.csv заявки за последние две недели. Разбери: кому звонить первым сегодня и что сказать. CRM не подключена, работай по файлу.</code></pre></div>
+<div class="code"><pre><code>Кто мне должен? Дебиторка в dolgi.csv. Подготовь письма должникам. Ничего не отправляй, только черновики.</code></pre></div>
+<div class="code"><pre><code>Проверь контрагента по ИНН 0000000000 перед тем, как дать ему отсрочку на два миллиона рублей.</code></pre></div>
+<div class="code"><pre><code>Сделай бриф на понедельник по файлам в этой папке: платежи, дебиторка, заявки, календарь. Никуда не отправляй и не сохраняй, просто покажи.</code></pre></div>
+<div class="code"><pre><code>Хватит ли денег на зарплату и налоги в ближайшие три месяца? Выписка в vypiska.csv, долги клиентов в dolgi.csv.</code></pre></div>
+<p>Пятое поручение (<code>cash-flow-snapshot</code>) в ролике не запускали.</p>
+</section>
+
+<section>
+<h2><span class="step">4</span>Три подвоха, честно</h2>
+<ol>
+<li><b>Ноль рублей — это сам «сотрудник», а мозги к нему ваши.</b> Скиллы бесплатные и открытые, но работают внутри нейросети, которой вы уже пользуетесь. В ролике это Claude Code по платной подписке Claude. Бесплатный Gemini CLI для неплатящих пользователей Google заменил на Antigravity CLI с 18.06.2026. Работает ли он со скиллами бесплатно, мы не проверяли.</li>
+<li><b>Данные отдаёте сами.</b> Заявки, долги, выписки — файлами или через подключённую CRM и 1С. Они уходят в ту нейросеть, которой вы пользуетесь. Без данных скилл честно остановится и попросит выгрузку.</li>
+<li><b>Чего не нашёл — так и пишет: «не проверено».</b> В проверке ИНН из ролика один агрегатор попросил капчу, второй вернул ошибку 404, а картотеку арбитражных судов, приставов и реестр банкротств напрямую скилл не открывал: данные по ним взяты из агрегаторов. Для прямой проверки судов нужен браузер. Это лучше уверенной выдумки, но решение всё равно за вами.</li>
+</ol>
+<div class="warn">И ещё: сам он ничего не отправляет. Письма — черновики, звонить и отправлять будете вы. Это alpha: помогает с работой, но не заменяет бухгалтера, юриста или кадровика.</div>
+</section>
+
+<section>
+<h2><span class="step">5</span>Ссылки</h2>
+<p>Исходники: <a href="https://github.com/ilyautov/small-business-ru">github.com/ilyautov/small-business-ru</a>.<br>
+Сайт, инструкции и демо: <a href="https://small-business-ru.aifrontier.tech/">small-business-ru.aifrontier.tech</a>.</p>
+</section>
+
+<a class="back" href="../">← Все инструкции</a>
+<footer>
+Бизнес, заявки и должники в ролике — пример, ответы скиллов взяты из настоящих запусков на этом примере.<br>
+Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+</footer>
+</main>
+
+<script src="../copy.js"></script>
+</body>
+</html>
