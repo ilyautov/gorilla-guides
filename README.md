@@ -6,6 +6,7 @@
 
 | Кодовое слово | Страница |
 |---|---|
+| зануда | [Ноутбук-зануда](https://ilyautov.github.io/gorilla-guides/zanuda/) + [архив](zanuda/zanuda.zip) и [код](zanuda/files/) |
 | мульт | [Схемы и промпты](https://ilyautov.github.io/gorilla-guides/mult/prompts/), [полный гайд](https://ilyautov.github.io/gorilla-guides/mult/) + [стартовый код](mult/starter/) |
 | голос | [Свой голос и защита родителей](https://ilyautov.github.io/gorilla-guides/golos/) |
 | тормоз | [Приставка тормозит](https://ilyautov.github.io/gorilla-guides/tormoz/) |

@@ -1,0 +1,11 @@
+{
+  "interval_s": 1.5,
+  "reset_after_s": 600,
+  "nag_every_s": 20,
+  "blacklist": ["youtube.com", "youtu.be", "vk.com", "vk.ru", "tiktok.com", "instagram.com",
+                "rutube.ru", "twitch.tv", "reddit.com", "x.com", "twitter.com", "pikabu.ru"],
+  "sounds": ["sounds/1.wav", "sounds/2.wav", "sounds/3.wav"],
+  "work_url": "https://music.yandex.ru/",
+  "close_tab": true,
+  "browsers": {"Safari": "safari", "Google Chrome": "chrome"}
+}

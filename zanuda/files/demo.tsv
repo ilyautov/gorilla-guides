@@ -1,0 +1,9 @@
+# сценарий ролика для --dry-run: приложение<TAB>адрес активной вкладки
+Safari	https://docs.example.com/otchet
+Safari	https://www.youtube.com/watch?v=abc
+Safari	https://www.youtube.com/watch?v=abc
+Safari	https://docs.example.com/otchet
+Safari	https://m.youtube.com/
+Safari	https://docs.example.com/otchet
+Google Chrome	https://vk.com/feed
+Safari	https://music.yandex.ru/

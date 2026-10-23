@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ноутбук-зануда</title>
+<meta name="description" content="Скрипт для Mac, который стыдит голосом, когда открываешь видео и соцсети вместо работы. Код, установка за 3 шага и промпт для Claude Code.">
+<meta property="og:title" content="Ноутбук-зануда">
+<meta property="og:description" content="Скрипт для Mac, который стыдит голосом, когда открываешь видео и соцсети вместо работы. Код, установка за 3 шага и промпт для Claude Code.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<main>
+<header>
+  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
+  <h1>Ноутбук-<span class="hl">зануда</span></h1>
+  <p class="lede">Скрипт для Mac. Открыли видео или соцсеть вместо работы — ноутбук ворчит голосом. На третий раз сам закрывает вкладку и включает рабочий плейлист.</p>
+  <div class="safe"><span>бесплатно</span><span>без установки пакетов</span><span>ничего не отправляет в сеть</span><span>выключается Ctrl+C</span></div>
+</header>
+
+<section>
+<h2><span class="step">?</span>Что он делает</h2>
+<p>Раз в полторы секунды смотрит, какое приложение впереди и какой адрес открыт в активной вкладке Safari или Google Chrome. Если сайт из чёрного списка:</p>
+<ol>
+<li>первый раз: «Опять? Дедлайн в пятницу.»</li>
+<li>второй: «Я всё вижу.»</li>
+<li>третий: «Всё. Работаем.» Вкладка закрывается, открывается ваш рабочий адрес, счётчик с нуля.</li>
+</ol>
+<p>10 минут без срывов — счётчик сбрасывается. Сидите на запрещённом сайте дольше 20 секунд — это следующее нарушение. Всё настраивается в <code>config.json</code>.</p>
+</section>
+
+<section>
+<h2><span class="step">1</span>Скачать</h2>
+<p>Архив с кодом, настройками и тремя репликами Горо:</p>
+<a class="btn" href="zanuda.zip" download>Скачать zanuda.zip</a>
+<p>Распакуйте, например, в папку <code>~/zanuda</code>. Нужны только macOS и встроенный <code>python3</code>: в первый раз macOS может предложить поставить «инструменты разработчика», согласитесь.</p>
+</section>
+
+<section>
+<h2><span class="step">2</span>Настроить</h2>
+<p>Откройте <code>config.json</code> в любом редакторе. Главное: <code>blacklist</code> (что запрещено) и <code>work_url</code> (что открыть на третий раз, например ваш плейлист или документ).</p>
+<div class="code"><pre><code>{
+  &quot;interval_s&quot;: 1.5,
+  &quot;reset_after_s&quot;: 600,
+  &quot;nag_every_s&quot;: 20,
+  &quot;blacklist&quot;: [&quot;youtube.com&quot;, &quot;youtu.be&quot;, &quot;vk.com&quot;, &quot;vk.ru&quot;, &quot;tiktok.com&quot;, &quot;instagram.com&quot;,
+                &quot;rutube.ru&quot;, &quot;twitch.tv&quot;, &quot;reddit.com&quot;, &quot;x.com&quot;, &quot;twitter.com&quot;, &quot;pikabu.ru&quot;],
+  &quot;sounds&quot;: [&quot;sounds/1.wav&quot;, &quot;sounds/2.wav&quot;, &quot;sounds/3.wav&quot;],
+  &quot;work_url&quot;: &quot;https://music.yandex.ru/&quot;,
+  &quot;close_tab&quot;: true,
+  &quot;browsers&quot;: {&quot;Safari&quot;: &quot;safari&quot;, &quot;Google Chrome&quot;: &quot;chrome&quot;}
+}
+</code></pre></div>
+<p>Свои реплики: замените <code>sounds/1.wav</code>, <code>2.wav</code>, <code>3.wav</code>. Быстрее всего встроенным голосом Mac:</p>
+<div class="code"><pre><code>say -v Milena -o sounds/1.wav --data-format=LEI16@22050 "Опять? Дедлайн в пятницу."</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">3</span>Запустить</h2>
+<div class="code"><pre><code>cd ~/zanuda
+python3 zanuda.py --check
+python3 zanuda.py</code></pre></div>
+<p><code>--check</code> один раз показывает, что видит зануда, и выходит. Второй запуск — боевой: следит, пока открыто окно Терминала.</p>
+</section>
+
+<section>
+<h2><span class="step">!</span>Какие разрешения спросит macOS и зачем</h2>
+<p>Одно: <b>«Автоматизация»</b>. Окно «„Терминал“ хочет получить доступ к управлению „Safari“» (для Chrome спросит отдельно). Это нужно, чтобы прочитать адрес активной вкладки и закрыть её на третий раз. Нажмите «Разрешить».</p>
+<p>«Универсальный доступ» и «Запись экрана» не нужны. Активное приложение скрипт узнаёт встроенной командой <code>lsappinfo</code>, без прав. Если macOS вдруг их просит, что-то не так: не разрешайте.</p>
+<p>Если нажали «Не разрешать»: <span class="path">Системные настройки → Конфиденциальность и безопасность → Автоматизация → Терминал</span>, включите браузер.</p>
+<div class="warn">Скрипт ничего не пишет на диск и ничего не отправляет. Он читает только адрес текущей вкладки. Перед запуском откройте <code>zanuda.py</code> и посмотрите сами: это 260 строк.</div>
+</section>
+
+<section>
+<h2><span class="step">↺</span>Как выключить</h2>
+<ul>
+<li>Ctrl+C в окне Терминала, где он запущен.</li>
+<li>Или из другого окна: <code>pkill -f zanuda.py</code>.</li>
+<li>Забрать права: <span class="path">Системные настройки → Конфиденциальность и безопасность → Автоматизация → Терминал</span>, снять галочки у браузеров.</li>
+</ul>
+</section>
+
+<section>
+<h2><span class="step">C</span>Или пусть Claude Code сделает своего</h2>
+<p>Вставьте в Claude Code (или Codex). Он напишет такой же скрипт с тестами, а реплики придумает сам.</p>
+<div class="code"><pre><code>Сделай мне «ноутбук-зануду» для macOS на Python без сторонних пакетов.
+
+Что он делает:
+- раз в 1,5 секунды узнаёт активное приложение через `lsappinfo front` и
+  `lsappinfo info -only name &lt;ASN&gt;` (без прав «Универсального доступа»);
+- если впереди Safari или Google Chrome, читает адрес активной вкладки через osascript
+  (Safari: URL of current tab of front window; Chrome: URL of active tab of front window);
+- если домен из чёрного списка (совпадение домена или поддомена, а не подстроки:
+  youtube.com ловит m.youtube.com, но не notyoutube.com), увеличивает счётчик
+  и проигрывает через afplay звук по номеру нарушения: sounds/1.wav, 2.wav, 3.wav;
+- одно открытие сайта — одно нарушение; если сижу на сайте дольше nag_every_s секунд,
+  это следующее нарушение;
+- на третьем нарушении после звука закрывает эту вкладку и открывает work_url,
+  счётчик обнуляется;
+- если reset_after_s секунд не было нарушений, счётчик обнуляется;
+- настройки в config.json: interval_s, reset_after_s, nag_every_s, blacklist, sounds,
+  work_url, close_tab, browsers.
+
+Обязательно:
+- логику счётчика вынеси в отдельный класс без вызовов macOS и покрой тестами unittest
+  (чёрный список, три нарушения, повтор через nag_every_s, сброс по таймауту, не-браузер);
+- флаг --dry-run: вместо браузера читать строки «приложение&lt;TAB&gt;адрес» из stdin или файла,
+  действия только печатать;
+- флаг --check: один раз показать, что видно, и выйти;
+- Ctrl+C завершает без трейсбека;
+- если macOS не дала прав (ошибка -1743), напиши человеческим языком, где их включить;
+- никаких прав «Универсальный доступ» и «Запись экрана», ничего не отправлять в сеть.
+
+Сначала напиши тесты и прогони их, потом покажи, как запустить --check.
+Реплики для sounds/ предложи сам, смешные и короткие, и сгенерируй их командой `say`.</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">&lt;/&gt;</span>Весь код</h2>
+<p>Тот же <code>zanuda.py</code>, что в архиве. Проверить без браузера: <code>python3 zanuda.py --dry-run --feed demo.tsv</code>.</p>
+<div class="code"><pre><code>#!/usr/bin/env python3
+&quot;&quot;&quot;Ноутбук-зануда: стыдит голосом Горо, когда открываешь видео или соцсети вместо работы.
+
+Раз в 1–2 секунды смотрит, какое приложение сейчас впереди и какой адрес открыт
+в активной вкладке Safari или Google Chrome. Если домен из чёрного списка:
+  1-й раз  — реплика sounds/1.wav («Опять? Дедлайн в пятницу.»)
+  2-й раз  — реплика sounds/2.wav («Я всё вижу.»)
+  3-й раз  — реплика sounds/3.wav («Всё. Работаем.»), вкладка закрывается,
+             открывается рабочий адрес из config.json, счётчик обнуляется.
+Если долго (reset_after_s) ничего не нарушал — счётчик тоже обнуляется.
+
+Только стандартная библиотека Python 3.9+ и встроенные в macOS osascript, lsappinfo, afplay, open.
+Права macOS: только «Автоматизация» (Терминал → Safari / Google Chrome), её спросят при первом запуске.
+«Универсальный доступ» и «Запись экрана» не нужны: активное приложение читается через lsappinfo.
+
+  python3 zanuda.py                    # боевой режим
+  python3 zanuda.py --check            # один раз показать, что видит зануда, и выйти
+  python3 zanuda.py --dry-run          # без браузера: строки «приложение&lt;TAB&gt;адрес» со stdin, действия только печатаются
+  python3 zanuda.py --dry-run --feed demo.tsv
+Остановить: Ctrl+C в окне терминала (или `pkill -f zanuda.py`).
+&quot;&quot;&quot;
+from __future__ import annotations
+
+import argparse
+import json
+import subprocess
+import sys
+import time
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Callable, Iterable, Optional
+from urllib.parse import urlparse
+
+HERE = Path(__file__).resolve().parent
+DEFAULTS = {
+    &quot;interval_s&quot;: 1.5,            # как часто смотреть
+    &quot;reset_after_s&quot;: 600,         # столько секунд без нарушений — и счётчик снова с нуля
+    &quot;nag_every_s&quot;: 20,            # если сидишь на запрещённом сайте дальше, через сколько секунд следующая реплика
+    &quot;blacklist&quot;: [&quot;youtube.com&quot;, &quot;youtu.be&quot;, &quot;vk.com&quot;, &quot;vk.ru&quot;, &quot;tiktok.com&quot;, &quot;instagram.com&quot;,
+                  &quot;rutube.ru&quot;, &quot;twitch.tv&quot;, &quot;reddit.com&quot;, &quot;x.com&quot;, &quot;twitter.com&quot;, &quot;pikabu.ru&quot;],
+    &quot;sounds&quot;: [&quot;sounds/1.wav&quot;, &quot;sounds/2.wav&quot;, &quot;sounds/3.wav&quot;],
+    &quot;work_url&quot;: &quot;https://music.yandex.ru/&quot;,   # что открыть на третий раз: свой рабочий плейлист или документ
+    &quot;close_tab&quot;: True,
+    &quot;browsers&quot;: {&quot;Safari&quot;: &quot;safari&quot;, &quot;Google Chrome&quot;: &quot;chrome&quot;},
+}
+
+
+# ---------------------------------------------------------------- логика (без macOS, её гоняют тесты)
+
+def host_of(url: Optional[str]) -&gt; str:
+    if not url:
+        return &quot;&quot;
+    try:
+        h = urlparse(url if &quot;://&quot; in url else &quot;https://&quot; + url).hostname or &quot;&quot;
+    except ValueError:
+        return &quot;&quot;
+    return h.lower().rstrip(&quot;.&quot;)
+
+
+def is_blacklisted(url: Optional[str], blacklist: Iterable[str]) -&gt; bool:
+    &quot;&quot;&quot;youtube.com ловит youtube.com, www.youtube.com, m.youtube.com, но не notyoutube.com.&quot;&quot;&quot;
+    h = host_of(url)
+    if not h:
+        return False
+    for d in blacklist:
+        d = d.lower().strip().lstrip(&quot;.&quot;)
+        if d and (h == d or h.endswith(&quot;.&quot; + d)):
+            return True
+    return False
+
+
+@dataclass
+class Action:
+    kind: str                 # &quot;say&quot; | &quot;close_tab&quot; | &quot;open&quot;
+    arg: str = &quot;&quot;
+    browser: str = &quot;&quot;
+
+
+@dataclass
+class Zanuda:
+    &quot;&quot;&quot;Счётчик нарушений. step() получает то, что сейчас впереди, и время, а возвращает, что сделать.&quot;&quot;&quot;
+    blacklist: list
+    sounds: list
+    work_url: str = &quot;&quot;
+    close_tab: bool = True
+    reset_after_s: float = 600
+    nag_every_s: float = 20
+    browsers: dict = field(default_factory=lambda: dict(DEFAULTS[&quot;browsers&quot;]))
+    strikes: int = 0
+    last_strike_at: Optional[float] = None
+    on_bad: bool = False          # в прошлый раз впереди был запрещённый сайт
+
+    def step(self, app: Optional[str], url: Optional[str], now: float) -&gt; list:
+        if self.last_strike_at is not None and now - self.last_strike_at &gt;= self.reset_after_s:
+            self.strikes = 0
+            self.last_strike_at = None
+        bad = app in self.browsers and is_blacklisted(url, self.blacklist)
+        if not bad:
+            self.on_bad = False
+            return []
+        fresh = not self.on_bad
+        nag = self.on_bad and self.last_strike_at is not None and now - self.last_strike_at &gt;= self.nag_every_s
+        self.on_bad = True
+        if not (fresh or nag):
+            return []
+        self.strikes += 1
+        self.last_strike_at = now
+        n = min(self.strikes, len(self.sounds))
+        acts = [Action(&quot;say&quot;, self.sounds[n - 1])]
+        if self.strikes &gt;= len(self.sounds):
+            if self.close_tab:
+                acts.append(Action(&quot;close_tab&quot;, browser=app))
+            if self.work_url:
+                acts.append(Action(&quot;open&quot;, self.work_url, browser=app))
+            self.strikes = 0
+            self.on_bad = False       # вкладку закрыли: следующий заход снова «свежий»
+        return acts
+
+
+# ---------------------------------------------------------------- macOS
+
+def _run(cmd: list, timeout: float = 3) -&gt; Optional[str]:
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    if r.returncode != 0:
+        if &quot;-1743&quot; in r.stderr:   # нет разрешения «Автоматизация»
+            print(&quot;! macOS не разрешила читать вкладку: Системные настройки → Конфиденциальность и безопасность → Автоматизация&quot;, file=sys.stderr)
+        return None
+    return r.stdout.strip()
+
+
+def front_app() -&gt; Optional[str]:
+    &quot;&quot;&quot;Имя активного приложения без прав «Универсального доступа»: lsappinfo встроен в macOS.&quot;&quot;&quot;
+    asn = _run([&quot;lsappinfo&quot;, &quot;front&quot;])
+    if not asn:
+        return None
+    out = _run([&quot;lsappinfo&quot;, &quot;info&quot;, &quot;-only&quot;, &quot;name&quot;, asn]) or &quot;&quot;
+    # формат: &quot;LSDisplayName&quot;=&quot;Safari&quot;
+    return out.split(&quot;=&quot;, 1)[1].strip().strip(&#x27;&quot;&#x27;) if &quot;=&quot; in out else None
+
+
+SCRIPTS = {
+    &quot;safari&quot;: {&quot;url&quot;: &#x27;tell application &quot;{app}&quot; to get URL of current tab of front window&#x27;,
+               &quot;close&quot;: &#x27;tell application &quot;{app}&quot; to close current tab of front window&#x27;},
+    &quot;chrome&quot;: {&quot;url&quot;: &#x27;tell application &quot;{app}&quot; to get URL of active tab of front window&#x27;,
+               &quot;close&quot;: &#x27;tell application &quot;{app}&quot; to close active tab of front window&#x27;},
+}
+
+
+def tab_url(app: str, dialect: str) -&gt; Optional[str]:
+    return _run([&quot;osascript&quot;, &quot;-e&quot;, SCRIPTS[dialect][&quot;url&quot;].format(app=app)])
+
+
+class Mac:
+    def __init__(self, browsers: dict):
+        self.browsers = browsers
+        self.player: Optional[subprocess.Popen] = None
+
+    def observe(self):
+        app = front_app()
+        if app in self.browsers:
+            return app, tab_url(app, self.browsers[app])
+        return app, None
+
+    def do(self, a: Action):
+        if a.kind == &quot;say&quot;:
+            if self.player and self.player.poll() is None:
+                self.player.wait()            # реплики не наслаиваются
+            self.player = subprocess.Popen([&quot;afplay&quot;, str(HERE / a.arg)])
+        elif a.kind == &quot;close_tab&quot;:
+            if self.player:
+                self.player.wait()            # сначала Горо договаривает «Всё. Работаем.»
+            _run([&quot;osascript&quot;, &quot;-e&quot;, SCRIPTS[self.browsers[a.browser]][&quot;close&quot;].format(app=a.browser)])
+        elif a.kind == &quot;open&quot;:
+            _run([&quot;open&quot;, &quot;-a&quot;, a.browser, a.arg] if a.browser else [&quot;open&quot;, a.arg])
+
+
+class DryRun:
+    &quot;&quot;&quot;Источник подменён: строки «приложение&lt;TAB&gt;адрес» (или «приложение адрес»). Ничего не запускает, только печатает.&quot;&quot;&quot;
+    def __init__(self, lines: Iterable[str]):
+        self.lines = iter(lines)
+
+    def observe(self):
+        for raw in self.lines:
+            raw = raw.rstrip(&quot;\n&quot;)
+            if not raw.strip() or raw.lstrip().startswith(&quot;#&quot;):
+                continue
+            if &quot;\t&quot; in raw:
+                app, _, url = raw.partition(&quot;\t&quot;)
+            else:
+                app, _, url = raw.rpartition(&quot; &quot;)
+                if not app or not (&quot;.&quot; in url or &quot;://&quot; in url):
+                    app, url = raw, &quot;&quot;
+            return app.strip() or None, url.strip() or None
+        raise EOFError
+
+    def do(self, a: Action):
+        print(f&quot;  -&gt; {a.kind} {a.arg} {a.browser}&quot;.rstrip(), flush=True)
+
+
+def load_config(path: Optional[Path]) -&gt; dict:
+    cfg = dict(DEFAULTS)
+    p = path or HERE / &quot;config.json&quot;
+    if p.exists():
+        cfg.update(json.loads(p.read_text(encoding=&quot;utf-8&quot;)))
+    return cfg
+
+
+def main(argv=None) -&gt; int:
+    ap = argparse.ArgumentParser(description=&quot;Ноутбук-зануда&quot;)
+    ap.add_argument(&quot;--config&quot;, type=Path)
+    ap.add_argument(&quot;--dry-run&quot;, action=&quot;store_true&quot;, help=&quot;без браузера: адреса со stdin или --feed&quot;)
+    ap.add_argument(&quot;--feed&quot;, type=Path, help=&quot;файл для --dry-run: строки «приложение&lt;TAB&gt;адрес»&quot;)
+    ap.add_argument(&quot;--tick&quot;, type=float, help=&quot;шаг времени для --dry-run, секунд (по умолчанию interval_s)&quot;)
+    ap.add_argument(&quot;--check&quot;, action=&quot;store_true&quot;, help=&quot;один раз показать приложение и адрес и выйти&quot;)
+    a = ap.parse_args(argv)
+    cfg = load_config(a.config)
+    z = Zanuda(blacklist=cfg[&quot;blacklist&quot;], sounds=cfg[&quot;sounds&quot;], work_url=cfg[&quot;work_url&quot;], close_tab=cfg[&quot;close_tab&quot;],
+               reset_after_s=cfg[&quot;reset_after_s&quot;], nag_every_s=cfg[&quot;nag_every_s&quot;], browsers=cfg[&quot;browsers&quot;])
+    if a.dry_run:
+        src = DryRun(a.feed.read_text(encoding=&quot;utf-8&quot;).splitlines() if a.feed else sys.stdin)
+        clock, tick = 0.0, a.tick or cfg[&quot;interval_s&quot;]
+        while True:
+            try:
+                app, url = src.observe()
+            except EOFError:
+                return 0
+            acts = z.step(app, url, clock)
+            print(f&quot;[{clock:7.1f}s] {app or &#x27;-&#x27;} {url or &#x27;&#x27;}  нарушений: {z.strikes}&quot;, flush=True)
+            for act in acts:
+                src.do(act)
+            clock += tick
+    mac = Mac(cfg[&quot;browsers&quot;])
+    if a.check:
+        app, url = mac.observe()
+        print(&quot;впереди:&quot;, app, &quot;| адрес:&quot;, url, &quot;| в чёрном списке:&quot;, is_blacklisted(url, cfg[&quot;blacklist&quot;]))
+        return 0
+    missing = [s for s in cfg[&quot;sounds&quot;] if not (HERE / s).exists()]
+    if missing:
+        print(&quot;нет звуков:&quot;, missing, file=sys.stderr)
+        return 1
+    print(&quot;Зануда следит. Остановить: Ctrl+C&quot;, flush=True)
+    try:
+        while True:
+            app, url = mac.observe()
+            for act in z.step(app, url, time.monotonic()):
+                print(time.strftime(&quot;%H:%M:%S&quot;), act.kind, act.arg, act.browser, flush=True)
+                mac.do(act)
+            time.sleep(cfg[&quot;interval_s&quot;])
+    except KeyboardInterrupt:
+        print(&quot;\nЗануда выключен.&quot;)
+        return 0
+
+
+if __name__ == &quot;__main__&quot;:
+    sys.exit(main())
+</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">×</span>Где не сработает</h2>
+<ul>
+<li>Firefox и Яндекс Браузер адрес вкладки через AppleScript не отдают.</li>
+<li>Brave и Edge понимают те же команды, что Chrome: добавьте в <code>browsers</code> строку <code>"Brave Browser": "chrome"</code>. Мы это не проверяли.</li>
+<li>Windows и Linux: нет. Попросите Claude Code переписать под свою систему, промпт выше подойдёт как основа.</li>
+<li>Работает, пока открыт Терминал. Автозапуск через LaunchAgent возможен, но тогда разрешение спросят заново.</li>
+</ul>
+</section>
+
+<a class="back" href="../">← Все инструкции</a>
+<footer>
+Реплики Горо озвучены нейросетью OmniVoice. Делаете на свой страх и риск; всё выключается Ctrl+C.<br>
+Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+</footer>
+</main>
+
+
+<script src="../copy.js"></script>
+</body>
+</html>
