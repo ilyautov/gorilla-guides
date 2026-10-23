@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Маржа товара</title>
+<meta name="description" content="Как посчитать реальную маржу товара на маркетплейсе: слои затрат, шаблон выгрузки CSV, промпт и бесплатный скилл margin-analyzer из small-business-ru.">
+<meta property="og:title" content="Маржа товара">
+<meta property="og:description" content="Как посчитать реальную маржу товара на маркетплейсе: слои затрат, шаблон выгрузки CSV, промпт и бесплатный скилл margin-analyzer из small-business-ru.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.tbl td,.tbl th{padding:7px 12px;border-bottom:1px solid var(--line);text-align:left}
+.tbl td:last-child,.tbl th:last-child{text-align:right;font-family:var(--mono);white-space:nowrap}
+.tbl tr:last-child td{border-bottom:0;font-weight:700}
+.minus{color:var(--warn)}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
+  <h1>Маржа <span class="hl">твоего хита</span></h1>
+  <p class="lede">Самый продаваемый товар легко оказывается убыточным: наценка ×2, а после логистики, возвратов, комиссии и рекламы с каждой штуки остаётся минус. Здесь: как посчитать это по слоям, шаблон выгрузки, промпт и бесплатный скилл, который считает кодом, а не на глаз.</p>
+  <div class="safe"><span>бесплатно</span><span>числа считает код</span><span>цену не советует</span><span>данные остаются у вас</span></div>
+</header>
+
+<section>
+<h2><span class="step">0</span>Что было в ролике</h2>
+<p><b>Магазин в ролике вымышленный, выгрузка — пример</b> (48 товаров для дома за сентябрь). Её я отдал скиллу <code>margin-analyzer</code> из открытого набора <a href="https://github.com/ilyautov/small-business-ru">small-business-ru</a> через Claude Code. Скилл сам написал короткий скрипт на Python и посчитал всё им. Цифры ниже — из его ответа:</p>
+<table class="tbl">
+<tr><th>Корзина для белья, одна проданная штука</th><th>₽</th></tr>
+<tr><td>Цена</td><td>690</td></tr>
+<tr><td>Закупка</td><td class="minus">−330</td></tr>
+<tr><td>Логистика (31 % цены)</td><td class="minus">−213</td></tr>
+<tr><td>Комиссия площадки</td><td class="minus">−131</td></tr>
+<tr><td>Реклама</td><td class="minus">−77</td></tr>
+<tr><td>Налог УСН 6 %</td><td class="minus">−41</td></tr>
+<tr><td>Хранение</td><td class="minus">−28</td></tr>
+<tr><td>Итог</td><td class="minus">−131</td></tr>
+</table>
+<p>Это самый продаваемый товар магазина: 310 штук, 13 % выручки. За месяц он дал <b>минус 40 625 ₽</b>. Возвратов 9,9 %, у остальных товаров 3,3 %. Без рекламы всё равно около −54 ₽ со штуки. В ноль корзина выходит при цене около 865 ₽ (+25 %). Весь магазин при этом зарабатывает 18,1 %, без корзины было бы 23,8 %. Валовая маржа корзины (цена минус закупка) — 52 %: по ней проблему не видно.</p>
+<p>Итог «−131» на один рубль расходится с суммой строк из-за округления: скилл округлял каждую строку отдельно.</p>
+</section>
+
+<section>
+<h2><span class="step">1</span>Как посчитать реальную маржу товара</h2>
+<p>Наценка к закупке ничего не говорит. Считайте, что остаётся с одной <b>выкупленной</b> штуки после всех слоёв:</p>
+<ol>
+<li><b>Выручка за выкупленные.</b> То, что покупатели оставили себе, по фактической цене после скидок и акций. Возвраты в неё не входят.</li>
+<li><b>Закупка</b> (себестоимость) × выкупленные штуки.</li>
+<li><b>Комиссия площадки</b> — из отчёта, в рублях.</li>
+<li><b>Логистика</b> — доставка <i>всех</i> заказов плюс обратная доставка возвратов. Именно тут объёмный дешёвый товар и проваливается: каждый возврат — это две оплаченные перевозки и ноль продажи.</li>
+<li><b>Хранение</b> — у крупного товара оно тоже крупное.</li>
+<li><b>Реклама</b>, которая относится к этому товару.</li>
+<li><b>Налог.</b> На УСН «доходы» — процент с выручки (ИП может уменьшить налог на страховые взносы). На «доходы минус расходы» считается иначе. С 2026 года при доходе выше 20 млн ₽ в год на УСН появляется НДС, и выручку надо очищать от него. Уточните у своего бухгалтера.</li>
+</ol>
+<div class="code"><pre><code>прибыль товара = выручка − закупка × шт − комиссия − логистика − хранение − реклама − налог
+маржа, %       = прибыль ÷ выручка × 100
+на одну штуку  = прибыль ÷ выкупленные штуки</code></pre></div>
+<div class="warn">Тарифы площадок на комиссию, логистику и хранение разные и часто меняются, поэтому берите рубли из своего отчёта, а не проценты из статей. В выгрузке обычно нет упаковки, приёмки, штрафов и брака — реальная прибыль будет ещё ниже.</div>
+</section>
+
+<section>
+<h2><span class="step">2</span>Шаблон выгрузки</h2>
+<p><a class="btn" href="shablon-vygruzki.csv" download>Скачать шаблон CSV</a></p>
+<p>Три строки внутри — <b>пример</b> из ролика, замените их своими товарами за месяц. Колонки: товар; выкуплено, шт; возвраты, шт; средняя цена продажи; выручка за выкупленные; закупка за штуку; комиссия площадки, ₽; логистика, ₽; хранение, ₽; реклама, ₽. Разделитель — точка с запятой, кодировка UTF-8.</p>
+<p>Где взять цифры: отчёт о продажах или финансовый отчёт в кабинете продавца за месяц, сгруппированный по товарам. Если колонки называются иначе, скилл сам сопоставит их или спросит.</p>
+</section>
+
+<section>
+<h2><span class="step">3</span>Установить small-business-ru</h2>
+<p>Это 34 открытых AI-скилла под малый бизнес РФ (Apache-2.0), среди них <code>margin-analyzer</code>. Для Claude Code или Cowork:</p>
+<div class="code"><pre><code>/plugin marketplace add ilyautov/small-business-ru
+/plugin install small-business-ru@small-business-ru</code></pre></div>
+<p>Любой другой агент (Cursor, Codex и др.) ставится одной командой:</p>
+<div class="code"><pre><code>npx skills add ilyautov/small-business-ru</code></pre></div>
+<p>Сайт и инструкции: <a href="https://small-business-ru.aifrontier.tech/">small-business-ru.aifrontier.tech</a>. Исходники: <a href="https://github.com/ilyautov/small-business-ru">github.com/ilyautov/small-business-ru</a>.</p>
+</section>
+
+<section>
+<h2><span class="step">4</span>Промпт</h2>
+<p>Положите выгрузку в папку, откройте там Claude Code и вставьте (подставьте своё имя файла и свой налоговый режим):</p>
+<div class="code"><pre><code>Вот выгрузка продаж моего магазина на маркетплейсе за сентябрь: vygruzka.csv.
+Какая у меня маржа по товарам и где я теряю деньги?
+Я на УСН «доходы» 6%, доход за прошлый год меньше 20 млн, НДС не плачу.
+Считай со всеми расходами, которые есть в выгрузке.
+Уточняющих вопросов не задавай, сразу анализ.</code></pre></div>
+<p>Это тот же текст, который получил скилл в ролике. Слово «маржа» скиллу не обязательно: он срабатывает и на «поднять ли цены», «расходы съедают прибыль», «достаточно ли я зарабатываю». Можно вызвать и явно: <code>/small-business-ru:margin-analyzer</code>.</p>
+</section>
+
+<section>
+<h2><span class="step">5</span>Чего скилл не делает</h2>
+<ul>
+<li><b>Не советует цену.</b> Показывает разбор, сценарии +5/+10/+15 % и цену безубытка. Решение за вами.</li>
+<li><b>Не видит расходов, которых нет в файле.</b> Упаковка, приёмка, штрафы, зарплаты, брак — добавьте колонками, если они есть.</li>
+<li><b>По одному месяцу не оценит спрос.</b> Как упадут продажи при росте цены, по одному месяцу не понять: в сценариях объём — это допущение.</li>
+<li>Это материал для проверки с бухгалтером, а не налоговая консультация.</li>
+</ul>
+</section>
+
+<a class="back" href="../">← Все инструкции</a>
+<footer>
+Магазин и выгрузка в ролике — пример, цифры посчитаны скиллом по этому примеру.<br>
+Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+</footer>
+</main>
+
+<script src="../copy.js"></script>
+</body>
+</html>

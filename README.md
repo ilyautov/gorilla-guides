@@ -6,6 +6,7 @@
 
 | Кодовое слово | Страница |
 |---|---|
+| маржа | [Маржа твоего хита](https://ilyautov.github.io/gorilla-guides/marzha/) + [шаблон CSV](marzha/shablon-vygruzki.csv) |
 | резюме | [Резюме и робот-рекрутер](https://ilyautov.github.io/gorilla-guides/rezyume/) |
 | промпт | [Как ставить задачу нейросети](https://ilyautov.github.io/gorilla-guides/prompt/) |
 | гудит | [Ноутбук гудит: кто грузит Mac](https://ilyautov.github.io/gorilla-guides/gudit/) |
