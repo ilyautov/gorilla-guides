@@ -6,6 +6,8 @@
 
 | Кодовое слово | Страница |
 |---|---|
+| акция | [Проверь акцию до запуска](https://ilyautov.github.io/gorilla-guides/akciya/) + [промпт](prompts/akciya.md) |
+| отзыв | [Ответ на плохой отзыв](https://ilyautov.github.io/gorilla-guides/otzyv/) + [промпт](prompts/otzyv.md) |
 | сотрудник | [Сотрудник за 0 ₽: small-business-ru](https://ilyautov.github.io/gorilla-guides/sotrudnik/) |
 | маржа | [Маржа твоего хита](https://ilyautov.github.io/gorilla-guides/marzha/) + [шаблон CSV](marzha/shablon-vygruzki.csv) |
 | резюме | [Резюме и робот-рекрутер](https://ilyautov.github.io/gorilla-guides/rezyume/) |
