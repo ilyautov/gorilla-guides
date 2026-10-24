@@ -10,6 +10,7 @@
 | отзыв | [Ответ на плохой отзыв](https://ilyautov.github.io/gorilla-guides/otzyv/) + [промпт](prompts/otzyv.md) |
 | расходы | [Где резать расходы, не трогая людей и налоги](https://ilyautov.github.io/gorilla-guides/rashody/) + [промпт](prompts/rashody.md) |
 | чат | [Сводка чата за минуту](https://ilyautov.github.io/gorilla-guides/chat/) + [промпт](prompts/chat.md) |
+| работа | [Работа через людей, а не через фильтр](https://ilyautov.github.io/gorilla-guides/rabota/) + [промпт](prompts/rabota.md) |
 | письмо | [Проверь письмо до отправки](https://ilyautov.github.io/gorilla-guides/pismo/) + [промпт](prompts/pismo.md) |
 | сотрудник | [Сотрудник за 0 ₽: small-business-ru](https://ilyautov.github.io/gorilla-guides/sotrudnik/) |
 | маржа | [Маржа твоего хита](https://ilyautov.github.io/gorilla-guides/marzha/) + [шаблон CSV](marzha/shablon-vygruzki.csv) |
