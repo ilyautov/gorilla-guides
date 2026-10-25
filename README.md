@@ -7,6 +7,9 @@
 | Кодовое слово | Страница |
 |---|---|
 | карта | [Дашь ИИ карту? Сначала права](https://ilyautov.github.io/gorilla-guides/karta/) + [промпт](prompts/karta.md) |
+| версия | [Какая модель отвечает на самом деле](https://ilyautov.github.io/gorilla-guides/versiya/) + [промпт](prompts/versiya.md) |
+| поддержка | [Бот, который зовёт человека](https://ilyautov.github.io/gorilla-guides/podderzhka/) + [промпт](prompts/podderzhka.md) |
+| найм | [Найм продавца: человек, а не фильтр](https://ilyautov.github.io/gorilla-guides/naim/) + [промпты](prompts/naim.md) |
 | магазин | [Пять задач магазина за 7 минут](https://ilyautov.github.io/gorilla-guides/magazin/) + [промпты](prompts/magazin.md) |
 | кино | [Claude снимает кино: 8 репозиториев](https://ilyautov.github.io/gorilla-guides/kino/) |
 | акция | [Проверь акцию до запуска](https://ilyautov.github.io/gorilla-guides/akciya/) + [промпт](prompts/akciya.md) |
