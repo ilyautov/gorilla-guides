@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Claude снимает кино: 8 репозиториев</title>
+<meta name="description" content="Восемь бесплатных репозиториев, с которыми Claude делает видео: HyperFrames, Remotion, claude-code-video-toolkit, Manim, LTX-2, Depth Anything V2, OmniVoice, WhisperX. Что делает, лицензия, установка.">
+<meta property="og:title" content="Claude снимает кино: 8 репозиториев">
+<meta property="og:description" content="Восемь бесплатных репозиториев, с которыми Claude делает видео: HyperFrames, Remotion, claude-code-video-toolkit, Manim, LTX-2, Depth Anything V2, OmniVoice, WhisperX. Что делает, лицензия, установка.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<main>
+<header>
+  <div class="kicker">Инструкция к карусели @utov_ilya</div>
+  <h1>Claude снимает кино: <span class="hl">8 репозиториев</span></h1>
+  <p class="lede">Все восемь ссылок из карусели, что каждый делает, какая лицензия и команда установки. Звёзды и лицензии сняты с GitHub 25.10.2026. Пять из восьми (HyperFrames, LTX, Depth Anything, OmniVoice, WhisperX) работают в конвейере наших роликов.</p>
+  <div class="safe"><span>бесплатно</span><span>открытый код</span><span>Claude Code, Codex, Cursor</span><span>лицензии проверены 25.10.2026</span></div>
+</header>
+
+<section>
+<h2><span class="step">0</span>С чего начать, если ни разу не делал видео кодом</h2>
+<ol>
+<li>Поставь <a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a> и Node.js 22+.</li>
+<li>Поставь плагин HyperFrames (команда в шаге 1) и открой Claude Code в пустой папке.</li>
+<li>Попроси один короткий ролик: тема, длина, формат. Например промптом ниже.</li>
+<li>Когда первый MP4 получится, добавляй по одному: голос (OmniVoice), субтитры (WhisperX), фото с параллаксом (Depth Anything).</li></ol>
+<div class="code"><pre><code>Сделай вертикальный ролик 1080×1920 на 15 секунд через HyperFrames.
+Тема: [о чём ролик]. Три сцены, крупный текст, который читается на телефоне.
+Без озвучки, с плавными переходами. В конце отрендери MP4 и покажи,
+где лежит файл.</code></pre></div>
+<p>Полный разбор нашего конвейера со схемами и стартовым кодом: <a href="../mult/">«Фабрика рилсов на Claude Code»</a>.</p>
+</section>
+
+<section>
+<h2><span class="step">1</span>HyperFrames</h2>
+<p><a href="https://github.com/heygen-com/hyperframes">github.com/heygen-com/hyperframes</a> · ★ 71,6K</p>
+<p>Пишешь HTML, CSS и анимации, движок рендерит MP4. Сделан под агентов: для Claude Code, Codex и Cursor есть плагин и скиллы. На нём стоит конвейер роликов этого канала.</p>
+<p><b>Лицензия:</b> Apache-2.0.</p>
+<div class="code"><pre><code>claude plugin marketplace add heygen-com/hyperframes
+claude plugin install hyperframes@hyperframes</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">2</span>Remotion</h2>
+<p><a href="https://github.com/remotion-dev/remotion">github.com/remotion-dev/remotion</a> · ★ 67,2K</p>
+<p>Ролик пишется как React-компонент и рендерится в MP4. У команды есть официальные скиллы для агентов (субтитры, рендер, студия).</p>
+<p><b>Лицензия:</b> Remotion License: бесплатно частным лицам, компаниям до 3 сотрудников и некоммерческим; остальным нужна платная лицензия.</p>
+<div class="code"><pre><code>npx create-video@latest
+npx skills add remotion-dev/skills</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">3</span>claude-code-video-toolkit</h2>
+<p><a href="https://github.com/digitalsamba/claude-code-video-toolkit">github.com/digitalsamba/claude-code-video-toolkit</a> · ★ 2,3K</p>
+<p>Рабочая папка для Claude Code: команда /video ведёт от сценария до MP4 (озвучка, музыка, картинки, монтаж). Тяжёлые открытые модели запускаются на облачном GPU (автор советует Modal), пример hello-world рендерится без ключей.</p>
+<p><b>Лицензия:</b> MIT.</p>
+<div class="code"><pre><code>git clone https://github.com/digitalsamba/claude-code-video-toolkit.git
+cd claude-code-video-toolkit
+claude
+# внутри Claude Code: /setup, потом /video</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">4</span>Manim</h2>
+<p><a href="https://github.com/3b1b/manim">github.com/3b1b/manim</a> · ★ 95,6K</p>
+<p>Движок, который автор 3Blue1Brown написал для своих роликов: формулы, графики и схемы, анимированные кодом на Python. Есть и общественная версия ManimCommunity/manim, их установки не смешивайте.</p>
+<p><b>Лицензия:</b> MIT.</p>
+<div class="code"><pre><code>pip install manimgl</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">5</span>LTX-2</h2>
+<p><a href="https://github.com/Lightricks/LTX-2">github.com/Lightricks/LTX-2</a> · ★ 9,9K</p>
+<p>Открытая модель, которая генерирует видео сразу со звуком: по тексту, картинке или аудио. Веса около 66 ГБ, нужна мощная машина.</p>
+<p><b>Лицензия:</b> LTX-2.x Community License: бесплатно, пока годовая выручка компании меньше $10 млн.</p>
+<div class="code"><pre><code>git clone https://github.com/Lightricks/LTX-2.git
+cd LTX-2
+uv sync --extra natten</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">6</span>Depth Anything V2</h2>
+<p><a href="https://github.com/DepthAnything/Depth-Anything-V2">github.com/DepthAnything/Depth-Anything-V2</a> · ★ 9,0K</p>
+<p>Карта глубины по одной картинке. Режешь фото на слои по глубине, и камера пролетает между ними: параллакс вместо плоского наезда.</p>
+<p><b>Лицензия:</b> Small — Apache-2.0; Base, Large и Giant — CC-BY-NC-4.0 (только некоммерчески).</p>
+<div class="code"><pre><code>git clone https://github.com/DepthAnything/Depth-Anything-V2
+cd Depth-Anything-V2
+pip install -r requirements.txt</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">7</span>OmniVoice</h2>
+<p><a href="https://github.com/k2-fsa/OmniVoice">github.com/k2-fsa/OmniVoice</a> · ★ 15,8K</p>
+<p>Клон голоса по образцу 3–10 секунд, 600+ языков, русский тоже. Мы выбрали его в слепом тесте шести моделей озвучки.</p>
+<p><b>Лицензия:</b> код Apache-2.0; веса модели мы используем как некоммерческие, проверьте условия на странице модели перед монетизацией.</p>
+<div class="code"><pre><code>pip install omnivoice</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">8</span>WhisperX</h2>
+<p><a href="https://github.com/m-bain/whisperX">github.com/m-bain/whisperX</a> · ★ 24,8K</p>
+<p>Расшифровка речи с временем каждого слова. Из этого собираются субтитры по словам, как в рилсах. Работает локально.</p>
+<p><b>Лицензия:</b> BSD-2-Clause.</p>
+<div class="code"><pre><code>pip install whisperx</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">9</span>Честно о подвохах</h2>
+<ul>
+<li>«Бесплатно» значит бесплатный код. Нейросетевым моделям (LTX-2, OmniVoice, Depth Anything) нужна мощная видеокарта или Mac с большим объёмом памяти, иначе облако за деньги.</li>
+<li>Лицензии разные. Remotion и LTX-2 бесплатны не для всех компаний, у части весов Depth Anything и OmniVoice есть ограничения на коммерцию. Перед монетизацией перечитайте лицензию сами.</li>
+<li>Клонировать можно только свой голос или голос человека, который дал согласие.</li>
+<li>Агент пишет код ролика, но вкус и проверка остаются на вас: первые ролики почти всегда выглядят как слайды.</li></ul>
+</section>
+<a class="back" href="../">← Все инструкции</a>
+<footer>
+Звёзды и лицензии на 25.10.2026, проверены по GitHub. Репозитории принадлежат их авторам.<br>
+Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+</footer>
+</main>
+
+<script src="../copy.js"></script>
+</body>
+</html>

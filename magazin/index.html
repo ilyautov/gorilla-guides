@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Пять задач магазина за 7 минут</title>
+<meta name="description" content="Как повторить карусель «Claude закрыл 5 задач магазина за 7 минут»: бесплатный набор small-business-ru, установка и пять запросов: кассовый разрыв, маржа, должники, заявки, плохой отзыв.">
+<meta property="og:title" content="Пять задач магазина за 7 минут">
+<meta property="og:description" content="Как повторить карусель «Claude закрыл 5 задач магазина за 7 минут»: бесплатный набор small-business-ru, установка и пять запросов: кассовый разрыв, маржа, должники, заявки, плохой отзыв.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<main>
+<header>
+  <div class="kicker">Инструкция к карусели @utov_ilya</div>
+  <h1>Пять задач магазина <span class="hl">за 7 минут</span></h1>
+  <p class="lede">В карусели бесплатный набор скиллов small-business-ru разобрал вымышленный магазин «Уютный дом»: кассовый разрыв, убыточный товар, должников, заявки и злой отзыв. Пять прогонов заняли 6 минут 27 секунд. Ниже установка и те же пять запросов, чтобы повторить на своих цифрах.</p>
+  <div class="safe"><span>бесплатно, Apache-2.0</span><span>Claude Code, Codex, Cursor, Gemini</span><span>ничего не отправляет без вас</span><span>не замена бухгалтеру</span></div>
+</header>
+
+<section>
+<h2><span class="step">1</span>Установка</h2>
+<p>В Claude Code или Cowork:</p>
+<div class="code"><pre><code>/plugin marketplace add ilyautov/small-business-ru
+/plugin install small-business-ru@small-business-ru</code></pre></div>
+<p>Другой агент: <code>npx skills add ilyautov/small-business-ru</code>. Репозиторий: <a href="https://github.com/ilyautov/small-business-ru">github.com/ilyautov/small-business-ru</a>, сайт с инструкциями: <a href="https://small-business-ru.aifrontier.tech/">small-business-ru.aifrontier.tech</a>. Что ещё умеет набор: страница <a href="../sotrudnik/">«сотрудник»</a>.</p>
+</section>
+
+<section>
+<h2><span class="step">2</span>Хватит ли денег на зарплату</h2>
+<p>Скилл <code>cash-flow-snapshot</code>. Нужен план платежей: остаток на счёте, ожидаемые поступления, расходы с датами (CSV или таблица). Если есть должники, приложите их списком.</p>
+<div class="code"><pre><code>Хватит ли мне денег на зарплату [дата] и на налоги? Сегодня [дата].
+План платежей в [файл], должники в [файл].
+Покажи, где кассовый разрыв и что сделать. Посчитай кодом.</code></pre></div>
+<p class="path">В карусели: разрыв −167 180 ₽ на день зарплаты и ≈64 200 ₽ взносов, которых не было в плане.</p>
+</section>
+
+<section>
+<h2><span class="step">3</span>Где товар продаётся в минус</h2>
+<p>Скилл <code>margin-analyzer</code>. Нужна выгрузка продаж за месяц: штуки, выручка, закупка, комиссия, логистика, хранение, реклама. Шаблон колонок есть на странице <a href="../marzha/">«маржа»</a>.</p>
+<div class="code"><pre><code>Вот выгрузка продаж моего магазина за [месяц]: [файл]. Какая у меня маржа
+по товарам и где я теряю деньги? Я на [налоговый режим].
+Считай со всеми расходами, которые есть в выгрузке.
+Уточняющих вопросов не задавай, сразу анализ.</code></pre></div>
+<p class="path">В карусели: корзина для белья −40 625 ₽ за месяц, −131 ₽ со штуки.</p>
+</section>
+
+<section>
+<h2><span class="step">4</span>Кто должен и что им написать</h2>
+<p>Скилл <code>invoice-chase</code>. Нужен список неоплаченных счетов: клиент, номер, сумма, срок оплаты, сколько уже оплачено, как обычно платит.</p>
+<div class="code"><pre><code>Кто мне должен и кому что написать? Файл [дебиторка], сегодня [дата].
+Подготовь письма-напоминания, но ничего не отправляй — я сам решу.</code></pre></div>
+<p class="path">В карусели: 338 700 ₽ у пяти клиентов, пять писем разного тона, все черновиками.</p>
+</section>
+
+<section>
+<h2><span class="step">5</span>Кому из заявок звонить первым</h2>
+<p>Скилл <code>lead-triage</code>. Нужен список заявок: дата, канал, от кого, текст, ответили ли вы. CRM не обязательна.</p>
+<div class="code"><pre><code>Разбери заявки за неделю ([файл]), CRM у меня нет, только этот файл.
+Кому звонить первым сегодня, [дата], и что сказать? Календарь не трогай.</code></pre></div>
+<p class="path">В карусели: из 13 заявок звонить 7, первым — тот, кто готов платить сразу.</p>
+</section>
+
+<section>
+<h2><span class="step">6</span>Ответ на плохой отзыв и причина</h2>
+<p>Скилл <code>handle-complaint</code>. Нужен текст отзыва и то, что вы знаете о товаре или заказе (возвраты, как обрабатываете).</p>
+<div class="code"><pre><code>Разберись с жалобой ([текст или файл]): подготовь ответ покупателю под отзывом
+и скажи, что починить у меня в процессе, чтобы такое не повторялось.
+Ничего не отправляй.</code></pre></div>
+<p class="path">В карусели: ответ на 1★ и причина — возвраты уходили в продажу без переупаковки.</p>
+</section>
+
+<section>
+<h2><span class="step">7</span>Чего скиллы не сделают</h2>
+<ul>
+<li>Не видят ваш банк и CRM, пока вы их не подключили или не дали выгрузку. Считают по тому, что дали, и пишут «не проверено», где данных нет.</li>
+<li>Не отправляют письма и не платят сами. Каждое действие с деньгами и клиентами остаётся за вами.</li>
+<li>Не заменяют бухгалтера и юриста. Налоговые суммы и сроки сверяйте с ними. В карусели скилл сам об этом предупредил.</li>
+<li>Ошибаются на неоднозначных файлах. Называйте колонки прямо: «выкуплено, шт» вместо «продано», иначе скилл может посчитать возвраты дважды.</li></ul>
+<p>Все пять запросов файлом: <a href="https://github.com/ilyautov/gorilla-guides/blob/main/prompts/magazin.md">prompts/magazin.md</a>.</p>
+</section>
+<a class="back" href="../">← Все инструкции</a>
+<footer>
+Магазин «Уютный дом», компании и цифры в карусели вымышленные, прогоны скиллов настоящие (25.10.2026).<br>
+Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+</footer>
+</main>
+
+<script src="../copy.js"></script>
+</body>
+</html>
