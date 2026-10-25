@@ -6,6 +6,7 @@
 
 | Кодовое слово | Страница |
 |---|---|
+| карта | [Дашь ИИ карту? Сначала права](https://ilyautov.github.io/gorilla-guides/karta/) + [промпт](prompts/karta.md) |
 | акция | [Проверь акцию до запуска](https://ilyautov.github.io/gorilla-guides/akciya/) + [промпт](prompts/akciya.md) |
 | отзыв | [Ответ на плохой отзыв](https://ilyautov.github.io/gorilla-guides/otzyv/) + [промпт](prompts/otzyv.md) |
 | расходы | [Где резать расходы, не трогая людей и налоги](https://ilyautov.github.io/gorilla-guides/rashody/) + [промпт](prompts/rashody.md) |
