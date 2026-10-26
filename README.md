@@ -21,7 +21,7 @@
 | письмо | [Проверь письмо до отправки](https://ilyautov.github.io/gorilla-guides/pismo/) + [промпт](prompts/pismo.md) |
 | сотрудник | [Сотрудник за 0 ₽: small-business-ru](https://ilyautov.github.io/gorilla-guides/sotrudnik/) |
 | маржа | [Маржа твоего хита](https://ilyautov.github.io/gorilla-guides/marzha/) + [шаблон CSV](marzha/shablon-vygruzki.csv) |
-| резюме | [Резюме и робот-рекрутер](https://ilyautov.github.io/gorilla-guides/rezyume/) |
+| резюме | [Семь Клодов против твоего резюме](https://ilyautov.github.io/gorilla-guides/rezyume/) + [промпт](prompts/rezyume.md), [скилл](rezyume/hiring-panel/SKILL.md), [пример](rezyume/primer.md) |
 | промпт | [Как ставить задачу нейросети](https://ilyautov.github.io/gorilla-guides/prompt/) |
 | гудит | [Ноутбук гудит: кто грузит Mac](https://ilyautov.github.io/gorilla-guides/gudit/) |
 | фото | [Память заполнена: мусор в «Фото»](https://ilyautov.github.io/gorilla-guides/foto/) |
