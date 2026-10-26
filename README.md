@@ -6,6 +6,7 @@
 
 | Кодовое слово | Страница |
 |---|---|
+| станция | [Станция из-за одной цифры: что случилось](https://ilyautov.github.io/gorilla-guides/stanciya/) |
 | агент | [Обвязка, цикл и граф: как устроен ИИ-агент](https://ilyautov.github.io/gorilla-guides/agent/) + [промпт](prompts/agent.md) |
 | карта | [Дашь ИИ карту? Сначала права](https://ilyautov.github.io/gorilla-guides/karta/) + [промпт](prompts/karta.md) |
 | версия | [Какая модель отвечает на самом деле](https://ilyautov.github.io/gorilla-guides/versiya/) + [промпт](prompts/versiya.md) |
