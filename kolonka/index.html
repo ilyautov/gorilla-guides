@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Своя колонка на Claude</title>
+<meta name="description" content="Голосовой помощник на Mac вместо Алисы: речь распознаётся на самом Маке, отвечает Claude по вашей подписке. Установка за 5 минут, промпт и честные ограничения.">
+<meta property="og:title" content="Своя колонка на Claude">
+<meta property="og:description" content="Голосовой помощник на Mac вместо Алисы: речь распознаётся на самом Маке, отвечает Claude по вашей подписке. Установка за 5 минут, промпт и честные ограничения.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<main>
+<header>
+  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
+  <h1>Своя <span class="hl">колонка</span> на Claude</h1>
+  <p class="lede">Говорите с Маком голосом, отвечает Claude. Речь в текст переводится на самом Маке, звук никуда не уходит. Наружу отправляется только текст вопроса.</p>
+  <div class="safe"><span>бесплатный код</span><span>звук не уходит с Мака</span><span>системные настройки не трогает</span></div>
+</header>
+
+<section>
+<h2><span class="step">0</span>Что нужно</h2>
+<ul>
+<li><b>Mac</b>. Проверяли на Apple Silicon. Голос ответа берётся из встроенного в macOS <code>say</code>, поэтому на Windows и Linux скрипт в таком виде не заработает.</li>
+<li><b>Подписка Claude</b> (Pro или Max) и установленный <a href="https://code.claude.com/docs/en/setup">Claude Code</a>. Один раз запустите в Терминале <code>claude</code> и войдите своим аккаунтом. API-ключ не нужен. Если Claude Code уже стоит, обновите его командой <code>claude update</code>: скрипт использует свежие флаги.</li>
+<li><b>Python 3</b> (на Маке есть, при первом запуске macOS может предложить поставить «инструменты разработчика», согласитесь) и около 1 ГБ места под модели.</li>
+</ul>
+</section>
+
+<section>
+<h2><span class="step">1</span>Скачать и установить, 5 минут</h2>
+<a class="btn" href="kolonka.zip" download>Скачать kolonka.zip</a>
+<p>Распакуйте, например, в <code>~/kolonka</code>, и в Терминале:</p>
+<div class="code"><pre><code>cd ~/kolonka
+./setup.sh</code></pre></div>
+<p><code>setup.sh</code> ставит всё внутрь этой папки: отдельное окружение Python, модель Vosk для слова «Горо» (45 МБ) и модель распознавания Whisper small (около 460 МБ, ложится в кэш <code>~/.cache/huggingface</code>). Больше всего времени уходит на скачивание. Удалить всё: стереть папку и <code>~/.cache/huggingface/hub/models--Systran--faster-whisper-small</code>.</p>
+<p>Код по файлам: <a href="files/kolonka.py">kolonka.py</a>, <a href="files/prompt.txt">prompt.txt</a>, <a href="files/setup.sh">setup.sh</a>, <a href="files/run.sh">run.sh</a>, <a href="files/requirements.txt">requirements.txt</a>.</p>
+</section>
+
+<section>
+<h2><span class="step">2</span>Запустить</h2>
+<div class="code"><pre><code>./run.sh --text "Привет, ты кто?"</code></pre></div>
+<p>Это проверка без микрофона: должен прозвучать ответ. Дальше два режима.</p>
+<ul>
+<li><b>По кнопке.</b> <code>./run.sh</code>: Enter, говорите, Enter. Самый надёжный.</li>
+<li><b>По слову.</b> <code>./run.sh --wake</code>: скажите «Горо», после щелчка задайте вопрос. Конец вопроса это секунда тишины. Можно и слитно: «Горо, сколько лап у паука?»</li>
+</ul>
+<div class="warn"><b>Если пишет «микрофон отдаёт ровные нули».</b> macOS не дал доступ. Системные настройки → Конфиденциальность и безопасность → Микрофон → включите Терминал (или iTerm, VS Code, откуда запускаете). Полностью закройте его через Cmd+Q, откройте и запустите снова. При первом запуске macOS может спросить сам: нажмите «Разрешить».</div>
+<p>Если по умолчанию выбраны AirPods, macOS переключает их в режим гарнитуры, и распознавание хуже. Лучше выбрать встроенный микрофон: Настройки → Звук → Вход.</p>
+</section>
+
+<section>
+<h2><span class="step">3</span>Промпт: характер колонки</h2>
+<p>Лежит в <code>prompt.txt</code>, меняйте как хотите: имя, тон, длину ответа.</p>
+<div class="code"><pre><code>Ты голосовая колонка по имени Горо. Твой ответ зачитают вслух.
+Отвечай по-русски, коротко: одно-два предложения, разговорным языком.
+Без списков, markdown, эмодзи и ссылок.
+У тебя нет интернета, часов, таймеров, музыки и умного дома. Если просят такое, скажи это в одной фразе и предложи, чем помочь словами.
+Не выдумывай свежие новости, погоду на сегодня и курсы валют. Не обещай того, чего не сможешь сделать сам, например напомнить позже.</code></pre></div>
+<p>Не хотите возиться с Терминалом? Откройте Claude Code в распакованной папке и вставьте:</p>
+<div class="code"><pre><code>В этой папке голосовая колонка на Claude (README нет, смотри kolonka.py и setup.sh).
+Запусти ./setup.sh и проверь ./run.sh --text "Привет" --no-speak.
+Системные настройки не меняй и sudo не используй. Если упрёшься в доступ
+к микрофону, остановись и скажи мне, какой переключатель включить.
+В конце напиши одну команду, которой я запускаю колонку.</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">4</span>Что куда уходит</h2>
+<ul>
+<li><b>Звук с микрофона</b> никуда. Он обрабатывается в памяти и не пишется на диск. В режиме «Горо» микрофон включён всё время, но слушает его локальная модель Vosk.</li>
+<li><b>Текст вопроса</b> и три прошлых вопроса с ответами (чтобы работало «а ещё?») уходят в Anthropic через Claude Code, по вашей подписке. Как Anthropic хранит переписку, смотрите в claude.ai → Настройки → Конфиденциальность (пункт про помощь в улучшении Claude).</li>
+<li><b>Ответ</b> озвучивается на Маке, временный файл сразу удаляется.</li>
+<li>У Claude нет ни одного инструмента: он не может запускать команды, читать файлы и ходить в интернет. Ваши CLAUDE.md, плагины и MCP не подключаются. Телеметрия Claude Code выключена.</li>
+</ul>
+<p>Честно: трафик мы снифером не снимали. «Звук не уходит» следует из кода, его можно прочитать: это один файл.</p>
+</section>
+
+<section>
+<h2><span class="step">×</span>Честные ограничения</h2>
+<ul>
+<li><b>Задержка около 5 секунд</b> от конца вопроса до начала ответа (замер на Маке с Apple Silicon: распознавание 0,8 с, Claude 3,3 с, голос 0,9 с; иногда Claude думает до 10 с).</li>
+<li><b>Это не умный дом.</b> Таймеров, будильников, музыки, света и интернета нет. Погоду на сегодня и новости он не знает и так и скажет.</li>
+<li><b>Нужен Mac и подписка Claude.</b> Каждый вопрос немного расходует лимит подписки.</li>
+<li><b>Слово «Горо»</b> модель слышит как «гора», поэтому колонка проснётся и на «гору» в разговоре. Надёжнее режим по кнопке.</li>
+<li>Голос встроенный, Milena из macOS: понятный, но роботный.</li>
+<li>Пока колонка говорит, она не слушает: перебить нельзя.</li>
+<li>Офлайн не работает: без интернета Claude не ответит.</li>
+</ul>
+</section>
+
+<section>
+<h2>Из чего собрано</h2>
+<ul>
+<li><a href="https://github.com/SYSTRAN/faster-whisper">faster-whisper</a> (MIT) и модель Whisper small (MIT): речь в текст.</li>
+<li><a href="https://alphacephei.com/vosk/">Vosk</a> и модель vosk-model-small-ru (Apache-2.0): слово «Горо».</li>
+<li><a href="https://github.com/spatialaudio/python-sounddevice">sounddevice</a> (MIT), numpy (BSD): микрофон.</li>
+<li>Claude Code по подписке Anthropic: ответы. Голос: встроенный в macOS <code>say</code>.</li>
+</ul>
+<p>Код колонки бесплатный, берите и меняйте. Сторонние библиотеки принадлежат их авторам.</p>
+</section>
+<a class="back" href="../">← Все инструкции</a>
+<footer>
+Делаете на свой страх и риск. Всё ставится в одну папку и удаляется вместе с ней.<br>
+Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+</footer>
+</main>
+
+<script src="../copy.js"></script>
+</body>
+</html>

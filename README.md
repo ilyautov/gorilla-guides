@@ -12,6 +12,7 @@
 | поддержка | [Бот, который зовёт человека](https://ilyautov.github.io/gorilla-guides/podderzhka/) + [промпт](prompts/podderzhka.md) |
 | найм | [Найм продавца: человек, а не фильтр](https://ilyautov.github.io/gorilla-guides/naim/) + [промпты](prompts/naim.md) |
 | магазин | [Пять задач магазина за 7 минут](https://ilyautov.github.io/gorilla-guides/magazin/) + [промпты](prompts/magazin.md) |
+| колонка | [Своя колонка на Claude](https://ilyautov.github.io/gorilla-guides/kolonka/) + [промпт](prompts/kolonka.md), [архив](kolonka/kolonka.zip) и [код](kolonka/files/) |
 | кино | [Claude снимает кино: 8 репозиториев](https://ilyautov.github.io/gorilla-guides/kino/) |
 | акция | [Проверь акцию до запуска](https://ilyautov.github.io/gorilla-guides/akciya/) + [промпт](prompts/akciya.md) |
 | отзыв | [Ответ на плохой отзыв](https://ilyautov.github.io/gorilla-guides/otzyv/) + [промпт](prompts/otzyv.md) |
