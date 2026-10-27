@@ -32,3 +32,6 @@ for(const button of document.querySelectorAll('[data-copy]'))button.addEventList
  setTimeout(()=>{button.textContent='Копировать';},1800);
 });
 render();if(!storage)save();
+
+function openHashTarget(){const t=location.hash&&document.getElementById(decodeURIComponent(location.hash.slice(1)));if(t&&t.tagName==='DETAILS')t.open=true;}
+window.addEventListener('hashchange',openHashTarget);openHashTarget();
