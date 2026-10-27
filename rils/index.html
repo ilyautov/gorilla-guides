@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Claude смотрит рилс по ссылке</title>
+<meta name="description" content="Как дать Claude Code «посмотреть» рилс или видео по ссылке: кадры раз в несколько секунд и текст речи. Что на деле умеет Agent Reach из ролика, свой минимум на yt-dlp, ffmpeg и локальном Whisper, промпт и правила. Проверено 27.10.2026.">
+<meta property="og:title" content="Claude смотрит рилс по ссылке">
+<meta property="og:description" content="Кадры и текст речи вместо глаз: что умеет Agent Reach, свой минимум на yt-dlp, ffmpeg и локальном Whisper, промпт и честные ограничения.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<main>
+<header>
+  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
+  <h1>Клод, глянь <span class="hl">рилс</span></h1>
+  <p class="lede">Сам Claude Code видео не открывает: инстаграм ему не по зубам. Но если дать ему кадры из ролика и текст того, что там говорят, он ответит, о чём рилс, что на экране и чем он цепляет. Ниже два пути, как это устроить, и что мы проверили сами.</p>
+  <div class="safe"><span>только публичные ссылки</span><span>без логина и кук</span><span>всё в одной папке</span><span>проверено 27.10.2026</span></div>
+</header>
+
+<div class="warn"><b>Честно о главном.</b> Claude не смотрит видео как человек. Он получает картинки (кадр раз в несколько секунд) и расшифровку речи и складывает из них картину. Быстрое движение между кадрами, музыку и интонацию он не замечает. А инструмент из ролика, Agent Reach, рилсы по ссылке на деле не открывает: подробности в шаге 2.</div>
+
+<section>
+<h2><span class="step">1</span>Как это работает</h2>
+<ol>
+<li><b>Скачать ролик</b> по публичной ссылке программой <a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a>. Она умеет YouTube, Instagram, TikTok и сотни других сайтов.</li>
+<li><b>Нарезать кадры</b> программой ffmpeg: один кадр раз в 2–3 секунды, шириной 512 точек. На 40-секундный рилс выходит 14–20 картинок.</li>
+<li><b>Достать речь.</b> Если у ролика есть субтитры, берём их. Если нет (у рилсов их почти никогда нет), распознаём звук локально моделью Whisper прямо на Маке.</li>
+<li><b>Отдать Claude.</b> Claude Code открывает кадры как обычные картинки, читает текст и отвечает на ваш вопрос.</li>
+</ol>
+</section>
+
+<section>
+<h2><span class="step">2</span>Путь А: Agent Reach, что он умеет на самом деле</h2>
+<p><a href="https://github.com/Panniantong/Agent-Reach">Agent Reach</a> это открытая программа, которая даёт ИИ-агенту одну команду для чтения разных сайтов: YouTube, GitHub, Reddit, Twitter, китайских площадок. Под капотом для видео стоит та же yt-dlp. Лицензия MIT, бесплатно.</p>
+<div class="skills">
+<div class="skill"><b>YouTube: работает без логина</b>Название, описание, длительность и субтитры видео. Мы прогнали на коротком публичном ролике, ответ пришёл за 2–6 секунд. Расшифровка речи без субтитров идёт только через API-ключ Groq или OpenAI. Кадров он не делает вообще, то есть картинку ролика Claude не увидит.</div>
+<div class="skill"><b>Instagram: открыть рилс по ссылке не может</b>Канал Instagram помечен как экспериментальный и умеет три вещи: искать людей, показывать профиль и список постов. Для этого нужен вход: программа копирует вход в инстаграм из вашего Chrome в свой отдельный браузер. Авторы сами пишут, что обычно копируется основной аккаунт, и советуют завести второй.</div>
+<div class="skill"><b>Ссылка на рилс уходит в общий веб-ридер</b>Мы дали ему ссылку на публичный рилс без логина. Сторонний сервис Jina ответил «403 Forbidden», запасной Exa вернул пару строк страницы с чужим ником и «3 days ago». Ни кадров, ни текста ролика.</div>
+</div>
+<p>Итог: для YouTube Agent Reach удобен как «читалка» описаний и субтитров. Чтобы Claude увидел, что происходит в рилсе, нужен путь Б.</p>
+<p>Если всё же хотите попробовать его без установки в систему. Официальная установка (<code>uv tool install …</code>) ставит программу для всего пользователя, а вариант ниже держит её в одной папке. Мы ставили так, из тега v1.6.0:</p>
+<div class="code"><pre><code>mkdir -p ~/rils && cd ~/rils
+git clone --depth 1 --branch v1.6.0 https://github.com/Panniantong/Agent-Reach agent-reach-src
+uv venv -p 3.11 .venv-ar
+uv pip install -p .venv-ar/bin/python ./agent-reach-src
+.venv-ar/bin/agent-reach youtube subtitle "https://www.youtube.com/watch?v=jNQXAC9IVRw" --lang en</code></pre></div>
+<p>Свои настройки он всё равно пишет в <code>~/.agent-reach/</code>. Удалить всё: стереть <code>~/rils</code> и <code>~/.agent-reach</code>.</p>
+<div class="stop">Пакет <code>agent-reach</code> на PyPI, по словам авторов, к этому проекту не относится. Ставьте только с GitHub. Команды <code>agent-reach login</code> и копирование входа из Chrome мы не запускали и не советуем: это ваш настоящий аккаунт.</div>
+</section>
+
+<section>
+<h2><span class="step">3</span>Путь Б: свой минимум на трёх программах</h2>
+<p>Нужен <b>Mac</b> (на Linux так же), <a href="https://docs.astral.sh/uv/">uv</a> и <b>ffmpeg</b>. Проверьте в Терминале: <code>which uv ffmpeg</code>. Если чего-то нет, это единственное, что ставится в систему: <code>brew install uv ffmpeg</code>. Всё остальное ляжет в папку <code>~/rils</code>.</p>
+<div class="code"><pre><code>mkdir -p ~/rils && cd ~/rils
+uv venv -p 3.11 .venv
+uv pip install -p .venv/bin/python yt-dlp faster-whisper</code></pre></div>
+<p>Скрипт расшифровки, один раз:</p>
+<div class="code"><pre><code>cat &gt; transcribe.py &lt;&lt;'EOF'
+import sys
+from faster_whisper import WhisperModel
+model = WhisperModel("small", device="cpu", compute_type="int8")
+segments, info = model.transcribe(sys.argv[1], vad_filter=True)
+print("язык:", info.language)
+for s in segments:
+    print(f"[{int(s.start)//60:02d}:{int(s.start)%60:02d}] {s.text.strip()}")
+EOF</code></pre></div>
+<p>Дальше на каждую ссылку три команды:</p>
+<div class="code"><pre><code>.venv/bin/yt-dlp -f "b[height&lt;=720]/b" -o work/reel.mp4 "https://www.instagram.com/reel/XXXX/"
+mkdir -p work/frames && ffmpeg -v error -i work/reel.mp4 -vf "fps=1/3,scale=512:-2" work/frames/f_%03d.jpg
+.venv/bin/python transcribe.py work/reel.mp4 &gt; work/transcript.txt</code></pre></div>
+<p><code>fps=1/3</code> значит кадр раз в 3 секунды. Для быстрого монтажа ставьте <code>fps=1/2</code> или <code>fps=1</code>, но каждая картинка расходует лимит Claude. При первом запуске Whisper скачает модель small, около 460 МБ, в <code>~/.cache/huggingface</code>.</p>
+<p>Теперь откройте Claude Code в папке <code>~/rils</code> и попросите: «Открой все кадры из work/frames и work/transcript.txt и скажи, о чём рилс». Или отдайте всю работу ему, промптом из шага 4.</p>
+<div class="warn"><b>Грабли, которые мы поймали.</b> yt-dlp, поставленный через brew, у нас на рилсе упал с ошибкой <code>No module named expat</code>: сломан питон, на котором он собран. Та же версия внутри <code>.venv</code>, как выше, отработала. Поэтому ставим её в папку, а не берём системную.</div>
+</section>
+
+<section>
+<h2><span class="step">4</span>Промпт для Claude Code</h2>
+<p>Откройте Claude Code в пустой папке, например <code>~/rils</code>, вставьте промпт и замените ссылку и вопрос. Промпт отдельным файлом: <a href="https://github.com/ilyautov/gorilla-guides/blob/main/prompts/rils.md">prompts/rils.md</a>.</p>
+<div class="code"><pre><code>Посмотри этот рилс и скажи: [о чём он / что происходит в первые 3 секунды /
+какой текст на экране / почему он мог залететь].
+Ссылка: https://www.instagram.com/reel/XXXX/
+
+Как смотреть:
+- Работай только в этой папке. Ничего не ставь в систему: никаких brew install,
+  pip install --user, npm -g, pipx. Нужное ставь в ./.venv:
+  uv venv -p 3.11 .venv && uv pip install -p .venv/bin/python yt-dlp faster-whisper
+  Если нет uv или ffmpeg, остановись и скажи мне.
+- Без логина и без кук: не используй --cookies и --cookies-from-browser.
+  Если ролик закрыт, удалён или просит войти, остановись и скажи мне.
+- Скачай ролик через .venv/bin/yt-dlp в ./work/ (не выше 720p).
+- Кадры: ffmpeg, один кадр раз в 2–3 секунды, ширина 512, в ./work/frames/.
+- Речь: сначала субтитры (--write-subs --write-auto-subs --sub-langs "ru.*,en.*").
+  Если их нет, распознай звук локально через faster-whisper, модель small.
+  Платные API (OpenAI, Groq и другие) не вызывай.
+- Открой каждый кадр как картинку и сопоставь со словами по времени.
+
+Ответ:
+1. По секундам: что на экране и что говорят.
+2. Ответ на мой вопрос.
+3. Что не разглядел или не расслышал. Не додумывай то, чего нет в кадрах и тексте.
+
+В конце удали ./work/ вместе с видео: ролик чужой, мы его только посмотрели.</code></pre></div>
+<p>Уже стоит плагин <a href="https://github.com/bradautomates/claude-video">claude-video</a> с командой <code>/watch</code>? Он делает то же одной командой: <code>/watch ссылка вопрос</code>. Мы прогнали его на YouTube и на рилсе, кадры пришли в обоих случаях. Но у версии 0.2.0 три оговорки: субтитры он берёт только английские, речь без субтитров распознаёт только через платный API (Groq или OpenAI), а его установщик <code>setup.py</code> сам ставит ffmpeg и yt-dlp через brew в систему.</p>
+</section>
+
+<section>
+<h2><span class="step">5</span>Чего Claude здесь не умеет</h2>
+<ul>
+<li><b>Лайкать, комментировать, подписываться.</b> Он только смотрит, как в ролике.</li>
+<li><b>Закрытые аккаунты, «Близкие друзья», сторис по входу.</b> Без логина их не скачать, а логин мы не даём.</li>
+<li><b>Слышать звук.</b> Музыку, интонацию, смех и шумы он не воспринимает, только текст расшифровки. Песню без слов он не опишет.</li>
+<li><b>Видеть движение между кадрами.</b> Кадр раз в 3 секунды пропускает быстрые склейки и жесты. Чаще кадры дают больше деталей, но съедают лимит.</li>
+<li><b>Листать ленту сам.</b> Он смотрит то, что вы прислали ссылкой. «Час в рилсах» из ролика это шутка.</li>
+<li><b>Работать всегда.</b> Instagram и YouTube меняют сайт, и yt-dlp иногда ломается до следующего обновления. Тогда <code>uv pip install -p .venv/bin/python -U yt-dlp</code>.</li>
+</ul>
+</section>
+
+<section>
+<h2><span class="step">!</span>Правила</h2>
+<ul>
+<li>Только публичные ссылки. Без логина, без кук браузера, без чужих аккаунтов.</li>
+<li>Скачанное нужно, чтобы посмотреть и разобрать. Не перезаливайте чужие ролики и куски из них: автор их не отдавал.</li>
+<li>Условия Instagram и YouTube запрещают автоматический сбор данных без разрешения. Разовый просмотр присланной ссылки и массовое выкачивание это разные вещи: не гоняйте скрипт по чужим профилям пачками.</li>
+<li>После разбора удаляйте папку <code>work/</code> с видео.</li>
+</ul>
+</section>
+
+<section>
+<h2>Что мы проверили и что нет (27.10.2026)</h2>
+<ul>
+<li><b>Agent Reach</b> v1.6.0 (релиз 23.10.2026), лицензия MIT, около 104 тысяч звёзд на GitHub, 113 открытых задач, последнее обновление 25.10.2026. Ставили в отдельную папку из тега v1.6.0. YouTube (описание и субтитры): работает без логина. Ссылка на публичный рилс: кадров и текста ролика нет (Jina 403, Exa вернул обрывок страницы).</li>
+<li><b>Свой минимум</b> на публичном рилсе 42 секунды без логина: yt-dlp 2026.8.19 из папки скачал 2,4 МБ за 5 секунд, ffmpeg дал 14 кадров (раз в 3 секунды), faster-whisper small на Маке с Apple Silicon расшифровал английскую речь за 25 секунд, модель уже лежала в кэше. Claude открыл кадры и прочитал текст.</li>
+<li><b>Плагин claude-video</b> (<code>/watch</code>) 0.2.0, лицензия MIT, около 19 тысяч звёзд: на YouTube кадры и английские субтитры, на рилсе 18 кадров без текста (платный Whisper не включали).</li>
+<li><b>Не проверяли:</b> вход в Instagram через Agent Reach (нужен ваш аккаунт и копия входа из Chrome), его расшифровку через Groq и OpenAI (платные ключи), рилсы на русском (наш был на английском), TikTok, длинные видео больше 10 минут, Windows.</li>
+</ul>
+</section>
+<a class="back" href="../">← Все инструкции</a>
+<footer>
+Не связаны с Anthropic, Instagram, авторами Agent Reach и claude-video. Сторонние программы принадлежат их авторам. Делаете на свой страх и риск, всё ставится в одну папку и удаляется вместе с ней.<br>
+Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+</footer>
+</main>
+
+<script src="../copy.js"></script>
+</body>
+</html>

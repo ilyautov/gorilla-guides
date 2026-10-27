@@ -6,6 +6,7 @@
 
 | Кодовое слово | Страница |
 |---|---|
+| рилс | [Claude смотрит рилс по ссылке](https://ilyautov.github.io/gorilla-guides/rils/) + [промпт](prompts/rils.md) |
 | стол | [ИИ следит за каждым столом](https://ilyautov.github.io/gorilla-guides/stol/) + [скрипт](stol/files/stol_time_in_zone.py) |
 | метка | [Claude метит твой текст](https://ilyautov.github.io/gorilla-guides/metka/) + [скрипт проверки](metka/check_invisible.py) |
 | двор | [Твой двор в Майнкрафте 1:1](https://ilyautov.github.io/gorilla-guides/dvor/) |
