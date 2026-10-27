@@ -3,69 +3,59 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Граф для Claude Code: проверка Graphify</title>
+<title>Граф для Claude Code: обещали ×79, мы замерили</title>
 <meta name="description" content="Graphify строит граф кода для Claude Code. Обещают «в 79 раз меньше токенов». Мы замерили на своём проекте 24 сессиями: как поставить, что вышло, когда граф помогает и когда нет.">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Граф для Claude Code: обещали ×79, мы замерили">
 <meta property="og:description" content="Graphify на нашем коде: 24 сессии Claude Code с графом и без. Установка, таблица замера, когда граф помогает.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/graf/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/graf/img/62-protiv-90.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="782">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/guide-v2.css">
 <style>
 .tblwrap{overflow-x:auto;margin:12px 0}
-.tbl{width:100%;border-collapse:collapse;font-size:15px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.tbl td,.tbl th{padding:7px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
-.tbl td+td,.tbl th+th{text-align:right;font-family:var(--mono);white-space:nowrap}
+.tbl{width:100%;border-collapse:collapse;font-size:15px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.tbl td,.tbl th{padding:8px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.tbl td+td,.tbl th+th{text-align:right;font-family:var(--mono);font-size:14px;white-space:nowrap}
 .tbl tr:last-child td{border-bottom:0}
 .minus{color:var(--warn)}
 </style>
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
-  <h1>Граф для Claude Code: <span class="hl">обещали ×79, мы замерили</span></h1>
-  <p class="lede">Graphify — бесплатный инструмент, который превращает код в граф, чтобы Claude Code спрашивал граф, а не читал файлы. В роликах пишут «в 79 раз меньше токенов». Мы поставили его на свой проект и прогнали 24 сессии с графом и без. Ниже: как поставить, наши цифры и когда граф правда нужен.</p>
-  <div class="safe"><span>бесплатно, Apache-2.0</span><span>код не уходит в облако</span><span>24 сессии замера</span><span>без выдуманных цифр</span></div>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Граф для Claude Code: обещали ×79, <span class="hl">мы замерили</span></h1>
+    <p class="lede">Graphify строит граф кода для Claude Code. Мы прогнали на своём проекте 24 сессии с графом и без.</p>
+    <div class="actions">
+      <a class="btn" href="#result">Таблица замера →</a>
+      <a class="secondary-link" href="#step-1">Как поставить</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно, Apache-2.0</li><li>код не уходит в облако</li><li>24 сессии замера</li><li>без выдуманных цифр</li></ul>
+    <p class="for-video">К ролику «Граф для Claude Code» · обновлено 27 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/62-protiv-90.jpg" width="960" height="782" alt="Кадр из ролика: без графа 62 000 токенов на вопрос, с графом 90 000 (медиана)"><figcaption>Кадр из ролика. Медиана входных токенов на вопрос: 62 тысячи без графа, 90 тысяч с графом.</figcaption></figure>
 </header>
 
-<section>
-<h2><span class="step">1</span>Что это</h2>
-<p><a href="https://github.com/Graphify-Labs/graphify">Graphify-Labs/graphify</a>: открытый проект на Python, лицензия Apache-2.0, около 136 тысяч звёзд на GitHub (27.10.2026). Пакет на PyPI называется <code>graphifyy</code>, с двумя «y». Остальные <code>graphify*</code> к нему не относятся.</p>
-<ul>
-<li><b>Что строит.</b> Разбирает код через tree-sitter (около 40 языков) и собирает граф: файлы, функции, классы, кто кого вызывает и импортирует. Для кода не нужны ни нейросеть, ни интернет, всё считается у вас на компьютере. Документы, PDF и картинки он уже отдаёт в нейросеть, но это можно выключить.</li>
-<li><b>Что получаете.</b> Папку <code>graphify-out/</code>: <code>graph.json</code> (граф), <code>GRAPH_REPORT.md</code> (главные узлы и модули) и <code>graph.html</code> (кликабельная картинка).</li>
-<li><b>Как его использует Claude Code.</b> В <code>CLAUDE.md</code> дописывается правило «сначала <code>graphify query</code>, потом поиск и чтение файлов», и ставятся хуки, которые перед поиском и чтением напоминают про граф.</li>
-</ul>
-</section>
+<nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
+  <li><a href="#result"><b>+45 % токенов</b><span>с графом, медиана</span></a></li>
+  <li><a href="#by-question"><b>−24 %</b><span>только на «архитектуре»</span></a></li>
+  <li><a href="#step-1"><b>Установка</b><span>uv, без глобальных пакетов</span></a></li>
+  <li><a href="#when"><b>Когда нужен</b><span>большие репозитории</span></a></li>
+</ol></nav>
 
-<section>
-<h2><span class="step">2</span>Как поставить</h2>
-<p>Нужны Python 3.10+ и <a href="https://docs.astral.sh/uv/">uv</a>. Мы ставили в отдельное окружение внутри проекта, без глобальных установок, вот эти команды:</p>
-<div class="code"><pre><code>uv venv --python 3.12 .graphify-venv
-uv pip install --python .graphify-venv/bin/python graphifyy
-export PATH="$PWD/.graphify-venv/bin:$PATH"
-graphify --version</code></pre></div>
-<p>Так советует README (мы этот вариант не запускали, он ставит команду для всего пользователя):</p>
-<div class="code"><pre><code>uv tool install graphifyy</code></pre></div>
-<p>Построить граф только по коду, без нейросети и без ключей. На нашем проекте это заняло 5 секунд:</p>
-<div class="code"><pre><code>cd ваш-проект
-GRAPHIFY_BACKEND=none graphify extract . --code-only
-GRAPHIFY_BACKEND=none graphify cluster-only . --no-label</code></pre></div>
-<p>Подключить к Claude Code в этом проекте: правило в <code>CLAUDE.md</code>, хуки в <code>.claude/settings.json</code> и скилл <code>/graphify</code> в <code>.claude/skills/</code>:</p>
-<div class="code"><pre><code>graphify claude install
-graphify install --project</code></pre></div>
-<p>Спросить граф самому:</p>
-<div class="code"><pre><code>graphify query "где считается время начала реплики"
-graphify explain "envelope"
-graphify path "main" "setJaw"</code></pre></div>
-<p>Убрать всё: <code>graphify claude uninstall</code> или <code>graphify uninstall --purge</code> (вместе с папкой <code>graphify-out/</code>).</p>
-<div class="stop">Хуки ссылаются на команду <code>graphify</code> по имени. Если она есть только в вашем окружении, а не в PATH, хук не сработает. Либо добавьте окружение в PATH, либо пропишите в <code>.claude/settings.json</code> полный путь к <code>graphify</code>.</div>
-<div class="stop">Каждый запрос <code>graphify query</code> по умолчанию пишется в журнал <code>~/.cache/graphify-queries.log</code>: вопрос и сколько узлов нашлось. Отключить: <code>export GRAPHIFY_QUERY_LOG_DISABLE=1</code>.</div>
-</section>
+<div class="start-note"><b>До начала</b><p>Нужны Python 3.10+, <a href="https://docs.astral.sh/uv/">uv</a> и Claude Code. Граф по коду строится у вас на компьютере, без нейросети, ключей и интернета.</p></div>
 
-<section>
-<h2><span class="step">3</span>Наш замер</h2>
+<section class="block" id="result" aria-labelledby="result-title">
+<h2 id="result-title">Наш замер</h2>
+<p>Graphify — бесплатный инструмент, который превращает код в граф, чтобы Claude Code спрашивал граф, а не читал файлы. В роликах пишут «в 79 раз меньше токенов». Мы поставили его на свой проект и прогнали 24 сессии с графом и без.</p>
 <p>Взяли код нашего движка 3D-скетчей: 32 файла (JavaScript и Python), 367 КБ. Граф построился за 5,5 секунды: 302 узла, 1045 связей. Задали Claude Code шесть настоящих вопросов о коде: где считается старт реплики, какие действия у персонажа, как устроен рендер, как работает синхрон рта, какие бывают планы камеры, и «опиши архитектуру целиком». Каждый вопрос по два раза в обычной сессии и по два раза с подключённым Graphify. Токены брали из отчёта самого Claude Code (<code>claude -p --output-format json</code>).</p>
 <div class="tblwrap"><table class="tbl">
 <tr><th>Медиана по 12 сессиям</th><th>Без графа</th><th>С графом</th></tr>
@@ -74,7 +64,7 @@ graphify path "main" "setJaw"</code></pre></div>
 <tr><td>Ходов агента</td><td>7</td><td>7</td></tr>
 <tr><td>Время ответа</td><td>28 с</td><td>33 с</td></tr>
 </table></div>
-<p>По вопросам, все входные токены, медиана двух прогонов:</p>
+<p id="by-question">По вопросам, все входные токены, медиана двух прогонов:</p>
 <div class="tblwrap"><table class="tbl">
 <tr><th>Вопрос</th><th>Без графа</th><th>С графом</th></tr>
 <tr><td>Старт реплики</td><td>55 006</td><td class="minus">80 870</td></tr>
@@ -89,28 +79,99 @@ graphify path "main" "setJaw"</code></pre></div>
 <p>Сырые данные, скрипт замера и вопросы лежат в нашем рабочем репозитории. Ограничения: один проект на 32 файла, одна модель, по два прогона на вопрос. Разброс между двумя одинаковыми прогонами доходил до 1,8 раза.</p>
 </section>
 
-<section>
-<h2><span class="step">4</span>Когда граф помогает, а когда нет</h2>
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Проверить на своём проекте за 4 шага</h2>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Поставьте Graphify в отдельное окружение</h3><p>Внутри проекта, без глобальных установок. Мы ставили именно так.</p></div></div>
+  <p>Пакет на PyPI называется <code>graphifyy</code>, с двумя «y». Остальные <code>graphify*</code> к нему не относятся.</p>
+  <div class="command"><div class="command-bar"><span>В терминал, в папке проекта</span><button type="button">Копировать</button></div><pre><code>uv venv --python 3.12 .graphify-venv
+uv pip install --python .graphify-venv/bin/python graphifyy
+export PATH="$PWD/.graphify-venv/bin:$PATH"
+graphify --version</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Так советует README (мы этот вариант не запускали, он ставит команду для всего пользователя):</p>
+  <div class="command"><div class="command-bar"><span>В терминал · вариант из README</span><button type="button">Копировать</button></div><pre><code>uv tool install graphifyy</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p><code>graphify --version</code> печатает версию.</p></div>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Постройте граф только по коду</h3><p>Без нейросети и без ключей. На нашем проекте это заняло 5 секунд.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>cd ваш-проект
+GRAPHIFY_BACKEND=none graphify extract . --code-only
+GRAPHIFY_BACKEND=none graphify cluster-only . --no-label</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Спросить граф самому:</p>
+  <div class="command"><div class="command-bar"><span>В терминал · примеры запросов с нашего проекта</span><button type="button">Копировать</button></div><pre><code>graphify query "где считается время начала реплики"
+graphify explain "envelope"
+graphify path "main" "setJaw"</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Папка <code>graphify-out/</code>: <code>graph.json</code> (граф), <code>GRAPH_REPORT.md</code> (главные узлы и модули) и <code>graph.html</code> (кликабельная картинка).</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Подключите граф к Claude Code</h3><p>Правило в <code>CLAUDE.md</code>, хуки в <code>.claude/settings.json</code> и скилл <code>/graphify</code> в <code>.claude/skills/</code>.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В терминал, в папке проекта</span><button type="button">Копировать</button></div><pre><code>graphify claude install
+graphify install --project</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="warn">Хуки ссылаются на команду <code>graphify</code> по имени. Если она есть только в вашем окружении, а не в PATH, хук не сработает. Либо добавьте окружение в PATH, либо пропишите в <code>.claude/settings.json</code> полный путь к <code>graphify</code>.</div>
+  <div class="warn">Каждый запрос <code>graphify query</code> по умолчанию пишется в журнал <code>~/.cache/graphify-queries.log</code>: вопрос и сколько узлов нашлось. Отключить: <code>export GRAPHIFY_QUERY_LOG_DISABLE=1</code>.</div>
+  <div class="expected"><b>Что должно получиться</b><p>В <code>CLAUDE.md</code> правило «сначала <code>graphify query</code>, потом поиск и чтение файлов», а хуки перед поиском и чтением напоминают Claude про граф.</p></div>
+</div>
+
+<div class="step" id="step-4">
+  <div class="section-title"><span class="step-number">4</span><div><h3>Сравните токены с графом и без</h3><p>Один и тот же вопрос в двух сессиях.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В терминал · подставьте свой вопрос</span><button type="button">Копировать</button></div><pre><code>claude -p "вопрос" --output-format json</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Сравните поле <code>usage</code> в двух ответах. У нас разброс между двумя одинаковыми прогонами доходил до 1,8 раза, так что гоняйте каждый вопрос хотя бы дважды.</p></div>
+</div>
+</section>
+
+<section class="block" id="when" aria-labelledby="when-title">
+<h2 id="when-title">Когда граф помогает, а когда нет</h2>
 <ul>
 <li><b>Помогает:</b> вопросы «как всё устроено», первое знакомство с чужим большим репозиторием, поиск всех мест, где используется функция, картинка связей для себя (<code>graph.html</code>).</li>
 <li><b>Не помогает:</b> точечные вопросы «где считается X» в проекте, который Claude находит поиском по словам. Там граф только добавляет шаг.</li>
 <li><b>Не мерили:</b> монорепо на сотни и тысячи файлов, где обычный поиск выдаёт горы совпадений. Там эффект может быть больше, проверьте на своём проекте.</li>
-<li><b>Как проверить у себя:</b> задайте один и тот же вопрос в двух сессиях, с графом и без, через <code>claude -p "вопрос" --output-format json</code> и сравните поле <code>usage</code>.</li>
 </ul>
 </section>
 
-<section>
-<h2><span class="step">5</span>Лицензия и облако</h2>
+<section class="block" id="ref" aria-labelledby="ref-title">
+<h2 id="ref-title">Справочное</h2>
+<details id="what"><summary><span>Что такое Graphify<small>Graphify-Labs/graphify, около 136 тысяч звёзд</small></span></summary><div class="details-body">
+<p><a href="https://github.com/Graphify-Labs/graphify">Graphify-Labs/graphify</a>: открытый проект на Python, лицензия Apache-2.0, около 136 тысяч звёзд на GitHub (27.10.2026).</p>
+<ul>
+<li><b>Что строит.</b> Разбирает код через tree-sitter (около 40 языков) и собирает граф: файлы, функции, классы, кто кого вызывает и импортирует. Для кода не нужны ни нейросеть, ни интернет, всё считается у вас на компьютере. Документы, PDF и картинки он уже отдаёт в нейросеть, но это можно выключить.</li>
+<li><b>Что получаете.</b> Папку <code>graphify-out/</code>: <code>graph.json</code> (граф), <code>GRAPH_REPORT.md</code> (главные узлы и модули) и <code>graph.html</code> (кликабельная картинка).</li>
+<li><b>Как его использует Claude Code.</b> В <code>CLAUDE.md</code> дописывается правило «сначала <code>graphify query</code>, потом поиск и чтение файлов», и ставятся хуки, которые перед поиском и чтением напоминают про граф.</li>
+</ul>
+</div></details>
+<details id="license"><summary><span>Лицензия и облако<small>Apache-2.0; Graphify Cloud платный</small></span></summary><div class="details-body">
 <p>Код Graphify открыт под Apache-2.0: можно пользоваться бесплатно, в том числе в работе, менять и встраивать, если сохранить уведомление о лицензии. Рядом есть платный Graphify Cloud с пробным периодом. Обещание «на 80 % меньше токенов» в README относится к нему, мы его не проверяли. Для графа по коду облако не нужно.</p>
+</div></details>
 </section>
-<a class="back" href="../">← Все инструкции</a>
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="hooks"><summary>Хуки Graphify не срабатывают</summary><div class="details-body">
+  <p>Хуки ищут команду <code>graphify</code> в PATH. Добавьте окружение в PATH или пропишите в <code>.claude/settings.json</code> полный путь к <code>graphify</code>.</p>
+</div></details>
+<details id="uninstall"><summary>Хочу убрать всё</summary><div class="details-body">
+  <p><code>graphify claude uninstall</code> или <code>graphify uninstall --purge</code> (вместе с папкой <code>graphify-out/</code>).</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Чего замер не доказывает</h2>
+<ul>
+  <li>Один проект на 32 файла, одна модель, по два прогона на вопрос.</li>
+  <li>Монорепо на сотни и тысячи файлов мы не мерили.</li>
+  <li>Graphify Cloud и его «на 80 % меньше токенов» мы не проверяли.</li>
+  <li>Цифры — наш замер на нашем коде, а не обещание для вашего.</li>
+</ul>
+</section>
+
 <footer>
-Graphify — проект Graphify Labs, мы с ними не связаны. Цифры выше — наш замер на нашем коде, а не обещание для вашего.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Graphify — проект Graphify Labs, мы с ними не связаны. Цифры выше — наш замер на нашем коде, а не обещание для вашего.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
-
-
-<script src="../copy.js"></script>
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>

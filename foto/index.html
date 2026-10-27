@@ -3,44 +3,65 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Память заполнена</title>
-<meta name="description" content="Как найти мусор в «Фото» на Mac: скриншоты, дубли, серии и тяжёлые видео. Подсчёт, альбом «На удаление» и промпт для Claude Code.">
-<meta property="og:title" content="Память заполнена">
-<meta property="og:description" content="Как найти мусор в «Фото» на Mac: скриншоты, дубли, серии и тяжёлые видео. Подсчёт, альбом «На удаление» и промпт для Claude Code.">
+<title>Память заполнена: где мусор в «Фото» на Mac</title>
+<meta name="description" content="Как найти мусор в «Фото» на Mac: скриншоты, дубли, серии и тяжёлые видео. Команды подсчёта только на чтение, альбом «На удаление» и промпт для Claude Code.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Память заполнена. Где мусор в «Фото»">
+<meta property="og:description" content="Промпт и команды: сначала считаем, ничего не трогая, потом складываем найденное в альбом «На удаление». Удаляете сами, 30 дней на возврат.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/foto/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/foto/img/138-skrinshotov.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/guide-v2.css">
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
-  <h1>Память <span class="hl">заполнена</span>. Где мусор в «Фото»</h1>
-  <p class="lede">Сначала считаем, ничего не трогая. Потом складываем найденное в альбом «На удаление». Удаляете вы сами, руками, и ещё 30 дней всё можно вернуть.</p>
-  <div class="safe"><span>бесплатно</span><span>подсчёт только читает</span><span>сам ничего не удаляет</span><span>30 дней на возврат</span></div>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Память <span class="hl">заполнена</span>. Где мусор в «Фото»</h1>
+    <p class="lede">Обещанные промпт и команды. Сначала считаем, ничего не трогая. Потом складываем найденное в альбом «На удаление». Удаляете вы сами, руками, и ещё 30 дней всё можно вернуть.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Начать с подсчёта →</a>
+      <a class="secondary-link" href="#prompt">Сразу к промпту</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>подсчёт только читает</li><li>сам ничего не удаляет</li><li>30 дней на возврат</li></ul>
+    <p class="for-video">К ролику «Память заполнена» · обновлено 27 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/138-skrinshotov.jpg" width="960" height="640" alt="Кадр из ролика: стопка скриншотов и число 138"><figcaption>Кадр из ролика: 138 скриншотов в медиатеке на 1 077 фото и видео.</figcaption></figure>
 </header>
 
-<section>
-<h2><span class="step">0</span>Что делает</h2>
-<p>Открытая утилита <a href="https://github.com/RhetTbull/osxphotos">osxphotos</a> (лицензия MIT) читает медиатеку «Фото» на Mac и отвечает на вопросы: сколько скриншотов, где возможные дубли, сколько серий, какие видео самые тяжёлые. Подсчёт ничего в медиатеке не меняет.</p>
-<p>У меня в ролике вышло так: 1 077 фото и видео, 138 скриншотов, одна пара дублей, две серии на 11 кадров. Весь этот мусор весил около 216 МБ. Зато видео заняли 5,4 ГБ из 7,1, три четверти места, и одни только 10 роликов тяжелее 100 МБ весили 1,9 ГБ. У вас цифры будут свои: сначала посчитайте.</p>
-</section>
+<nav class="strip" aria-label="Что внутри"><p>Что внутри</p><ol>
+  <li><a href="#step-2"><b>Подсчёт</b><span>только чтение</span></a></li>
+  <li><a href="#step-3"><b>«На удаление»</b><span>альбом, а не корзина</span></a></li>
+  <li><a href="#prompt"><b>Промпт</b><span>для Claude Code</span></a></li>
+  <li><a href="#iphone"><b>Нет Mac?</b><span>«Дубликаты» на iPhone</span></a></li>
+</ol></nav>
 
-<section>
-<h2><span class="step">1</span>Установка</h2>
-<p>Нужен Mac и Терминал. Проще всего через pipx:</p>
-<div class="code"><pre><code>brew install pipx
+<div class="start-note"><b>До начала</b><p>Нужен Mac и Терминал. Если включены «Фото iCloud», удаление на Mac удаляет снимок на всех ваших устройствах.</p></div>
+
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Первый результат за 4 шага</h2>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Поставьте osxphotos</h3><p>Открытая утилита читает медиатеку «Фото» на Mac.</p></div></div>
+  <p><a href="https://github.com/RhetTbull/osxphotos">osxphotos</a> (лицензия MIT) отвечает на вопросы: сколько скриншотов, где возможные дубли, сколько серий, какие видео самые тяжёлые. Подсчёт ничего в медиатеке не меняет. Проще всего поставить через pipx:</p>
+  <div class="command"><div class="command-bar"><span>В терминал · установка</span><button type="button">Копировать</button></div><pre><code>brew install pipx
 pipx ensurepath
 pipx install osxphotos
-osxphotos --version</code></pre></div>
-<p>Если macOS спросит доступ Терминала к «Фото» или к файлам, разрешите. Если не спросит и выдаст ошибку доступа: <span class="path">Системные настройки → Конфиденциальность и безопасность → Полный доступ к диску → Терминал</span>. Включаете вы сами, после работы можно выключить.</p>
-</section>
+osxphotos --version</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Если macOS спросит доступ Терминала к «Фото» или к файлам, разрешите. Если не спросит и выдаст ошибку доступа: <span class="path">Системные настройки → Конфиденциальность и безопасность → Полный доступ к диску → Терминал</span>. Включаете вы сами, после работы можно выключить.</p>
+  <div class="expected"><b>Что должно получиться</b><p><code>osxphotos --version</code> печатает номер версии.</p></div>
+</div>
 
-<section>
-<h2><span class="step">2</span>Подсчёт, только чтение</h2>
-<p>Каждая команда печатает одно число и ничего не меняет.</p>
-<div class="code"><pre><code># всего фото и видео
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Посчитайте, только чтение</h3><p>Каждая команда печатает одно число и ничего не меняет.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В терминал · подсчёт</span><button type="button">Копировать</button></div><pre><code># всего фото и видео
 osxphotos query --count
 # скриншоты
 osxphotos query --screenshot --count
@@ -49,24 +70,39 @@ osxphotos query --duplicate --count
 # серии (ключевые кадры; сколько лишних кадров внутри, видно в osxphotos info)
 osxphotos query --burst --count
 # видео тяжелее 100 МБ
-osxphotos query --only-movies --min-size 100MB --count</code></pre></div>
-<p>Общая сводка по медиатеке, тоже только чтение: <code>osxphotos info</code>. В блоке Bursts строка <i>non-selected images</i> показывает, сколько лишних кадров лежит в сериях.</p>
-</section>
+osxphotos query --only-movies --min-size 100MB --count</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Общая сводка по медиатеке, тоже только чтение: <code>osxphotos info</code>. В блоке Bursts строка <i>non-selected images</i> показывает, сколько лишних кадров лежит в сериях.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Пять чисел: всего, скриншоты, возможные дубли, серии, тяжёлые видео. По ним видно, что занимает место: мусор или видео.</p></div>
+</div>
 
-<section>
-<h2><span class="step">3</span>Сложить в альбом «На удаление»</h2>
-<p>Эти команды только <b>добавляют</b> фото в альбом (если его нет, он создастся). Из медиатеки ничего не удаляется, фото остаются на своих местах. Перед запуском откройте «Фото». При первом запуске macOS спросит, можно ли Терминалу управлять «Фото»: ответьте «Разрешить».</p>
-<div class="code"><pre><code>osxphotos query --screenshot --add-to-album "На удаление" --quiet
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Сложите найденное в альбом «На удаление»</h3><p>Команды только добавляют фото в альбом. Из медиатеки ничего не удаляется.</p></div></div>
+  <p>Если альбома нет, он создастся. Фото остаются на своих местах. Перед запуском откройте «Фото». При первом запуске macOS спросит, можно ли Терминалу управлять «Фото»: ответьте «Разрешить».</p>
+  <div class="command"><div class="command-bar"><span>В терминал · добавить в альбомы</span><button type="button">Копировать</button></div><pre><code>osxphotos query --screenshot --add-to-album "На удаление" --quiet
 osxphotos query --duplicate --add-to-album "На удаление" --quiet
 osxphotos query --burst --add-to-album "На удаление" --quiet
-osxphotos query --only-movies --min-size 100MB --add-to-album "Тяжёлые видео" --quiet</code></pre></div>
-<div class="warn">Дубли попадают в альбом <b>обе копии</b> пары: одну оставьте. Серия попадает одной стопкой: откройте её в «Фото» и оставьте нужные кадры. Тяжёлые видео сложены в отдельный альбом, чтобы вы решили сами: удалить или перенести на диск.</div>
+osxphotos query --only-movies --min-size 100MB --add-to-album "Тяжёлые видео" --quiet</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="warn">Дубли попадают в альбом <b>обе копии</b> пары: одну оставьте. Серия попадает одной стопкой: откройте её в «Фото» и оставьте нужные кадры. Тяжёлые видео сложены в отдельный альбом, чтобы вы решили сами: удалить или перенести на диск.</div>
+  <div class="expected"><b>Что должно получиться</b><p>В «Фото» появились альбомы «На удаление» и «Тяжёлые видео». Медиатека не изменилась.</p></div>
+</div>
+
+<div class="step" id="step-4">
+  <div class="section-title"><span class="step-number">4</span><div><h3>Удалите сами и знайте, как вернуть</h3><p>Удаляете вы, руками, в приложении «Фото».</p></div></div>
+  <div class="warn">Если включены «Фото iCloud», удаление на Mac удаляет снимок на всех ваших устройствах. Сначала сделайте копию того, что нужно сохранить.</div>
+  <ol>
+  <li>Откройте альбом «На удаление» в «Фото», пролистайте его глазами и снимите выделение с того, что жалко.</li>
+  <li>Выделите остальное и удалите. В «Фото» на Mac удаление из альбома может просто убрать снимок из альбома; чтобы удалить из медиатеки, жмите <span class="path">⌘ + Delete</span> (Command + Delete).</li>
+  <li>Удалённое уходит в «Недавно удалённые» и лежит там 30 дней. Передумали — откройте этот альбом и нажмите «Восстановить». Через 30 дней фото удалятся насовсем, место освободится сразу, если очистить «Недавно удалённые» вручную.</li>
+  </ol>
+  <p>Источник про 30 дней и «Фото iCloud»: <a href="https://support.apple.com/ru-ru/104967">поддержка Apple</a>, <a href="https://support.apple.com/en-us/124460">восстановление удалённых фото</a>.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Лишнее лежит в «Недавно удалённых». 30 дней его можно вернуть кнопкой «Восстановить».</p></div>
+</div>
 </section>
 
-<section>
-<h2><span class="step">4</span>Или промпт для Claude Code</h2>
-<p>Claude Code работает в Терминале и сам вызывает osxphotos. Вставьте текст целиком:</p>
-<div class="code"><pre><code>Помоги найти мусор в медиатеке «Фото» на моём Mac.
+<section class="block" id="prompt" aria-labelledby="prompt-title">
+<h2 id="prompt-title">Или промпт для Claude Code</h2>
+<p class="intro">Claude Code работает в Терминале и сам вызывает osxphotos. Вставьте текст целиком.</p>
+<div class="command"><div class="command-bar"><span>В чат Claude Code · промпт</span><button type="button">Копировать</button></div><pre><code>Помоги найти мусор в медиатеке «Фото» на моём Mac.
 
 1. Если нет osxphotos, предложи поставить его через pipx и подожди моего «да».
 2. Сначала только читай. Посчитай и покажи таблицей: всего фото и видео,
@@ -81,35 +117,57 @@ osxphotos query --only-movies --min-size 100MB --add-to-album "Тяжёлые в
    Никогда ничего не удаляй, не меняй и не экспортируй.
    Удалять буду я сам в приложении «Фото».
 5. В конце напомни: дубли лежат в альбоме обеими копиями, серии надо
-   разобрать руками, удалённое 30 дней лежит в «Недавно удалённых».</code></pre></div>
+   разобрать руками, удалённое 30 дней лежит в «Недавно удалённых».</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<div class="expected"><b>Что должно получиться</b><p>Таблица с подсчётом и весом в ГБ, честный ответ, что занимает больше места, и вопрос, что складывать в альбом. Удалять Claude ничего не будет.</p></div>
 </section>
 
-<section>
-<h2><span class="step">5</span>Как удалить и как вернуть</h2>
-<ol>
-<li>Откройте альбом «На удаление» в «Фото», пролистайте его глазами и снимите выделение с того, что жалко.</li>
-<li>Выделите остальное и удалите. В «Фото» на Mac удаление из альбома может просто убрать снимок из альбома; чтобы удалить из медиатеки, жмите <span class="path">⌘ + Delete</span> (Command + Delete).</li>
-<li>Удалённое уходит в «Недавно удалённые» и лежит там 30 дней. Передумали — откройте этот альбом и нажмите «Восстановить». Через 30 дней фото удалятся насовсем, место освободится сразу, если очистить «Недавно удалённые» вручную.</li>
-</ol>
-<div class="warn">Если включены «Фото iCloud», удаление на Mac удаляет снимок на всех ваших устройствах. Сначала сделайте копию того, что нужно сохранить.</div>
-<p>Источник про 30 дней и «Фото iCloud»: <a href="https://support.apple.com/ru-ru/104967">поддержка Apple</a>, <a href="https://support.apple.com/en-us/124460">восстановление удалённых фото</a>.</p>
+<section class="block" id="mine" aria-labelledby="mine-title">
+<h2 id="mine-title">Что вышло в ролике</h2>
+<p>У меня в ролике вышло так: 1 077 фото и видео, 138 скриншотов, одна пара дублей, две серии на 11 кадров. Весь этот мусор весил около 216 МБ. Зато видео заняли 5,4 ГБ из 7,1, три четверти места, и одни только 10 роликов тяжелее 100 МБ весили 1,9 ГБ. У вас цифры будут свои: сначала посчитайте.</p>
 </section>
 
-<section>
-<h2><span class="step">×</span>Нет Mac? На iPhone есть встроенные «Дубликаты»</h2>
-<p class="path">«Фото» → Коллекции → пролистать вниз → Утилиты → «Дубликаты» → «Объединить».</p>
-<p>Телефон оставит одну копию лучшего качества, остальные уйдут в «Недавно удалённые», и их тоже можно вернуть 30 дней. Нужна iOS 16 или новее; альбом появляется, только если телефон нашёл дубли. Скриншоты там же: <span class="path">Коллекции → Типы медиафайлов → Снимки экрана</span>.</p>
+<section class="block" id="more" aria-labelledby="more-title">
+<h2 id="more-title">Без Mac</h2>
+<details id="iphone"><summary><span>На iPhone есть встроенные «Дубликаты»<small>iOS 16 и новее</small></span></summary><div class="details-body">
+  <p class="path">«Фото» → Коллекции → пролистать вниз → Утилиты → «Дубликаты» → «Объединить».</p>
+  <p>Телефон оставит одну копию лучшего качества, остальные уйдут в «Недавно удалённые», и их тоже можно вернуть 30 дней. Нужна iOS 16 или новее; альбом появляется, только если телефон нашёл дубли. Скриншоты там же: <span class="path">Коллекции → Типы медиафайлов → Снимки экрана</span>.</p>
+</div></details>
 </section>
 
-<a class="back" href="../">← Все инструкции</a>
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="access"><summary>osxphotos пишет ошибку доступа</summary><div class="details-body">
+  <p><span class="path">Системные настройки → Конфиденциальность и безопасность → Полный доступ к диску → Терминал</span>. Включаете вы сами, после работы можно выключить.</p>
+</div></details>
+<details id="still-there"><summary>Удалил из альбома, а фото осталось в медиатеке</summary><div class="details-body">
+  <p>В «Фото» на Mac удаление из альбома может просто убрать снимок из альбома. Чтобы удалить из медиатеки, жмите <span class="path">⌘ + Delete</span> (Command + Delete).</p>
+</div></details>
+<details id="restore"><summary>Удалил лишнее</summary><div class="details-body">
+  <p>Откройте альбом «Недавно удалённые» и нажмите «Восстановить». Удалённое лежит там 30 дней.</p>
+</div></details>
+<details id="no-space"><summary>Удалил, а место не освободилось</summary><div class="details-body">
+  <p>Удалённое 30 дней лежит в «Недавно удалённых». Место освободится сразу, если очистить этот альбом вручную.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Ограничения</h2>
+<ul>
+  <li>Команды и промпт работают только на Mac. На iPhone есть встроенные «Дубликаты».</li>
+  <li>Дубли osxphotos ищет по совпадению даты, размера и разрешения, это возможные дубли. В альбом попадают обе копии пары.</li>
+  <li>Серии попадают в альбом одной стопкой, нужные кадры оставляете руками.</li>
+  <li>С «Фото iCloud» удаление на Mac удаляет снимок на всех устройствах.</li>
+  <li>Цифры из ролика — медиатека автора. У вас будут свои.</li>
+</ul>
+</section>
+
 <footer>
-Делаете на свой страх и риск. Подсчёт только читает медиатеку, команды с альбомом только добавляют в альбом, удаляете вы сами.<br>
-osxphotos — проект Rhet Turnbull, лицензия MIT. Спасибо автору.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Делаете на свой страх и риск. Подсчёт только читает медиатеку, команды с альбомом только добавляют в альбом, удаляете вы сами.</p>
+  <p>osxphotos — проект Rhet Turnbull, лицензия MIT. Спасибо автору.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
-
-
-<script src="../copy.js"></script>
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>

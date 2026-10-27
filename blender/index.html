@@ -3,54 +3,59 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>3D-сцена без Blender</title>
+<title>3D-сцена без Blender: промпт, скрипт и команды</title>
 <meta name="description" content="Claude Code пишет сцену для Blender кодом, Blender рендерит её в фоне: серый блокаут и финал с одной и той же анимацией. Промпт, команды, грабли и наши реальные цифры времени. Плюс путь через mcp-for-blender и блокаут как референс для видеомоделей.">
+<meta property="og:type" content="article">
 <meta property="og:title" content="3D-сцена без Blender: Claude пишет, Blender рендерит">
 <meta property="og:description" content="Промпт, команды, грабли и реальные цифры: сколько работал Claude и сколько рендерил Blender.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/blender/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/blender/img/15-minut.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/guide-v2.css">
 <style>
-figure.shot{margin:14px 0}
-figure.shot img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:var(--surface)}
-figure.shot figcaption{font-size:13px;color:var(--muted);margin-top:6px}
+figure.shot{margin:16px 0;max-width:420px}
+figure.shot img{border-radius:var(--radius);border:1px solid var(--line)}
 </style>
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
-  <h1>3D-сцена, а Blender <span class="hl">я не открывал</span></h1>
-  <p class="lede">Claude Code пишет сцену кодом на Python, Blender рендерит её в фоне без окна. Один скрипт выдаёт два ролика с одной и той же анимацией: серый блокаут и готовый ночной город. Ниже наш промпт, команды, грабли и честные цифры времени.</p>
-  <div class="safe"><span>Blender бесплатный</span><span>Claude по подписке</span><span>без платных API</span><span>проверено на M1 Max</span></div>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>3D-сцена, а Blender <span class="hl">я не открывал</span></h1>
+    <p class="lede">Claude Code пишет сцену кодом на Python, Blender рендерит её в фоне без окна. Ниже наш промпт, скрипт, команды запуска, грабли и честные цифры времени.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Взять промпт →</a>
+      <a class="secondary-link" href="#step-3">Сразу отрендерить наш scene.py</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>Blender бесплатный</li><li>Claude по подписке</li><li>без платных API</li><li>проверено на M1 Max</li></ul>
+    <p class="for-video">К ролику «Blender без Blender» · обновлено 27 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/15-minut.jpg" width="960" height="640" alt="Кадр из ролика: оранжевый кубик-робот с экраном-лицом на ночной крыше, плашка «≈15 мин Claude»"><figcaption>Кадр из ролика. Около 15 минут работы Claude и ноль кликов в Blender.</figcaption></figure>
 </header>
 
-<section>
-<h2><span class="step">0</span>Что нужно</h2>
-<ul>
-<li><b>Blender</b> с <a href="https://www.blender.org/download/">blender.org</a>, бесплатный. Мы гоняли на 5.4 Alpha. В стабильной версии часть имён может отличаться, тогда пригодится шаг 5.</li>
-<li><b>Claude Code</b> по подписке Claude. Можно и обычный чат Claude: попросите тот же файл и сохраните его руками.</li>
-<li><b>ffmpeg</b>, чтобы склеить кадры в mp4. Если его нет, Blender умеет писать видео сам, попросите это в промпте.</li>
-</ul>
-</section>
+<nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
+  <li><a href="#step-1"><b>Промпт</b><span>сцена кодом, дословно</span></a></li>
+  <li><a href="#result"><b>scene.py</b><span>готовый скрипт, 948 строк</span></a></li>
+  <li><a href="#step-3"><b>Команды запуска</b><span>блокаут и финал</span></a></li>
+  <li><a href="#videomodel"><b>Блокаут → видеомодель</b><span>референс движения</span></a></li>
+</ol></nav>
 
-<section>
-<h2><span class="step">1</span>Что у нас получилось</h2>
-<figure class="shot"><img src="img/blockout-final.jpg" width="720" height="960" loading="lazy" alt="Один и тот же кадр два раза: сверху серый блокаут из кубов, снизу ночной город с оранжевым роботом с экраном-лицом на крыше"><figcaption>Кадр 120 из&nbsp;240. Сверху блокаут (Workbench), снизу финал (EEVEE). Анимация и&nbsp;камера одни и&nbsp;те&nbsp;же.</figcaption></figure>
-<div class="skills">
-<div class="skill"><b>3 запроса к Claude</b>Первый написал сцену (948 строк), второй починил падение финала, третий поправил картинку: крупнее робот, видно лицо, темнее город. Blender Claude сам не запускал.</div>
-<div class="skill"><b>Claude работал 15 минут</b>9 мин 14 с на первый вариант, 2 мин 51 с и 3 мин 7 с на две правки.</div>
-<div class="skill"><b>Блокаут: 240 кадров за 26 секунд</b>8 секунд видео, 1080×720, 30 кадров в секунду, движок Workbench.</div>
-<div class="skill"><b>Финал: 240 кадров за 3 мин 8 с</b>Те же 8 секунд на EEVEE с туманом и размытием в движении, это 0,8 с на кадр. Mac на M1 Max, 64 ГБ.</div>
-</div>
-<p>Готовый скрипт: <a href="scene.py">blender/scene.py</a>. Его можно запустить у себя командой из шага 4 и сразу получить те же два ролика.</p>
-</section>
+<div class="start-note"><b>До начала</b><p><a href="https://www.blender.org/download/">Blender</a> (бесплатный, мы гоняли на 5.4 Alpha), Claude Code по подписке Claude и ffmpeg. В стабильной версии Blender часть имён может отличаться: тогда смотрите «Если застряли».</p></div>
 
-<section>
-<h2><span class="step">2</span>Промпт: сцена кодом</h2>
-<p>Дословно то, что мы дали Claude. Главное здесь — пункт 1: анимация задана в одном месте, а варианты меняют только внешний вид. Поэтому блокаут и финал совпадают кадр в кадр.</p>
-<div class="code"><pre><code>Напиши в этой папке один файл scene.py — скрипт Blender Python (bpy) для Blender 5.4, который запускается без интерфейса:
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Первый рендер за 3 шага</h2>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Сохраните промпт в prompt.txt</h3><p>Дословно то, что мы дали Claude.</p></div></div>
+  <p>Главное здесь — пункт 1: анимация задана в одном месте, а варианты меняют только внешний вид. Поэтому блокаут и финал совпадают кадр в кадр.</p>
+  <div class="command"><div class="command-bar"><span>Файл prompt.txt · промпт для Claude Code</span><button type="button">Копировать</button></div><pre><code>Напиши в этой папке один файл scene.py — скрипт Blender Python (bpy) для Blender 5.4, который запускается без интерфейса:
 
   Blender -b --factory-startup --python scene.py -- --variant blockout|final --out &lt;папка&gt; [--start N --end N] [--scale 100]
 
@@ -64,29 +69,30 @@ figure.shot figcaption{font-size:13px;color:var(--muted);margin-top:6px}
 5. Рендер в PNG-кадры &lt;out&gt;/####.png. Никаких внешних файлов, ассетов и сети: всё строится кодом.
 6. Скрипт сам ничего не скачивает и пишет только в папку --out.
 
-Сам Blender не запускай, только напиши файл. В конце ответа одной строкой — что сделал.</code></pre></div>
-<p>Свою сцену описывайте так же: кто в кадре, что делает по секундам, куда смотрит камера, длительность, частота кадров, размер кадра. Просите простые формы, а не детального персонажа: кубы и цилиндры Claude собирает уверенно.</p>
-</section>
+Сам Blender не запускай, только напиши файл. В конце ответа одной строкой — что сделал.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Свою сцену описывайте так же: кто в кадре, что делает по секундам, куда смотрит камера, длительность, частота кадров, размер кадра. Просите простые формы, а не детального персонажа: кубы и цилиндры Claude собирает уверенно.</p>
+</div>
 
-<section>
-<h2><span class="step">3</span>Как дать задачу Claude Code</h2>
-<p>Сохраните промпт в <code>prompt.txt</code>, создайте пустую папку и запустите в ней:</p>
-<div class="code"><pre><code>mkdir blender-scene &amp;&amp; cd blender-scene
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Запустите Claude Code в пустой папке</h3><p>Создайте папку рядом с prompt.txt и дайте задачу.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>mkdir blender-scene &amp;&amp; cd blender-scene
 claude -p "$(cat ../prompt.txt)" \
   --setting-sources "" \
   --tools "Read,Write,Edit" \
-  --permission-mode acceptEdits</code></pre></div>
-<ul>
-<li><code>--tools "Read,Write,Edit"</code> — Claude может только читать и писать файлы, без терминала. Запись ограничена текущей папкой.</li>
-<li><code>--setting-sources ""</code> — без ваших личных настроек и скиллов, чистый запуск.</li>
-<li>Для правок продолжите тот же разговор: <code>claude -p "что поправить" --resume &lt;id сессии&gt;</code> с теми же флагами. Id сессии печатается при <code>--output-format json</code>.</li>
-</ul>
-</section>
+  --permission-mode acceptEdits</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <ul>
+    <li><code>--tools "Read,Write,Edit"</code> — Claude может только читать и писать файлы, без терминала. Запись ограничена текущей папкой.</li>
+    <li><code>--setting-sources ""</code> — без ваших личных настроек и скиллов, чистый запуск.</li>
+    <li>Для правок продолжите тот же разговор: <code>claude -p "что поправить" --resume &lt;id сессии&gt;</code> с теми же флагами. Id сессии печатается при <code>--output-format json</code>.</li>
+    <li>Можно и обычный чат Claude: попросите тот же файл и сохраните его руками.</li>
+  </ul>
+  <div class="expected"><b>Что должно получиться</b><p>В папке файл <code>scene.py</code>, а в конце ответа одна строка о том, что сделано. Сам Blender Claude не запускает.</p></div>
+</div>
 
-<section>
-<h2><span class="step">4</span>Два рендера одной анимации</h2>
-<p>Blender без окна (<code>-b</code>). На Mac путь такой, на Windows и Linux — путь к вашему <code>blender</code>.</p>
-<div class="code"><pre><code>B=/Applications/Blender.app/Contents/MacOS/Blender
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Отрендерите блокаут и финал</h3><p>Blender без окна (<code>-b</code>), затем кадры в mp4.</p></div></div>
+  <p>На Mac путь такой, на Windows и Linux — путь к вашему <code>blender</code>. Наш готовый <a href="scene.py">scene.py</a> запускается этими же командами и сразу даёт те же два ролика.</p>
+  <div class="command"><div class="command-bar"><span>В терминал, в папке со scene.py</span><button type="button">Копировать</button></div><pre><code>B=/Applications/Blender.app/Contents/MacOS/Blender
 
 # серый блокаут
 $B -b --factory-startup --python scene.py -- --variant blockout --out out/blockout
@@ -95,70 +101,110 @@ $B -b --factory-startup --python scene.py -- --variant final --out out/final
 
 # кадры в mp4
 ffmpeg -framerate 30 -i out/blockout/%04d.png -c:v libx264 -pix_fmt yuv420p -crf 18 blockout.mp4
-ffmpeg -framerate 30 -i out/final/%04d.png -c:v libx264 -pix_fmt yuv420p -crf 18 final.mp4</code></pre></div>
-<ul>
-<li><code>--factory-startup</code> — Blender стартует с заводскими настройками, ваши аддоны не мешают.</li>
-<li>Черновик: <code>--scale 25</code> даёт кадр в четверть размера. У нас финал так считался 1,5 минуты против 3 минут на полном кадре: выигрыш скромный, но падение видно сразу. Блокаут смотрите всегда первым, он считается секунды.</li>
-<li>Склеить «было → стало» в один вертикальный кадр: <code>ffmpeg -i final.mp4 -i blockout.mp4 -filter_complex vstack both.mp4</code>.</li>
+ffmpeg -framerate 30 -i out/final/%04d.png -c:v libx264 -pix_fmt yuv420p -crf 18 final.mp4</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <ul>
+    <li><code>--factory-startup</code> — Blender стартует с заводскими настройками, ваши аддоны не мешают.</li>
+    <li>Черновик: <code>--scale 25</code> даёт кадр в четверть размера. У нас финал так считался 1,5 минуты против 3 минут на полном кадре: выигрыш скромный, но падение видно сразу. Блокаут смотрите всегда первым, он считается секунды.</li>
+    <li>Склеить «было → стало» в один вертикальный кадр: <code>ffmpeg -i final.mp4 -i blockout.mp4 -filter_complex vstack both.mp4</code>.</li>
+    <li>Если ffmpeg нет, Blender умеет писать видео сам, попросите это в промпте.</li>
+  </ul>
+  <div class="expected"><b>Что должно получиться</b><p><code>blockout.mp4</code> и <code>final.mp4</code> с одной и той же анимацией. У нас блокаут считался 26 секунд, финал 3 мин 8 с (Mac на M1 Max). Если финал упал с ошибкой, отдайте её текст Claude, см. «Если застряли».</p></div>
+</div>
+</section>
+
+<section class="block" id="result" aria-labelledby="result-title">
+<h2 id="result-title">Что получилось у нас</h2>
+<p>Один скрипт выдаёт два ролика с одной и той же анимацией: серый блокаут и готовый ночной город.</p>
+<figure class="shot"><img src="img/blockout-final.jpg" width="720" height="960" alt="Один и тот же кадр два раза: сверху серый блокаут из кубов, снизу ночной город с оранжевым роботом с экраном-лицом на крыше"><figcaption>Кадр 120 из&nbsp;240. Сверху блокаут (Workbench), снизу финал (EEVEE). Анимация и&nbsp;камера одни и&nbsp;те&nbsp;же.</figcaption></figure>
+<ul class="cards">
+<li><b>3 запроса к Claude</b>Первый написал сцену (948 строк), второй починил падение финала, третий поправил картинку: крупнее робот, видно лицо, темнее город. Blender Claude сам не запускал.</li>
+<li><b>Claude работал 15 минут</b>9 мин 14 с на первый вариант, 2 мин 51 с и 3 мин 7 с на две правки.</li>
+<li><b>Блокаут: 240 кадров за 26 секунд</b>8 секунд видео, 1080×720, 30 кадров в секунду, движок Workbench.</li>
+<li><b>Финал: 240 кадров за 3 мин 8 с</b>Те же 8 секунд на EEVEE с туманом и размытием в движении, это 0,8 с на кадр. Mac на M1 Max, 64 ГБ.</li>
 </ul>
+<p>Готовый скрипт: <a href="scene.py">blender/scene.py</a>. Его можно запустить у себя командой из шага 3 и сразу получить те же два ролика.</p>
 </section>
 
-<section>
-<h2><span class="step">5</span>Грабли, на которые мы наступили</h2>
-<ol>
-<li><b>Claude не видит Blender.</b> Первый скрипт написан вслепую: блокаут отрендерился сразу, финал упал на второй секунде с ошибкой <code>Node type ShaderNodeValRamp undefined</code>. Такой ноды нет и не было, правильное имя <code>ShaderNodeValToRGB</code>. Лечится просто: вставьте Claude текст ошибки из лога как есть.</li>
-<li><b>Камера «сбоку-сзади» прячет лицо.</b> Мы так и написали, и экран-лицо робота не попал в кадр ни разу. Ракурс формулируйте под то, что должно быть видно: «на три четверти спереди, лицо видно».</li>
-<li><b>Фон съел героя.</b> Окна домов светились ярче робота, на маленьком кадре он был бурым пятном. Помогло сказать прямо: «робот занимает четверть высоты кадра, город темнее, главный объект — робот», и попросить свет, который едет вместе с ним.</li>
-<li><b>Медленный финал.</b> Первая версия ставила 64 сэмпла и плотный объёмный туман: 471 секунда на 240 кадров даже в четверть размера, почти 2 секунды на кадр. После просьбы «уложись в 3–4 секунды на полном кадре» Claude срезал сэмплы до 16 и упростил туман, и полный кадр стал считаться 0,8 секунды.</li>
-<li><b>Свечение в 5.4 Alpha.</b> Свойство <code>glare_type</code> у ноды свечения в этой сборке не нашлось. Скрипт написал предупреждение в лог и отрендерил без bloom вместо падения. Просите Claude именно так: на незнакомых свойствах предупреждать, а не падать.</li>
-<li><b>Неон слабый.</b> После того как мы попросили темнее город, вывески тоже потускнели. Это четвёртая правка, мы её не делали.</li>
-</ol>
-<p>Итого у нас ушло три запроса: сцена, текст ошибки, замечания по картинке.</p>
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли: грабли, на которые мы наступили</h2>
+<p class="intro">Итого у нас ушло три запроса: сцена, текст ошибки, замечания по картинке.</p>
+<details id="node-error"><summary>Финал падает: «Node type … undefined»</summary><div class="details-body">
+  <p><b>Claude не видит Blender.</b> Первый скрипт написан вслепую: блокаут отрендерился сразу, финал упал на второй секунде с ошибкой <code>Node type ShaderNodeValRamp undefined</code>. Такой ноды нет и не было, правильное имя <code>ShaderNodeValToRGB</code>. Лечится просто: вставьте Claude текст ошибки из лога как есть.</p>
+</div></details>
+<details id="no-face"><summary>Лица героя не видно в кадре</summary><div class="details-body">
+  <p><b>Камера «сбоку-сзади» прячет лицо.</b> Мы так и написали, и экран-лицо робота не попал в кадр ни разу. Ракурс формулируйте под то, что должно быть видно: «на три четверти спереди, лицо видно».</p>
+</div></details>
+<details id="lost-hero"><summary>Герой теряется на фоне</summary><div class="details-body">
+  <p><b>Фон съел героя.</b> Окна домов светились ярче робота, на маленьком кадре он был бурым пятном. Помогло сказать прямо: «робот занимает четверть высоты кадра, город темнее, главный объект — робот», и попросить свет, который едет вместе с ним.</p>
+</div></details>
+<details id="slow"><summary>Финал считается слишком долго</summary><div class="details-body">
+  <p><b>Медленный финал.</b> Первая версия ставила 64 сэмпла и плотный объёмный туман: 471 секунда на 240 кадров даже в четверть размера, почти 2 секунды на кадр. После просьбы «уложись в 3–4 секунды на полном кадре» Claude срезал сэмплы до 16 и упростил туман, и полный кадр стал считаться 0,8 секунды.</p>
+</div></details>
+<details id="glare"><summary>Нет свечения (bloom)</summary><div class="details-body">
+  <p><b>Свечение в 5.4 Alpha.</b> Свойство <code>glare_type</code> у ноды свечения в этой сборке не нашлось. Скрипт написал предупреждение в лог и отрендерил без bloom вместо падения. Просите Claude именно так: на незнакомых свойствах предупреждать, а не падать.</p>
+</div></details>
+<details id="neon"><summary>Неон стал слабым</summary><div class="details-body">
+  <p><b>Неон слабый.</b> После того как мы попросили темнее город, вывески тоже потускнели. Это четвёртая правка, мы её не делали.</p>
+</div></details>
 </section>
 
-<section>
-<h2><span class="step">6</span>Через MCP: mcp-for-blender (MIT)</h2>
+<section class="block" id="mcp" aria-labelledby="mcp-title">
+<h2 id="mcp-title">Через MCP: mcp-for-blender (MIT)</h2>
 <div class="warn"><b>Мы это не прогоняли.</b> Раздел пересказывает документацию репозитория на 27.10.2026. У нас MCP не установлен: наш путь выше обходится без него.</div>
 <p><a href="https://github.com/ahujasid/mcp-for-blender">ahujasid/mcp-for-blender</a> (раньше назывался blender-mcp) — сторонний плагин, не от Blender Foundation. Лицензия MIT, около 32 тысяч звёзд, последний коммит 24.10.2026. Состоит из двух частей: аддон внутри Blender поднимает сокет-сервер на порту 9876, а MCP-сервер передаёт ему команды от Claude.</p>
 <p>Чем отличается от нашего пути: Blender открыт, и Claude работает в живой сцене. Он сам запускает код и сам смотрит результат с камеры, сбоку или лентой кадров анимации, то есть может поправить себя без вас. Ещё он подтягивает готовые модели и текстуры с Poly Haven, Sketchfab, Poly Pizza и умеет генерировать 3D-модели через платные сервисы.</p>
-<p>Установка по README, вручную (нужен менеджер пакетов <a href="https://docs.astral.sh/uv/">uv</a>):</p>
-<div class="code"><pre><code># 1. сервер для Claude Code
+<div class="warn"><b>Из раздела про безопасность в README.</b> Инструмент <code>execute_blender_code</code> выполняет в Blender любой Python, поэтому авторы советуют сохранять работу перед использованием. Есть безопасный режим <code>BLENDER_MCP_SAFE_MODE=1</code>: он проверяет скрипт и не даёт читать и писать файлы напрямую, запускать программы и ходить в сеть. Телеметрия по умолчанию минимальная, отключается переменной <code>DISABLE_TELEMETRY=true</code>.</div>
+<details id="mcp-install"><summary><span>Установка по README<small>вручную, нужен менеджер пакетов uv</small></span></summary><div class="details-body">
+  <p>Нужен <a href="https://docs.astral.sh/uv/">uv</a>.</p>
+  <div class="command"><div class="command-bar"><span>В терминал и в окно Blender</span><button type="button">Копировать</button></div><pre><code># 1. сервер для Claude Code
 claude mcp add blender uvx mcp-for-blender
 
 # 2. аддон в Blender
 uvx mcp-for-blender install-addon
 # затем в Blender: Edit → Preferences → Add-ons → включить «Interface: MCP for Blender»
 
-# 3. в окне Blender: клавиша N → вкладка «MCP for Blender» → Start MCP Server</code></pre></div>
-<p>Для Claude Desktop вместо первой строки в конфиг (Settings → Developer → Edit Config) добавляется:</p>
-<div class="code"><pre><code>{
+# 3. в окне Blender: клавиша N → вкладка «MCP for Blender» → Start MCP Server</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Для Claude Desktop вместо первой строки в конфиг (Settings → Developer → Edit Config) добавляется:</p>
+  <div class="command"><div class="command-bar"><span>Конфиг Claude Desktop</span><button type="button">Копировать</button></div><pre><code>{
   "mcpServers": {
     "blender": { "command": "uvx", "args": ["mcp-for-blender"] }
   }
-}</code></pre></div>
-<p>В README есть и установка одной командой через <code>curl … | sh</code> с сайта проекта. Она сама правит конфиги всех найденных AI-приложений (с резервными копиями). Мы бы сначала прочитали скрипт.</p>
-<div class="stop"><b>Из раздела про безопасность в README.</b> Инструмент <code>execute_blender_code</code> выполняет в Blender любой Python, поэтому авторы советуют сохранять работу перед использованием. Есть безопасный режим <code>BLENDER_MCP_SAFE_MODE=1</code>: он проверяет скрипт и не даёт читать и писать файлы напрямую, запускать программы и ходить в сеть. Телеметрия по умолчанию минимальная, отключается переменной <code>DISABLE_TELEMETRY=true</code>.</div>
+}</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>В README есть и установка одной командой через <code>curl … | sh</code> с сайта проекта. Она сама правит конфиги всех найденных AI-приложений (с резервными копиями). Мы бы сначала прочитали скрипт.</p>
+</div></details>
 </section>
 
-<section>
-<h2><span class="step">7</span>Блокаут как референс движения для видеомоделей</h2>
+<section class="block" id="videomodel" aria-labelledby="videomodel-title">
+<h2 id="videomodel-title">Блокаут как референс движения для видеомоделей</h2>
 <p>Идея из оригинального ролика: серый блокаут задаёт, куда движутся герой и камера, а видеомодель дорисует картинку. Что об этом пишут сами разработчики моделей, коротко и без обещаний. Мы этот шаг на нашем блокауте не прогоняли.</p>
-<ul>
-<li><b>LTX (Lightricks), открытые веса.</b> Для LTX-2 есть IC-LoRA: генерация по управляющему видео, выровненному кадр в кадр с результатом. Бывают по глубине, позе и контурам (canny), а для LTX-2.3 есть <a href="https://huggingface.co/Lightricks/LTX-2.3-22b-IC-LoRA-Union-Control">Union Control</a> — все три в одной. Блокаут прогоняется через карту глубины или контуры, и модель держит его геометрию и движение камеры. У Lightricks есть отдельная LoRA «Layout-To-Render», но её карточка закрыта, мы её не читали. Лицензия весов — LTX-2 Community License, не MIT: перед коммерческим использованием прочтите её.</li>
-<li><b>Kling Motion Control</b> (облачный, платный). Переносит движение персонажа с референсного видео на картинку героя. Kling в <a href="https://kling.ai/blog/ai-motion-transfer-video-tutorial">своём гайде</a> советует референс без склеек и без движения камеры, с видимым телом и головой. Наш блокаут с едущей камерой под это не подходит: для Kling рендерьте отдельный вариант со статичной камерой.</li>
-<li><b>Что просить у Claude для этого.</b> Третий вариант рендера: тот же блокаут, но без теней, с контрастными однотонными силуэтами, или сразу проход глубины (Z-pass). Длительность и частоту кадров ставьте как у модели, в которую пойдёт референс.</li>
-</ul>
-<div class="warn"><b>Честная оговорка.</b> Видеомодели держат референс приблизительно: прыжок может съехать, робот поменять форму. Блокаут не гарантирует результат, он сужает разброс. Если нужен точный кадр, рендерите финал прямо в Blender, как в шаге 4.</div>
+<div class="warn"><b>Честная оговорка.</b> Видеомодели держат референс приблизительно: прыжок может съехать, робот поменять форму. Блокаут не гарантирует результат, он сужает разброс. Если нужен точный кадр, рендерите финал прямо в Blender, как в шаге 3.</div>
+<details id="ltx"><summary><span>LTX (Lightricks), открытые веса<small>IC-LoRA по глубине, позе и контурам</small></span></summary><div class="details-body">
+  <p>Для LTX-2 есть IC-LoRA: генерация по управляющему видео, выровненному кадр в кадр с результатом. Бывают по глубине, позе и контурам (canny), а для LTX-2.3 есть <a href="https://huggingface.co/Lightricks/LTX-2.3-22b-IC-LoRA-Union-Control">Union Control</a> — все три в одной. Блокаут прогоняется через карту глубины или контуры, и модель держит его геометрию и движение камеры. У Lightricks есть отдельная LoRA «Layout-To-Render», но её карточка закрыта, мы её не читали. Лицензия весов — LTX-2 Community License, не MIT: перед коммерческим использованием прочтите её.</p>
+</div></details>
+<details id="kling"><summary><span>Kling Motion Control<small>облачный, платный</small></span></summary><div class="details-body">
+  <p>Переносит движение персонажа с референсного видео на картинку героя. Kling в <a href="https://kling.ai/blog/ai-motion-transfer-video-tutorial">своём гайде</a> советует референс без склеек и без движения камеры, с видимым телом и головой. Наш блокаут с едущей камерой под это не подходит: для Kling рендерьте отдельный вариант со статичной камерой.</p>
+</div></details>
+<details id="ask-claude"><summary><span>Что просить у Claude для этого<small>третий вариант рендера</small></span></summary><div class="details-body">
+  <p>Третий вариант рендера: тот же блокаут, но без теней, с контрастными однотонными силуэтами, или сразу проход глубины (Z-pass). Длительность и частоту кадров ставьте как у модели, в которую пойдёт референс.</p>
+</div></details>
 </section>
 
-<a class="back" href="../">← Все инструкции</a>
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Ограничения</h2>
+<ul>
+  <li>Мы гоняли Blender 5.4 Alpha. В стабильной версии часть имён может отличаться.</li>
+  <li>Claude не видит Blender и пишет сцену вслепую: первая версия может упасть, ошибку надо отдать ему руками.</li>
+  <li>Цифры времени — наш Mac на M1 Max, 64 ГБ. У вас будет по-своему.</li>
+  <li>Путь через MCP и блокаут для видеомоделей мы не прогоняли, это пересказ документации.</li>
+</ul>
+</section>
+
 <footer>
-mcp-for-blender — проект его авторов, не связан с Blender Foundation и с нами. Blender — торговая марка Blender Foundation.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>mcp-for-blender — проект его авторов, не связан с Blender Foundation и с нами. Blender — торговая марка Blender Foundation.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
-
-
-<script src="../copy.js"></script>
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>

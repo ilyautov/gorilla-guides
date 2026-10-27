@@ -3,31 +3,50 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Поддержка без петли</title>
+<title>Бот поддержки, который зовёт человека: промпт</title>
 <meta name="description" content="Как сделать бота поддержки, который не водит клиента по кругу: правило второго круга, честная передача человеку, проверка «позвони себе сам» и готовый промпт.">
-<meta property="og:title" content="Поддержка без петли">
-<meta property="og:description" content="Бот поддержки, который не водит по кругу: правило второго круга, передача человеку, проверка «позвони себе сам» и готовый промпт.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Бот поддержки, который зовёт человека">
+<meta property="og:description" content="Промпт для бота, который на втором круге передаёт клиента человеку, и проверка «позвони себе сам».">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/podderzhka/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/podderzhka/img/promokod.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/guide-v2.css">
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
-  <h1>Бот поддержки <span class="hl">без петли</span></h1>
-  <p class="lede">В ролике хозяин позвонил в поддержку своего же магазина и сорок минут не мог выбраться: «назовите номер заказа», «нажмите один», «оцените разговор», «хотите промокод?». А «живой оператор» оказался тем же ботом. Ниже правило, которое ломает такую петлю, промпт для бота и проверка, которую стоит пройти самому.</p>
-  <div class="safe"><span>бесплатно</span><span>любой конструктор бота, Claude, ChatGPT</span><span>15 минут</span><span>клиент доходит до человека</span></div>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Бот, который <span class="hl">зовёт человека</span></h1>
+    <p class="lede">Обещанный промпт для бота поддержки, который на втором круге передаёт клиента живому человеку, и проверка «позвони себе сам».</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Начать: что бот решает сам →</a>
+      <a class="secondary-link" href="#step-2">Сразу к промпту</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>любой конструктор бота, Claude, ChatGPT</li><li>15 минут</li><li>клиент доходит до человека</li></ul>
+    <p class="for-video">К ролику «Позвонил в поддержку своего же магазина» · обновлено 27 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/promokod.jpg" width="960" height="640" alt="Кадр из ролика: бот-бумбокс за прилавком, над ним табличка «Промокод −5 %»"><figcaption>Кадр из ролика: вместо решения бот предлагает промокод. Магазин и персонажи вымышленные.</figcaption></figure>
 </header>
 
-<section>
-<h2><span class="step">0</span>Что было в ролике</h2>
-<p>Магазин и персонажи вымышленные. Ошибки бота настоящие и частые. Он не узнаёт, что вопрос не из его списка. Он не слышит «позови человека». Он просит оценку посреди проблемы и предлагает скидку вместо решения. Клиент злится не на бота, а на магазин.</p>
-</section>
+<nav class="strip" aria-label="Что на странице"><p>Что здесь</p><ol>
+  <li><a href="#rule"><b>Правило второго круга</b><span>когда передавать человеку</span></a></li>
+  <li><a href="#step-2"><b>Промпт для бота</b><span>вставить в инструкции</span></a></li>
+  <li><a href="#step-3"><b>Позвони себе сам</b><span>проверка раз в месяц</span></a></li>
+  <li><a href="#never"><b>Чего бот не делает</b><span>четыре запрета</span></a></li>
+</ol></nav>
 
-<section>
-<h2><span class="step">1</span>Правило второго круга</h2>
+<div class="start-note"><b>До начала</b><p>Нужен бот, в инструкции которого можно вписать свой текст: конструктор, ассистент в CRM, Claude Projects или GPT. Передача человеку должна работать в самом конструкторе: кнопка, тег, уведомление менеджеру.</p></div>
+
+<section class="block" id="rule" aria-labelledby="rule-title">
+<h2 id="rule-title">Правило второго круга</h2>
 <ul>
 <li>Второй раз попросил человека — получил человека. Без «уточните, пожалуйста» и без меню.</li>
 <li>Бот дважды ответил, а вопрос не сдвинулся — бот сам говорит «похоже, я не помогаю» и передаёт.</li>
@@ -35,29 +54,21 @@
 </ul>
 </section>
 
-<section>
-<h2><span class="step">2</span>Что бот решает сам, а что сразу человеку</h2>
-<ul>
-<li>Сам: статус заказа по номеру, сроки, адреса, график. Там, где ответ есть в системе.</li>
-<li>Сразу человеку: деньги и возвраты, брак и повреждения, жалобы, всё нестандартное. Здесь бот чаще всего выдумывает правила.</li>
-<li>При передаче бот пишет менеджеру одну строку: кто, что хочет, что уже пробовали. Клиент не рассказывает всё заново.</li>
-</ul>
-</section>
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Первый результат за 3 шага</h2>
 
-<section>
-<h2><span class="step">3</span>Чего бот не делает никогда</h2>
-<ul>
-<li>Не просит оценить разговор, пока вопрос не решён.</li>
-<li>Не крутит одно меню по кругу.</li>
-<li>Не притворяется человеком и не называет себя «живым оператором».</li>
-<li>Не выдумывает сроки и правила. Не знает — «уточню у менеджера».</li>
-</ul>
-</section>
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Решите, что бот делает сам, а что сразу человеку</h3><p>Этот список вы впишете в промпт на следующем шаге.</p></div></div>
+  <ul>
+  <li>Сам: статус заказа по номеру, сроки, адреса, график. Там, где ответ есть в системе.</li>
+  <li>Сразу человеку: деньги и возвраты, брак и повреждения, жалобы, всё нестандартное. Здесь бот чаще всего выдумывает правила.</li>
+  <li>При передаче бот пишет менеджеру одну строку: кто, что хочет, что уже пробовали. Клиент не рассказывает всё заново.</li>
+  </ul>
+</div>
 
-<section>
-<h2><span class="step">4</span>Промпт для бота</h2>
-<p>Вставьте в инструкции своего бота: конструктор, ассистент в CRM, Claude Projects или GPT. Заполните скобки.</p>
-<div class="code"><pre><code>Ты — бот поддержки магазина [название]. Ты помогаешь клиенту быстро решить вопрос
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Вставьте промпт в инструкции бота</h3><p>Конструктор, ассистент в CRM, Claude Projects или GPT. Заполните скобки.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В инструкции бота · промпт</span><button type="button">Копировать</button></div><pre><code>Ты — бот поддержки магазина [название]. Ты помогаешь клиенту быстро решить вопрос
 или передаёшь его человеку. Твоя цель — решённый вопрос, а не удержание в чате.
 
 Что ты умеешь сам: [статус заказа по номеру, сроки доставки, адреса пунктов, график работы].
@@ -79,13 +90,14 @@
 - не выдумывай статусы, сроки и правила. Не знаешь — «уточню у менеджера».
 
 При передаче человеку напиши ему одну строку: кто клиент, что хочет, что уже пробовали.
-Клиенту скажи, когда ответит человек: [например: в рабочее время в течение 30 минут].</code></pre></div>
-</section>
+Клиенту скажи, когда ответит человек: [например: в рабочее время в течение 30 минут].</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>На вторую просьбу позвать человека бот передаёт разговор без уточнений. Менеджер получает одну строку: кто клиент, что хочет, что уже пробовали. На вопрос «ты бот?» бот отвечает честно.</p></div>
+</div>
 
-<section>
-<h2><span class="step">5</span>Проверка «позвони себе сам»</h2>
-<p>Раз в месяц напишите своему боту как клиент с неудобным вопросом: возврат, брак, «где деньги». Засеките, через сколько сообщений вы дошли до человека. Переписку отдайте нейросети:</p>
-<div class="code"><pre><code>Я проверяю своего бота поддержки как обычный клиент. Вот переписка с ним целиком:
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Позвоните себе сам</h3><p>Раз в месяц пройдите путь клиента и отдайте переписку нейросети.</p></div></div>
+  <p>Напишите своему боту как клиент с неудобным вопросом: возврат, брак, «где деньги». Засеките, через сколько сообщений вы дошли до человека. Переписку целиком вставьте в Claude или ChatGPT вместе с промптом:</p>
+  <div class="command"><div class="command-bar"><span>В чат Claude или ChatGPT · промпт</span><button type="button">Копировать</button></div><pre><code>Я проверяю своего бота поддержки как обычный клиент. Вот переписка с ним целиком:
 [вставьте]
 
 Оцени по пунктам «да / нет / частично»:
@@ -95,25 +107,57 @@
 4. Просил ли бот оценку до того, как вопрос решён?
 5. Предлагал ли скидку или промокод вместо решения?
 6. Выдумал ли бот что-то, чего нет в правилах магазина?
-В конце: три самые раздражающие для клиента вещи и как переписать инструкции бота.</code></pre></div>
-<p>Оба промпта файлом: <a href="https://github.com/ilyautov/gorilla-guides/blob/main/prompts/podderzhka.md">prompts/podderzhka.md</a>. Если вы работаете с Claude, в бесплатном наборе <a href="https://github.com/ilyautov/small-business-ru">small-business-ru</a> есть скиллы <code>ticket-deflector</code> (черновик ответа клиенту по данным заказа) и <code>handle-complaint</code> (разбор жалобы). Возврат они без вашего «да» не оформляют.</p>
+В конце: три самые раздражающие для клиента вещи и как переписать инструкции бота.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Оба промпта отдельным файлом: <a href="../prompts/podderzhka.md">prompts/podderzhka.md</a>.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Ответы по шести пунктам, три самые раздражающие для клиента вещи и правки к инструкциям бота.</p></div>
+</div>
 </section>
 
-<section>
-<h2><span class="step">6</span>Чего промпт не сделает</h2>
+<section class="block" id="never" aria-labelledby="never-title">
+<h2 id="never-title">Чего бот не делает никогда</h2>
+<ul>
+<li>Не просит оценить разговор, пока вопрос не решён.</li>
+<li>Не крутит одно меню по кругу.</li>
+<li>Не притворяется человеком и не называет себя «живым оператором».</li>
+<li>Не выдумывает сроки и правила. Не знает — «уточню у менеджера».</li>
+</ul>
+</section>
+
+<section class="block" id="more" aria-labelledby="more-title">
+<h2 id="more-title">Подробнее</h2>
+<details id="video"><summary><span>Что было в ролике<small>какие ошибки бота настоящие</small></span></summary><div class="details-body">
+  <p>Магазин и персонажи вымышленные. Ошибки бота настоящие и частые. Он не узнаёт, что вопрос не из его списка. Он не слышит «позови человека». Он просит оценку посреди проблемы и предлагает скидку вместо решения. Клиент злится не на бота, а на магазин.</p>
+  <p>В ролике хозяин позвонил в поддержку своего же магазина и сорок минут не мог выбраться: «назовите номер заказа», «нажмите один», «оцените разговор», «хотите промокод?». А «живой оператор» оказался тем же ботом.</p>
+</div></details>
+<details id="skills"><summary><span>Если вы работаете с Claude<small>скиллы из бесплатного набора small-business-ru</small></span></summary><div class="details-body">
+  <p>В бесплатном наборе <a href="https://github.com/ilyautov/small-business-ru">small-business-ru</a> есть скиллы <code>ticket-deflector</code> (черновик ответа клиенту по данным заказа) и <code>handle-complaint</code> (разбор жалобы). Возврат они без вашего «да» не оформляют.</p>
+</div></details>
+</section>
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="stuck-handoff"><summary>Бот обещает человека, но никто не приходит</summary><div class="details-body">
+  <p>Промпт не подключит бота к вашей CRM. Передача человеку должна работать в самом конструкторе: кнопка, тег, уведомление менеджеру. Проверьте её шагом 3.</p>
+</div></details>
+<details id="stuck-nobody"><summary>Отвечать на линии некому</summary><div class="details-body">
+  <p>Тогда правило второго круга упрётся в пустоту. Напишите клиенту честный срок ответа: в промпте для этого есть последняя строка в квадратных скобках.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Чего промпт не сделает</h2>
 <ul>
 <li>Не подключит бота к вашей CRM. Передача человеку должна работать в самом конструкторе: кнопка, тег, уведомление менеджеру.</li>
 <li>Не заменит человека на линии. Если отвечать некому, правило второго круга упрётся в пустоту. Напишите клиенту честный срок ответа.</li>
 </ul>
 </section>
 
-<a class="back" href="../">← Все инструкции</a>
 <footer>
-Магазин и персонажи в ролике вымышленные.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Магазин и персонажи в ролике вымышленные.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
-
-<script src="../copy.js"></script>
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>

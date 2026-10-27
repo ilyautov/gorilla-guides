@@ -3,64 +3,78 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Приставка тормозит</title>
-<meta name="description" content="Что делать, если тормозит Android-приставка или телевизор: без ИИ, через скиллы и через промпт для Claude Code.">
-<meta property="og:title" content="Приставка тормозит">
-<meta property="og:description" content="Что делать, если тормозит Android-приставка или телевизор: без ИИ, через скиллы и через промпт для Claude Code.">
+<title>Приставка тормозит: промпт и инструкция</title>
+<meta name="description" content="Тормозит Android-приставка или телевизор: пять минут без ИИ, потом промпт для Claude Code, который чистит кэш и спрашивает перед каждым шагом. Готовые скиллы и как всё вернуть.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Приставка тормозит не от старости">
+<meta property="og:description" content="Промпт и инструкция: сначала без ИИ, потом Claude Code чистит кэш и спрашивает перед каждым шагом. Всё откатывается.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/tormoz/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/tormoz/img/kadr-874.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/guide-v2.css">
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
-  <h1>Приставка <span class="hl">тормозит</span>. Что делать</h1>
-  <p class="lede">Сначала пять минут без всякого ИИ. Если не помогло, дальше Claude Code почистит приставку сам и спросит перед каждым шагом.</p>
-  <div class="safe"><span>бесплатно</span><span>ничего не удаляется</span><span>всё откатывается</span><span>логины остаются</span></div>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Приставка тормозит <span class="hl">не от старости</span></h1>
+    <p class="lede">Обещанные промпт и инструкция. Сначала пять минут без всякого ИИ. Если не помогло, дальше Claude Code почистит приставку сам и спросит перед каждым шагом.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Начать без Claude: 5 минут →</a>
+      <a class="secondary-link" href="#step-3">Сразу к промпту</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>ничего не удаляется</li><li>всё откатывается</li><li>логины остаются</li></ul>
+    <p class="for-video">К ролику «Приставка тормозит не от старости» · обновлено 27 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/kadr-874.jpg" width="960" height="640" alt="Кадр из ролика: свободно 874 МБ, занято 83 % из 5 ГБ"><figcaption>Кадр из ролика. 874 МБ свободно до чистки — замер автора скилла на его Mi Box 4.</figcaption></figure>
 </header>
 
-<section>
-<h2><span class="step">0</span>Сначала без Claude, 5 минут</h2>
-<ol>
-<li><b>Перезагрузка из розетки.</b> Кнопка на пульте обычно не выключает приставку, а переводит в ожидание. Выдерните блок питания на 1–2 минуты и включите обратно. Приставки месяцами работают без перезагрузки, и часть тормозов уходит уже на этом шаге.</li>
-<li><b>Очистить кэш самых тяжёлых приложений.</b> <span class="path">Настройки → Приложения → онлайн-кинотеатр или плеер → Очистить кэш.</span> Не «Очистить данные»: там логины и библиотеки.</li>
-<li><b>Удалить то, чем не пользуетесь.</b> Только приложения, которые ставили вы сами.</li>
-</ol>
-<div class="stop">Если стало нормально, дальше можно не идти.</div>
-</section>
+<nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
+  <li><a href="#step-3"><b>Наш промпт</b><span>для Claude Code, любая Android-приставка</span></a></li>
+  <li><a href="#skill-mibox"><b>mibox-skill</b><span>Mi Box, на русском</span></a></li>
+  <li><a href="#skill-tvdetox"><b>tv-detox</b><span>любой Android TV, MIT</span></a></li>
+  <li><a href="#rollback"><b>Как всё вернуть</b><span>откат по шагам</span></a></li>
+</ol></nav>
 
-<section>
-<h2><span class="step">1</span>Включить отладку</h2>
-<h3>Mi Box и Android TV</h3>
-<p class="path">Настройки → Настройки устройства → Об устройстве → 7 раз нажать «Сборка» (появится «Вы стали разработчиком») → назад → Для разработчиков → Отладка по USB.</p>
-<p>Если есть «Отладка по сети», включите и её.</p>
-<h3>Google TV и Chromecast с Google TV</h3>
-<p>Обычно там только беспроводная отладка с кодом: <span class="path">Для разработчиков → Беспроводная отладка → Подключить по коду</span>. Дальше <code>adb pair &lt;IP&gt;:&lt;порт&gt;</code> и <code>adb connect &lt;IP&gt;:&lt;другой порт&gt;</code>.</p>
-<h3>Где взять IP приставки</h3>
-<p class="path">Настройки → Сеть → ваша сеть Wi‑Fi.</p>
-<p>Ноутбук и приставка должны быть в одной сети. При первом подключении на экране телевизора нажмите «Всегда разрешать» → OK.</p>
-</section>
+<div class="start-note"><b>До начала</b><p>Нужен Claude Code (или Codex) на ноутбуке: обычный чат в браузере до приставки не дотянется. Samsung (Tizen) и LG (webOS) не подходят, у них внутри не Android.</p></div>
 
-<section>
-<h2><span class="step">2</span>Готовые скиллы для Claude Code</h2>
-<p>Скилл — папка с инструкцией, которую Claude Code подхватывает сам. Ставится одной командой, потом просто пишете: «почисти мою Mi Box, IP такой-то». Скиллы не наши, спасибо авторам.</p>
-<div class="skills">
-  <div class="skill"><b>Xiaomi Mi Box и Mi TV Stick</b>На русском, проверен на Mi Box 4, рассчитан на Mac.
-    <code>git clone https://github.com/matacoder/mibox-skill ~/.claude/skills/mibox</code></div>
-  <div class="skill"><b>TCL на Google TV</b>Того же автора.
-    <code>git clone https://github.com/matacoder/tcl-skill ~/.claude/skills/tcl</code></div>
-  <div class="skill"><b>Любой Android TV</b>tv-detox: готовый промпт и чистый главный экран, лицензия MIT.
-    <code>https://github.com/Ansub/tv-detox</code></div>
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Первый результат за 3 шага</h2>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Сначала без Claude, 5 минут</h3><p>Часть тормозов уходит уже здесь.</p></div></div>
+  <ol>
+    <li><b>Перезагрузка из розетки.</b> Кнопка на пульте обычно не выключает приставку, а переводит в ожидание. Выдерните блок питания на 1–2 минуты и включите обратно. Приставки месяцами работают без перезагрузки, и часть тормозов уходит уже на этом шаге.</li>
+    <li><b>Очистить кэш самых тяжёлых приложений.</b> <span class="path">Настройки → Приложения → онлайн-кинотеатр или плеер → Очистить кэш.</span> Не «Очистить данные»: там логины и библиотеки.</li>
+    <li><b>Удалить то, чем не пользуетесь.</b> Только приложения, которые ставили вы сами.</li>
+  </ol>
+  <div class="expected"><b>Что должно получиться</b><p>Если стало нормально, дальше можно не идти.</p></div>
 </div>
-<div class="warn">Перед установкой откройте SKILL.md и скрипты и прочитайте, что они делают. Это чужой код, который будет управлять вашей приставкой.</div>
-</section>
 
-<section>
-<h2><span class="step">3</span>Или наш промпт</h2>
-<p>Подходит для Windows и для любой Android-приставки. Нужен Claude Code (или Codex) на ноутбуке: обычный чат в браузере до приставки не дотянется. Вставьте текст, подставив модель и IP.</p>
-<div class="code"><pre><code>Помоги почистить и ускорить мою Android-приставку / Android TV.
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Включите отладку на приставке</h3><p>Через неё Claude Code подключится к приставке по Wi‑Fi.</p></div></div>
+  <h4>Mi Box и Android TV</h4>
+  <p class="path">Настройки → Настройки устройства → Об устройстве → 7 раз нажать «Сборка» (появится «Вы стали разработчиком») → назад → Для разработчиков → Отладка по USB.</p>
+  <p>Если есть «Отладка по сети», включите и её.</p>
+  <h4>Google TV и Chromecast с Google TV</h4>
+  <p>Обычно там только беспроводная отладка с кодом: <span class="path">Для разработчиков → Беспроводная отладка → Подключить по коду</span>. Дальше две команды, порты разные:</p>
+  <div class="command"><div class="command-bar"><span>В терминал · Google TV</span><button type="button">Копировать</button></div><pre><code>adb pair &lt;IP&gt;:&lt;порт&gt;
+adb connect &lt;IP&gt;:&lt;другой порт&gt;</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <h4>Где взять IP приставки</h4>
+  <p class="path">Настройки → Сеть → ваша сеть Wi‑Fi.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Ноутбук и приставка в одной сети. При первом подключении на экране телевизора нажмите «Всегда разрешать» → OK.</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Вставьте промпт в Claude Code</h3><p>Подходит для Windows и для любой Android-приставки. Подставьте модель и IP.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · промпт</span><button type="button">Копировать</button></div><pre><code>Помоги почистить и ускорить мою Android-приставку / Android TV.
 Модель: &lt;марка и модель&gt;. IP: &lt;IP приставки&gt;.
 
 1. Прежде чем что-то менять, честно скажи простыми словами: ты выключаешь
@@ -89,44 +103,75 @@
    и проверь, что она нормально запускается. Покажи место, память и аптайм
    «до» и «после» и честно отметь, что часть прироста дала сама перезагрузка.
 9. В конце напомни выключить отладку по USB / сети / беспроводную:
-   пока она включена, другие устройства в сети могут попросить управление.</code></pre></div>
+   пока она включена, другие устройства в сети могут попросить управление.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Тот же промпт отдельным файлом: <a href="../prompts/tormoz-android-tv.md">prompts/tormoz-android-tv.md</a>.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Claude сначала предупреждает о риске и спрашивает, продолжать ли. Потом показывает место, память и аптайм «до», чистит только кэш и спрашивает перед каждым выключением. В конце показывает «до» и «после» и напоминает выключить отладку.</p></div>
+</div>
 </section>
 
-<section>
-<h2><span class="step">!</span>Что нельзя трогать</h2>
+<section class="block" id="dont-touch" aria-labelledby="dont-touch-title">
+<h2 id="dont-touch-title">Что нельзя трогать</h2>
 <p>Google Play services, Play Маркет, Настройки, System UI, клавиатура, Bluetooth, HDMI-входы и тюнер, установщик пакетов, всё «железное» от производителя (на Mi Box это <code>com.droidlogic*</code>, <code>mitv.service</code>, <code>xiaomi.tvservice</code>), трансляция с телефона, на Google TV родной главный экран. Если выключить Google Ассистент (<code>com.google.android.katniss</code>), пропадёт голосовой поиск на пульте.</p>
 </section>
 
-<section>
-<h2><span class="step">↺</span>Как всё вернуть</h2>
+<section class="block" id="skills" aria-labelledby="skills-title">
+<h2 id="skills-title">Готовые скиллы вместо промпта</h2>
+<p class="intro">Скилл — папка с инструкцией, которую Claude Code подхватывает сам. Ставится одной командой, потом просто пишете: «почисти мою Mi Box, IP такой-то». Скиллы не наши, спасибо авторам.</p>
+<div class="warn">Перед установкой откройте SKILL.md и скрипты и прочитайте, что они делают. Это чужой код, который будет управлять вашей приставкой.</div>
+
+<details id="skill-mibox"><summary><span>Xiaomi Mi Box и Mi TV Stick<small>mibox-skill · на русском, проверен на Mi Box 4, рассчитан на Mac</small></span></summary><div class="details-body">
+  <div class="command"><div class="command-bar"><span>В терминал · установка</span><button type="button">Копировать</button></div><pre><code>git clone https://github.com/matacoder/mibox-skill ~/.claude/skills/mibox</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p><a href="https://github.com/matacoder/mibox-skill">github.com/matacoder/mibox-skill</a></p>
+</div></details>
+
+<details id="skill-tcl"><summary><span>TCL на Google TV<small>tcl-skill · того же автора</small></span></summary><div class="details-body">
+  <div class="command"><div class="command-bar"><span>В терминал · установка</span><button type="button">Копировать</button></div><pre><code>git clone https://github.com/matacoder/tcl-skill ~/.claude/skills/tcl</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p><a href="https://github.com/matacoder/tcl-skill">github.com/matacoder/tcl-skill</a></p>
+</div></details>
+
+<details id="skill-tvdetox"><summary><span>Любой Android TV<small>tv-detox · готовый промпт и чистый главный экран, лицензия MIT</small></span></summary><div class="details-body">
+  <p><a href="https://github.com/Ansub/tv-detox">github.com/Ansub/tv-detox</a></p>
+</div></details>
+</section>
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+
+<details id="rollback"><summary>Хочу вернуть всё, что выключили</summary><div class="details-body">
+  <ul>
+    <li>Проще всего попросить: «Claude, включи обратно всё, что выключил». Он ведёт список.</li>
+    <li>Руками: <code>adb shell pm enable &lt;пакет&gt;</code>.</li>
+    <li>Список всего выключенного: <code>adb shell pm list packages -d</code>, затем <code>pm enable</code> для каждого.</li>
+  </ul>
+</div></details>
+
+<details id="animations"><summary>Вернуть обычную скорость анимаций</summary><div class="details-body">
+  <div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>adb shell settings put global window_animation_scale 1.0</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Две другие (<code>transition_animation_scale</code>, <code>animator_duration_scale</code>) так же.</p>
+</div></details>
+
+<details id="bootloop"><summary>Телевизор перезагружается по кругу</summary><div class="details-body">
+  <p>Ноутбук часто успевает подключиться на несколько секунд при старте. <code>adb connect &lt;IP&gt;</code>, <code>adb wait-for-device</code>, затем <code>pm enable</code> для выключенного. Если не подключается совсем, остаётся recovery или сброс к заводским, у каждой марки по-своему.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Где не сработает</h2>
 <ul>
-<li>Проще всего попросить: «Claude, включи обратно всё, что выключил». Он ведёт список.</li>
-<li>Руками: <code>adb shell pm enable &lt;пакет&gt;</code>.</li>
-<li>Список всего выключенного: <code>adb shell pm list packages -d</code>, затем <code>pm enable</code> для каждого.</li>
-<li>Анимации обратно: <code>adb shell settings put global window_animation_scale 1.0</code> (и две другие так же).</li>
-<li>Если телевизор перезагружается по кругу: ноутбук часто успевает подключиться на несколько секунд при старте. <code>adb connect &lt;IP&gt;</code>, <code>adb wait-for-device</code>, затем <code>pm enable</code> для выключенного. Если не подключается совсем, остаётся recovery или сброс к заводским, у каждой марки по-своему.</li>
+  <li><b>Samsung (Tizen) и LG (webOS):</b> внутри не Android, этот способ не для них.</li>
+  <li><b>Яндекс ТВ и Салют ТВ:</b> мы не проверяли.</li>
+  <li><b>Google TV и Chromecast:</b> не выключайте родной главный экран. У авторов tv-detox одна приставка после этого ушла в перезагрузки и лечилась только сбросом.</li>
+  <li>После обновления прошивки выключенное может включиться обратно.</li>
+  <li>Цифры из ролика (874 МБ → 1,8 ГБ на Mi Box 4) — замер автора скилла на его приставке. У вас будет по-своему.</li>
 </ul>
 </section>
 
-<section>
-<h2><span class="step">×</span>Где не сработает</h2>
-<ul>
-<li><b>Samsung (Tizen) и LG (webOS):</b> внутри не Android, этот способ не для них.</li>
-<li><b>Яндекс ТВ и Салют ТВ:</b> мы не проверяли.</li>
-<li><b>Google TV и Chromecast:</b> не выключайте родной главный экран. У авторов tv-detox одна приставка после этого ушла в перезагрузки и лечилась только сбросом.</li>
-<li>После обновления прошивки выключенное может включиться обратно.</li>
-<li>Цифры из ролика (874 МБ → 1,8 ГБ на Mi Box 4) — замер автора скилла на его приставке. У вас будет по-своему.</li>
-</ul>
-</section>
-
-<a class="back" href="../">← Все инструкции</a>
 <footer>
-Делаете на свой страх и риск. Ничего не перепрошивается: всё выключается и возвращается обратно.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Делаете на свой страх и риск. Ничего не перепрошивается: всё выключается и возвращается обратно.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
-
-
-<script src="../copy.js"></script>
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>

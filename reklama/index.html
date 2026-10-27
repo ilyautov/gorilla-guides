@@ -3,50 +3,103 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Меньше рекламы на телефоне</title>
-<meta name="description" content="Бесплатный фильтр AdGuard DNS: профиль для айфона и настройка частного DNS на андроиде.">
+<title>Меньше рекламы на телефоне: профиль и инструкция</title>
+<meta name="description" content="Бесплатный фильтр AdGuard DNS: готовый профиль для айфона и настройка частного DNS на андроиде. Без приложений, выключается одной галочкой.">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Меньше рекламы на телефоне">
-<meta property="og:description" content="Бесплатный фильтр AdGuard DNS: профиль для айфона и настройка частного DNS на андроиде.">
+<meta property="og:description" content="Профиль для айфона и одна строка для андроида: бесплатный фильтр AdGuard DNS. Без приложений, всё возвращается одной галочкой.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/reklama/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/reklama/img/minus-35.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/guide-v2.css">
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
-  <h1>Меньше <span class="hl">рекламы</span> на телефоне</h1>
-  <p class="lede">Телефон перед каждой загрузкой спрашивает, где находится адрес. Обычно у провайдера. Мы переключаем его на бесплатный фильтр AdGuard DNS: адресов рекламы и трекеров он «не знает», и баннеры не грузятся.</p>
-  <div class="safe"><span>бесплатно</span><span>без приложений</span><span>выключается одной галочкой</span></div>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Меньше <span class="hl">рекламы</span> на телефоне</h1>
+    <p class="lede">Телефон перед каждой загрузкой спрашивает, где находится адрес. Обычно у провайдера. Мы переключаем его на бесплатный фильтр AdGuard DNS: адресов рекламы и трекеров он «не знает», и баннеры не грузятся.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Айфон: профиль →</a>
+      <a class="secondary-link" href="#step-2">У меня андроид</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>без приложений</li><li>выключается одной галочкой</li></ul>
+    <p class="for-video">К ролику «Claude убрал рекламу у меня в интернете» · обновлено 27 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/minus-35.jpg" width="960" height="640" alt="Кадр из ролика: счётчик 840 запросов, плашка −35 %"><figcaption>Кадр из ролика: замер на пяти новостных сайтах, запросов стало на треть меньше.</figcaption></figure>
 </header>
 
-<section>
-<h2><span class="step">1</span>Айфон: файл-профиль</h2>
-<a class="btn" href="AdGuard-DNS-iPhone.mobileconfig">Скачать профиль для айфона</a>
-<ol>
-<li>Откройте эту страницу в Safari на айфоне и нажмите кнопку выше. Если появилось «Профиль загружен», идите к шагу 2. Если файл просто скачался, откройте приложение «Файлы» → Загрузки → нажмите на файл.</li>
-<li>Откройте <span class="path">Настройки → Основные → VPN и управление устройством</span>.</li>
-<li>Нажмите «Без рекламы: AdGuard DNS» → <b>Установить</b> → введите код телефона → <b>Установить</b>.</li>
-<li>Там же, в разделе <b>DNS</b>, должно быть выбрано «AdGuard DNS (без рекламы)». Если стоит «Автоматически», выберите его.</li>
-</ol>
-<p>Айфон напишет «Не подписан». Это нормально: внутри только адрес DNS-сервера AdGuard, больше ничего. Содержимое файла открыто, его можно посмотреть в <a href="https://github.com/ilyautov/gorilla-guides/blob/main/reklama/AdGuard-DNS-iPhone.mobileconfig">репозитории</a>.</p>
-<div class="stop"><b>Выключить:</b> Настройки → Основные → VPN и управление устройством → профиль → Удалить профиль. Всё вернётся как было.</div>
+<nav class="strip" aria-label="Что внутри"><p>Что внутри</p><ol>
+  <li><a href="#step-1"><b>Айфон</b><span>файл-профиль</span></a></li>
+  <li><a href="#step-2"><b>Андроид</b><span>одна строка, без файлов</span></a></li>
+  <li><a href="#limits"><b>Что не уйдёт</b><span>YouTube, Instagram</span></a></li>
+  <li><a href="#off"><b>Как выключить</b><span>всё вернётся</span></a></li>
+</ol></nav>
+
+<div class="start-note"><b>До начала</b><p>Ничего ставить не надо. Реклама внутри YouTube и Instagram останется: она приходит с тех же адресов, что и сами видео.</p></div>
+
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Один шаг для своего телефона</h2>
+<p class="intro">Айфон или андроид, выберите свой.</p>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Айфон: поставьте файл-профиль</h3><p>Внутри только адрес DNS-сервера AdGuard.</p></div></div>
+  <p><a class="btn" href="AdGuard-DNS-iPhone.mobileconfig">Скачать профиль для айфона</a></p>
+  <ol>
+  <li>Откройте эту страницу в Safari на айфоне и нажмите кнопку выше. Если появилось «Профиль загружен», идите к пункту 2. Если файл просто скачался, откройте приложение «Файлы» → Загрузки → нажмите на файл.</li>
+  <li>Откройте <span class="path">Настройки → Основные → VPN и управление устройством</span>.</li>
+  <li>Нажмите «Без рекламы: AdGuard DNS» → <b>Установить</b> → введите код телефона → <b>Установить</b>.</li>
+  <li>Там же, в разделе <b>DNS</b>, должно быть выбрано «AdGuard DNS (без рекламы)». Если стоит «Автоматически», выберите его.</li>
+  </ol>
+  <p>Айфон напишет «Не подписан». Это нормально: внутри только адрес DNS-сервера AdGuard, больше ничего. Содержимое файла открыто, его можно посмотреть в <a href="https://github.com/ilyautov/gorilla-guides/blob/main/reklama/AdGuard-DNS-iPhone.mobileconfig">репозитории</a>.</p>
+  <div class="expected"><b>Что должно получиться</b><p>В <span class="path">VPN и управление устройством</span> стоит профиль «Без рекламы: AdGuard DNS», в разделе DNS выбрано «AdGuard DNS (без рекламы)».</p></div>
+  <p><b>Выключить:</b> Настройки → Основные → VPN и управление устройством → профиль → Удалить профиль. Всё вернётся как было.</p>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Андроид: впишите частный DNS</h3><p>Без файлов, одна строка.</p></div></div>
+  <ol>
+  <li><span class="path">Настройки → Подключения</span> (Samsung) или <span class="path">Настройки → Сеть и интернет</span> (остальные) → <b>Частный DNS</b> (бывает в «Дополнительно»).</li>
+  <li>Выберите «Имя хоста провайдера частного DNS» и впишите:
+  <div class="command"><div class="command-bar"><span>В поле «Частный DNS»</span><button type="button">Копировать</button></div><pre><code>dns.adguard-dns.com</code></pre><p class="copy-feedback" aria-live="polite"></p></div></li>
+  <li>Сохраните.</li>
+  </ol>
+  <div class="expected"><b>Что должно получиться</b><p>В «Частном DNS» выбрано имя хоста <code>dns.adguard-dns.com</code>.</p></div>
+  <p><b>Выключить:</b> там же выбрать «Автоматически» или «Отключено».</p>
+</div>
 </section>
 
-<section>
-<h2><span class="step">2</span>Андроид: без файлов</h2>
-<ol>
-<li><span class="path">Настройки → Подключения</span> (Samsung) или <span class="path">Настройки → Сеть и интернет</span> (остальные) → <b>Частный DNS</b> (бывает в «Дополнительно»).</li>
-<li>Выберите «Имя хоста провайдера частного DNS» и впишите:
-<div class="code"><pre><code>dns.adguard-dns.com</code></pre></div></li>
-<li>Сохраните.</li>
-</ol>
-<div class="stop"><b>Выключить:</b> там же выбрать «Автоматически» или «Отключено».</div>
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="off"><summary>Хочу выключить фильтр</summary><div class="details-body">
+  <ul>
+  <li><b>Айфон:</b> Настройки → Основные → VPN и управление устройством → профиль → Удалить профиль. Всё вернётся как было.</li>
+  <li><b>Андроид:</b> в «Частном DNS» выбрать «Автоматически» или «Отключено».</li>
+  </ul>
+</div></details>
+<details id="downloaded"><summary>Айфон просто скачал файл</summary><div class="details-body">
+  <p>Откройте страницу именно в Safari. Если файл всё равно просто скачался, откройте приложение «Файлы» → Загрузки → нажмите на файл, дальше как в шаге.</p>
+</div></details>
+<details id="unsigned"><summary>Айфон пишет «Не подписан»</summary><div class="details-body">
+  <p>Это нормально: внутри только адрес DNS-сервера AdGuard, больше ничего. Содержимое файла открыто, его можно посмотреть в <a href="https://github.com/ilyautov/gorilla-guides/blob/main/reklama/AdGuard-DNS-iPhone.mobileconfig">репозитории</a>.</p>
+</div></details>
+<details id="no-effect"><summary>Профиль стоит, а реклама как была</summary><div class="details-body">
+  <p>Проверьте, что в разделе <b>DNS</b> выбрано «AdGuard DNS (без рекламы)», а не «Автоматически». Пока включён VPN или «Частный узел iCloud», профиль может не действовать. Реклама внутри YouTube и Instagram останется в любом случае.</p>
+</div></details>
+<details id="broken-link"><summary>Не открывается ссылка из рассылки или кешбэк</summary><div class="details-body">
+  <p>Иногда фильтр ломает ссылку из рекламной рассылки или кешбэк-сервиса. Выключили, перешли, включили обратно.</p>
+</div></details>
 </section>
 
-<section>
-<h2><span class="step">!</span>Что не уйдёт</h2>
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Что не уйдёт</h2>
 <ul>
 <li>Реклама внутри YouTube и Instagram останется: она приходит с тех же адресов, что и сами видео.</li>
 <li>Мы замерили сами на пяти новостных сайтах: запросов стало на треть меньше, а вес страниц почти не изменился.</li>
@@ -55,13 +108,13 @@
 </ul>
 <p>Сервис: бесплатный публичный AdGuard DNS, <a href="https://adguard-dns.io/ru/public-dns.html">adguard-dns.io</a>. Мы с AdGuard не связаны.</p>
 </section>
-<a class="back" href="../">← Все инструкции</a>
+
 <footer>
-Делаете на свой страх и риск. Ничего не перепрошивается: всё выключается и возвращается обратно.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Делаете на свой страх и риск. Ничего не перепрошивается: всё выключается и возвращается обратно.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
-
-<script src="../copy.js"></script>
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>

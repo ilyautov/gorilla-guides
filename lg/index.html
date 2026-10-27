@@ -3,86 +3,143 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>LG и Samsung без рекламы</title>
-<meta name="description" content="Как убрать баннер на главном экране LG и поставить свой чистый экран Free My TV на LG и Samsung.">
-<meta property="og:title" content="LG и Samsung без рекламы">
-<meta property="og:description" content="Как убрать баннер на главном экране LG и поставить свой чистый экран Free My TV на LG и Samsung.">
+<title>Телевизор LG или Samsung без рекламы: инструкция</title>
+<meta name="description" content="Как убрать баннер на главном экране LG за минуту без Claude и поставить свой чистый экран Free My TV на LG и Samsung через режим разработчика.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Телевизор LG или Samsung без рекламы">
+<meta property="og:description" content="Так же, как с Android, не выйдет. Но баннер LG снимается за минуту, а чистый экран Free My TV ставится как приложение на LG и Samsung.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/lg/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/lg/img/nol-bannerov.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/guide-v2.css">
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
-  <h1>Телевизор <span class="hl">LG или Samsung</span> без рекламы</h1>
-  <p class="lede">Так же, как с Android, не выйдет: внутри другая система. Но баннер на главном экране LG снимается за минуту, а свой чистый экран ставится как приложение.</p>
-  <div class="safe"><span>бесплатно</span><span>ничего не перепрошивается</span><span>удаляется одной командой</span></div>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Телевизор <span class="hl">LG или Samsung</span> без рекламы</h1>
+    <p class="lede">Так же, как с Android, не выйдет: внутри другая система. Но баннер на главном экране LG снимается за минуту, а свой чистый экран ставится как приложение.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Убрать баннер LG: 1 минута →</a>
+      <a class="secondary-link" href="#samsung">У меня Samsung</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>ничего не перепрошивается</li><li>удаляется одной командой</li></ul>
+    <p class="for-video">К ролику «А с WebOS так же можно?» · обновлено 27 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/nol-bannerov.jpg" width="960" height="640" alt="Кадр из ролика: чистый экран Free My TV с часами и приложениями, рекламный баннер перечёркнут, плашка «0 баннеров»"><figcaption>Кадр из ролика: чёрный экран Free My TV, ваши приложения, ни одного баннера.</figcaption></figure>
 </header>
 
-<section>
-<h2><span class="step">0</span>Убрать баннер LG без Claude, 1 минута</h2>
-<p class="path">Пульт → кнопка настроек → Все настройки → Общие → Система → Дополнительные настройки → Настройки главного экрана.</p>
-<ul>
-<li><b>Home Promotion / Продвижение на главной</b> → Выкл. Верхний рекламный баннер исчезает.</li>
-<li><b>Content Recommendation / Рекомендации контента</b> → Выкл. Пропадают подборки «в тренде».</li>
-<li>Если есть <b>Screen Saver Promotion</b> (реклама перед заставкой), тоже Выкл.</li>
-</ul>
-<p>Названия пунктов зависят от версии webOS. Узнать версию: трижды нажать «без звука» на пульте. Путь выше взят из справки LG для webOS 6 и webOS 22.</p>
-<div class="stop">Для Samsung проверенного пути в настройках у нас нет: меню меняется от года к году. Переходите к шагу 1.</div>
+<nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
+  <li><a href="#step-1"><b>Баннер LG</b><span>без Claude, 1 минута</span></a></li>
+  <li><a href="#step-3"><b>Free My TV</b><span>свой экран, MIT</span></a></li>
+  <li><a href="#samsung"><b>Samsung</b><span>2017 и новее</span></a></li>
+  <li><a href="#extend"><b>~40 дней</b><span>продлить EXTEND</span></a></li>
+</ol></nav>
+
+<div class="start-note"><b>До начала</b><p>Нужен компьютер в той же сети Wi‑Fi и Python 3. Подходят LG с webOS 3 и новее и Samsung с 2017 года. Родной экран с рекламой остаётся: Free My TV открывается кнопкой с цифрой на пульте.</p></div>
+
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">LG: первый результат за 3 шага</h2>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Уберите баннер в настройках, без Claude</h3><p>1 минута, ничего ставить не надо.</p></div></div>
+  <p class="path">Пульт → кнопка настроек → Все настройки → Общие → Система → Дополнительные настройки → Настройки главного экрана.</p>
+  <ul>
+  <li><b>Home Promotion / Продвижение на главной</b> → Выкл. Верхний рекламный баннер исчезает.</li>
+  <li><b>Content Recommendation / Рекомендации контента</b> → Выкл. Пропадают подборки «в тренде».</li>
+  <li>Если есть <b>Screen Saver Promotion</b> (реклама перед заставкой), тоже Выкл.</li>
+  </ul>
+  <p>Названия пунктов зависят от версии webOS. Узнать версию: трижды нажать «без звука» на пульте. Путь выше взят из справки LG для webOS 6 и webOS 22.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Верхний рекламный баннер и подборки «в тренде» пропадают с родного главного экрана.</p></div>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Включите режим разработчика</h3><p>Бесплатный, через него ставится свой экран.</p></div></div>
+  <ol>
+  <li>На телевизоре откройте LG Content Store и установите приложение <b>Developer Mode</b>. Если его нет в магазине вашего региона, способ не сработает.</li>
+  <li>Войдите бесплатным аккаунтом <a href="https://webostv.developer.lge.com">webostv.developer.lge.com</a>, включите <b>Dev Mode Status</b> (телевизор перезагрузится), потом <b>Key Server</b>. Запишите IP-адрес и пароль-фразу с экрана.</li>
+  </ol>
+  <div class="expected"><b>Что должно получиться</b><p>В приложении Developer Mode включены Dev Mode Status и Key Server, у вас записаны IP-адрес и пароль-фраза.</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Поставьте Free My TV</h3><p>Свой чистый главный экран, ставится как приложение.</p></div></div>
+  <p>Открытый проект под лицензией MIT: <a href="https://github.com/simbasjungles/free-my-tv">github.com/simbasjungles/free-my-tv</a>, сайт <a href="https://freemytv.io">freemytv.io</a>. Тёмный экран с вашими приложениями, погодой и подборками, без рекламы. Ставится как приложение: родной экран остаётся, Free My TV открывается кнопкой с цифрой на пульте.</p>
+  <p><b>Что нужно:</b> компьютер в той же сети Wi‑Fi, Python 3, по желанию Claude Code (можно и руками по README) и бесплатный ключ TMDB для подборок «в тренде» (themoviedb.org → Settings → API).</p>
+  <h4>Скачайте проект на компьютер</h4>
+  <div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>git clone https://github.com/simbasjungles/free-my-tv
+cd free-my-tv</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <h4>Откройте Claude Code в этой папке и скажите</h4>
+  <p>Подставьте IP телевизора и свой город.</p>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · промпт</span><button type="button">Копировать</button></div><pre><code>Install Free My TV on my LG TV at 192.168.1.50. I live in Moscow.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Claude соберёт приложение и даст команду установки. Пароль-фразу вводите сами. Руками то же самое:</p>
+  <div class="command"><div class="command-bar"><span>В терминал · без Claude</span><button type="button">Копировать</button></div><pre><code>python3 webos/build.py
+python3 webos/install.py 192.168.1.50</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <h4>Повесьте Free My TV на кнопку</h4>
+  <p>На телевизоре, пока открыт Free My TV, зажмите кнопку с цифрой на пульте. Теперь она открывает его откуда угодно.</p>
+  <div class="warn" id="extend"><b>Режим разработчика живёт около 40 дней.</b> Раз в месяц откройте приложение Developer Mode и нажмите <b>EXTEND</b>, пока время не вышло. Если время кончится и телевизор перезагрузится, LG сам удалит всё, что поставлено через режим разработчика.</div>
+  <div class="expected"><b>Что должно получиться</b><p>Тёмный экран с вашими приложениями, погодой и подборками, без рекламы. Кнопка с цифрой на пульте открывает его откуда угодно.</p></div>
+  <h4>Удалить</h4>
+  <div class="command"><div class="command-bar"><span>В терминал · удалить</span><button type="button">Копировать</button></div><pre><code>python3 webos/install.py 192.168.1.50 --uninstall</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+</div>
 </section>
 
-<section>
-<h2><span class="step">1</span>Свой чистый главный экран: Free My TV</h2>
-<p>Открытый проект под лицензией MIT: <a href="https://github.com/simbasjungles/free-my-tv">github.com/simbasjungles/free-my-tv</a>, сайт <a href="https://freemytv.io">freemytv.io</a>. Тёмный экран с вашими приложениями, погодой и подборками, без рекламы. Ставится как приложение: родной экран остаётся, Free My TV открывается кнопкой с цифрой на пульте.</p>
-<p><b>Что нужно:</b> компьютер в той же сети Wi‑Fi, Python 3, по желанию Claude Code (можно и руками по README) и бесплатный ключ TMDB для подборок «в тренде» (themoviedb.org → Settings → API).</p>
-
-<h3>LG (webOS 3 и новее)</h3>
-<ol>
-<li>На телевизоре откройте LG Content Store и установите приложение <b>Developer Mode</b>. Если его нет в магазине вашего региона, способ не сработает.</li>
-<li>Войдите бесплатным аккаунтом <a href="https://webostv.developer.lge.com">webostv.developer.lge.com</a>, включите <b>Dev Mode Status</b> (телевизор перезагрузится), потом <b>Key Server</b>. Запишите IP-адрес и пароль-фразу с экрана.</li>
-<li>На компьютере:
-<div class="code"><pre><code>git clone https://github.com/simbasjungles/free-my-tv
-cd free-my-tv</code></pre></div></li>
-<li>Откройте Claude Code в этой папке и скажите (подставьте IP и город):
-<div class="code"><pre><code>Install Free My TV on my LG TV at 192.168.1.50. I live in Moscow.</code></pre></div>
-Claude соберёт приложение и даст команду установки. Пароль-фразу вводите сами. Руками то же самое:
-<div class="code"><pre><code>python3 webos/build.py
-python3 webos/install.py 192.168.1.50</code></pre></div></li>
-<li>На телевизоре, пока открыт Free My TV, зажмите кнопку с цифрой на пульте. Теперь она открывает его откуда угодно.</li>
-</ol>
-<div class="warn"><b>Режим разработчика живёт около 40 дней.</b> Раз в месяц откройте приложение Developer Mode и нажмите <b>EXTEND</b>, пока время не вышло. Если время кончится и телевизор перезагрузится, LG сам удалит всё, что поставлено через режим разработчика.</div>
-<p><b>Удалить:</b> <code>python3 webos/install.py 192.168.1.50 --uninstall</code></p>
-
-<h3>Samsung (2017 и новее, Tizen 3+)</h3>
+<section class="block" id="samsung" aria-labelledby="samsung-title">
+<h2 id="samsung-title">Samsung (2017 и новее, Tizen 3+)</h2>
+<p class="intro">Для Samsung проверенного пути в настройках у нас нет: меню меняется от года к году. Поэтому сразу свой экран.</p>
 <ol>
 <li>На телевизоре: <span class="path">Приложения</span> → на пульте наберите <code>1 2 3 4 5</code> → включите <b>Developer mode</b>, в <b>Host PC IP</b> впишите IP компьютера, перезагрузите телевизор.</li>
 <li>На компьютере скачайте <b>TizenBrew Installer</b>, сторонний общественный установщик: <a href="https://github.com/reisxd/TizenBrewInstaller/releases/latest">github.com/reisxd/TizenBrewInstaller</a>. Подключитесь к телевизору.</li>
 <li><b>Install from GitHub</b> → <code>simbasjungles/free-my-tv</code>. На телевизорах 2023 года и новее один раз попросит войти в аккаунт Samsung, чтобы подписать приложение.</li>
 <li>В настройках телевизора (Start Screen Options) включите <b>Autorun Last App</b>, чтобы он включался сразу в Free My TV.</li>
 </ol>
-
-<h3>Android TV и Google TV (TCL, Sony, Hisense, Philips, Xiaomi)</h3>
-<p>Там можно больше: Free My TV становится главным экраном вместо родного и отключает рекламные приложения, кнопка «Original» возвращает всё. Это способ из ролика про телевизор родителей: <a href="https://github.com/Gathin23/cleanyourtv">github.com/Gathin23/cleanyourtv</a> и <a href="https://github.com/simbasjungles/free-my-tv#install">free-my-tv#install</a>.</p>
+<div class="expected"><b>Что должно получиться</b><p>Телевизор включается сразу в Free My TV.</p></div>
 </section>
 
-<section>
-<h2><span class="step">×</span>Где не сработает</h2>
+<section class="block" id="other" aria-labelledby="other-title">
+<h2 id="other-title">Другие телевизоры</h2>
+<details id="android"><summary><span>Android TV и Google TV<small>TCL, Sony, Hisense, Philips, Xiaomi</small></span></summary><div class="details-body">
+  <p>Там можно больше: Free My TV становится главным экраном вместо родного и отключает рекламные приложения, кнопка «Original» возвращает всё. Это способ из ролика про телевизор родителей: <a href="https://github.com/Gathin23/cleanyourtv">github.com/Gathin23/cleanyourtv</a> и <a href="https://github.com/simbasjungles/free-my-tv#install">free-my-tv#install</a>.</p>
+</div></details>
+</section>
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="no-menu"><summary>В настройках LG нет таких пунктов</summary><div class="details-body">
+  <p>Названия пунктов зависят от версии webOS. Узнать версию: трижды нажать «без звука» на пульте. Путь из шага 1 взят из справки LG для webOS 6 и webOS 22.</p>
+</div></details>
+<details id="no-devmode"><summary>В LG Content Store нет Developer Mode</summary><div class="details-body">
+  <p>Если приложения нет в магазине вашего региона, способ не сработает. Баннер из шага 1 всё равно снимается в настройках.</p>
+</div></details>
+<details id="vanished"><summary>Free My TV пропал с телевизора LG</summary><div class="details-body">
+  <p>Скорее всего, кончилось время режима разработчика и телевизор перезагрузился: LG сам удаляет всё, что поставлено через режим разработчика. Включите режим заново (шаг 2), поставьте Free My TV ещё раз (шаг 3) и дальше раз в месяц жмите <b>EXTEND</b>.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Где не сработает</h2>
 <ul>
 <li>LG старше webOS 3, Samsung старше 2017 года.</li>
 <li>Roku и другие системы без режима разработчика.</li>
 <li>Реклама внутри приложений (YouTube, онлайн-кинотеатры) никуда не денется: это другое.</li>
+<li>Родной экран с рекламой остаётся, Free My TV открывается поверх него. На LG режим разработчика надо продлевать раз в ~40 дней.</li>
 </ul>
 <p>Источники: README free-my-tv, LG webOS TV Developer, справка LG «Changing home screen settings» для webOS 6 и webOS 22. Проекты не наши, спасибо авторам.</p>
 </section>
-<a class="back" href="../">← Все инструкции</a>
+
 <footer>
-Делаете на свой страх и риск. Ничего не перепрошивается: всё выключается и возвращается обратно.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Делаете на свой страх и риск. Ничего не перепрошивается: всё выключается и возвращается обратно.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
-
-<script src="../copy.js"></script>
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>

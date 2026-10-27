@@ -3,46 +3,64 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ноутбук-зануда</title>
+<title>Ноутбук-зануда: ворчит и закрывает рилсы</title>
 <meta name="description" content="Скрипт для Mac, который стыдит голосом, когда открываешь видео и соцсети вместо работы. Код, установка за 3 шага и промпт для Claude Code.">
-<meta property="og:title" content="Ноутбук-зануда">
-<meta property="og:description" content="Скрипт для Mac, который стыдит голосом, когда открываешь видео и соцсети вместо работы. Код, установка за 3 шага и промпт для Claude Code.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ноутбук-зануда: ворчит и закрывает рилсы">
+<meta property="og:description" content="Бесплатный скрипт для Mac: видит сайты из чёрного списка в Safari и Chrome, ворчит вслух, на третий раз сам закрывает вкладку. В сеть не ходит.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/zanuda/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/zanuda/img/vkladka-x3.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/guide-v2.css">
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
-  <h1>Ноутбук-<span class="hl">зануда</span></h1>
-  <p class="lede">Скрипт для Mac. Открыли видео или соцсеть вместо работы — ноутбук ворчит голосом. На третий раз сам закрывает вкладку и включает рабочий плейлист.</p>
-  <div class="safe"><span>бесплатно</span><span>без установки пакетов</span><span>ничего не отправляет в сеть</span><span>выключается Ctrl+C</span></div>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Ноутбук-зануда: ворчит и <span class="hl">закрывает рилсы</span></h1>
+    <p class="lede">Скрипт для Mac. Открыли видео или соцсеть вместо работы — ноутбук ворчит голосом. На третий раз сам закрывает вкладку и включает рабочий плейлист.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Скачать и запустить →</a>
+      <a class="secondary-link" href="#own">Или пусть Claude Code сделает своего</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>без установки пакетов</li><li>ничего не отправляет в сеть</li><li>выключается Ctrl+C</li></ul>
+    <p class="for-video">К ролику «Попросил ИИ не пускать меня в рилсы» · обновлено 27 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/vkladka-x3.jpg" width="960" height="640" alt="Кадр из ролика: на экране «×3, вкладка закрыта»"><figcaption>Кадр из ролика: третье нарушение, вкладка закрыта.</figcaption></figure>
 </header>
 
-<section>
-<h2><span class="step">?</span>Что он делает</h2>
-<p>Раз в полторы секунды смотрит, какое приложение впереди и какой адрес открыт в активной вкладке Safari или Google Chrome. Если сайт из чёрного списка:</p>
-<ol>
-<li>первый раз: «Опять? Дедлайн в пятницу.»</li>
-<li>второй: «Я всё вижу.»</li>
-<li>третий: «Всё. Работаем.» Вкладка закрывается, открывается ваш рабочий адрес, счётчик с нуля.</li>
-</ol>
-<p>10 минут без срывов — счётчик сбрасывается. Сидите на запрещённом сайте дольше 20 секунд — это следующее нарушение. Всё настраивается в <code>config.json</code>.</p>
-</section>
+<nav class="strip" aria-label="Что внутри"><p>Что внутри</p><ol>
+  <li><a href="#step-1"><b>zanuda.zip</b><span>код, настройки, три реплики</span></a></li>
+  <li><a href="#how"><b>Как ворчит</b><span>три нарушения и вкладка</span></a></li>
+  <li><a href="#permissions"><b>Права macOS</b><span>только «Автоматизация»</span></a></li>
+  <li><a href="#own"><b>Свой зануда</b><span>промпт для Claude Code</span></a></li>
+  <li><a href="#code"><b>Весь код</b><span>zanuda.py, 260 строк</span></a></li>
+  <li><a href="#off"><b>Как выключить</b><span>Ctrl+C и права</span></a></li>
+</ol></nav>
 
-<section>
-<h2><span class="step">1</span>Скачать</h2>
-<p>Архив с кодом, настройками и тремя репликами Горо:</p>
-<a class="btn" href="zanuda.zip" download>Скачать zanuda.zip</a>
-<p>Распакуйте, например, в папку <code>~/zanuda</code>. Нужны только macOS и встроенный <code>python3</code>: в первый раз macOS может предложить поставить «инструменты разработчика», согласитесь.</p>
-</section>
+<div class="start-note"><b>До начала</b><p>Нужны только macOS и встроенный <code>python3</code>. Работает с Safari и Google Chrome; Firefox и Яндекс Браузер адрес вкладки не отдают.</p></div>
 
-<section>
-<h2><span class="step">2</span>Настроить</h2>
-<p>Откройте <code>config.json</code> в любом редакторе. Главное: <code>blacklist</code> (что запрещено) и <code>work_url</code> (что открыть на третий раз, например ваш плейлист или документ).</p>
-<div class="code"><pre><code>{
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Первый результат за 3 шага</h2>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Скачайте архив</h3><p>Код, настройки и три реплики Горо.</p></div></div>
+  <p><a class="btn" href="zanuda.zip" download>Скачать zanuda.zip</a></p>
+  <p>Распакуйте, например, в папку <code>~/zanuda</code>. Нужны только macOS и встроенный <code>python3</code>: в первый раз macOS может предложить поставить «инструменты разработчика», согласитесь.</p>
+  <p>Те же файлы по отдельности: <a href="files/zanuda.py">zanuda.py</a>, <a href="files/config.json">config.json</a>, <a href="files/demo.tsv">demo.tsv</a>, <a href="files/sounds/1.wav">sounds/1.wav</a>, <a href="files/sounds/2.wav">2.wav</a>, <a href="files/sounds/3.wav">3.wav</a>.</p>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Впишите свой чёрный список</h3><p>Откройте <code>config.json</code> в любом редакторе.</p></div></div>
+  <p>Главное: <code>blacklist</code> (что запрещено) и <code>work_url</code> (что открыть на третий раз, например ваш плейлист или документ).</p>
+  <div class="command"><div class="command-bar"><span>Файл config.json</span><button type="button">Копировать</button></div><pre><code>{
   &quot;interval_s&quot;: 1.5,
   &quot;reset_after_s&quot;: 600,
   &quot;nag_every_s&quot;: 20,
@@ -53,40 +71,53 @@
   &quot;close_tab&quot;: true,
   &quot;browsers&quot;: {&quot;Safari&quot;: &quot;safari&quot;, &quot;Google Chrome&quot;: &quot;chrome&quot;}
 }
-</code></pre></div>
-<p>Свои реплики: замените <code>sounds/1.wav</code>, <code>2.wav</code>, <code>3.wav</code>. Быстрее всего встроенным голосом Mac:</p>
-<div class="code"><pre><code>say -v Milena -o sounds/1.wav --data-format=LEI16@22050 "Опять? Дедлайн в пятницу."</code></pre></div>
-</section>
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Свои реплики: замените <code>sounds/1.wav</code>, <code>2.wav</code>, <code>3.wav</code>. Быстрее всего встроенным голосом Mac:</p>
+  <div class="command"><div class="command-bar"><span>В терминал, в папке ~/zanuda</span><button type="button">Копировать</button></div><pre><code>say -v Milena -o sounds/1.wav --data-format=LEI16@22050 "Опять? Дедлайн в пятницу."</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+</div>
 
-<section>
-<h2><span class="step">3</span>Запустить</h2>
-<div class="code"><pre><code>cd ~/zanuda
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Запустите</h3><p>Сначала проверка, потом боевой режим.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>cd ~/zanuda
 python3 zanuda.py --check
-python3 zanuda.py</code></pre></div>
-<p><code>--check</code> один раз показывает, что видит зануда, и выходит. Второй запуск — боевой: следит, пока открыто окно Терминала.</p>
+python3 zanuda.py</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p><code>--check</code> один раз показывает, что видит зануда, и выходит. Второй запуск — боевой: следит, пока открыто окно Терминала.</p>
+
+  <h4 id="permissions">Какие разрешения спросит macOS и зачем</h4>
+  <p>Одно: <b>«Автоматизация»</b>. Окно «„Терминал“ хочет получить доступ к управлению „Safari“» (для Chrome спросит отдельно). Это нужно, чтобы прочитать адрес активной вкладки и закрыть её на третий раз. Нажмите «Разрешить».</p>
+  <p>«Универсальный доступ» и «Запись экрана» не нужны. Активное приложение скрипт узнаёт встроенной командой <code>lsappinfo</code>, без прав. Если macOS вдруг их просит, что-то не так: не разрешайте.</p>
+  <div class="warn">Скрипт ничего не пишет на диск и ничего не отправляет. Он читает только адрес текущей вкладки. Перед запуском откройте <code>zanuda.py</code> и посмотрите сами: это 260 строк.</div>
+  <div class="expected"><b>Что должно получиться</b><p><code>--check</code> печатает строку вида «впереди: … | адрес: … | в чёрном списке: …». Боевой запуск пишет «Зануда следит. Остановить: Ctrl+C», а на сайте из списка звучит первая реплика.</p></div>
+</div>
 </section>
 
-<section>
-<h2><span class="step">!</span>Какие разрешения спросит macOS и зачем</h2>
-<p>Одно: <b>«Автоматизация»</b>. Окно «„Терминал“ хочет получить доступ к управлению „Safari“» (для Chrome спросит отдельно). Это нужно, чтобы прочитать адрес активной вкладки и закрыть её на третий раз. Нажмите «Разрешить».</p>
-<p>«Универсальный доступ» и «Запись экрана» не нужны. Активное приложение скрипт узнаёт встроенной командой <code>lsappinfo</code>, без прав. Если macOS вдруг их просит, что-то не так: не разрешайте.</p>
-<p>Если нажали «Не разрешать»: <span class="path">Системные настройки → Конфиденциальность и безопасность → Автоматизация → Терминал</span>, включите браузер.</p>
-<div class="warn">Скрипт ничего не пишет на диск и ничего не отправляет. Он читает только адрес текущей вкладки. Перед запуском откройте <code>zanuda.py</code> и посмотрите сами: это 260 строк.</div>
-</section>
+<section class="block" id="reference" aria-labelledby="reference-title">
+<h2 id="reference-title">Подробнее</h2>
 
-<section>
-<h2><span class="step">↺</span>Как выключить</h2>
-<ul>
-<li>Ctrl+C в окне Терминала, где он запущен.</li>
-<li>Или из другого окна: <code>pkill -f zanuda.py</code>.</li>
-<li>Забрать права: <span class="path">Системные настройки → Конфиденциальность и безопасность → Автоматизация → Терминал</span>, снять галочки у браузеров.</li>
-</ul>
-</section>
+<details id="how"><summary><span>Что он делает<small>три нарушения, сброс, повтор</small></span></summary><div class="details-body">
+  <p>Раз в полторы секунды смотрит, какое приложение впереди и какой адрес открыт в активной вкладке Safari или Google Chrome. Если сайт из чёрного списка:</p>
+  <ol>
+  <li>первый раз: «Опять? Дедлайн в пятницу.»</li>
+  <li>второй: «Я всё вижу.»</li>
+  <li>третий: «Всё. Работаем.» Вкладка закрывается, открывается ваш рабочий адрес, счётчик с нуля.</li>
+  </ol>
+  <p>10 минут без срывов — счётчик сбрасывается. Сидите на запрещённом сайте дольше 20 секунд — это следующее нарушение. Всё настраивается в <code>config.json</code>.</p>
+</div></details>
 
-<section>
-<h2><span class="step">C</span>Или пусть Claude Code сделает своего</h2>
-<p>Вставьте в Claude Code (или Codex). Он напишет такой же скрипт с тестами, а реплики придумает сам.</p>
-<div class="code"><pre><code>Сделай мне «ноутбук-зануду» для macOS на Python без сторонних пакетов.
+<details id="off"><summary><span>Как выключить<small>и забрать права</small></span></summary><div class="details-body">
+  <ul>
+  <li>Ctrl+C в окне Терминала, где он запущен.</li>
+  <li>Или из другого окна:</li>
+  </ul>
+  <div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>pkill -f zanuda.py</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <ul>
+  <li>Забрать права: <span class="path">Системные настройки → Конфиденциальность и безопасность → Автоматизация → Терминал</span>, снять галочки у браузеров.</li>
+  </ul>
+</div></details>
+
+<details id="own"><summary><span>Или пусть Claude Code сделает своего<small>промпт: такой же скрипт с тестами</small></span></summary><div class="details-body">
+  <p>Вставьте в Claude Code (или Codex). Он напишет такой же скрипт с тестами, а реплики придумает сам.</p>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code или Codex · промпт</span><button type="button">Копировать</button></div><pre><code>Сделай мне «ноутбук-зануду» для macOS на Python без сторонних пакетов.
 
 Что он делает:
 - раз в 1,5 секунды узнаёт активное приложение через `lsappinfo front` и
@@ -115,13 +146,13 @@ python3 zanuda.py</code></pre></div>
 - никаких прав «Универсальный доступ» и «Запись экрана», ничего не отправлять в сеть.
 
 Сначала напиши тесты и прогони их, потом покажи, как запустить --check.
-Реплики для sounds/ предложи сам, смешные и короткие, и сгенерируй их командой `say`.</code></pre></div>
-</section>
+Реплики для sounds/ предложи сам, смешные и короткие, и сгенерируй их командой `say`.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+</div></details>
 
-<section>
-<h2><span class="step">&lt;/&gt;</span>Весь код</h2>
-<p>Тот же <code>zanuda.py</code>, что в архиве. Проверить без браузера: <code>python3 zanuda.py --dry-run --feed demo.tsv</code>.</p>
-<div class="code"><pre><code>#!/usr/bin/env python3
+<details id="code"><summary><span>Весь код<small>zanuda.py, тот же, что в архиве</small></span></summary><div class="details-body">
+  <p>Тот же <code>zanuda.py</code>, что в архиве (<a href="files/zanuda.py">отдельным файлом</a>). Проверить без браузера:</p>
+  <div class="command"><div class="command-bar"><span>В терминал, в папке ~/zanuda</span><button type="button">Копировать</button></div><pre><code>python3 zanuda.py --dry-run --feed demo.tsv</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="command"><div class="command-bar"><span>Файл zanuda.py</span><button type="button">Копировать</button></div><pre><code>#!/usr/bin/env python3
 &quot;&quot;&quot;Ноутбук-зануда: стыдит голосом Горо, когда открываешь видео или соцсети вместо работы.
 
 Раз в 1–2 секунды смотрит, какое приложение сейчас впереди и какой адрес открыт
@@ -379,27 +410,42 @@ def main(argv=None) -&gt; int:
 
 if __name__ == &quot;__main__&quot;:
     sys.exit(main())
-</code></pre></div>
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+</div></details>
 </section>
 
-<section>
-<h2><span class="step">×</span>Где не сработает</h2>
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="stuck-denied"><summary>Нажал «Не разрешать» и адрес не читается</summary><div class="details-body">
+  <p><span class="path">Системные настройки → Конфиденциальность и безопасность → Автоматизация → Терминал</span>, включите браузер.</p>
+</div></details>
+<details id="stuck-access"><summary>macOS просит «Универсальный доступ» или «Запись экрана»</summary><div class="details-body">
+  <p>Они не нужны. Если macOS вдруг их просит, что-то не так: не разрешайте.</p>
+</div></details>
+<details id="stuck-sounds"><summary>Пишет «нет звуков»</summary><div class="details-body">
+  <p>Скрипт не нашёл файлы из <code>sounds</code> в <code>config.json</code>. Проверьте, что папка <code>sounds/</code> с <code>1.wav</code>, <code>2.wav</code>, <code>3.wav</code> лежит рядом с <code>zanuda.py</code>.</p>
+</div></details>
+<details id="stuck-devtools"><summary>macOS предлагает поставить «инструменты разработчика»</summary><div class="details-body">
+  <p>Так бывает при первом запуске <code>python3</code>. Согласитесь.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Где не сработает</h2>
 <ul>
 <li>Firefox и Яндекс Браузер адрес вкладки через AppleScript не отдают.</li>
 <li>Brave и Edge понимают те же команды, что Chrome: добавьте в <code>browsers</code> строку <code>"Brave Browser": "chrome"</code>. Мы это не проверяли.</li>
-<li>Windows и Linux: нет. Попросите Claude Code переписать под свою систему, промпт выше подойдёт как основа.</li>
+<li>Windows и Linux: нет. Попросите Claude Code переписать под свою систему, <a href="#own">промпт выше</a> подойдёт как основа.</li>
 <li>Работает, пока открыт Терминал. Автозапуск через LaunchAgent возможен, но тогда разрешение спросят заново.</li>
 </ul>
 </section>
 
-<a class="back" href="../">← Все инструкции</a>
 <footer>
-Реплики Горо озвучены нейросетью OmniVoice. Делаете на свой страх и риск; всё выключается Ctrl+C.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Реплики Горо озвучены нейросетью OmniVoice. Делаете на свой страх и риск; всё выключается Ctrl+C.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
-
-
-<script src="../copy.js"></script>
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>

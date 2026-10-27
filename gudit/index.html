@@ -3,46 +3,67 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ноутбук гудит</title>
+<title>Ноутбук гудит: как найти, кто его грузит</title>
 <meta name="description" content="Кто грузит Mac, когда вы ничего не делаете: Мониторинг системы, команды только на чтение, частые причины и безопасные действия. Промпт для Claude Code и кратко для Windows.">
-<meta property="og:title" content="Ноутбук гудит">
-<meta property="og:description" content="Кто грузит Mac, когда вы ничего не делаете: Мониторинг системы, команды только на чтение, частые причины и безопасные действия. Промпт для Claude Code и кратко для Windows.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ноутбук гудит. Кто там внутри">
+<meta property="og:description" content="Как найти главного жруна: Мониторинг системы, команды только на чтение, промпт для Claude Code и что делать на Windows. Ничего не удаляем.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/gudit/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/gudit/img/8-3-chasa.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/guide-v2.css">
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
-  <h1>Ноутбук <span class="hl">гудит</span>. Кто там внутри</h1>
-  <p class="lede">Ничего не открыто, а ноутбук орёт? Значит, там кто-то сидит. Сначала ищем, ничего не трогая. Потом убираем виновника самым мягким способом: перезапуск, обновление, закрыть окно. Ничего не удаляем.</p>
-  <div class="safe"><span>бесплатно</span><span>поиск только читает</span><span>ничего не удаляет</span><span>всё обратимо</span></div>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Ноутбук <span class="hl">гудит</span>. Как найти, кто там сидит</h1>
+    <p class="lede">Ничего не открыто, а ноутбук орёт? Значит, там кто-то сидит. Сначала ищем, ничего не трогая. Потом убираем виновника самым мягким способом: перезапуск, обновление, закрыть окно. Ничего не удаляем.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Найти виновника →</a>
+      <a class="secondary-link" href="#prompt">Сразу к промпту</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>поиск только читает</li><li>ничего не удаляет</li><li>всё обратимо</li></ul>
+    <p class="for-video">К ролику «Ноутбук гудит» · обновлено 27 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/8-3-chasa.jpg" width="960" height="640" alt="Кадр из ролика: 8,3 ч процессора со среды, штамп «Виновен»"><figcaption>Кадр из ролика. Главный виновник на моём Mac: хост плагинов редактора кода, 8,3 часа процессора со среды.</figcaption></figure>
 </header>
 
-<section>
-<h2><span class="step">0</span>Что нашлось у меня</h2>
-<p>Я посадил Claude на допрос своего MacBook Pro. В фоне жили около 1 030 процессов. Браузер держал 35 процессов и около 8 ГБ памяти, но процессор почти не трогал: алиби. Служба <code>watchman</code> после обновления соседней библиотеки не могла запуститься и упала 152 раза за двое суток, и на каждое падение система писала отчёт. Открытый двое суток Мониторинг системы сам съел 1,3 часа процессора. А главным оказался хост плагинов редактора кода в фоновом окне: 8,3 часа процессора со среды, местами почти целое ядро. Перегрева при этом macOS не записала ни разу.</p>
-<p>Пока я мерил, на этом же Маке рендерили ролики мои агенты (python и ffmpeg, около 0,7 ядра). Их я из списка виновников исключил. У вас картина будет своя: сначала посмотрите.</p>
-</section>
+<nav class="strip" aria-label="Что обещал ролик"><p>Что внутри</p><ol>
+  <li><a href="#step-1"><b>Мониторинг</b><span>найти виновника</span></a></li>
+  <li><a href="#step-2"><b>Команды</b><span>только чтение</span></a></li>
+  <li><a href="#prompt"><b>Промпт</b><span>для Claude Code</span></a></li>
+  <li><a href="#windows"><b>Windows</b><span>кратко</span></a></li>
+</ol></nav>
 
-<section>
-<h2><span class="step">1</span>Найти виновника: Мониторинг системы</h2>
-<ol>
-<li>Откройте <span class="path">Программы → Утилиты → Мониторинг системы</span> (или Cmd+Пробел и наберите «Мониторинг»).</li>
-<li>Вкладка <b>ЦП</b>, отсортируйте по столбцу <b>% ЦП</b>. 100 % = одно ядро целиком. Если что-то долго держится выше 50 % и вы этим не пользуетесь, это кандидат.</li>
-<li>Там же в меню <span class="path">Вид → Все процессы</span> и столбец <b>Время ЦП</b>: он показывает, кто съел больше всего с момента запуска, а не только прямо сейчас. Так ловятся те, кто грузит урывками.</li>
-<li>Вкладка <b>Энергия</b>: отсортируйте по влиянию на энергопотребление, там же есть среднее за последние 12 часов. Это про батарею и нагрев.</li>
-</ol>
-<div class="warn">Найдя виновника, закройте и сам Мониторинг системы. Открытый сутками, он тоже ест процессор: у меня 1,3 часа за двое суток.</div>
-<p>Справка Apple: <a href="https://support.apple.com/guide/activity-monitor/welcome/mac">руководство пользователя «Мониторинга системы»</a>.</p>
-</section>
+<div class="start-note"><b>До начала</b><p>Шаги для Mac, Windows кратко ниже. Поиск только читает. Всё, что что-то меняет, обратимо, и запускаете это вы сами.</p></div>
 
-<section>
-<h2><span class="step">2</span>То же из Терминала, только чтение</h2>
-<p>Эти команды ничего не меняют, только показывают.</p>
-<div class="code"><pre><code># кто грузит процессор прямо сейчас (второй замер точнее первого)
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Первый результат за 3 шага</h2>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Найдите виновника в Мониторинге системы</h3><p>Встроенная программа, ничего ставить не надо.</p></div></div>
+  <ol>
+  <li>Откройте <span class="path">Программы → Утилиты → Мониторинг системы</span> (или Cmd+Пробел и наберите «Мониторинг»).</li>
+  <li>Вкладка <b>ЦП</b>, отсортируйте по столбцу <b>% ЦП</b>. 100 % = одно ядро целиком. Если что-то долго держится выше 50 % и вы этим не пользуетесь, это кандидат.</li>
+  <li>Там же в меню <span class="path">Вид → Все процессы</span> и столбец <b>Время ЦП</b>: он показывает, кто съел больше всего с момента запуска, а не только прямо сейчас. Так ловятся те, кто грузит урывками.</li>
+  <li>Вкладка <b>Энергия</b>: отсортируйте по влиянию на энергопотребление, там же есть среднее за последние 12 часов. Это про батарею и нагрев.</li>
+  </ol>
+  <div class="warn">Найдя виновника, закройте и сам Мониторинг системы. Открытый сутками, он тоже ест процессор: у меня 1,3 часа за двое суток.</div>
+  <p>Справка Apple: <a href="https://support.apple.com/guide/activity-monitor/welcome/mac">руководство пользователя «Мониторинга системы»</a>.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Один-два кандидата: долго держатся выше 50 % ЦП или набрали больше всех времени ЦП, а вы ими не пользуетесь.</p></div>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Проверьте то же из Терминала</h3><p>Эти команды ничего не меняют, только показывают.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В терминал · только чтение</span><button type="button">Копировать</button></div><pre><code># кто грузит процессор прямо сейчас (второй замер точнее первого)
 top -l 2 -o cpu -n 15 -stats pid,cpu,mem,command | tail -16
 # кто съел больше всего процессорного времени с момента запуска
 # (TIME в минутах:секундах, 497:26 = 8,3 часа)
@@ -59,27 +80,47 @@ pmset -g therm
 ls ~/Library/Logs/DiagnosticReports | sed 's/-[0-9].*//' | sort | uniq -c | sort -rn | head
 # место на диске и размер кэшей
 df -h /
-du -sh ~/Library/Caches</code></pre></div>
+du -sh ~/Library/Caches</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Список тех, кто грузит сейчас и кто набрал больше всего времени ЦП, плюс имена служб, которые падают в фоне.</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Уберите виновника самым мягким способом</h3><p>Перезапуск, обновление, закрыть окно. Найдите своего в списке.</p></div></div>
+
+  <details id="browser"><summary>Браузер</summary><div class="details-body">
+    <p>Десятки вкладок и расширений живут отдельными процессами. В Chrome есть свой диспетчер: <span class="path">Меню ⋮ → Дополнительные инструменты → Диспетчер задач</span>. Закройте тяжёлые вкладки, отключите расширения, которыми не пользуетесь (<span class="path">chrome://extensions</span>, переключатель, удалять не обязательно).</p>
+  </div></details>
+  <details id="editor"><summary><span>Редактор кода (VS Code, Cursor)<small>extension host, главный виновник в ролике</small></span></summary><div class="details-body">
+    <p>Плагины работают в отдельном процессе «extension host» и могут крутиться в фоне в забытом окне. Cmd+Shift+P → <code>Developer: Show Running Extensions</code> покажет, какой плагин грузит. <code>Developer: Restart Extension Host</code> перезапустит плагины, не закрывая окно. Лишнее окно проекта просто закройте.</p>
+  </div></details>
+  <details id="spotlight"><summary><span>Spotlight<small>mds, mds_stores, mdworker</small></span></summary><div class="details-body">
+    <p>После обновления macOS, переноса данных или подключения большого диска система заново строит индекс поиска. Это нормально и проходит само, обычно за часы. Если индексируется папка, которую искать не нужно (бэкапы, модели, node_modules), добавьте её в исключения: <span class="path">Системные настройки → Spotlight → Конфиденциальность поиска</span>.</p>
+  </div></details>
+  <details id="cloud"><summary><span>Облако и фото<small>bird, cloudd, photoanalysisd</small></span></summary><div class="details-body">
+    <p>iCloud Drive и «Фото» синхронизируют и анализируют снимки в фоне (процессы <code>bird</code>, <code>cloudd</code>, <code>photoanalysisd</code>). Обычно это разовая волна после загрузки большого объёма. Дайте ей закончиться на зарядке.</p>
+  </div></details>
+  <details id="docker"><summary>Docker</summary><div class="details-body">
+    <p>Docker Desktop держит виртуальную машину, даже когда контейнеры не нужны. Посмотреть: <code>docker stats --no-stream</code>. Остановить ненужные: <code>docker compose stop</code> в папке проекта или просто выйти из Docker Desktop. Лимит ресурсов: <span class="path">Settings → Resources</span>.</p>
+  </div></details>
+  <details id="crashloop"><summary><span>Служба падает в цикле<small>одно имя десятки раз в отчётах о падениях</small></span></summary><div class="details-body">
+    <p>Если в отчётах о падениях одно имя повторяется десятки раз, служба не может запуститься, а система каждый раз её поднимает и пишет отчёт. У меня так было с <code>watchman</code> из Homebrew: после обновления библиотеки ICU старая версия не находила <code>libicudata.73.dylib</code>. Лечится обновлением самой программы:</p>
+    <div class="command"><div class="command-bar"><span>В терминал · обновить</span><button type="button">Копировать</button></div><pre><code>brew upgrade watchman</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+    <p>Если программа вам не нужна, остановите её фоновую службу (это обратимо, вернётся после перезагрузки или новой загрузки службы):</p>
+    <div class="command"><div class="command-bar"><span>В терминал · остановить службу</span><button type="button">Копировать</button></div><pre><code>launchctl list | grep -i watchman
+launchctl bootout gui/$(id -u)/com.github.facebook.watchman</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  </div></details>
+  <details id="caches"><summary>Кэши</summary><div class="details-body">
+    <p>На гул кэши не влияют, но место на диске едят. Чистите их штатными командами тех программ, которым они принадлежат, а не руками: <code>brew cleanup</code>, <code>npm cache clean --force</code>, <code>pip cache purge</code>. Сначала посмотрите размер: <code>du -sh ~/Library/Caches ~/.cache ~/.npm</code>.</p>
+  </div></details>
+  <details id="reboot"><summary>Просто давно не перезагружали</summary><div class="details-body">
+    <p>Перезагрузка закрывает зависшие процессы и сбрасывает своп. Это самое безопасное действие из всех.</p>
+  </div></details>
+  <div class="expected"><b>Что должно получиться</b><p>Виновник закрыт, перезапущен или обновлён. Ничего не удалено.</p></div>
+</div>
 </section>
 
-<section>
-<h2><span class="step">3</span>Частые причины и что с ними делать</h2>
-<p><b>Браузер.</b> Десятки вкладок и расширений живут отдельными процессами. В Chrome есть свой диспетчер: <span class="path">Меню ⋮ → Дополнительные инструменты → Диспетчер задач</span>. Закройте тяжёлые вкладки, отключите расширения, которыми не пользуетесь (<span class="path">chrome://extensions</span>, переключатель, удалять не обязательно).</p>
-<p><b>Редактор кода (VS Code, Cursor).</b> Плагины работают в отдельном процессе «extension host» и могут крутиться в фоне в забытом окне. Cmd+Shift+P → <code>Developer: Show Running Extensions</code> покажет, какой плагин грузит. <code>Developer: Restart Extension Host</code> перезапустит плагины, не закрывая окно. Лишнее окно проекта просто закройте.</p>
-<p><b>Spotlight (mds, mds_stores, mdworker).</b> После обновления macOS, переноса данных или подключения большого диска система заново строит индекс поиска. Это нормально и проходит само, обычно за часы. Если индексируется папка, которую искать не нужно (бэкапы, модели, node_modules), добавьте её в исключения: <span class="path">Системные настройки → Spotlight → Конфиденциальность поиска</span>.</p>
-<p><b>Облако и фото.</b> iCloud Drive и «Фото» синхронизируют и анализируют снимки в фоне (процессы <code>bird</code>, <code>cloudd</code>, <code>photoanalysisd</code>). Обычно это разовая волна после загрузки большого объёма. Дайте ей закончиться на зарядке.</p>
-<p><b>Docker.</b> Docker Desktop держит виртуальную машину, даже когда контейнеры не нужны. Посмотреть: <code>docker stats --no-stream</code>. Остановить ненужные: <code>docker compose stop</code> в папке проекта или просто выйти из Docker Desktop. Лимит ресурсов: <span class="path">Settings → Resources</span>.</p>
-<p><b>Служба падает в цикле.</b> Если в отчётах о падениях одно имя повторяется десятки раз, служба не может запуститься, а система каждый раз её поднимает и пишет отчёт. У меня так было с <code>watchman</code> из Homebrew: после обновления библиотеки ICU старая версия не находила <code>libicudata.73.dylib</code>. Лечится обновлением самой программы:</p>
-<div class="code"><pre><code>brew upgrade watchman</code></pre></div>
-<p>Если программа вам не нужна, остановите её фоновую службу (это обратимо, вернётся после перезагрузки или новой загрузки службы):</p>
-<div class="code"><pre><code>launchctl list | grep -i watchman
-launchctl bootout gui/$(id -u)/com.github.facebook.watchman</code></pre></div>
-<p><b>Кэши.</b> На гул кэши не влияют, но место на диске едят. Чистите их штатными командами тех программ, которым они принадлежат, а не руками: <code>brew cleanup</code>, <code>npm cache clean --force</code>, <code>pip cache purge</code>. Сначала посмотрите размер: <code>du -sh ~/Library/Caches ~/.cache ~/.npm</code>.</p>
-<p><b>Просто давно не перезагружали.</b> Перезагрузка закрывает зависшие процессы и сбрасывает своп. Это самое безопасное действие из всех.</p>
-</section>
-
-<section>
-<h2><span class="step">4</span>Что НЕ делать</h2>
+<section class="block" id="dont" aria-labelledby="dont-title">
+<h2 id="dont-title">Что НЕ делать</h2>
 <ul>
 <li>Не удаляйте файлы из <code>/System</code>, <code>/Library</code> и <code>/private</code> и не запускайте <code>sudo rm -rf</code> по совету из интернета.</li>
 <li>Не завершайте принудительно <code>kernel_task</code>, <code>WindowServer</code>, <code>launchd</code>: это сама система. <code>WindowServer</code> рисует экран, его аварийное завершение выкинет вас из всех программ.</li>
@@ -88,10 +129,10 @@ launchctl bootout gui/$(id -u)/com.github.facebook.watchman</code></pre></div>
 </ul>
 </section>
 
-<section>
-<h2><span class="step">5</span>Промпт для Claude Code</h2>
-<p>Claude Code работает в Терминале и сам запускает команды. Вставьте текст целиком:</p>
-<div class="code"><pre><code>Найди, почему гудит и греется мой Mac, когда я ничего не делаю.
+<section class="block" id="prompt" aria-labelledby="prompt-title">
+<h2 id="prompt-title">Или промпт для Claude Code</h2>
+<p class="intro">Claude Code работает в Терминале и сам запускает команды. Вставьте текст целиком.</p>
+<div class="command"><div class="command-bar"><span>В чат Claude Code · промпт</span><button type="button">Копировать</button></div><pre><code>Найди, почему гудит и греется мой Mac, когда я ничего не делаю.
 Ничего не удаляй, не завершай и не меняй без моего «да».
 
 1. Только чтение. Сними 5 замеров с интервалом 30 секунд:
@@ -108,28 +149,56 @@ launchctl bootout gui/$(id -u)/com.github.facebook.watchman</code></pre></div>
 5. Для каждого предложи самое мягкое обратимое действие
    (закрыть окно, перезапустить, обновить, остановить службу)
    и дай команду. Запускать буду я сам.
-6. Если ничего страшного не нашлось, так и скажи.</code></pre></div>
+6. Если ничего страшного не нашлось, так и скажи.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<div class="expected"><b>Что должно получиться</b><p>Таблица топ-5 виновников: процесс, что это за программа, % ЦП сейчас и время ЦП с момента запуска. Для каждого самое мягкое обратимое действие и команда, которую запускаете вы сами.</p></div>
 </section>
 
-<section>
-<h2><span class="step">×</span>Windows кратко</h2>
+<section class="block" id="windows" aria-labelledby="windows-title">
+<h2 id="windows-title">Windows кратко</h2>
 <ol>
 <li><b>Ctrl+Shift+Esc</b> открывает Диспетчер задач. Вкладка «Процессы», сортировка по столбцу «ЦП».</li>
 <li>Вкладка «Автозагрузка приложений»: отключите то, что не нужно при старте (это обратимо, переключатель).</li>
 <li>Подробнее по диску и сети: Win+R → <code>resmon</code> (Монитор ресурсов).</li>
 <li>Часто в фоне грузят индексатор поиска (SearchIndexer), проверка антивируса Microsoft Defender и Центр обновления. Обычно это временно: дайте им закончиться и перезагрузите компьютер.</li>
-<li>То же из PowerShell, только чтение: <code>Get-Process | Sort-Object CPU -Descending | Select-Object -First 10 Name, CPU</code> (CPU здесь в секундах с момента запуска).</li>
+<li>То же из PowerShell, только чтение (CPU здесь в секундах с момента запуска):
+<div class="command"><div class="command-bar"><span>В PowerShell · только чтение</span><button type="button">Копировать</button></div><pre><code>Get-Process | Sort-Object CPU -Descending | Select-Object -First 10 Name, CPU</code></pre><p class="copy-feedback" aria-live="polite"></p></div></li>
 </ol>
 </section>
 
-<a class="back" href="../">← Все инструкции</a>
+<section class="block" id="mine" aria-labelledby="mine-title">
+<h2 id="mine-title">Что нашлось у меня</h2>
+<p>Я посадил Claude на допрос своего MacBook Pro. В фоне жили около 1 030 процессов. Браузер держал 35 процессов и около 8 ГБ памяти, но процессор почти не трогал: алиби. Служба <code>watchman</code> после обновления соседней библиотеки не могла запуститься и упала 152 раза за двое суток, и на каждое падение система писала отчёт. Открытый двое суток Мониторинг системы сам съел 1,3 часа процессора. А главным оказался хост плагинов редактора кода в фоновом окне: 8,3 часа процессора со среды, местами почти целое ядро. Перегрева при этом macOS не записала ни разу.</p>
+<p>Пока я мерил, на этом же Маке рендерили ролики мои агенты (python и ffmpeg, около 0,7 ядра). Их я из списка виновников исключил. У вас картина будет своя: сначала посмотрите.</p>
+</section>
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="bursts"><summary>Гудит урывками, а в списке % ЦП никого</summary><div class="details-body">
+  <p>Смотрите не «прямо сейчас», а накопленное: столбец <b>Время ЦП</b> в <span class="path">Вид → Все процессы</span> или <code>ps -Ao time,pid,comm | sort -rn | head -15</code> из шага 2. Так ловятся те, кто грузит урывками.</p>
+</div></details>
+<details id="own-load"><summary>Грузят мои же программы и агенты</summary><div class="details-body">
+  <p>Отделите свою нагрузку от фоновой. У меня на этом же Маке рендерили ролики агенты (python и ffmpeg, около 0,7 ядра), их я из списка виновников исключил. В промпте это пункт 3.</p>
+</div></details>
+<details id="nothing"><summary>Ничего подозрительного не нашлось</summary><div class="details-body">
+  <p>Перезагрузите: это закрывает зависшие процессы и сбрасывает своп, самое безопасное действие из всех. После обновления macOS или подключения большого диска дайте Spotlight и облаку закончить работу на зарядке.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Ограничения</h2>
+<ul>
+  <li>Подробные шаги для Mac. Для Windows только краткий список.</li>
+  <li>Цифры из ролика — мой MacBook Pro за двое суток. У вас картина будет своя.</li>
+  <li>Кэши на гул не влияют: чистка освобождает место, но не делает тише.</li>
+</ul>
+</section>
+
 <footer>
-Делаете на свой страх и риск. Команды поиска только читают; всё, что что-то меняет, обратимо, и запускаете это вы сами.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Делаете на свой страх и риск. Команды поиска только читают; всё, что что-то меняет, обратимо, и запускаете это вы сами.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
-
-
-<script src="../copy.js"></script>
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>

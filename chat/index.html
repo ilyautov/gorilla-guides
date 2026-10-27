@@ -3,51 +3,74 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Сводка чата за минуту</title>
+<title>Что в чате касается лично вас: промпт-сводка</title>
 <meta name="description" content="Как выгрузить школьный или рабочий чат из Telegram и WhatsApp и получить сводку: что требует вас, сроки и деньги, остальное в три пункта. Промпт для Claude и ChatGPT, только чтение.">
-<meta property="og:title" content="Сводка чата за минуту">
-<meta property="og:description" content="Как выгрузить школьный или рабочий чат из Telegram и WhatsApp и получить сводку: что требует вас, сроки и деньги, остальное в три пункта. Промпт для Claude и ChatGPT, только чтение.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Что в чате касается лично вас: промпт-сводка">
+<meta property="og:description" content="Нейросеть читает выгрузку чата из Telegram или WhatsApp и говорит, что в трёхстах сообщениях касается лично вас. Только чтение, писать за вас она не будет.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/chat/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/chat/img/prochitano.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/guide-v2.css">
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
-  <h1>Сводка чата <span class="hl">за минуту</span></h1>
-  <p class="lede">В ролике школьный чат взорвался, а нейросеть «вежливо» сдала за героя деньги на шторы. Здесь честная версия: нейросеть только читает выгрузку и говорит, что в трёхстах сообщениях касается лично вас.</p>
-  <div class="safe"><span>бесплатно</span><span>Claude, ChatGPT, любой чат</span><span>только чтение</span></div>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Что в чате касается <span class="hl">лично вас</span></h1>
+    <p class="lede">В ролике школьный чат взорвался, а нейросеть «вежливо» сдала за героя деньги на шторы. Здесь честная версия: нейросеть только читает выгрузку и говорит, что в трёхстах сообщениях касается лично вас.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Выгрузить чат →</a>
+      <a class="secondary-link" href="#step-3">Сразу к промпту</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>Claude, ChatGPT, любой чат</li><li>только чтение</li></ul>
+    <p class="for-video">К ролику «Клод, школьный чат взорвался» · обновлено 27 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/prochitano.jpg" width="960" height="640" alt="Кадр из ролика: десятки глаз в темноте и табличка «Прочитано: 33»"><figcaption>Кадр из ролика. Прочитала классная. И тридцать две мамы.</figcaption></figure>
 </header>
 
-<section>
-<h2><span class="step">0</span>Что было в ролике</h2>
-<p>Чаты, классная, мамы и Горо вымышленные. Ошибки настоящие: два похожих чата, жалоба ушла не туда, а «реагируй вежливо» без границ превратилось в действие от вашего имени.</p>
-<div class="warn">Правило одно: нейросеть читает, пишете вы. Не давайте ей доступ к отправке сообщений и не просите «ответить за меня». Сводка экономит время, решение и ответ остаются вашими.</div>
-</section>
+<nav class="strip" aria-label="Три шага"><p>Что здесь</p><ol>
+  <li><a href="#step-1"><b>Выгрузка</b><span>Telegram или WhatsApp</span></a></li>
+  <li><a href="#step-2"><b>Убрать лишнее</b><span>телефоны и реквизиты</span></a></li>
+  <li><a href="#step-3"><b>Промпт-сводка</b><span>что требует вас</span></a></li>
+  <li><a href="#stuck-wrong"><b>Написали не туда</b><span>как удалить у всех</span></a></li>
+</ol></nav>
 
-<section>
-<h2><span class="step">1</span>Выгрузить чат</h2>
-<ul>
-<li><b>Telegram:</b> только в приложении для компьютера (Telegram Desktop). Откройте чат → ⋮ в правом верхнем углу → «Экспорт истории чата». Снимите галочки с фото и видео, формат «Машиночитаемый JSON» или HTML, задайте период. Получится папка с файлом <code>result.json</code> или <code>messages.html</code>.</li>
-<li><b>WhatsApp:</b> откройте чат → имя чата вверху → «Экспорт чата» → «Без медиафайлов». Получится файл <code>.txt</code> (на iPhone — архив <code>.zip</code>, внутри тот же <code>.txt</code>).</li>
-<li>Нужна неделя, а не год: длинную выгрузку нейросеть дочитает хуже. Задайте период при экспорте или вырежьте нужные дни.</li>
-</ul>
-</section>
+<div class="start-note"><b>До начала</b><p>Нейросеть читает, пишете вы. Не давайте ей доступ к отправке сообщений и не просите «ответить за меня». Для выгрузки из Telegram нужен Telegram Desktop на компьютере.</p></div>
 
-<section>
-<h2><span class="step">2</span>Убрать лишнее</h2>
-<ul>
-<li>В выгрузке телефоны и имена других людей. Если не хотите отдавать их нейросети, замените номера через поиск-замену или удалите строки со служебными событиями («добавил», «вышел»).</li>
-<li>Реквизиты сборов и номера карт в сводку попадут: решайте, можно ли показывать их сервису.</li>
-</ul>
-</section>
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Первый результат за 3 шага</h2>
 
-<section>
-<h2><span class="step">3</span>Промпт-сводка</h2>
-<p>Приложите файл в Claude, ChatGPT или другой чат и вставьте текст ниже.</p>
-<div class="code"><pre><code>Ниже выгрузка чата «[название чата]» за период [с ... по ...].
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Выгрузите чат за неделю</h3><p>Нужна неделя, а не год: длинную выгрузку нейросеть дочитает хуже.</p></div></div>
+  <ul class="cards">
+    <li><b>Telegram</b>Только в приложении для компьютера (Telegram Desktop). Откройте чат → ⋮ в правом верхнем углу → «Экспорт истории чата». Снимите галочки с фото и видео, формат «Машиночитаемый JSON» или HTML, задайте период. Получится папка с файлом <code>result.json</code> или <code>messages.html</code>.</li>
+    <li><b>WhatsApp</b>Откройте чат → имя чата вверху → «Экспорт чата» → «Без медиафайлов». Получится файл <code>.txt</code> (на iPhone — архив <code>.zip</code>, внутри тот же <code>.txt</code>).</li>
+  </ul>
+  <p>Задайте период при экспорте или вырежьте нужные дни.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Файл <code>result.json</code>, <code>messages.html</code> или <code>.txt</code> с перепиской за нужные дни, без фото и видео.</p></div>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Уберите лишнее</h3><p>В выгрузке телефоны и имена других людей.</p></div></div>
+  <ul>
+    <li>Если не хотите отдавать их нейросети, замените номера через поиск-замену или удалите строки со служебными событиями («добавил», «вышел»).</li>
+    <li>Реквизиты сборов и номера карт в сводку попадут: решайте, можно ли показывать их сервису.</li>
+  </ul>
+  <div class="expected"><b>Что должно получиться</b><p>В файле нет того, что вы не готовы показать сервису.</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Отдайте выгрузку промпту</h3><p>Приложите файл в Claude, ChatGPT или другой чат и вставьте текст ниже.</p></div></div>
+  <div class="warn">Правило одно: нейросеть читает, пишете вы. Сводка экономит время, решение и ответ остаются вашими.</div>
+  <div class="command"><div class="command-bar"><span>В чат Claude, ChatGPT или другой · промпт</span><button type="button">Копировать</button></div><pre><code>Ниже выгрузка чата «[название чата]» за период [с ... по ...].
 Я в нём [кто я: родитель, сотрудник], меня зовут в чате [имя или ник].
 
 Работай только на чтение: ничего не пиши от моего имени,
@@ -62,36 +85,48 @@
 3. Остальное в три пункта: о чём спорили и чем кончилось.
 
 Не пересказывай поздравления, стикеры и «спасибо».
-Если чего-то не понял или в выгрузке нет начала разговора, скажи прямо.</code></pre></div>
-<p>Этот же промпт файлом: <a href="https://github.com/ilyautov/gorilla-guides/blob/main/prompts/chat.md">prompts/chat.md</a>.</p>
+Если чего-то не понял или в выгрузке нет начала разговора, скажи прямо.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Тот же промпт отдельным файлом: <a href="../prompts/chat.md">prompts/chat.md</a>.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Сводка из трёх частей: что требует вас лично (с цитатой и датой), сроки и деньги, остальное в три пункта. Без готовых ответов в чат, пока вы не попросите.</p></div>
+</div>
 </section>
 
-<section>
-<h2><span class="step">4</span>Если уже написали не туда</h2>
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="stuck-wrong"><summary><span>Уже написали не туда<small>Telegram, WhatsApp</small></span></summary><div class="details-body">
+  <ul>
+    <li><b>Telegram</b> разрешает удалить своё сообщение у всех участников группы: долгое нажатие → «Удалить» → «Также удалить для всех».</li>
+    <li><b>WhatsApp</b> даёт «Удалить у всех» только ограниченное время после отправки (около двух суток), потом остаётся «Удалить у меня».</li>
+    <li>Удаление не отменяет прочтения: если сообщение уже видели, лучше коротко извиниться, чем делать вид, что его не было.</li>
+    <li>Перед жалобой проверьте название чата вверху экрана. Ролик целиком про эту секунду.</li>
+  </ul>
+</div></details>
+<details id="stuck-export"><summary>В Telegram нет «Экспорта истории чата»</summary><div class="details-body">
+  <p>Экспорт есть только в приложении для компьютера, Telegram Desktop. В телефоне его нет.</p>
+</div></details>
+<details id="stuck-long"><summary>Сводка пропускает важное</summary><div class="details-body">
+  <p>Сократите период: длинную выгрузку нейросеть дочитает хуже. Спорные места проверяйте по цитатам, которые просит промпт.</p>
+</div></details>
+<details id="video"><summary>Что было в ролике</summary><div class="details-body">
+  <p>Чаты, классная, мамы и Горо вымышленные. Ошибки настоящие: два похожих чата, жалоба ушла не туда, а «реагируй вежливо» без границ превратилось в действие от вашего имени.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Чего сводка не сделает</h2>
 <ul>
-<li><b>Telegram</b> разрешает удалить своё сообщение у всех участников группы: долгое нажатие → «Удалить» → «Также удалить для всех».</li>
-<li><b>WhatsApp</b> даёт «Удалить у всех» только ограниченное время после отправки (около двух суток), потом остаётся «Удалить у меня».</li>
-<li>Удаление не отменяет прочтения: если сообщение уже видели, лучше коротко извиниться, чем делать вид, что его не было.</li>
-<li>Перед жалобой проверьте название чата вверху экрана. Ролик целиком про эту секунду.</li>
+  <li>Не видит голосовых, фото и файлов, если вы их не выгрузили и не расшифровали.</li>
+  <li>Может пропустить сарказм и «ну-ну». Спорные места проверяйте по цитатам.</li>
+  <li>Не платит и не отвечает за вас. И не должна.</li>
 </ul>
 </section>
 
-<section>
-<h2><span class="step">5</span>Чего сводка не сделает</h2>
-<ul>
-<li>Не видит голосовых, фото и файлов, если вы их не выгрузили и не расшифровали.</li>
-<li>Может пропустить сарказм и «ну-ну». Спорные места проверяйте по цитатам.</li>
-<li>Не платит и не отвечает за вас. И не должна.</li>
-</ul>
-</section>
-
-<a class="back" href="../">← Все инструкции</a>
 <footer>
-Чаты, классная и персонажи в ролике вымышленные.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Чаты, классная и персонажи в ролике вымышленные.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
-
-<script src="../copy.js"></script>
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>

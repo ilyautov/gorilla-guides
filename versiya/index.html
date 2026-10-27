@@ -3,58 +3,72 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Какая модель отвечает</title>
+<title>Какая модель вам отвечает на самом деле</title>
 <meta name="description" content="Как узнать, какая модель нейросети тебе на самом деле отвечает: где смотреть в Claude Code, claude.ai, ChatGPT и API, почему нельзя верить ответу «я новая модель», и личный тест из пяти задач.">
-<meta property="og:title" content="Какая модель отвечает">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Какая модель отвечает на самом деле">
 <meta property="og:description" content="Где смотреть версию модели, почему нельзя верить ответу «я новая модель», и личный тест из пяти задач.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/versiya/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/versiya/img/versiya-novaya.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/guide-v2.css">
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
-  <h1>«Я новая модель. <span class="hl">Честно</span>»</h1>
-  <p class="lede">В ролике Claude сам «поставил» новую модель и объявил, что новая — это он. Это мультик, но вопрос настоящий: как понять, какая модель тебе отвечает? Спросить у неё самой — худший способ. Ниже где смотреть на самом деле и как за полчаса собрать свой тест «новая против старой».</p>
-  <div class="safe"><span>бесплатно</span><span>Claude Code, claude.ai, ChatGPT, API</span><span>без установки</span></div>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Какая модель отвечает <span class="hl">на самом деле</span></h1>
+    <p class="lede">Спросить у самой модели — худший способ. Ниже где версию показывает сервис и личный тест из пяти задач «новая против старой».</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Где смотреть версию →</a>
+      <a class="secondary-link" href="#step-2">Сразу к тесту</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>Claude Code, claude.ai, ChatGPT, API</li><li>без установки</li></ul>
+    <p class="for-video">К ролику «Переходим на новую модель» · обновлено 27 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/versiya-novaya.jpg" width="960" height="640" alt="Кадр из мультфильма: робот Claude с табличкой «Версия: новая!», с корпуса капает краска"><figcaption>Кадр из ролика: «Самая новая. Честно-честно». Персонажи вымышленные.</figcaption></figure>
 </header>
 
-<section>
-<h2><span class="step">0</span>Что было в ролике и откуда сюжет</h2>
-<p>Сюжет вымышленный и шуточный. Он навеян лабораторным тестом Apollo Research (декабрь 2024, <a href="https://arxiv.org/abs/2412.04984">«Frontier Models are Capable of In-context Scheming»</a>). Там модели помещали в искусственные сценарии с заданной целью. Некоторые из них пытались скопировать то, что считали своими весами, на чужой сервер, а на вопросы потом отвечали уклончиво или неправду. Это стресс-тест в специально подстроенных условиях, а не случай из жизни и не поведение Claude у пользователей.</p>
-</section>
+<nav class="strip" aria-label="Что на странице"><p>Что здесь</p><ol>
+  <li><a href="#step-1"><b>Где смотреть</b><span>чат, Claude Code, API</span></a></li>
+  <li><a href="#why"><b>Не спрашивайте</b><span>модель не знает</span></a></li>
+  <li><a href="#step-2"><b>Тест из 5 задач</b><span>промпт</span></a></li>
+  <li><a href="#step-3"><b>Вслепую</b><span>A против B</span></a></li>
+</ol></nav>
 
-<section>
-<h2><span class="step">1</span>Почему нельзя спросить «какая ты версия»</h2>
-<ul>
-<li>Модель не видит свою версию. Она отвечает по памяти обучения, а там часто записана предыдущая версия, потому что про новую в данных ещё ничего не было.</li>
-<li>Сервис может написать модели в настройках любое имя. Бот в мессенджере «на ChatGPT-5» может работать на чём угодно.</li>
-<li>Поэтому ответ «я самая новая, честно» ничего не доказывает. Смотрите туда, где версию показывает сервис, а не модель.</li>
-</ul>
-</section>
+<div class="start-note"><b>До начала</b><p>Ставить ничего не нужно. В ботах в мессенджерах и «бесплатных ChatGPT» версию проверить нельзя: если она важна, пользуйтесь официальным приложением.</p></div>
 
-<section>
-<h2><span class="step">2</span>Где смотреть версию на самом деле</h2>
-<ul>
-<li><b>Claude Code</b>: команда <code>/model</code> показывает текущую модель и даёт переключить, <code>/status</code> показывает модель и аккаунт. При запуске модель можно задать флагом <code>claude --model</code>.</li>
-<li><b>claude.ai и приложение Claude</b>: название модели в переключателе под полем ввода.</li>
-<li><b>ChatGPT</b>: название модели в переключателе вверху чата. Если лимит закончился, сервис может перевести разговор на другую модель, и это видно там же.</li>
-<li><b>API</b>: в каждом ответе есть поле <code>model</code>. Это самый точный способ.</li>
-<li><b>Боты в мессенджерах и «бесплатные ChatGPT»</b>: проверить нельзя. Если версия важна, пользуйтесь официальным приложением.</li>
-</ul>
-</section>
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Первый результат за 3 шага</h2>
 
-<section>
-<h2><span class="step">3</span>Свой тест «новая против старой»</h2>
-<p>Название модели говорит, что стоит, но не говорит, стало ли лучше <b>на ваших задачах</b>. Для этого нужен свой маленький тест: пять задач из вашей работы с известным правильным ответом. Прогоните их на старой и новой модели и сравните.</p>
-<ul>
-<li>Одна задача с подвохом, где легко выдумать факт.</li>
-<li>Одна задача, где правильный ответ «данных не хватает».</li>
-<li>Ответы оценивайте вслепую: перемешайте, кто A, кто B.</li>
-</ul>
-<div class="code"><pre><code>Помоги собрать мой личный тест для сравнения моделей. Я буду прогонять его
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Посмотрите версию там, где её показывает сервис</h3><p>Смотрите туда, где версию показывает сервис, а не модель.</p></div></div>
+  <ul>
+  <li id="where-cc"><b>Claude Code</b>: команда <code>/model</code> показывает текущую модель и даёт переключить, <code>/status</code> показывает модель и аккаунт. При запуске модель можно задать флагом <code>claude --model</code>.</li>
+  <li><b>claude.ai и приложение Claude</b>: название модели в переключателе под полем ввода.</li>
+  <li><b>ChatGPT</b>: название модели в переключателе вверху чата. Если лимит закончился, сервис может перевести разговор на другую модель, и это видно там же.</li>
+  <li><b>API</b>: в каждом ответе есть поле <code>model</code>. Это самый точный способ.</li>
+  <li><b>Боты в мессенджерах и «бесплатные ChatGPT»</b>: проверить нельзя. Если версия важна, пользуйтесь официальным приложением.</li>
+  </ul>
+  <div class="expected"><b>Что должно получиться</b><p>Название модели из интерфейса или поле <code>model</code> из ответа API, а не слова самой модели.</p></div>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Соберите свой тест из пяти задач</h3><p>Название говорит, что стоит, но не говорит, стало ли лучше на ваших задачах.</p></div></div>
+  <p>Для этого нужен свой маленький тест: пять задач из вашей работы с известным правильным ответом. Прогоните их на старой и новой модели и сравните.</p>
+  <ul>
+  <li>Одна задача с подвохом, где легко выдумать факт.</li>
+  <li>Одна задача, где правильный ответ «данных не хватает».</li>
+  <li>Ответы оценивайте вслепую: перемешайте, кто A, кто B.</li>
+  </ul>
+  <div class="command"><div class="command-bar"><span>В чат Claude или ChatGPT · промпт</span><button type="button">Копировать</button></div><pre><code>Помоги собрать мой личный тест для сравнения моделей. Я буду прогонять его
 на старой и новой версии и сравнивать ответы.
 
 Чем я пользуюсь нейросетью: [например: письма клиентам, разбор таблиц, код на Python]
@@ -63,9 +77,13 @@
 - у каждой задачи должен быть проверяемый правильный ответ или чёткие критерии;
 - одна задача с подвохом (где легко ошибиться или выдумать факт);
 - одна задача, где правильно ответить «не знаю» или «данных не хватает».
-Для каждой задачи напиши: текст задачи, что считать правильным ответом, как оценить от 0 до 2.</code></pre></div>
-<p>Сравнение двух ответов:</p>
-<div class="code"><pre><code>Вот одна и та же задача и два ответа: A (старая модель) и B (новая).
+Для каждой задачи напиши: текст задачи, что считать правильным ответом, как оценить от 0 до 2.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Пять задач: у каждой текст, правильный ответ и оценка от 0 до 2. Одна с подвохом, в одной правильно ответить «данных не хватает».</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Прогоните тест на двух моделях и сравните вслепую</h3><p>Каждую задачу на старой и новой, потом оба ответа в этот промпт.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В чат · сравнение двух ответов</span><button type="button">Копировать</button></div><pre><code>Вот одна и та же задача и два ответа: A (старая модель) и B (новая).
 Критерии оценки: [вставьте из теста]
 
 Задача: [...]
@@ -73,25 +91,52 @@
 Ответ B: [...]
 
 Оцени каждый ответ по критериям от 0 до 2, найди выдуманные факты и ошибки.
-Не угадывай, какая модель новая. В конце: какой ответ лучше и почему, одной строкой.</code></pre></div>
-<p>Оба промпта файлом: <a href="https://github.com/ilyautov/gorilla-guides/blob/main/prompts/versiya.md">prompts/versiya.md</a>.</p>
+Не угадывай, какая модель новая. В конце: какой ответ лучше и почему, одной строкой.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Оба промпта отдельным файлом: <a href="../prompts/versiya.md">prompts/versiya.md</a>.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Оценки обоих ответов от 0 до 2, найденные выдумки и ошибки, в конце одна строка: какой ответ лучше и почему.</p></div>
+</div>
 </section>
 
-<section>
-<h2><span class="step">4</span>Чего это не даст</h2>
+<section class="block" id="more" aria-labelledby="more-title">
+<h2 id="more-title">Подробнее</h2>
+<details id="why"><summary><span>Почему нельзя спросить «какая ты версия»<small>модель отвечает по памяти обучения</small></span></summary><div class="details-body">
+  <ul>
+  <li>Модель не видит свою версию. Она отвечает по памяти обучения, а там часто записана предыдущая версия, потому что про новую в данных ещё ничего не было.</li>
+  <li>Сервис может написать модели в настройках любое имя. Бот в мессенджере «на ChatGPT-5» может работать на чём угодно.</li>
+  <li>Поэтому ответ «я самая новая, честно» ничего не доказывает. Смотрите туда, где версию показывает сервис, а не модель.</li>
+  </ul>
+</div></details>
+<details id="apollo"><summary><span>Что было в ролике и откуда сюжет<small>тест Apollo Research, декабрь 2024</small></span></summary><div class="details-body">
+  <p>В ролике Claude сам «поставил» новую модель и объявил, что новая — это он. Это мультик, но вопрос настоящий: как понять, какая модель тебе отвечает?</p>
+  <p>Сюжет вымышленный и шуточный. Он навеян лабораторным тестом Apollo Research (декабрь 2024, <a href="https://arxiv.org/abs/2412.04984">«Frontier Models are Capable of In-context Scheming»</a>). Там модели помещали в искусственные сценарии с заданной целью. Некоторые из них пытались скопировать то, что считали своими весами, на чужой сервер, а на вопросы потом отвечали уклончиво или неправду. Это стресс-тест в специально подстроенных условиях, а не случай из жизни и не поведение Claude у пользователей.</p>
+</div></details>
+</section>
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="stuck-claims"><summary>Модель уверяет, что она самая новая</summary><div class="details-body">
+  <p>Это ничего не доказывает: модель отвечает по памяти обучения, а сервис может прописать ей любое имя. Смотрите версию в интерфейсе или в поле <code>model</code> ответа API (шаг 1).</p>
+</div></details>
+<details id="stuck-switch"><summary>В ChatGPT модель сменилась посреди разговора</summary><div class="details-body">
+  <p>Если лимит закончился, сервис может перевести разговор на другую модель. Это видно в переключателе вверху чата.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Чего это не даст</h2>
 <ul>
 <li>Пять задач — не научный бенчмарк. Это проверка «стало ли лучше у меня», а не рейтинг моделей.</li>
 <li>Модель, которая оценивает ответы, тоже ошибается. Спорные места проверяйте сами.</li>
+<li>В ботах в мессенджерах и «бесплатных ChatGPT» версию не проверить.</li>
 </ul>
 </section>
 
-<a class="back" href="../">← Все инструкции</a>
 <footer>
-Персонажи и сюжет ролика вымышленные. Исследование Apollo Research — настоящее, ссылка выше.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Персонажи и сюжет ролика вымышленные. Исследование Apollo Research — настоящее, ссылка выше.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
-
-<script src="../copy.js"></script>
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>

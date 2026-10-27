@@ -3,96 +3,120 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Свой нейромонтажёр на Claude Code</title>
+<title>Свой нейромонтажёр на Claude Code: промпты и наш стиль</title>
 <meta name="description" content="Как собрать монтажёра коротких роликов на Claude Code: папка, пять инструментов, гайд по стилю, монтаж промптом. Три промпта и наш стиль монтажа целиком.">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Свой нейромонтажёр на Claude Code">
 <meta property="og:description" content="Папка, пять инструментов, гайд по стилю и монтаж промптом. Три промпта и наш стиль монтажа, бесплатно.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/moushn/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/moushn/img/moushn-kadr.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
-<style>
-.tblwrap{overflow-x:auto;margin:12px 0}
-.tbl{width:100%;border-collapse:collapse;font-size:15px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.tbl td,.tbl th{padding:7px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
-.tbl tr:last-child td{border-bottom:0}
-</style>
+<link rel="stylesheet" href="../assets/guide-v2.css">
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
-  <h1>Свой <span class="hl">нейромонтажёр</span> на Claude Code</h1>
-  <p class="lede">Всё из ролика без кодового слова: папка, пять инструментов, гайд по стилю и монтаж одним промптом. В конце наш собственный стиль монтажа, на котором собран и этот ролик.</p>
-  <div class="safe"><span>инструменты бесплатные для частных лиц</span><span>всё работает в одной папке</span><span>чужие кадры не берём</span></div>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1><span class="hl">Нейромонтажёр</span> на Claude Code и наш стиль</h1>
+    <p class="lede">Всё из ролика без кодового слова: папка, пять инструментов, гайд по стилю и монтаж промптом. И наш стиль монтажа целиком.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Собрать по шагам →</a>
+      <a class="secondary-link" href="#our-style">Сразу к нашему стилю</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно для частных лиц</li><li>всё в одной папке</li><li>чужие кадры не берём</li></ul>
+    <p class="for-video">К ролику «Свой нейромонтажёр на Claude Code» · обновлено 27 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/moushn-kadr.jpg" width="960" height="640" alt="Кадр из ролика: карточка «Установи инструменты» с пятью включёнными тумблерами: Remotion, HyperFrames, FFmpeg, Whisper, yt-dlp"><figcaption>Кадр из ролика, шаг 2: пять инструментов ставятся одним промптом.</figcaption></figure>
 </header>
 
-<section>
-<h2><span class="step">1</span>Подготовка</h2>
-<ul>
-<li><b>Claude Code на компьютере.</b> Десктоп-приложение Claude (вкладка с Claude Code) или Claude Code в терминале. Веб-версия в браузере работает в облачной песочнице и ваших файлов на компьютере не видит. Нужна платная подписка Claude.</li>
-<li><b>Папка.</b> Создайте папку <code>Монтажёр</code>, внутри три подпапки:</li>
-</ul>
-<div class="code"><pre><code>Монтажёр/
+<nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
+  <li><a href="#step-1"><b>Папка «Монтажёр»</b><span>три подпапки</span></a></li>
+  <li><a href="#step-2"><b>5 инструментов</b><span>одним промптом</span></a></li>
+  <li><a href="#step-3"><b>Гайд по стилю</b><span>из 3–5 роликов</span></a></li>
+  <li><a href="#our-style"><b>Наш стиль</b><span>вставить как есть</span></a></li>
+</ol></nav>
+
+<div class="start-note"><b>До начала</b><p>Нужен Claude Code на компьютере и платная подписка Claude. Веб-версия в браузере работает в облачной песочнице и ваших файлов на компьютере не видит.</p></div>
+
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Первый ролик за 4 шага</h2>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Создайте папку и откройте в ней Claude Code</h3><p>Монтажёр работает только с тем, что лежит в этой папке.</p></div></div>
+  <ul>
+    <li><b>Claude Code на компьютере.</b> Десктоп-приложение Claude (вкладка с Claude Code) или Claude Code в терминале. Веб-версия в браузере работает в облачной песочнице и ваших файлов на компьютере не видит. Нужна платная подписка Claude.</li>
+    <li><b>Папка.</b> Создайте папку <code>Монтажёр</code>, внутри три подпапки:</li>
+  </ul>
+  <div class="command"><div class="command-bar"><span>Структура папки</span><button type="button">Копировать</button></div><pre><code>Монтажёр/
   Исходники/   видео с телефона
   Референсы/   ролики-образцы, музыка, шрифты, логотип
-  Экспорт/     готовые ролики</code></pre></div>
-<ul>
-<li><b>Сессия.</b> Новая сессия Claude Code, режим «на этом компьютере» (не облачный), рабочая папка — <code>Монтажёр</code>. В терминале то же самое: <code>cd Монтажёр && claude</code>.</li>
-</ul>
-</section>
+  Экспорт/     готовые ролики</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p><b>Сессия.</b> Новая сессия Claude Code, режим «на этом компьютере» (не облачный), рабочая папка — <code>Монтажёр</code>. В терминале то же самое:</p>
+  <div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>cd Монтажёр &amp;&amp; claude</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Сессия Claude Code на этом компьютере, рабочая папка <code>Монтажёр</code>.</p></div>
+</div>
 
-<section>
-<h2><span class="step">2</span>Инструменты</h2>
-<div class="tblwrap"><table class="tbl">
-<tr><th>Что</th><th>Зачем</th><th>Лицензия</th></tr>
-<tr><td><a href="https://github.com/heygen-com/hyperframes">HyperFrames</a></td><td>ролик из HTML: титры, анимация, 3D. Мы собираем на нём</td><td>Apache-2.0</td></tr>
-<tr><td><a href="https://github.com/remotion-dev/remotion">Remotion</a></td><td>ролик на React, вместо HyperFrames</td><td>бесплатно частным лицам и компаниям до 3 человек, дальше платная</td></tr>
-<tr><td><a href="https://ffmpeg.org/">FFmpeg</a></td><td>нарезка, склейка, звук</td><td>LGPL/GPL</td></tr>
-<tr><td><a href="https://github.com/SYSTRAN/faster-whisper">faster-whisper</a> (<a href="https://github.com/openai/whisper">Whisper</a>)</td><td>голос в текст по словам, локально</td><td>MIT</td></tr>
-<tr><td><a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a></td><td>скачать видео по ссылке</td><td>Unlicense</td></tr>
-</table></div>
-<p>Достаточно одного движка: HyperFrames или Remotion. Промпт установки (Claude сам проверит, что уже стоит):</p>
-<div class="code"><pre><code>Стань моим монтажёром коротких вертикальных роликов. Мы работаем только в этой папке.
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Поставьте инструменты одним промптом</h3><p>Claude сам проверит, что уже стоит.</p></div></div>
+  <ul class="cards" id="tools">
+    <li><b><a href="https://github.com/heygen-com/hyperframes">HyperFrames</a></b>Ролик из HTML: титры, анимация, 3D. Мы собираем на нём. Apache-2.0.</li>
+    <li><b><a href="https://github.com/remotion-dev/remotion">Remotion</a></b>Ролик на React, вместо HyperFrames. Бесплатно частным лицам и компаниям до 3 человек, дальше платная.</li>
+    <li><b><a href="https://ffmpeg.org/">FFmpeg</a></b>Нарезка, склейка, звук. LGPL/GPL.</li>
+    <li><b><a href="https://github.com/SYSTRAN/faster-whisper">faster-whisper</a></b>Голос в текст по словам, локально (<a href="https://github.com/openai/whisper">Whisper</a>). MIT.</li>
+    <li><b><a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a></b>Скачать видео по ссылке. Unlicense.</li>
+  </ul>
+  <p>Достаточно одного движка: HyperFrames или Remotion. Промпт установки:</p>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · промпт установки</span><button type="button">Копировать</button></div><pre><code>Стань моим монтажёром коротких вертикальных роликов. Мы работаем только в этой папке.
 Проверь, что уже стоит, и поставь недостающее: ffmpeg, yt-dlp, faster-whisper (локальное распознавание речи)
 и один движок монтажа кодом: HyperFrames (https://github.com/heygen-com/hyperframes) или Remotion (https://github.com/remotion-dev/remotion).
 Перед каждой установкой скажи одной строкой, что ставишь и куда. Python-пакеты ставь в отдельное окружение внутри этой папки,
-не в систему. Ничего не удаляй и не трогай файлы вне этой папки. В конце покажи версии всего, что стоит.</code></pre></div>
-<p>У HyperFrames есть готовый плагин для Claude Code, его можно поставить и руками (команды из их README):</p>
-<div class="code"><pre><code>claude plugin marketplace add heygen-com/hyperframes
-claude plugin install hyperframes@hyperframes</code></pre></div>
-<div class="stop">Этот промпт мы не прогоняли на чистом компьютере: у нас всё это уже стоит, и ролики мы собираем на этих же инструментах. Если Claude просит пароль администратора или хочет ставить что-то в систему, это нормально для ffmpeg через Homebrew, но читайте, что он запускает.</div>
-</section>
+не в систему. Ничего не удаляй и не трогай файлы вне этой папки. В конце покажи версии всего, что стоит.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="warn">Этот промпт мы не прогоняли на чистом компьютере: у нас всё это уже стоит, и ролики мы собираем на этих же инструментах. Если Claude просит пароль администратора или хочет ставить что-то в систему, это нормально для ffmpeg через Homebrew, но читайте, что он запускает.</div>
+  <p>У HyperFrames есть готовый плагин для Claude Code, его можно поставить и руками (команды из их README):</p>
+  <div class="command"><div class="command-bar"><span>В терминал · плагин HyperFrames</span><button type="button">Копировать</button></div><pre><code>claude plugin marketplace add heygen-com/hyperframes
+claude plugin install hyperframes@hyperframes</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Перед каждой установкой Claude пишет одной строкой, что ставит и куда. В конце показывает версии всего, что стоит.</p></div>
+</div>
 
-<section>
-<h2><span class="step">3</span>Свой стиль</h2>
-<p>Claude сам видео не смотрит. Он режет его на кадры (ffmpeg), слушает речь (faster-whisper) и считает длины планов. Подробно, как это устроено: <a href="../rils/">Claude смотрит рилс по ссылке</a>.</p>
-<p>Образцы: три–пять роликов автора, чей монтаж нравится, или ваши собственные. Положите файлы в <code>Референсы/</code>. Ссылки тоже можно, но Instagram без входа часто не отдаёт видео, а входить в аккаунт через агента мы не советуем.</p>
-<div class="code"><pre><code>Изучи стиль монтажа по роликам в папке «Референсы» (или скачай по ссылкам: &lt;ссылка 1&gt;, &lt;ссылка 2&gt;, &lt;ссылка 3&gt;).
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Соберите гайд по стилю</h3><p>Из роликов автора, чей монтаж нравится, или из ваших собственных.</p></div></div>
+  <p>Claude сам видео не смотрит. Он режет его на кадры (ffmpeg), слушает речь (faster-whisper) и считает длины планов. Подробно, как это устроено: <a href="../rils/">Claude смотрит рилс по ссылке</a>.</p>
+  <p>Образцы: три–пять роликов автора, чей монтаж нравится, или ваши собственные. Положите файлы в <code>Референсы/</code>. Ссылки тоже можно, но Instagram без входа часто не отдаёт видео, а входить в аккаунт через агента мы не советуем.</p>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · промпт гайда по стилю</span><button type="button">Копировать</button></div><pre><code>Изучи стиль монтажа по роликам в папке «Референсы» (или скачай по ссылкам: &lt;ссылка 1&gt;, &lt;ссылка 2&gt;, &lt;ссылка 3&gt;).
 Для каждого ролика: кадры раз в секунду через ffmpeg, расшифровка речи через faster-whisper, длины планов по смене кадра.
 Собери файл «Референсы/СТИЛЬ.md»: шрифты и цвета (с кодами), субтитры (размер, место, сколько слов за раз, как подсвечено
 ключевое слово), темп склеек (средняя длина плана в секундах), переходы, движение камеры, музыка и звуки, как устроены
 первые 2 секунды и финал. Пиши только то, что видно в кадрах и слышно в расшифровке; где не уверен, пометь «не видно».
-Чужие кадры, музыку и лица в наши ролики не переносим: берём только приёмы.</code></pre></div>
-<div class="warn">Стиль можно повторять, чужие кадры, музыку и лица нельзя. Перезалитое чужое видео Instagram режет как неоригинальное, а автор вправе пожаловаться.</div>
-</section>
+Чужие кадры, музыку и лица в наши ролики не переносим: берём только приёмы.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="warn">Стиль можно повторять, чужие кадры, музыку и лица нельзя. Перезалитое чужое видео Instagram режет как неоригинальное, а автор вправе пожаловаться.</div>
+  <div class="expected"><b>Что должно получиться</b><p>Файл <code>Референсы/СТИЛЬ.md</code>: шрифты и цвета, субтитры, темп склеек, переходы, камера, музыка, первые 2 секунды и финал. Где Claude не уверен, стоит «не видно». Не хотите разбирать чужих — возьмите <a href="#our-style">наш стиль</a>.</p></div>
+</div>
 
-<section>
-<h2><span class="step">4</span>Снимайте и монтируйте</h2>
-<p>Снимите ролик как обычно, положите файл в <code>Исходники/</code>, музыку со свободной лицензией в <code>Референсы/музыка/</code>. Музыку Claude не сочиняет, он подкладывает то, что вы дали.</p>
-<div class="code"><pre><code>Смонтируй моё видео «Исходники/&lt;имя файла&gt;» в вертикальный рилс 1080×1920 по гайду «Референсы/СТИЛЬ.md».
+<div class="step" id="step-4">
+  <div class="section-title"><span class="step-number">4</span><div><h3>Снимите и смонтируйте</h3><p>Правки обычными словами, как живому монтажёру.</p></div></div>
+  <p>Снимите ролик как обычно, положите файл в <code>Исходники/</code>, музыку со свободной лицензией в <code>Референсы/музыка/</code>. Музыку Claude не сочиняет, он подкладывает то, что вы дали.</p>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · промпт монтажа</span><button type="button">Копировать</button></div><pre><code>Смонтируй моё видео «Исходники/&lt;имя файла&gt;» в вертикальный рилс 1080×1920 по гайду «Референсы/СТИЛЬ.md».
 1) Расшифруй речь (faster-whisper, по словам) и вырежи паузы длиннее 0,4 с и оговорки.
 2) Субтитры по словам, как в гайде.
 3) Музыку бери только из «Референсы/музыка» и опусти её под голосом.
 4) Сначала покажи раскадровку: таблица «время | что в кадре | текст на экране» и 4 кадра-картинки. Не рендери, пока я не скажу «ок».
-5) После «ок» — рендер в «Экспорт/», громкость −14 LUFS, и покажи путь к файлу.</code></pre></div>
-<p>Правки обычными словами, как живому монтажёру: «сделай заголовок крупнее», «убери вторую паузу», «музыку тише». Все три промпта одним файлом: <a href="../prompts/moushn.md">prompts/moushn.md</a>.</p>
+5) После «ок» — рендер в «Экспорт/», громкость −14 LUFS, и покажи путь к файлу.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Правки обычными словами, как живому монтажёру: «сделай заголовок крупнее», «убери вторую паузу», «музыку тише». Все три промпта одним файлом: <a href="../prompts/moushn.md">prompts/moushn.md</a>.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Сначала раскадровка: таблица и 4 кадра-картинки. После вашего «ок» — ролик в <code>Экспорт/</code> и путь к файлу.</p></div>
+</div>
 </section>
 
-<section>
-<h2><span class="step">5</span>Наш стиль монтажа</h2>
-<p>Так собран ролик, к которому эта страница. Можно вставить как есть в <code>Референсы/СТИЛЬ.md</code>.</p>
-<div class="code"><pre><code># Стиль Gorilla Under the Hood: обучающий рилс без лица
+<section class="block" id="our-style" aria-labelledby="our-style-title">
+<h2 id="our-style-title">Наш стиль монтажа</h2>
+<p class="intro">Так собран ролик, к которому эта страница. Можно вставить как есть в <code>Референсы/СТИЛЬ.md</code>.</p>
+<div class="command"><div class="command-bar"><span>Файл Референсы/СТИЛЬ.md · наш стиль</span><button type="button">Копировать</button></div><pre><code># Стиль Gorilla Under the Hood: обучающий рилс без лица
 Формат: 1080×1920, 30 к/с, громкость −14 LUFS, пик −1,5 dBTP.
 Цвета: фон тёплый белый #f8f7f3 → #ebeae4, карточки белые #ffffff с мягкой тенью, чернила #1a2023,
   акцент лайм #d6ff43 только заливкой (текст на лайме тёмный), оливковый #425319 для второстепенного.
@@ -110,14 +134,26 @@ claude plugin install hyperframes@hyperframes</code></pre></div>
   и снимки экрана. Логотипы чужих компаний не рисуем.
 Шапка: «Шаг N» на лаймовой пилюле + название шага.
 Финал: кодовое слово печатается в поле комментария, маскот выходит один раз.
-Музыка: тихая, под голосом −30 dB, без голоса −22 dB; щелчки на тумблерах, звон на «готово».</code></pre></div>
+Музыка: тихая, под голосом −30 dB, без голоса −22 dB; щелчки на тумблерах, звон на «готово».</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 </section>
-<a class="back" href="../">← Все инструкции</a>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Честные ограничения</h2>
+<ul>
+  <li>Промпт установки мы не прогоняли на чистом компьютере: у нас всё уже стоит.</li>
+  <li>Claude сам видео не смотрит: он видит кадры и расшифровку речи.</li>
+  <li>Instagram без входа часто не отдаёт видео, а входить в аккаунт через агента мы не советуем.</li>
+  <li>Музыку Claude не сочиняет, он подкладывает то, что вы дали.</li>
+  <li>Лицензии проверены по GitHub 27.10.2026, перед работой в компании перечитайте их сами. У Remotion бесплатно только частным лицам и компаниям до 3 человек.</li>
+</ul>
+</section>
+
 <footer>
-Мы не связаны с Anthropic, HeyGen, Remotion и другими проектами со страницы. Лицензии проверены по GitHub 27.10.2026, перед работой в компании перечитайте их сами.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Мы не связаны с Anthropic, HeyGen, Remotion и другими проектами со страницы. Лицензии проверены по GitHub 27.10.2026, перед работой в компании перечитайте их сами.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
-<script src="../copy.js"></script>
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>

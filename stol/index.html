@@ -3,67 +3,117 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ИИ следит за каждым столом</title>
+<title>ИИ следит за каждым столом: код и запуск у себя</title>
 <meta name="description" content="Открытый пример time_in_zone из roboflow/supervision: камера считает, сколько гости сидят за столом, когда стол пора убрать и сколько ждёт очередь. Наш прогон на своём 3D-ролике, команды, подключение старой камеры и честные ограничения.">
+<meta property="og:type" content="article">
 <meta property="og:title" content="ИИ следит за каждым столом">
 <meta property="og:description" content="Пример time_in_zone из roboflow/supervision на своей записи: команды, наш прогон с цифрами, старая камера по RTSP, 152-ФЗ и лицензии детекторов.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/stol/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/stol/img/stol-kadr.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="900">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/guide-v2.css">
 <style>
-.lic{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 14px;margin:12px 0}
-.lic>b:first-child{display:block;margin-bottom:2px}
-.lic ul{margin:4px 0}
-.req{font-size:14px;color:var(--muted)}
-.tag{display:inline-block;font:600 12px var(--mono);border-radius:6px;padding:1px 7px;margin-right:6px;vertical-align:1px}
+.tag{display:inline-block;font:600 14px/1.4 var(--mono);border-radius:6px;padding:1px 7px;margin-right:6px}
 .tag.ok{background:var(--lime);color:#1a2023}
 .tag.doc{border:1px solid var(--line);color:var(--muted)}
-figure.shot{margin:14px 0}
-figure.shot img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:var(--surface)}
-figure.shot figcaption{font-size:13px;color:var(--muted);margin-top:6px}
 .tblwrap{overflow-x:auto}
 .tbl{width:100%;border-collapse:collapse;font-size:15px;margin:10px 0}
 .tbl th,.tbl td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-.tbl th{font-weight:700;color:var(--muted);font-size:13px}
+.tbl th{font-weight:700;color:var(--muted);font-size:14px}
 .nw{white-space:nowrap}
 </style>
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
-  <h1>ИИ следит за&nbsp;<span class="hl">каждым столом</span></h1>
-  <p class="lede">Камера в&nbsp;зале, рамки вокруг столов, таймер «гости сели», метка «убрать» и&nbsp;счётчик очереди. Это открытый пример <code>time_in_zone</code> из&nbsp;библиотеки roboflow/supervision. Мы прогнали его на&nbsp;своём ролике и&nbsp;записали команды, цифры и&nbsp;то, где он ошибается.</p>
-  <div class="safe"><span>MIT + Apache-2.0</span><span>работает на своём компьютере</span><span>без облака и подписки</span><span>прогнали сами 27.10.2026</span></div>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>ИИ следит за&nbsp;<span class="hl">каждым столом</span>: код и запуск у&nbsp;себя</h1>
+    <p class="lede">Таймер «гости сели», метка «убрать» и&nbsp;счётчик очереди. Это открытый пример <code>time_in_zone</code> из&nbsp;roboflow/supervision: команды, наш прогон с&nbsp;цифрами и&nbsp;где он ошибается.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Поставить пример →</a>
+      <a class="secondary-link" href="#results">Что вышло на нашем прогоне</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>MIT + Apache-2.0</li><li>на своём компьютере</li><li>без облака и подписки</li><li>прогнали 27.10.2026</li></ul>
+    <p class="for-video">К ролику «ИИ следит за каждым столом» · обновлено 27 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/stol-kadr.jpg" width="1200" height="900" alt="Вид сверху на зал ресторана с мультяшными посетителями: столы обведены цветными рамками, у стола 7 таймер 00:04 и официант, стол 6 с грязной посудой подписан «УБРАТЬ»"><figcaption>Кадр 8,4&nbsp;с из&nbsp;нашего прогона. Оранжевым отмечены занятые столы с&nbsp;таймером, жёлтым стол, который пора убрать, зелёным свободные. Людей в&nbsp;кадре нет: это 3D-модели Quaternius (CC0).</figcaption></figure>
 </header>
 
-<section>
+<nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
+  <li><a href="#step-1"><b>time_in_zone</b><span>пример, MIT</span></a></li>
+  <li><a href="#step-4"><b>Наш скрипт</b><span>пишет в файлы</span></a></li>
+  <li><a href="#results"><b>Стол 7: 92 %</b><span>наш прогон</span></a></li>
+  <li><a href="#camera"><b>Старая камера</b><span>RTSP и регистратор</span></a></li>
+</ol></nav>
+
+<div class="start-note"><b>До начала</b><p>Нужны <a href="https://docs.astral.sh/uv/">uv</a>, git и запись зала. Это инструкция к&nbsp;открытому примеру, а&nbsp;не&nbsp;готовая система для ресторана: наши цифры получены на&nbsp;мультяшных 3D-людях, на&nbsp;живой камере они будут другими.</p></div>
+
 <p><span class="tag ok">прогнано</span>— шаг мы выполнили сами на&nbsp;MacBook с&nbsp;M1&nbsp;Max: supervision&nbsp;0.31.2, rfdetr&nbsp;1.11.2, trackers&nbsp;2.6.1.<br><span class="tag doc">по документации</span>— пересказ README примера, сами не&nbsp;запускали.</p>
-</section>
 
-<section>
-<h2><span class="step">1</span>Как это устроено</h2>
-<p>Пример собран из&nbsp;четырёх деталей, и&nbsp;все они открытые:</p>
-<ul>
-<li><b>Детектор</b> находит людей в&nbsp;каждом кадре. В&nbsp;примере на&nbsp;выбор RF-DETR, YOLO от&nbsp;Ultralytics или облачная модель Roboflow. Мы брали RF-DETR: у&nbsp;него лицензия Apache-2.0.</li>
-<li><b>Трекер</b> ByteTrack даёт каждому человеку номер и&nbsp;держит его, пока человек в&nbsp;кадре. Это номер вроде «#7», а&nbsp;не&nbsp;имя: лица никто не&nbsp;распознаёт.</li>
-<li><b>Зоны.</b> Вы обводите на&nbsp;кадре столы и&nbsp;очередь многоугольниками. Зона срабатывает, когда центр рамки человека попадает внутрь.</li>
-<li><b>Таймер</b> считает, сколько секунд каждый номер провёл в&nbsp;зоне.</li>
-</ul>
-<p>Авторы примера показывают его на&nbsp;очереди у&nbsp;кассы и&nbsp;на&nbsp;перекрёстке. Для ресторана мы дописали поверх состояние стола: «свободен», «занят» с&nbsp;таймером и&nbsp;«убрать», когда люди ушли, а&nbsp;посуда осталась.</p>
-</section>
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Первый результат за 4 шага</h2>
 
-<section>
-<h2><span class="step">2</span>Что вышло на&nbsp;нашем прогоне</h2>
-<p>Снимать живых гостей мы не&nbsp;стали. Вместо этого собрали в&nbsp;Blender 3D-зал с&nbsp;восемью столами и&nbsp;13&nbsp;мультяшными человечками: семеро уже сидят, двое приходят к&nbsp;столу&nbsp;7, официант и&nbsp;трое у&nbsp;входа. Получилось три клипа по&nbsp;14&nbsp;секунд, как с&nbsp;потолочной камеры. Мы знаем, где в&nbsp;каждом кадре стоит каждый человечек, поэтому точность можно проверить честно.</p>
-<figure class="shot"><img src="img/stol-kadr.jpg" width="1200" height="900" loading="lazy" alt="Вид сверху на зал ресторана с мультяшными посетителями: столы обведены цветными рамками, у стола 7 таймер 00:04 и официант, стол 6 с грязной посудой подписан «УБРАТЬ»"><figcaption>Кадр 8,4&nbsp;с из&nbsp;нашего прогона. Оранжевым отмечены занятые столы с&nbsp;таймером, жёлтым стол, который пора убрать, зелёным свободные. Людей в&nbsp;кадре нет: это 3D-модели Quaternius (CC0).</figcaption></figure>
-<div class="skills">
-<div class="skill"><b>Стол 7: 6,9 и 6,5 секунды</b>Столько двое гостей пробыли в&nbsp;зоне стола. В&nbsp;зону они вошли на&nbsp;3,8 и&nbsp;4,4&nbsp;секунде клипа, а&nbsp;по&nbsp;сцене это 3,7.</div>
-<div class="skill"><b>Официант подошёл через 2,7 с</b>Через 2,7&nbsp;секунды после первого гостя у&nbsp;стола появился третий человек. Детектор сам не&nbsp;знает, что это официант: мы это знаем по&nbsp;сцене.</div>
-<div class="skill"><b>«Убрать» через секунду</b>Гости ушли на&nbsp;10,8&nbsp;с, тарелки остались. Через секунду подтверждения стол 7 стал «УБРАТЬ». Стол 6 стоял грязным с&nbsp;начала записи, его метка «УБРАТЬ» появилась на&nbsp;1-й секунде.</div>
-<div class="skill"><b>Очередь: максимум 3, ожидание 8,8 с</b>У&nbsp;входа ждали двое. Третий подошёл на&nbsp;1,6&nbsp;с (по&nbsp;сцене 1,64), первого посадили за&nbsp;стол&nbsp;5 после 8,8&nbsp;секунды ожидания.</div>
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Поставьте пример</h3><p>Всё ставится в&nbsp;папку проекта, система и&nbsp;общий Python не&nbsp;меняются.</p></div></div>
+  <p><span class="tag ok">прогнано</span>Нужны <a href="https://docs.astral.sh/uv/">uv</a> и&nbsp;git.</p>
+  <div class="command"><div class="command-bar"><span>В терминал · установка</span><button type="button">Копировать</button></div><pre><code>git clone --depth 1 -b develop https://github.com/roboflow/supervision.git
+cd supervision/examples/time_in_zone
+uv venv -p 3.12
+source .venv/bin/activate
+uv pip install supervision rfdetr trackers "jsonargparse[signatures]" opencv-python-headless</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>В&nbsp;<code>requirements.txt</code> примера есть ещё <code>pytubefix</code> и&nbsp;<code>yt_dlp</code>, но&nbsp;они нужны только для скачивания роликов с&nbsp;YouTube. При первом запуске RF-DETR Medium скачает веса (386&nbsp;МБ) в&nbsp;<code>~/.roboflow/models</code>.</p>
 </div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Обведите столы на&nbsp;своей записи</h3><p>Зона срабатывает, когда центр рамки человека попадает внутрь.</p></div></div>
+  <p><span class="tag doc">по документации</span>Положите запись зала рядом, например <code>zal.mp4</code>, и&nbsp;откройте разметку. Кликами обведите каждый стол вместе со&nbsp;стульями, Enter закрывает многоугольник, S сохраняет, Q выходит.</p>
+  <div class="command"><div class="command-bar"><span>В терминал · разметка зон</span><button type="button">Копировать</button></div><pre><code>python scripts/draw_zones.py \
+  --source_path zal.mp4 \
+  --zone_configuration_path zones.json</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Мы эту программу не&nbsp;запускали: зоны для своих клипов посчитали прямо из&nbsp;3D-сцены. Если камера смотрит сверху под углом, обводите стол на&nbsp;уровне груди сидящего, а&nbsp;не&nbsp;пол: срабатывает центр рамки человека.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Файл <code>zones.json</code> с&nbsp;многоугольниками столов и&nbsp;очереди.</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Запустите официальный скрипт</h3><p>Показывает результат в&nbsp;окне: рамки зон, номера людей и&nbsp;секунды в&nbsp;зоне.</p></div></div>
+  <p><span class="tag ok">прогнано</span>Класс 1 у&nbsp;RF-DETR означает «человек». Без Mac на&nbsp;Apple Silicon пишите <code>--device cpu</code>.</p>
+  <div class="command"><div class="command-bar"><span>В терминал · официальный скрипт</span><button type="button">Копировать</button></div><pre><code>python rfdetr_file_example.py \
+  --zone_configuration_path zones.json \
+  --source_video_path zal.mp4 \
+  --model_size medium --device mps \
+  --classes "[1]" --confidence_threshold 0.3 \
+  --iou_threshold 0.7 --resolution 640</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Окно мы заменили записью в&nbsp;файл, остальной код скрипта не&nbsp;меняли.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Рамки зон, номера людей и&nbsp;секунды в&nbsp;зоне. Если сидящих людей не&nbsp;видно, смотрите <a href="#seated">«Если застряли»</a>.</p></div>
+</div>
+
+<div class="step" id="step-4">
+  <div class="section-title"><span class="step-number">4</span><div><h3>Запустите наш вариант</h3><p>Пишет результат в&nbsp;файлы, рисует состояние столов по-русски и&nbsp;позволяет поменять порог нового трека.</p></div></div>
+  <p><span class="tag ok">прогнано</span>Скачайте <a href="files/stol_time_in_zone.py">stol_time_in_zone.py</a> в&nbsp;ту&nbsp;же папку и&nbsp;запустите:</p>
+  <div class="command"><div class="command-bar"><span>В терминал · наш скрипт</span><button type="button">Копировать</button></div><pre><code>python stol_time_in_zone.py \
+  --video zal.mp4 --zones zones.json --out out \
+  --size medium --resolution 896 \
+  --high 0.35 --buffer 50 --device mps</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>В&nbsp;папке <code>out</code> появятся три файла. <code>annotated.mp4</code> — запись с&nbsp;рамками и&nbsp;таймерами. <code>frames.json</code> — данные по&nbsp;каждому кадру: сколько людей в&nbsp;каждой зоне, их номера и&nbsp;секунды. <code>summary.json</code> — сводка: когда стол заняли, когда освободили и&nbsp;когда он стал «убрать».</p></div>
+</div>
+</section>
+
+<section class="block" id="results" aria-labelledby="results-title">
+<h2 id="results-title">Что вышло на&nbsp;нашем прогоне</h2>
+<p>Снимать живых гостей мы не&nbsp;стали. Вместо этого собрали в&nbsp;Blender 3D-зал с&nbsp;восемью столами и&nbsp;13&nbsp;мультяшными человечками: семеро уже сидят, двое приходят к&nbsp;столу&nbsp;7, официант и&nbsp;трое у&nbsp;входа. Получилось три клипа по&nbsp;14&nbsp;секунд, как с&nbsp;потолочной камеры. Мы знаем, где в&nbsp;каждом кадре стоит каждый человечек, поэтому точность можно проверить честно.</p>
+<ul class="cards">
+<li><b>Стол 7: 6,9 и 6,5 секунды</b>Столько двое гостей пробыли в&nbsp;зоне стола. В&nbsp;зону они вошли на&nbsp;3,8 и&nbsp;4,4&nbsp;секунде клипа, а&nbsp;по&nbsp;сцене это 3,7.</li>
+<li><b>Официант подошёл через 2,7 с</b>Через 2,7&nbsp;секунды после первого гостя у&nbsp;стола появился третий человек. Детектор сам не&nbsp;знает, что это официант: мы это знаем по&nbsp;сцене.</li>
+<li><b>«Убрать» через секунду</b>Гости ушли на&nbsp;10,8&nbsp;с, тарелки остались. Через секунду подтверждения стол 7 стал «УБРАТЬ». Стол 6 стоял грязным с&nbsp;начала записи, его метка «УБРАТЬ» появилась на&nbsp;1-й секунде.</li>
+<li><b>Очередь: максимум 3, ожидание 8,8 с</b>У&nbsp;входа ждали двое. Третий подошёл на&nbsp;1,6&nbsp;с (по&nbsp;сцене 1,64), первого посадили за&nbsp;стол&nbsp;5 после 8,8&nbsp;секунды ожидания.</li>
+</ul>
 <p>Точность ниже считаем как долю кадров, где число людей в&nbsp;зоне совпало с&nbsp;настоящим. «Как в&nbsp;примере» значит, что трекер настроен по&nbsp;умолчанию, как в&nbsp;примере, а&nbsp;картинка подаётся в&nbsp;модель размером 576 точек. «После настройки» значит размер 896 и&nbsp;порог нового трека 0,35 вместо 0,6.</p>
 <div class="tblwrap"><table class="tbl">
 <tr><th>Камера и зона</th><th>Как в примере</th><th>После настройки</th></tr>
@@ -75,64 +125,49 @@ figure.shot figcaption{font-size:13px;color:var(--muted);margin-top:6px}
 <tr><td>Вход: очередь</td><td class="nw">—</td><td>96,0&nbsp;%</td></tr>
 </table></div>
 <p>С&nbsp;настройками из&nbsp;примера трекер не&nbsp;брал сидящих людей вообще: детектор видел их с&nbsp;уверенностью 0,3–0,5, а&nbsp;новый номер в&nbsp;примере выдаётся только с&nbsp;0,6. На&nbsp;Mac с&nbsp;M1&nbsp;Max 14-секундный клип обрабатывается за&nbsp;50&nbsp;секунд вместе с&nbsp;загрузкой модели. Официальный скрипт с&nbsp;размером 640 справился за&nbsp;33&nbsp;секунды.</p>
+<details id="how"><summary><span>Как это устроено<small>детектор, трекер, зоны, таймер</small></span></summary><div class="details-body">
+<p>Пример собран из&nbsp;четырёх деталей, и&nbsp;все они открытые:</p>
+<ul>
+<li><b>Детектор</b> находит людей в&nbsp;каждом кадре. В&nbsp;примере на&nbsp;выбор RF-DETR, YOLO от&nbsp;Ultralytics или облачная модель Roboflow. Мы брали RF-DETR: у&nbsp;него лицензия Apache-2.0.</li>
+<li><b>Трекер</b> ByteTrack даёт каждому человеку номер и&nbsp;держит его, пока человек в&nbsp;кадре. Это номер вроде «#7», а&nbsp;не&nbsp;имя: лица никто не&nbsp;распознаёт.</li>
+<li><b>Зоны.</b> Вы обводите на&nbsp;кадре столы и&nbsp;очередь многоугольниками. Зона срабатывает, когда центр рамки человека попадает внутрь.</li>
+<li><b>Таймер</b> считает, сколько секунд каждый номер провёл в&nbsp;зоне.</li>
+</ul>
+<p>Авторы примера показывают его на&nbsp;очереди у&nbsp;кассы и&nbsp;на&nbsp;перекрёстке. Для ресторана мы дописали поверх состояние стола: «свободен», «занят» с&nbsp;таймером и&nbsp;«убрать», когда люди ушли, а&nbsp;посуда осталась.</p>
+</div></details>
 </section>
 
-<section>
-<h2><span class="step">3</span>Поставить пример</h2>
-<p><span class="tag ok">прогнано</span>Нужны <a href="https://docs.astral.sh/uv/">uv</a> и&nbsp;git. Всё ставится в&nbsp;папку проекта, система и&nbsp;общий Python не&nbsp;меняются.</p>
-<div class="code"><pre><code>git clone --depth 1 -b develop https://github.com/roboflow/supervision.git
-cd supervision/examples/time_in_zone
-uv venv -p 3.12
-source .venv/bin/activate
-uv pip install supervision rfdetr trackers "jsonargparse[signatures]" opencv-python-headless</code></pre></div>
-<p class="req">В&nbsp;<code>requirements.txt</code> примера есть ещё <code>pytubefix</code> и&nbsp;<code>yt_dlp</code>, но&nbsp;они нужны только для скачивания роликов с&nbsp;YouTube. При первом запуске RF-DETR Medium скачает веса (386&nbsp;МБ) в&nbsp;<code>~/.roboflow/models</code>.</p>
-</section>
-
-<section>
-<h2><span class="step">4</span>Обвести столы на&nbsp;своей записи</h2>
-<p><span class="tag doc">по документации</span>Положите запись зала рядом, например <code>zal.mp4</code>, и&nbsp;откройте разметку. Кликами обведите каждый стол вместе со&nbsp;стульями, Enter закрывает многоугольник, S сохраняет, Q выходит.</p>
-<div class="code"><pre><code>python scripts/draw_zones.py \
-  --source_path zal.mp4 \
-  --zone_configuration_path zones.json</code></pre></div>
-<p class="req">Мы эту программу не&nbsp;запускали: зоны для своих клипов посчитали прямо из&nbsp;3D-сцены. Если камера смотрит сверху под углом, обводите стол на&nbsp;уровне груди сидящего, а&nbsp;не&nbsp;пол: срабатывает центр рамки человека.</p>
-</section>
-
-<section>
-<h2><span class="step">5</span>Запустить</h2>
-<p><span class="tag ok">прогнано</span>Официальный скрипт. Он показывает результат в&nbsp;окне: рамки зон, номера людей и&nbsp;секунды в&nbsp;зоне. Класс 1 у&nbsp;RF-DETR означает «человек». Без Mac на&nbsp;Apple Silicon пишите <code>--device cpu</code>.</p>
-<div class="code"><pre><code>python rfdetr_file_example.py \
-  --zone_configuration_path zones.json \
-  --source_video_path zal.mp4 \
-  --model_size medium --device mps \
-  --classes "[1]" --confidence_threshold 0.3 \
-  --iou_threshold 0.7 --resolution 640</code></pre></div>
-<p class="req">Окно мы заменили записью в&nbsp;файл, остальной код скрипта не&nbsp;меняли.</p>
-<p><span class="tag ok">прогнано</span>Наш вариант пишет результат в&nbsp;файлы, рисует состояние столов по-русски и&nbsp;позволяет поменять порог нового трека. Скачайте <a href="files/stol_time_in_zone.py">stol_time_in_zone.py</a> в&nbsp;ту&nbsp;же папку и&nbsp;запустите:</p>
-<div class="code"><pre><code>python stol_time_in_zone.py \
-  --video zal.mp4 --zones zones.json --out out \
-  --size medium --resolution 896 \
-  --high 0.35 --buffer 50 --device mps</code></pre></div>
-<p>В&nbsp;папке <code>out</code> появятся три файла. <code>annotated.mp4</code> — запись с&nbsp;рамками и&nbsp;таймерами. <code>frames.json</code> — данные по&nbsp;каждому кадру: сколько людей в&nbsp;каждой зоне, их номера и&nbsp;секунды. <code>summary.json</code> — сводка: когда стол заняли, когда освободили и&nbsp;когда он стал «убрать».</p>
-</section>
-
-<section>
-<h2><span class="step">6</span>Подключить старую камеру</h2>
+<section class="block" id="camera" aria-labelledby="camera-title">
+<h2 id="camera-title">Подключить старую камеру</h2>
 <p><span class="tag doc">по документации</span>Своей камеры у&nbsp;нас нет, этот шаг мы не&nbsp;прогоняли. Почти все IP-камеры и&nbsp;видеорегистраторы отдают поток по&nbsp;RTSP. Адрес выглядит как <code>rtsp://логин:пароль@192.168.1.64:554/путь</code>. Путь у&nbsp;каждого производителя свой, его пишут в&nbsp;инструкции к&nbsp;камере или регистратору. Аналоговые камеры подключаются к&nbsp;регистратору, и&nbsp;поток тогда берут с&nbsp;него.</p>
-<p>Проще начать с&nbsp;записи: снимите 10&nbsp;минут зала в&nbsp;файл и&nbsp;прогоните шаги&nbsp;4–5.</p>
-<div class="code"><pre><code>ffmpeg -rtsp_transport tcp \
+<div class="warn">Не&nbsp;открывайте камеру в&nbsp;интернет ради этого: компьютер с&nbsp;примером должен стоять в&nbsp;той же локальной сети. Пароль камеры по&nbsp;умолчанию поменяйте до&nbsp;всего остального.</div>
+<p>Проще начать с&nbsp;записи: снимите 10&nbsp;минут зала в&nbsp;файл и&nbsp;прогоните <a href="#step-2">шаги&nbsp;2–4</a>.</p>
+<div class="command"><div class="command-bar"><span>В терминал · 10 минут записи с камеры</span><button type="button">Копировать</button></div><pre><code>ffmpeg -rtsp_transport tcp \
   -i "rtsp://ЛОГИН:ПАРОЛЬ@192.168.1.64:554/ПУТЬ" \
-  -t 600 -c copy zal.mp4</code></pre></div>
+  -t 600 -c copy zal.mp4</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <p>Для живого потока в&nbsp;примере есть <code>rfdetr_naive_stream_example.py</code>. Он берёт кадры через OpenCV и&nbsp;не&nbsp;тянет лишних пакетов. Соседний <code>rfdetr_stream_example.py</code> требует ещё пакет <code>inference</code> от&nbsp;Roboflow, у&nbsp;которого часть файлов под&nbsp;отдельной корпоративной лицензией.</p>
-<div class="code"><pre><code>python rfdetr_naive_stream_example.py \
+<div class="command"><div class="command-bar"><span>В терминал · живой поток</span><button type="button">Копировать</button></div><pre><code>python rfdetr_naive_stream_example.py \
   --rtsp_url "rtsp://ЛОГИН:ПАРОЛЬ@192.168.1.64:554/ПУТЬ" \
   --zone_configuration_path zones.json \
   --resolution 640 --model_size medium --device mps \
-  --classes "[1]"</code></pre></div>
-<div class="warn">Не&nbsp;открывайте камеру в&nbsp;интернет ради этого: компьютер с&nbsp;примером должен стоять в&nbsp;той же локальной сети. Пароль камеры по&nbsp;умолчанию поменяйте до&nbsp;всего остального.</div>
+  --classes "[1]"</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 </section>
 
-<section>
-<h2><span class="step">7</span>Честные ограничения</h2>
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="seated"><summary>Сидящих людей трекер не видит</summary><div class="details-body">
+<p>С&nbsp;настройками из&nbsp;примера так и&nbsp;было: детектор видел сидящих с&nbsp;уверенностью 0,3–0,5, а&nbsp;новый номер в&nbsp;примере выдаётся только с&nbsp;0,6. В&nbsp;нашем скрипте порог нового трека 0,35 (<code>--high 0.35</code>) и&nbsp;размер 896 (<code>--resolution 896</code>).</p>
+</div></details>
+<details id="no-mps"><summary>Нет Mac на Apple Silicon</summary><div class="details-body">
+<p>Пишите <code>--device cpu</code> вместо <code>--device mps</code>.</p>
+</div></details>
+<details id="no-clean"><summary>Метка «убрать» не появляется</summary><div class="details-body">
+<p>Она срабатывает, только если детектор видит на&nbsp;столе чашки или тарелки. С&nbsp;камеры поближе он их&nbsp;видел, с&nbsp;общего плана зала не&nbsp;увидел ни&nbsp;разу. Одна камера на&nbsp;3–4 стола работает лучше, чем одна на&nbsp;весь зал.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Честные ограничения</h2>
 <h3>Люди и закон</h3>
 <ul>
 <li>Видео с&nbsp;людьми в&nbsp;зале относится к&nbsp;персональным данным, если по&nbsp;нему можно узнать человека (152-ФЗ «О&nbsp;персональных данных»). По&nbsp;разъяснениям Роскомнадзора биометрией запись становится тогда, когда по&nbsp;ней устанавливают личность. Пример этого не&nbsp;делает: он выдаёт номер рамки, а&nbsp;не&nbsp;лицо.</li>
@@ -141,14 +176,14 @@ uv pip install supervision rfdetr trackers "jsonargparse[signatures]" opencv-pyt
 <li>Распознавание лиц, имён и&nbsp;«постоянных гостей» сюда не&nbsp;добавляйте: это уже биометрия с&nbsp;отдельными требованиями. Если сомневаетесь, спросите юриста. Эта страница не&nbsp;юридическая консультация.</li>
 </ul>
 <h3>Детектор и лицензия</h3>
-<div class="lic"><b>Что можно брать для бизнеса</b>
+<p><b>Что можно брать для бизнеса:</b></p>
 <ul>
 <li><b>supervision</b> и&nbsp;сам пример: MIT.</li>
 <li><b>RF-DETR</b> размеров Nano, Small, Medium, Large: Apache-2.0, и&nbsp;код, и&nbsp;веса. Размеры Atto, Femto, Pico, XL и&nbsp;2XL идут под&nbsp;лицензией PML&nbsp;1.0, их мы не&nbsp;брали.</li>
 <li><b>trackers</b> (ByteTrack): Apache-2.0.</li>
 <li><b>Ultralytics YOLO</b> (в&nbsp;примере есть <code>ultralytics_file_example.py</code>): AGPL-3.0. Если ваша программа с&nbsp;ним доступна другим людям, исходники придётся открыть, иначе нужна платная лицензия Ultralytics.</li>
 <li><code>inference_file_example.py</code> работает через модель Roboflow и&nbsp;просит API-ключ. Его мы не&nbsp;запускали.</li>
-</ul></div>
+</ul>
 <h3>Точность</h3>
 <ul>
 <li>Цифры выше получены на&nbsp;мультяшных 3D-людях в&nbsp;ровном свете. На&nbsp;живой камере со&nbsp;своим ракурсом, бликами и&nbsp;толпой они будут другими: проверьте на&nbsp;10&nbsp;минутах своей записи, прежде чем верить таймерам.</li>
@@ -159,13 +194,13 @@ uv pip install supervision rfdetr trackers "jsonargparse[signatures]" opencv-pyt
 </ul>
 <p>Источники: <a href="https://github.com/roboflow/supervision/tree/develop/examples/time_in_zone">examples/time_in_zone</a> и&nbsp;его README, лицензии репозиториев <a href="https://github.com/roboflow/supervision">roboflow/supervision</a>, <a href="https://github.com/roboflow/rf-detr">roboflow/rf-detr</a>, <a href="https://github.com/roboflow/trackers">roboflow/trackers</a>, <a href="https://github.com/ultralytics/ultralytics">ultralytics/ultralytics</a> на&nbsp;27.10.2026. Чужие проекты принадлежат их авторам.</p>
 </section>
-<a class="back" href="../">← Все инструкции</a>
+
 <footer>
-Это инструкция к&nbsp;открытому примеру, а&nbsp;не&nbsp;готовая система для ресторана. Камеры и&nbsp;данные гостей — ваша ответственность.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Это инструкция к&nbsp;открытому примеру, а&nbsp;не&nbsp;готовая система для ресторана. Камеры и&nbsp;данные гостей — ваша ответственность.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
-
-<script src="../copy.js"></script>
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>

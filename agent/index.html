@@ -3,45 +3,94 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Обвязка, цикл и граф: как устроен ИИ-агент</title>
+<title>Обвязка, цикл и граф: разбор и шаблоны</title>
 <meta name="description" content="Три слоя ИИ-агента на примере Claude Code: обвязка (AGENTS.md, права, хуки), цикл с условием остановки и граф шагов с подтверждением человека. Шаблоны AGENTS.md, deny-правил и Stop-хука.">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Обвязка, цикл и граф: как устроен ИИ-агент">
-<meta property="og:description" content="Три слоя ИИ-агента на примере Claude Code и шаблоны: AGENTS.md, deny-правила, цикл «пока тесты не зелёные» с жёстким стопом.">
+<meta property="og:description" content="Разбор трёх слоёв на примере Claude Code и шаблоны: AGENTS.md, deny-правила, цикл «пока тесты не зелёные» с жёстким стопом.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/agent/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/agent/img/sloi.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="534">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/guide-v2.css">
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">Разбор к карусели @utov_ilya</div>
-  <h1>Обвязка, цикл и граф: <span class="hl">как устроен ИИ-агент</span></h1>
-  <p class="lede">Промпт был первым шагом. Агент, который реально работает, держится ещё на трёх слоях: обвязка решает, что модель видит и что ей можно трогать, цикл решает, когда продолжать и когда остановиться, граф решает, какой шаг следующий и где нужен человек. Ниже каждый слой на примере Claude Code и нашего видеопайплайна, плюс шаблоны, которые можно забрать к себе.</p>
-  <div class="safe"><span>бесплатно</span><span>Claude Code</span><span>шаблоны копируются кнопкой</span><span>проверено на claude 2.1.310</span></div>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Обвязка, цикл и граф: <span class="hl">разбор и шаблоны</span></h1>
+    <p class="lede">Промпт был первым шагом. Агент, который реально работает, держится ещё на трёх слоях. Ниже каждый слой на примере Claude Code и нашего видеопайплайна и шаблоны, которые можно забрать к себе.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Собрать черновики промптом →</a>
+      <a class="secondary-link" href="#which">Какой слой чинить</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>Claude Code</li><li>шаблоны копируются кнопкой</li><li>проверено на claude 2.1.310</li></ul>
+    <p class="for-video">К карусели «Обвязка vs Цикл vs Граф» · обновлено 27 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/sloi.jpg" width="960" height="534" alt="Три карточки из карусели: обвязка держит модель, цикл идёт круг за кругом, граф ведёт по шагам"><figcaption>Обвязка решает, что модель видит и что ей можно трогать. Цикл решает, когда продолжать и когда остановиться. Граф решает, какой шаг следующий и где нужен человек.</figcaption></figure>
 </header>
 
-<section>
-<h2><span class="step">0</span>Какой слой чинить</h2>
-<ul>
-<li><b>Агент делает не то или лезет куда не надо</b> — чините обвязку: правила, права, проверки.</li>
-<li><b>Бросает работу на полпути или крутится бесконечно</b> — чините цикл: цель, проверку после круга и потолок.</li>
-<li><b>Путает порядок шагов или делает необратимое без вас</b> — рисуйте граф: шаги, переходы и точку, где нужен ваш «да».</li>
+<nav class="strip" aria-label="Шаблоны из карусели"><p>Шаблоны из карусели</p><ol>
+  <li><a href="#tpl-agents"><b>AGENTS.md</b><span>правила проекта</span></a></li>
+  <li><a href="#tpl-deny"><b>deny-правила</b><span>чего нельзя никогда</span></a></li>
+  <li><a href="#tpl-stop"><b>Цикл со стопом</b><span>Stop-хук с потолком</span></a></li>
+  <li><a href="#tpl-graph"><b>Граф скриптом</b><span>«да» человека</span></a></li>
+</ol></nav>
+
+<div class="start-note"><b>До начала</b><p>Нужен Claude Code и папка проекта. Всё, что здесь настраивается, лежит в файлах проекта и удаляется вместе с ними. Синтаксис настроек меняется от версии к версии: мы проверяли на claude 2.1.310.</p></div>
+
+<section class="block" id="which" aria-labelledby="which-title">
+<h2 id="which-title">Какой слой чинить</h2>
+<ul class="cards">
+  <li><b>Обвязку</b>Агент делает не то или лезет куда не надо. Чините правила, права, проверки. <a href="#step-2">Шаг 2</a></li>
+  <li><b>Цикл</b>Бросает работу на полпути или крутится бесконечно. Чините цель, проверку после круга и потолок. <a href="#step-3">Шаг 3</a></li>
+  <li><b>Граф</b>Путает порядок шагов или делает необратимое без вас. Рисуйте шаги, переходы и точку, где нужен ваш «да». <a href="#step-4">Шаг 4</a></li>
 </ul>
 <p>Обычно все три слоя уже есть, просто собраны случайно. Задача в том, чтобы собрать их нарочно.</p>
 </section>
 
-<section>
-<h2><span class="step">1</span>Обвязка: что видит, что может, кто проверяет</h2>
-<p>Агент = модель + обвязка. Модель одна и та же у всех, разницу делает то, что вокруг неё. В Claude Code обвязка — это три вещи:</p>
-<div class="skills">
-<div class="skill"><b>Видит</b>Файл правил проекта. Claude Code читает <code>CLAUDE.md</code>; если правила уже лежат в <code>AGENTS.md</code> (его читают и другие агенты), в <code>CLAUDE.md</code> достаточно одной строки <code>@AGENTS.md</code>. Плюс папка с памятью и сами файлы проекта.</div>
-<div class="skill"><b>Может</b>Права в <code>.claude/settings.json</code>: что можно без спроса (<code>allow</code>) и что нельзя никогда (<code>deny</code>). Посмотреть текущие правила: команда <code>/permissions</code>.</div>
-<div class="skill"><b>Проверяет</b>Хуки (команды, которые Claude Code запускает сам после правки или перед остановкой), тесты и человек, который говорит последнее «да».</div>
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Первый результат за 4 шага</h2>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Попросите Claude Code собрать черновики</h3><p>Запустите в Claude Code в папке проекта. Он сам прочитает код и предложит черновики, ничего не применяя без вас.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · промпт</span><button type="button">Копировать</button></div><pre><code>Помоги собрать три слоя агента для этого проекта. Ничего не применяй
+без моего «да», сначала покажи черновики.
+
+1. Обвязка. Прочитай проект и предложи AGENTS.md: что за проект,
+   как запускать тесты и линтер, что нельзя трогать, где что лежит.
+   Предложи .claude/settings.json с deny-правилами: правка тестов,
+   git push, секреты (.env и подобное). Для путей используй Edit(...),
+   не Write(...).
+2. Цикл. Найди команду, которая проверяет, что работа готова (тесты,
+   сборка). Предложи Stop-хук: пока проверка красная — exit 2 и хвост
+   вывода в stderr, потолок 5 кругов, потом стоп.
+3. Граф. Перечисли шаги, которые в этом проекте идут после правки кода
+   (сборка, деплой, публикация). Отметь, какие необратимы, и где должен
+   стоять мой «да».
+
+В конце таблица: файл — что в нём — что ещё надо решить мне.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Тот же промпт отдельным файлом: <a href="../prompts/agent.md">prompts/agent.md</a>.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Черновики AGENTS.md, <code>.claude/settings.json</code> и Stop-хука, список шагов после правки кода и таблица «файл — что в нём — что ещё надо решить мне». Применяете только после своего «да». Сверить черновики можно с шаблонами из шагов 2–4.</p></div>
 </div>
 
-<h3>Шаблон AGENTS.md</h3>
-<div class="code"><pre><code># AGENTS.md — правила проекта для ИИ-агента
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Обвязка: что видит, что может, кто проверяет</h3><p>Агент = модель + обвязка. Модель одна и та же у всех, разницу делает то, что вокруг неё.</p></div></div>
+  <p>В Claude Code обвязка — это три вещи:</p>
+  <ul class="cards">
+    <li><b>Видит</b>Файл правил проекта. Claude Code читает <code>CLAUDE.md</code>; если правила уже лежат в <code>AGENTS.md</code> (его читают и другие агенты), в <code>CLAUDE.md</code> достаточно одной строки <code>@AGENTS.md</code>. Плюс папка с памятью и сами файлы проекта.</li>
+    <li><b>Может</b>Права в <code>.claude/settings.json</code>: что можно без спроса (<code>allow</code>) и что нельзя никогда (<code>deny</code>). Посмотреть текущие правила: команда <code>/permissions</code>.</li>
+    <li><b>Проверяет</b>Хуки (команды, которые Claude Code запускает сам после правки или перед остановкой), тесты и человек, который говорит последнее «да».</li>
+  </ul>
+
+  <h4 id="tpl-agents">Шаблон AGENTS.md</h4>
+  <div class="command"><div class="command-bar"><span>Файл AGENTS.md в корне проекта</span><button type="button">Копировать</button></div><pre><code># AGENTS.md — правила проекта для ИИ-агента
 
 ## Что это за проект
 [Одной-двумя фразами: что делает, для кого, на чём написан.]
@@ -65,13 +114,13 @@
 
 ## Где что лежит
 - [папка] — [что в ней]
-- [папка] — [что в ней]</code></pre></div>
-<p>И <code>CLAUDE.md</code> рядом из одной строки, чтобы Claude Code подхватил тот же файл:</p>
-<div class="code"><pre><code>@AGENTS.md</code></pre></div>
+- [папка] — [что в ней]</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>И <code>CLAUDE.md</code> рядом из одной строки, чтобы Claude Code подхватил тот же файл:</p>
+  <div class="command"><div class="command-bar"><span>Файл CLAUDE.md</span><button type="button">Копировать</button></div><pre><code>@AGENTS.md</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 
-<h3>Шаблон deny-правил</h3>
-<p>Файл <code>.claude/settings.json</code> в корне проекта:</p>
-<div class="code"><pre><code>{
+  <h4 id="tpl-deny">Шаблон deny-правил</h4>
+  <p>Файл <code>.claude/settings.json</code> в корне проекта:</p>
+  <div class="command"><div class="command-bar"><span>Файл .claude/settings.json</span><button type="button">Копировать</button></div><pre><code>{
   "permissions": {
     "deny": [
       "Edit(./tests/**)",
@@ -80,16 +129,16 @@
       "Read(./secrets/**)"
     ]
   }
-}</code></pre></div>
-<ul>
-<li>Мы проверили своими прогонами: запрет <code>Edit(./tests/**)</code> держится даже с флагом <code>--dangerously-skip-permissions</code>, и <code>Bash(git push:*)</code> тоже.</li>
-<li>Для путей пишите <code>Edit(...)</code>, а не <code>Write(...)</code>: правило <code>Write(путь)</code> в проверке файлов не участвует, CLI об этом предупреждает при запуске. Ошибка тихая, если не читать вывод.</li>
-<li>Не проверяли и не обещаем: закрывает ли запрет на правку тестов правку через shell (<code>sed -i</code> и подобное). Если это важно, закройте и такие команды.</li>
-</ul>
+}</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <ul>
+    <li>Мы проверили своими прогонами: запрет <code>Edit(./tests/**)</code> держится даже с флагом <code>--dangerously-skip-permissions</code>, и <code>Bash(git push:*)</code> тоже.</li>
+    <li>Для путей пишите <code>Edit(...)</code>, а не <code>Write(...)</code>: правило <code>Write(путь)</code> в проверке файлов не участвует, CLI об этом предупреждает при запуске. Ошибка тихая, если не читать вывод.</li>
+    <li>Не проверяли и не обещаем: закрывает ли запрет на правку тестов правку через shell (<code>sed -i</code> и подобное). Если это важно, закройте и такие команды.</li>
+  </ul>
 
-<h3>Хук после каждой правки</h3>
-<p>Пример: после каждой правки файла запускать линтер. Вывод ошибок Claude Code увидит и поправит. В тот же <code>.claude/settings.json</code>:</p>
-<div class="code"><pre><code>{
+  <details id="tpl-lint-hook"><summary>Хук после каждой правки: линтер</summary><div class="details-body">
+    <p>Пример: после каждой правки файла запускать линтер. Вывод ошибок Claude Code увидит и поправит. В тот же <code>.claude/settings.json</code>:</p>
+    <div class="command"><div class="command-bar"><span>Добавить в .claude/settings.json</span><button type="button">Копировать</button></div><pre><code>{
   "hooks": {
     "PostToolUse": [
       {
@@ -98,16 +147,18 @@
       }
     ]
   }
-}</code></pre></div>
-</section>
+}</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  </div></details>
+  <div class="expected"><b>Что должно получиться</b><p>В корне проекта лежат <code>AGENTS.md</code>, <code>CLAUDE.md</code> из одной строки и <code>.claude/settings.json</code> с запретами. Команда <code>/permissions</code> показывает ваши deny-правила.</p></div>
+</div>
 
-<section>
-<h2><span class="step">2</span>Цикл: пока тесты не зелёные, но не вечно</h2>
-<p>Вместо того чтобы писать промпт на каждый шаг, задайте цикл: <b>ясную цель</b>, <b>проверку после каждого круга</b> и <b>жёсткий стоп</b>. Круг выглядит так: смотрю, что упало → думаю, что поправить → правлю код → проверяю.</p>
-<p>В Claude Code цикл собирается из Stop-хука. Он срабатывает, когда агент собирается закончить. Если хук выходит с кодом <code>2</code>, агент не останавливается, а получает текст из stderr как причину и идёт на следующий круг. Код <code>0</code> отпускает. Мы проверили оба исхода на claude 2.1.310: и «починил и остановился», и «упёрся в потолок и остановился».</p>
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Цикл: пока тесты не зелёные, но не вечно</h3><p>Вместо промпта на каждый шаг: ясная цель, проверка после каждого круга и жёсткий стоп.</p></div></div>
+  <p>Круг выглядит так: смотрю, что упало → думаю, что поправить → правлю код → проверяю.</p>
+  <p>В Claude Code цикл собирается из Stop-хука. Он срабатывает, когда агент собирается закончить. Если хук выходит с кодом <code>2</code>, агент не останавливается, а получает текст из stderr как причину и идёт на следующий круг. Код <code>0</code> отпускает. Мы проверили оба исхода на claude 2.1.310: и «починил и остановился», и «упёрся в потолок и остановился».</p>
 
-<h3>Шаблон: .claude/hooks/tests-green.sh</h3>
-<div class="code"><pre><code>#!/usr/bin/env bash
+  <h4 id="tpl-stop">Шаблон: .claude/hooks/tests-green.sh</h4>
+  <div class="command"><div class="command-bar"><span>Файл .claude/hooks/tests-green.sh</span><button type="button">Копировать</button></div><pre><code>#!/usr/bin/env bash
 # Stop-хук: агент не может закончить, пока тесты красные. Потолок кругов MAX_LAPS.
 TEST_CMD="${TEST_CMD:-npm test}"
 MAX_LAPS="${MAX_LAPS:-5}"
@@ -125,9 +176,10 @@ if [ "$laps" -ge "$MAX_LAPS" ]; then
 fi
 { echo "Тесты красные (круг $laps из $MAX_LAPS). Почини код, тесты не трогай. Хвост вывода:"
   printf '%s\n' "$out" | tail -n 40; } >&2
-exit 2                                          # exit 2 = «не останавливайся, вот почему»</code></pre></div>
-<p>Сделайте файл исполняемым (<code>chmod +x .claude/hooks/tests-green.sh</code>) и подключите в <code>.claude/settings.json</code>:</p>
-<div class="code"><pre><code>{
+exit 2                                          # exit 2 = «не останавливайся, вот почему»</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Сделайте файл исполняемым и подключите в <code>.claude/settings.json</code>:</p>
+  <div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>chmod +x .claude/hooks/tests-green.sh</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="command"><div class="command-bar"><span>Добавить в .claude/settings.json</span><button type="button">Копировать</button></div><pre><code>{
   "hooks": {
     "Stop": [
       {
@@ -138,33 +190,25 @@ exit 2                                          # exit 2 = «не останав
       }
     ]
   }
-}</code></pre></div>
-<p>Три условия остановки, которые должны быть всегда:</p>
-<ol>
-<li><b>Цель.</b> Всё зелёное — хук отпускает.</li>
-<li><b>Потолок.</b> N кругов, потом стоп. Без потолка цикл может крутиться, пока не кончится лимит.</li>
-<li><b>Тесты не трогать.</b> Иначе самый короткий путь к «зелёному» — переписать тест. Поэтому рядом стоит <code>deny: Edit(./tests/**)</code> из шага 1.</li>
-</ol>
-<p>Между кругами полезно: отдавать агенту хвост вывода тестов (это делает хук), коммитить после удачного круга и вести <code>progress.md</code>, что уже сделано. Тогда при обрыве сессии не придётся начинать с нуля.</p>
-<div class="warn">Хук запускает команду, которую вы в него вписали, на вашей машине. Читайте чужие хуки перед установкой так же, как чужие скрипты.</div>
-</section>
+}</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Три условия остановки, которые должны быть всегда:</p>
+  <ol>
+    <li><b>Цель.</b> Всё зелёное — хук отпускает.</li>
+    <li><b>Потолок.</b> N кругов, потом стоп. Без потолка цикл может крутиться, пока не кончится лимит.</li>
+    <li><b>Тесты не трогать.</b> Иначе самый короткий путь к «зелёному» — переписать тест. Поэтому рядом стоит <code>deny: Edit(./tests/**)</code> из шага 2.</li>
+  </ol>
+  <p>Между кругами полезно: отдавать агенту хвост вывода тестов (это делает хук), коммитить после удачного круга и вести <code>progress.md</code>, что уже сделано. Тогда при обрыве сессии не придётся начинать с нуля.</p>
+  <div class="warn">Хук запускает команду, которую вы в него вписали, на вашей машине. Читайте чужие хуки перед установкой так же, как чужие скрипты.</div>
+  <div class="expected"><b>Что должно получиться</b><p>Пока тесты красные, агент не заканчивает работу и получает хвост вывода. Зелёные тесты или пятый круг — агент останавливается.</p></div>
+</div>
 
-<section>
-<h2><span class="step">3</span>Граф: шаги, стрелки и человек</h2>
-<p>Узлы делают работу, стрелки решают, что дальше. Граф нужен, когда шагов много и порядок важен, а какие-то переходы нельзя отдавать модели. Промпт может попросить «покажи мне перед публикацией». Граф просто не пустит дальше без вашего «да».</p>
-<h3>Пример: наш видеопайплайн</h3>
-<ol>
-<li><b>Сценарий</b> — пишет модель.</li>
-<li><b>Озвучка</b> — скрипт синтеза голоса, по дублю на реплику.</li>
-<li><b>ASR-проверка</b> — распознавание речи сверяет, то ли сказано, что написано. Если нет, стрелка ведёт назад: переписать фразу и озвучить заново.</li>
-<li><b>Рендер</b> — скрипт собирает ролик.</li>
-<li><b>QA-лист</b> — автоматическая проверка готового файла и контактный лист кадров.</li>
-<li><b>Человек: «да»?</b> — ролик ждёт. Зелёная техническая проверка не означает одобрения. «Нет» возвращает к сценарию с правками.</li>
-<li><b>Публикация</b> — только после явного «да».</li>
-</ol>
-<p>Для такого графа не обязателен фреймворк. Хватает скрипта, где каждый шаг — отдельная команда, проверки стоят между шагами, а на необратимом шаге скрипт останавливается и ждёт человека. Фреймворки вроде LangGraph делают то же самое в коде и добавляют общее состояние и точки сохранения.</p>
-<h3>Шаблон: граф одним скриптом</h3>
-<div class="code"><pre><code>#!/usr/bin/env bash
+<div class="step" id="step-4">
+  <div class="section-title"><span class="step-number">4</span><div><h3>Граф: шаги, стрелки и человек</h3><p>Узлы делают работу, стрелки решают, что дальше.</p></div></div>
+  <p>Граф нужен, когда шагов много и порядок важен, а какие-то переходы нельзя отдавать модели. Промпт может попросить «покажи мне перед публикацией». Граф просто не пустит дальше без вашего «да».</p>
+  <p>Для такого графа не обязателен фреймворк. Хватает скрипта, где каждый шаг — отдельная команда, проверки стоят между шагами, а на необратимом шаге скрипт останавливается и ждёт человека. Фреймворки вроде LangGraph делают то же самое в коде и добавляют общее состояние и точки сохранения.</p>
+
+  <h4 id="tpl-graph">Шаблон: граф одним скриптом</h4>
+  <div class="command"><div class="command-bar"><span>Скрипт, например pipeline.sh</span><button type="button">Копировать</button></div><pre><code>#!/usr/bin/env bash
 set -euo pipefail
 
 step()  { echo "▶ $1"; }
@@ -179,48 +223,55 @@ step "4. QA";              check ./steps/qa.sh
 read -r -p "Публикуем? Напишите да: " answer
 [ "$answer" = "да" ] || { echo "Остановлено. Правки и заново."; exit 0; }
 
-step "6. публикация";      ./steps/publish.sh</code></pre></div>
-<p>Модель можно вызывать внутри любого шага (например, <code>claude -p "…"</code>), но решение «что дальше» остаётся за скриптом.</p>
+step "6. публикация";      ./steps/publish.sh</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Модель можно вызывать внутри любого шага (например, <code>claude -p "…"</code>), но решение «что дальше» остаётся за скриптом.</p>
+
+  <details id="example-pipeline"><summary>Пример: наш видеопайплайн</summary><div class="details-body">
+    <ol>
+      <li><b>Сценарий</b> — пишет модель.</li>
+      <li><b>Озвучка</b> — скрипт синтеза голоса, по дублю на реплику.</li>
+      <li><b>ASR-проверка</b> — распознавание речи сверяет, то ли сказано, что написано. Если нет, стрелка ведёт назад: переписать фразу и озвучить заново.</li>
+      <li><b>Рендер</b> — скрипт собирает ролик.</li>
+      <li><b>QA-лист</b> — автоматическая проверка готового файла и контактный лист кадров.</li>
+      <li><b>Человек: «да»?</b> — ролик ждёт. Зелёная техническая проверка не означает одобрения. «Нет» возвращает к сценарию с правками.</li>
+      <li><b>Публикация</b> — только после явного «да».</li>
+    </ol>
+  </div></details>
+  <div class="expected"><b>Что должно получиться</b><p>Скрипт идёт по шагам, падает на непрошедшей проверке и перед публикацией ждёт, пока вы напишете «да».</p></div>
+</div>
 </section>
 
-<section>
-<h2><span class="step">4</span>Промпт: собери обвязку для моего проекта</h2>
-<p>Запустите в Claude Code в папке проекта. Он сам прочитает код и предложит черновики, ничего не применяя без вас.</p>
-<div class="code"><pre><code>Помоги собрать три слоя агента для этого проекта. Ничего не применяй
-без моего «да», сначала покажи черновики.
-
-1. Обвязка. Прочитай проект и предложи AGENTS.md: что за проект,
-   как запускать тесты и линтер, что нельзя трогать, где что лежит.
-   Предложи .claude/settings.json с deny-правилами: правка тестов,
-   git push, секреты (.env и подобное). Для путей используй Edit(...),
-   не Write(...).
-2. Цикл. Найди команду, которая проверяет, что работа готова (тесты,
-   сборка). Предложи Stop-хук: пока проверка красная — exit 2 и хвост
-   вывода в stderr, потолок 5 кругов, потом стоп.
-3. Граф. Перечисли шаги, которые в этом проекте идут после правки кода
-   (сборка, деплой, публикация). Отметь, какие необратимы, и где должен
-   стоять мой «да».
-
-В конце таблица: файл — что в нём — что ещё надо решить мне.</code></pre></div>
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="stuck-write"><summary>Запрет на путь не срабатывает</summary><div class="details-body">
+  <p>Для путей пишите <code>Edit(...)</code>, а не <code>Write(...)</code>: правило <code>Write(путь)</code> в проверке файлов не участвует. CLI предупреждает об этом при запуске, прочитайте его вывод. Текущие правила показывает <code>/permissions</code>.</p>
+</div></details>
+<details id="stuck-hook"><summary>Stop-хук не запускается</summary><div class="details-body">
+  <p>Проверьте, что файл исполняемый (<code>chmod +x .claude/hooks/tests-green.sh</code>) и что путь в <code>.claude/settings.json</code> совпадает с тем, где лежит файл.</p>
+</div></details>
+<details id="stuck-laps"><summary>Агент крутится и не останавливается</summary><div class="details-body">
+  <p>Нужен потолок кругов: в шаблоне это <code>MAX_LAPS</code>, по умолчанию 5. Без потолка цикл может крутиться, пока не кончится лимит.</p>
+</div></details>
+<details id="stuck-version"><summary>Настройки ведут себя не как здесь</summary><div class="details-body">
+  <p>Синтаксис настроек меняется от версии к версии. Мы проверяли на claude 2.1.310. Сверяйтесь с выводом своего <code>claude</code> и командой <code>/permissions</code>.</p>
+</div></details>
 </section>
 
-<section>
-<h2><span class="step">×</span>Чего это не гарантирует</h2>
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Чего это не гарантирует</h2>
 <ul>
-<li>Права в Claude Code ограничивают инструменты Claude Code. Если агент работает через другие программы или у него есть ваши ключи в окружении, это отдельные двери.</li>
-<li>Тесты проверяют только то, что в них написано. Зелёные тесты не значат «правильно», значат «не сломал то, что проверяется».</li>
-<li>Синтаксис настроек меняется от версии к версии. Сверяйтесь с выводом своего <code>claude</code> и командой <code>/permissions</code>.</li>
+  <li>Права в Claude Code ограничивают инструменты Claude Code. Если агент работает через другие программы или у него есть ваши ключи в окружении, это отдельные двери.</li>
+  <li>Тесты проверяют только то, что в них написано. Зелёные тесты не значат «правильно», значат «не сломал то, что проверяется».</li>
+  <li>Синтаксис настроек меняется от версии к версии. Сверяйтесь с выводом своего <code>claude</code> и командой <code>/permissions</code>.</li>
 </ul>
 </section>
 
-<a class="back" href="../">← Все инструкции</a>
 <footer>
-Делаете на свой страх и риск. Всё, что здесь настраивается, лежит в файлах проекта и удаляется вместе с ними.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Делаете на свой страх и риск. Всё, что здесь настраивается, лежит в файлах проекта и удаляется вместе с ними.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
-
-
-<script src="../copy.js"></script>
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>

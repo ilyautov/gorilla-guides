@@ -3,128 +3,152 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Фабрика рилсов на Claude Code: весь стек и код</title>
 <meta name="description" content="Как мы собираем рилсы на Claude Code: голос, картинка, монтаж, звук, сборка и стартовый код. Подробно, чтобы повторить.">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Фабрика рилсов на Claude Code">
-<title>Фабрика рилсов на Claude Code</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta property="og:description" content="Весь стек с версиями, командами, параметрами и граблями: голос клоном, картинка кодом, звук синтезом, сборка и проверка на одном ноутбуке. Стартовый код в комплекте.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/mult/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/mult/img/vtroem.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=PT+Serif:ital@1&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/guide-v2.css">
 <style>
-/* Layout: одна колонка для чтения ~68ch, слева липкое оглавление на широком экране; разделы = этапы конвейера */
-:root{
-  --bg:#f6f7f2; --surface:#ffffff; --fg:#1a2023; --muted:#5b6560; --line:#dde2d6;
-  --lime:#d6ff43; --olive:#425319; --code-bg:#1a2023; --code-fg:#e8eddc; --warn:#c2410c;
-  --display:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --accent-serif:"PT Serif",Georgia,"Times New Roman",serif;
-  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#121618; --surface:#1a2023; --fg:#e8eddc; --muted:#9aa49c; --line:#2c3437;
-  --lime:#d6ff43; --olive:#d6ff43; --code-bg:#0c0f10; --code-fg:#e8eddc; --warn:#ff8a3d; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#121618; --surface:#1a2023; --fg:#e8eddc; --muted:#9aa49c; --line:#2c3437;
-  --lime:#d6ff43; --olive:#d6ff43; --code-bg:#0c0f10; --code-fg:#e8eddc; --warn:#ff8a3d; color-scheme:dark}
-
-*{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font:16px/1.62 var(--body);
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
-.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:56px}
-@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr);gap:0}nav.toc{display:none}}
-nav.toc{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;padding-top:40px;font-size:14px;max-height:100vh;overflow:auto}
-nav.toc a{display:block;color:var(--muted);text-decoration:none;padding:3px 0}
-nav.toc a:hover,nav.toc a:focus-visible{color:var(--fg)}
-nav.toc .t{font-weight:700;color:var(--fg);margin-bottom:8px;letter-spacing:.06em;text-transform:uppercase;font-size:12px}
-main{min-width:0;max-width:74ch}
-header.hero{padding:48px 0 28px;border-bottom:1px solid var(--line)}
-.kicker{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
-h1{font:800 clamp(32px,5.4vw,52px)/1.05 var(--display);margin:12px 0 16px;text-wrap:balance;letter-spacing:-.02em}
-h1 em,h2 em{font-family:var(--accent-serif);font-weight:400;font-style:italic}
-.mark{background:var(--lime);color:#1a2023;padding:0 .18em;border-radius:3px}
-.lede{font-size:19px;color:var(--fg);max-width:62ch}
-.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:24px}
-.fact{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--surface)}
-.fact b{display:block;font:800 26px/1.1 var(--display);font-variant-numeric:tabular-nums}
-.fact span{font-size:13px;color:var(--muted)}
-section{padding-top:40px}
-h2{font:800 28px/1.15 var(--display);margin:0 0 12px;text-wrap:balance;letter-spacing:-.01em;scroll-margin-top:16px}
-h2 .n{font:600 14px var(--mono);color:var(--muted);display:block;margin-bottom:6px}
-h3{font:700 19px/1.3 var(--display);margin:28px 0 8px;text-wrap:balance}
-p,li{max-width:68ch}
-ul,ol{padding-left:1.25em}
-li{margin:4px 0}
-a{color:var(--olive);text-underline-offset:2px}
-code{font:13.5px var(--mono);background:color-mix(in srgb,var(--fg) 7%,transparent);padding:.08em .32em;border-radius:4px}
-.code{position:relative;margin:14px 0}
-pre{background:var(--code-bg);color:var(--code-fg);font:13px/1.55 var(--mono);padding:16px 18px;border-radius:10px;overflow-x:auto;margin:0}
-pre code{background:none;padding:0;color:inherit}
-.copy{position:absolute;top:8px;right:8px;font:600 12px var(--body);background:#2c3437;color:#e8eddc;border:0;border-radius:6px;padding:5px 9px;cursor:pointer}
-.copy:focus-visible{outline:2px solid var(--lime)}
-.tbl{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
-table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
-th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
-tr:last-child td{border-bottom:0}
-tr.win td{background:color-mix(in srgb,var(--lime) 22%,transparent)}
-.note{border-left:3px solid var(--lime);padding:6px 0 6px 14px;margin:16px 0;color:var(--fg)}
-.note.warn{border-color:var(--warn)}
-.note b{font-weight:700}
-.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:14px 0;font-size:14px}
-.flow span{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 11px}
-.flow i{color:var(--muted);font-style:normal}
-details.file{border:1px solid var(--line);border-radius:10px;background:var(--surface);margin:8px 0}
-details.file summary{cursor:pointer;padding:10px 14px;display:flex;gap:10px;align-items:baseline}
-details.file summary span{color:var(--muted);font-size:13px}
-details.file .code{margin:0 10px 10px}
-figure.sheet{margin:16px 0}figure.sheet img{border-radius:10px;border:1px solid var(--line);display:block}
-figure.sheet figcaption{font-size:13px;color:var(--muted);margin-top:6px}
-footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
-@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
-html{scroll-behavior:smooth}
+/* таблицы со своим скроллом, заметки, схема-цепочка, контактный лист */
+.tbl{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.tbl table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}.tbl th,.tbl td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{font-weight:700;color:var(--muted);white-space:nowrap}.tbl tr:last-child td{border-bottom:0}.tbl tr.win td{background:color-mix(in srgb,var(--lime) 22%,transparent)}
+@media (max-width:520px){.tbl table{min-width:520px}}
+.note{border-left:3px solid var(--lime);padding:4px 0 4px 14px;margin:14px 0}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:14px 0;font-size:14px}.flow span{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 11px}.flow i{color:var(--muted);font-style:normal}
+figure.sheet{margin:16px 0}figure.sheet img{border-radius:12px;border:1px solid var(--line)}
 </style>
 </head>
 <body>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
 
-
-<div class="wrap">
-<nav class="toc" aria-label="Оглавление">
-  <div class="t">Разделы</div>
-  <a href="#itog">0. Что на выходе</a>
-  <a href="#zhelezo">1. Железо и установка</a>
-  <a href="#agent">2. Работа с агентом</a>
-  <a href="#tema">3. Тема и сценарий</a>
-  <a href="#referensy">4. Референсы и приёмы</a>
-  <a href="#golos">5. Голос</a>
-  <a href="#kartinka">6. Картинка</a>
-  <a href="#montazh">7. Приёмы монтажа</a>
-  <a href="#zvuk">8. Звуки и музыка</a>
-  <a href="#sborka">9. Сборка по шагам</a>
-  <a href="#qa">10. Проверка</a>
-  <a href="#cta">11. Публикация и CTA</a>
-  <a href="#dvizhki">12. HyperFrames и Diffusion Studio</a>
-  <a href="#starter">13. Стартовый набор: код</a>
-  <a href="#grabli">14. Грабли</a>
-  <a href="#mimo">15. Что не сработало</a>
-  <a href="#ssylki">16. Ссылки и лицензии</a>
-</nav>
-
-<main>
-<header class="hero">
-  <div class="kicker">Гайд · @gorilla_under_hood · октябрь 2026</div>
-  <h1>Как мы собираем рилсы про ИИ <em>целиком на ноутбуке</em></h1>
-  <p class="lede">Сценарий, голос, картинку, звук, проверку и заливку делает Claude Code. Я слушаю, ругаюсь и говорю «заливай». Здесь весь стек с версиями, командами, параметрами и граблями, чтобы вы могли собрать такой же конвейер у себя.</p>
-  <div class="facts">
-    <div class="fact"><b>21,5 тыс.</b><span>лайков и 257 комментов у ролика про телевизор в Instagram (обычно у нас 20–400 просмотров)</span></div>
-    <div class="fact"><b>0 ₽</b><span>отдельных трат на ролик: всё локально, кроме подписки на Claude</span></div>
-    <div class="fact"><b>1080×1920</b><span>30 fps, 35–45 с, −15 LUFS</span></div>
-    <div class="fact"><b>M1 Max</b><span>64 ГБ, без NVIDIA и без облака</span></div>
+<header class="hero has-figure">
+  <div>
+    <h1>Как мы собираем рилсы про ИИ <span class="hl">целиком на ноутбуке</span></h1>
+    <p class="lede">Сценарий, голос, картинку, звук, проверку и заливку делает Claude Code. Здесь весь стек с версиями, командами и граблями.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Собрать демо-рил →</a>
+      <a class="secondary-link" href="prompts/">Коротко: схемы и промпты</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>0 ₽ на ролик</li><li>M1 Max, без облака</li><li>1080×1920</li></ul>
+    <p class="for-video">К ролику «Весь курс за 30 секунд» · обновлено 27 октября 2026</p>
   </div>
-<p style="margin:12px 0"><b>Коротко, со схемами и готовыми промптами:</b> <a href="prompts/">Рилс через Claude Code: схемы и промпты</a>.</p>
+  <figure class="hero-figure"><img src="img/vtroem.jpg" width="960" height="640" alt="Кадр из ролика: горилла Горо, Чувак и Claude в низкополигональной комнате, над Горо ярлык «бесплатный»"><figcaption>Кадр из ролика: персонажи на three.js, голос клоном, звуки синтезом.</figcaption></figure>
 </header>
 
-<section id="itog">
-<h2><span class="n">00</span>Что получится и сколько стоит</h2>
+<nav class="strip" aria-label="Что внутри гайда"><p>Что внутри гайда</p><ol>
+  <li><a href="#golos"><b>Голос</b><span>клон и живая запись</span></a></li>
+  <li><a href="#kartinka"><b>Картинка</b><span>Canvas, three.js, LTX</span></a></li>
+  <li><a href="#montazh"><b>Монтаж</b><span>камера и склейки</span></a></li>
+  <li><a href="#zvuk"><b>Звук</b><span>вжух кодом</span></a></li>
+  <li><a href="#qa"><b>Проверка</b><span>громкость, ASR</span></a></li>
+  <li><a href="#starter"><b>Стартовый код</b><span>все файлы</span></a></li>
+</ol></nav>
+
+<div class="start-note"><b>До начала</b><p>Для стартового набора нужны macOS или Linux, Python 3.11, Node.js 18+ и ffmpeg (с ffprobe). Веса OmniVoice некоммерческие: если ролики монетизируются или рекламируют что-то, нужен другой движок.</p></div>
+
+<details id="toc"><summary>Все разделы гайда<small>17 разделов: от железа до лицензий</small></summary><div class="details-body"><ol start="0">
+  <li><a href="#itog">Что на выходе</a></li>
+  <li><a href="#zhelezo">Железо и установка</a></li>
+  <li><a href="#agent">Работа с агентом</a></li>
+  <li><a href="#tema">Тема и сценарий</a></li>
+  <li><a href="#referensy">Референсы и приёмы</a></li>
+  <li><a href="#golos">Голос</a></li>
+  <li><a href="#kartinka">Картинка</a></li>
+  <li><a href="#montazh">Приёмы монтажа</a></li>
+  <li><a href="#zvuk">Звуки и музыка</a></li>
+  <li><a href="#sborka">Сборка по шагам</a></li>
+  <li><a href="#qa">Проверка</a></li>
+  <li><a href="#cta">Публикация и CTA</a></li>
+  <li><a href="#dvizhki">HyperFrames и Diffusion Studio</a></li>
+  <li><a href="#starter">Стартовый набор: код</a></li>
+  <li><a href="#grabli">Грабли</a></li>
+  <li><a href="#mimo">Что не сработало</a></li>
+  <li><a href="#ssylki">Ссылки и лицензии</a></li>
+</ol></div></details>
+
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Первый рил за 4 шага</h2>
+<p class="intro">Стартовый набор — урезанная, но рабочая копия нашего конвейера. На M1 Max весь прогон с настоящим голосом занимает около двух минут.</p>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Скачайте набор и поставьте зависимости</h3><p>Компилятор сцены, окружение пайплайна и шрифты.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>git clone https://github.com/ilyautov/gorilla-guides
+cd gorilla-guides/mult</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="command"><div class="command-bar"><span>В терминал · из папки mult</span><button type="button">Копировать</button></div><pre><code>cd starter
+
+# Компилятор сцены
+npm install                                   # ставит typescript 5.9.3 в node_modules/
+
+# Окружение пайплайна: ASR, рендер, звук
+python3.11 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/playwright install chromium         # headless-браузер для рендера
+export PY=$PWD/.venv/bin/python
+
+# Шрифты (без них сцена тоже работает, но рисует системными)
+./make.sh fonts</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Первый запуск <code>faster-whisper</code> сам скачает модель <code>large-v3</code> (около 3 ГБ) в <code>~/.cache/huggingface</code>. Для пробы можно взять модель поменьше: <code>export ASR_MODEL=small</code>. Сверка тогда шумнее.</p>
+  <div class="expected"><b>Что должно получиться</b><p>В <code>starter/</code> появились <code>node_modules/</code>, <code>.venv/</code> и шрифты в <code>assets/fonts</code>.</p></div>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Прогоните без синтеза</h3><p>Так проверяется всё, кроме голоса и ASR: вместо слов гудки.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В терминал · из папки starter</span><button type="button">Копировать</button></div><pre><code>./make.sh fake                       # voice-track.json из гудков по словам lines.json
+FINISH_ARGS=--no-asr ./make.sh all   # сцена -&gt; метки -&gt; звук -&gt; рендер -&gt; final.mp4 + QA
+open output/final.mp4 qa/sheet.jpg</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Открылись <code>output/final.mp4</code> (гудки вместо голоса) и контактный лист <code>qa/sheet.jpg</code>, как на <a href="#starter">образце ниже</a>.</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Подключите свой голос и соберите по-настоящему</h3><p>OmniVoice живёт в своём venv: версии torch и transformers конфликтуют с пайплайном.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В терминал · из папки starter</span><button type="button">Копировать</button></div><pre><code>python3.11 -m venv .runtime/tts-omnivoice/venv
+.runtime/tts-omnivoice/venv/bin/pip install omnivoice        # у нас работает 0.2.1 с torch 2.8.0
+# Веса: https://huggingface.co/k2-fsa/OmniVoice, около 3 ГБ, скачать в любую папку
+export OMNI_PY=$PWD/.runtime/tts-omnivoice/venv/bin/python
+export OMNI_MODEL=/путь/к/k2-fsa__OmniVoice
+export OMNI_REF=/путь/к/my-voice.wav             # рядом обязательно лежит my-voice.txt с точной расшифровкой
+# export OMNI_DEVICE=cuda                        # mps по умолчанию (Apple Silicon), cpu тоже работает, но медленно</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="warn"><b>Лицензия:</b> код OmniVoice распространяется под Apache-2.0, а веса под CC-BY-NC, то есть только для некоммерческого использования. Если ролики монетизируются или рекламируют что-то, нужен другой движок.</div>
+  <div class="warn"><b>Референс голоса:</b> 10–20 с чистой речи своим голосом, без музыки и эха, спокойная интонация. Расшифровку пишите слово в слово. Чужой голос без согласия владельца не клонируйте.</div>
+  <div class="command"><div class="command-bar"><span>В терминал · из папки starter</span><button type="button">Копировать</button></div><pre><code>./make.sh voice     # OmniVoice -&gt; voice/raw-N.wav, затем trim.py -&gt; voice-track.json (печатает ratio по каждой реплике)
+./make.sh frames    # сухой просмотр: qa/frames/sheet-0.jpg, кадр каждые 0,75 с. Смотреть ДО полного рендера
+./make.sh all       # сцена, звук, рендер, сведение, QA
+cat qa/final-result.json</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>В <code>qa/final-result.json</code> стоит <code>technical_pass: true</code>. Это значит только, что файл декодируется, громкость −15 ±1 LUFS, пик ≤ −1,5 dBTP, faststart, статика не дольше 1,5 с и ASR финала совпадает с текстом на ≥ 0,9. Смотрится ли ролик, это не проверяет: поля <code>artistic_approval</code> и <code>publication_approved</code> меняет человек после просмотра.</p></div>
+</div>
+
+<div class="step" id="step-4">
+  <div class="section-title"><span class="step-number">4</span><div><h3>Переделайте под свой текст</h3><p>Сцена привязана к словам демо-текста, поэтому меняются реплики, события и планы.</p></div></div>
+  <ol>
+    <li>Напишите реплики в <code>voice/chunks.json</code> и <code>voice/lines.json</code>, затем <code>./make.sh voice</code>.</li>
+    <li>В <code>scene.ts</code> перепишите объект <code>E</code>: какие слова что запускают. Если слова нет, сцена упадёт с ошибкой «нет слова …», это сделано специально.</li>
+    <li>Перепишите функции планов (<code>terminalShot</code> и остальные) и массив <code>shots</code>. Правило серии: один крупный предмет в кадре, без заголовков и рамок «слайда», склейка на каждую фразу.</li>
+    <li>Дополните <code>ACC</code> словами, которые выделяются курсивом.</li>
+    <li>Запустите <code>./make.sh frames</code>, посмотрите лист и только потом <code>./make.sh all</code>.</li>
+  </ol>
+  <div class="expected"><b>Что должно получиться</b><p>Свой ролик в <code>output/final.mp4</code>. Как устроены сцена, звук и рендер, разобрано в <a href="#file-readme-md">README набора</a>.</p></div>
+</div>
+</section>
+
+<section class="block" id="itog" aria-labelledby="itog-title">
+<h2 id="itog-title">Что получится и сколько стоит</h2>
+<p>Сценарий, голос, картинку, звук, проверку и заливку делает Claude Code. Я слушаю, ругаюсь и говорю «заливай». Здесь весь стек с версиями, командами, параметрами и граблями, чтобы вы могли собрать такой же конвейер у себя.</p><ul class="cards">
+  <li><b>21,5 тыс.</b>лайков и 257 комментов у ролика про телевизор в Instagram (обычно у нас 20–400 просмотров)</li>
+  <li><b>0 ₽</b>отдельных трат на ролик: всё локально, кроме подписки на Claude</li>
+  <li><b>1080×1920</b>30 fps, 35–45 с, −15 LUFS</li>
+  <li><b>M1 Max</b>64 ГБ, без NVIDIA и без облака</li>
+</ul>
 <p>На выходе вертикальный ролик: H.264 + AAC 192k, громкость −15 LUFS, пик не выше −1,5 dBTP, <code>faststart</code> для быстрого старта в ленте. Картинку делаем одним из четырёх движков, в зависимости от формата.</p>
 <div class="tbl"><table>
 <tr><th>Движок</th><th>Где</th><th>Как выглядит</th><th>Рендер</th></tr>
@@ -134,11 +158,8 @@ html{scroll-behavior:smooth}
 <tr><td>Генеративное видео LTX-2.5 локально + своя отрисовка поверх</td><td>пародийный скетч с «боссом»</td><td>живой персонаж говорит под наш звук</td><td>50–100 с счёта на 1 с видео</td></tr>
 </table></div>
 
-<h3>Деньги</h3>
-<p>Отдельных трат на ролик ноль: ни облачного синтеза речи, ни облачной генерации видео. Платим только подписку на Claude, через неё работает и агент-сборщик, и герой роликов. Для сравнения: облачная генерация через сервисы вроде fal по нашей прикидке стоила бы $4–8 за шортс.</p>
-
-<h3>Время машины на один 40-секундный рил</h3>
-<div class="tbl"><table>
+<details id="itog-1"><summary>Деньги</summary><div class="details-body"><p>Отдельных трат на ролик ноль: ни облачного синтеза речи, ни облачной генерации видео. Платим только подписку на Claude, через неё работает и агент-сборщик, и герой роликов. Для сравнения: облачная генерация через сервисы вроде fal по нашей прикидке стоила бы $4–8 за шортс.</p></div></details>
+<details id="itog-2"><summary>Время машины на один 40-секундный рил</summary><div class="details-body"><div class="tbl"><table>
 <tr><th>Шаг</th><th>Время</th></tr>
 <tr><td>Синтез голоса OmniVoice</td><td>≈1,35 с счёта на 1 с речи, загрузка модели ≈55 с</td></tr>
 <tr><td>Распознавание речи (Whisper large-v3, CPU) на каждую реплику и на финал</td><td>несколько минут</td></tr>
@@ -146,19 +167,18 @@ html{scroll-behavior:smooth}
 <tr><td>Свой замер для фактчека (пример: 5 сайтов × 2 прогона × 2 режима)</td><td>≈12 мин</td></tr>
 <tr><td>LTX-2.5: клип 2–4 с</td><td>2–7 мин</td></tr>
 </table></div>
-<p>Дольше всего идёт не вычисление, а постановка: тему, сценарий и сцену пишет агент, и это несколько итераций с моими правками.</p>
+<p>Дольше всего идёт не вычисление, а постановка: тему, сценарий и сцену пишет агент, и это несколько итераций с моими правками.</p></div></details>
 </section>
 
-<section id="zhelezo">
-<h2><span class="n">01</span>Железо и установка</h2>
+<section class="block" id="zhelezo" aria-labelledby="zhelezo-title">
+<h2 id="zhelezo-title">Железо и установка</h2>
 <ul>
 <li><b>Apple M1 Max, 64 ГБ</b> единой памяти, macOS. Всё на одном ноутбуке.</li>
 <li>Память решает. LTX-2.5 q8 весит на диске 42 ГБ, при генерации берёт около 27 ГБ. Автор <code>ltx-2-mlx</code> советует от 32 ГБ, с флагом <code>--low-ram</code> хватает 16.</li>
 <li>Микрофон для живого голоса: <b>айфон, приложение «Диктофон», файл по AirDrop</b>. Встроенный микрофон MacBook хуже (щелчки рта, SNR 33 дБ против 41). AirPods не годятся: 16 кГц.</li>
 </ul>
 
-<h3>Окружение</h3>
-<div class="tbl"><table>
+<details id="zhelezo-1"><summary>Окружение</summary><div class="details-body"><div class="tbl"><table>
 <tr><th>Что</th><th>Версия</th><th>Откуда</th></tr>
 <tr><td>Node.js</td><td>24 (подходит ≥22.16)</td><td>brew</td></tr>
 <tr><td>TypeScript</td><td>5.9</td><td>npm, сцены компилируются <code>tsc</code></td></tr>
@@ -175,7 +195,7 @@ html{scroll-behavior:smooth}
 <tr><td>MapLibre GL JS</td><td>5.6 + maplibre-contour</td><td>локально</td></tr>
 </table></div>
 <p>Каждый синтезатор речи живёт в своём venv: версии torch и transformers у них конфликтуют. Пайплайн вызывает их отдельными процессами.</p>
-<div class="code"><pre><code># Пайплайн
+<div class="command"><div class="command-bar"><span>В терминал · установка пайплайна, голоса и LTX</span><button type="button">Копировать</button></div><pre><code># Пайплайн
 brew install ffmpeg rubberband python@3.11 node
 python3.11 -m pip install faster-whisper playwright numpy scipy soundfile pillow librosa
 python3.11 -m playwright install chromium
@@ -189,21 +209,17 @@ python3.11 -m venv .runtime/tts-omnivoice/venv
 git clone https://github.com/dgrauet/ltx-2-mlx .runtime/ltx-2-mlx
 cd .runtime/ltx-2-mlx &amp;&amp; uv sync --all-extras
 # веса ltx-2.5-mlx-q8 (42 ГБ, у нас качались ~2 ч). LTX-2.5 на HF закрыт входом в аккаунт;
-# без входа можно начать с 2.3 q8</code></pre></div>
-
-<h3>Замок на тяжёлые задачи</h3>
-<p>Синтез и рендер запускаем только через именованный замок на всю машину. Несколько агентов собирают ролики параллельно, а GPU и модель одна. Это восемь строк:</p>
-<div class="code"><pre><code># locked.py
+# без входа можно начать с 2.3 q8</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="zhelezo-2"><summary>Замок на тяжёлые задачи</summary><div class="details-body"><p>Синтез и рендер запускаем только через именованный замок на всю машину. Несколько агентов собирают ролики параллельно, а GPU и модель одна. Это восемь строк:</p>
+<div class="command"><div class="command-bar"><span>Файл locked.py · замок, короткая версия</span><button type="button">Копировать</button></div><pre><code># locked.py
 import fcntl, subprocess, sys
 name = sys.argv[1]; cmd = sys.argv[sys.argv.index('--') + 1:]
 with open(f'/tmp/quick-reels-{name}.lock', 'w') as f:
     fcntl.flock(f, fcntl.LOCK_EX)
-    sys.exit(subprocess.call(cmd))</code></pre></div>
-<div class="code"><pre><code>python3 locked.py voice  -- &lt;команда синтеза&gt;
-python3 locked.py render -- &lt;команда рендера или LTX&gt;</code></pre></div>
-
-<h3>Папка одного ролика</h3>
-<div class="code"><pre><code>n06-web-ads/
+    sys.exit(subprocess.call(cmd))</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<div class="command"><div class="command-bar"><span>В терминал · запуск под замком</span><button type="button">Копировать</button></div><pre><code>python3 locked.py voice  -- &lt;команда синтеза&gt;
+python3 locked.py render -- &lt;команда рендера или LTX&gt;</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="zhelezo-3"><summary>Папка одного ролика</summary><div class="details-body"><div class="command"><div class="command-bar"><span>Структура папки одного ролика</span><button type="button">Копировать</button></div><pre><code>n06-web-ads/
   README.md          паспорт: статус, команды, устройство, музыка с кредитом
   SCRIPT.md          утверждённый текст + раскадровка с таймкодами
   research.md        выбор темы и три варианта хука
@@ -223,33 +239,28 @@ python3 locked.py render -- &lt;команда рендера или LTX&gt;</co
     finish.py        сведение, контактный лист, громкость, проверка, итог
   qa/                final-result.json, sheet.jpg, factcheck.md, sources/
   publish/           caption.txt, leadmagnet/INSTRUCTION.md
-  output/            final.mp4</code></pre></div>
-<p>Медиа, <code>node_modules</code> и окружения в git не кладём.</p>
+  output/            final.mp4</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Медиа, <code>node_modules</code> и окружения в git не кладём.</p></div></details>
 </section>
 
-<section id="agent">
-<h2><span class="n">02</span>Как устроена работа с агентом</h2>
+<section class="block" id="agent" aria-labelledby="agent-title">
+<h2 id="agent-title">Как устроена работа с агентом</h2>
 <p>Код из этого гайда почти весь написал Claude Code. Мой вклад — вкус, правки и слово «заливай». Ниже то, что делает эту связку рабочей, а не хаотичной.</p>
 
-<h3>Роли</h3>
-<div class="tbl"><table>
+<details id="agent-1"><summary>Роли</summary><div class="details-body"><div class="tbl"><table>
 <tr><th>Кто</th><th>Что делает</th></tr>
 <tr><td><b>Я</b></td><td>выбираю тему, утверждаю сценарий, смотрю ролик, даю короткий фидбек («пальцы кривоваты», «голос печальный»), говорю «заливай»</td></tr>
 <tr><td><b>Главная сессия Claude Code</b></td><td>продюсер: держит контекст, раздаёт задачи фоновым агентам, проверяет их результат (контактный лист, фактчек), докладывает мне по-русски</td></tr>
 <tr><td><b>Фоновые агенты</b></td><td>исполнители: ресёрч темы, сборка ролика, A/B голосов, сбор фактуры для гайда. Работают параллельно, каждый в своей папке, по завершении присылают отчёт</td></tr>
 </table></div>
-<p>Пока один агент генерирует губы в LTX, второй пишет сценарий следующего ролика, а третий разбирает чужой аккаунт. Тяжёлое не сталкивается благодаря замку из раздела 01.</p>
-
-<h3>Файлы правил</h3>
-<ul>
+<p>Пока один агент генерирует губы в LTX, второй пишет сценарий следующего ролика, а третий разбирает чужой аккаунт. Тяжёлое не сталкивается благодаря замку из раздела «Железо и установка».</p></div></details>
+<details id="agent-2"><summary>Файлы правил</summary><div class="details-body"><ul>
 <li><b><code>CLAUDE.md</code> в корне</b> — короткий навигатор: «общение по-русски», «ролики не публиковать без отдельного указания», «перед синтезом прочитай INSTALL.md», «техническая проверка не означает одобрения».</li>
 <li><b><code>AGENTS.md</code></b> — источник правды по проекту: карта модулей, что нельзя сломать, текущее состояние.</li>
 <li><b><code>GUIDE.md</code></b> — этапы нового ролика и чек-лист публикации.</li>
 <li><b><code>README.md</code> в каждой папке ролика</b> — паспорт: статус, команды, устройство, музыка с кредитом, слабые места, история версий. Следующая сессия продолжает работу по нему, а не по памяти.</li>
-</ul>
-
-<h3>Постоянные правила (агент их не нарушает)</h3>
-<ul>
+</ul></div></details>
+<details id="agent-3"><summary>Постоянные правила (агент их не нарушает)</summary><div class="details-body"><ul>
 <li>Не публиковать без моего отдельного «заливай». Зелёная проверка не значит одобрения.</li>
 <li>Платные API (облачный синтез, облачная генерация) только с моего согласия.</li>
 <li>Сценарий показывать до сборки. Исключение — когда я сам сказал «сделай, а я пошёл спать».</li>
@@ -258,11 +269,9 @@ python3 locked.py render -- &lt;команда рендера или LTX&gt;</co
 <li>Не копировать лица реальных людей. Архетип можно.</li>
 <li>Не вводить пароли и токены, не логиниться за меня.</li>
 <li>Старые версии не удалять: <code>output/_v1.mp4</code>, <code>_v2/</code>.</li>
-</ul>
-
-<h3>Память между сессиями</h3>
-<p>Контекст сессии кончается, а проект нет. Поэтому у агента есть память: папка Markdown-файлов, по одному факту в файле, и индекс <code>MEMORY.md</code>, который грузится при старте.</p>
-<div class="code"><pre><code>---
+</ul></div></details>
+<details id="agent-4"><summary>Память между сессиями</summary><div class="details-body"><p>Контекст сессии кончается, а проект нет. Поэтому у агента есть память: папка Markdown-файлов, по одному факту в файле, и индекс <code>MEMORY.md</code>, который грузится при старте.</p>
+<div class="command"><div class="command-bar"><span>Пример файла памяти агента</span><button type="button">Копировать</button></div><pre><code>---
 name: sfx-vacuum-keep
 description: шумовые вжухи оставляем — «кто там шмыгает» дал комменты под хитом
 metadata:
@@ -270,17 +279,15 @@ metadata:
 ---
 Вжухи на склейках по умолчанию включены. Отменяет прежнее решение убрать их.
 **Why:** топ-коммент «Кто там шмыгает постоянно?» (111 лайков) под роликом 212K.
-**How to apply:** ставить вжух на каждую склейку; убирать только по прямой просьбе.</code></pre></div>
+**How to apply:** ставить вжух на каждую склейку; убирать только по прямой просьбе.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <ul>
 <li><b>Типы:</b> <code>user</code> (кто я), <code>feedback</code> (мои правки с причиной), <code>project</code> (состояние роликов, даты), <code>reference</code> (ссылки).</li>
 <li><b>Фидбек пишется с «почему».</b> Без причины агент применит правило не там.</li>
 <li><b>Жёсткий гейт:</b> не задавать мне вопрос, пока не проверил память. Ответ мог быть записан. Спросить то, что лежит в памяти, считается провалом.</li>
 <li>Устаревшее не копится: прежнее решение переписывается новым, неверное удаляется.</li>
-</ul>
-
-<h3>Как пишется задание фоновому агенту</h3>
-<p>Агент начинает с нуля и не видит нашего разговора. Поэтому задание самодостаточное. Шаблон, по которому собраны ролики этого гайда:</p>
-<div class="code"><pre><code>Репо: &lt;путь&gt;. Отчёт по-русски. Собери рил N08 в &lt;папка&gt;/ (там уже research.md, SCRIPT.md — прочитай целиком).
+</ul></div></details>
+<details id="agent-5"><summary>Как пишется задание фоновому агенту</summary><div class="details-body"><p>Агент начинает с нуля и не видит нашего разговора. Поэтому задание самодостаточное. Шаблон, по которому собраны ролики этого гайда:</p>
+<div class="command"><div class="command-bar"><span>Задание фоновому агенту · шаблон</span><button type="button">Копировать</button></div><pre><code>Репо: &lt;путь&gt;. Отчёт по-русски. Собери рил N08 в &lt;папка&gt;/ (там уже research.md, SCRIPT.md — прочитай целиком).
 Сценарий одобрен: «так давай делать».
 
 Обязательные правки текста: &lt;что поменять и почему&gt;.
@@ -296,36 +303,29 @@ metadata:
 Также: подпись, инструкция для лид-магнита, factcheck.md, sheet.jpg, final-result.json, README.
 Сам посмотри sheet.jpg и исправь наложения до финала.
 Ничего не публиковать, платные API не вызывать.
-Итог: output/final.mp4. В отчёте: длительность, финальный текст, музыка, слабые места.</code></pre></div>
+Итог: output/final.mp4. В отчёте: длительность, финальный текст, музыка, слабые места.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <p>Что в нём важно:</p>
 <ul>
 <li><b>Что прочитать</b> — конкретные файлы образца. Иначе агент изобретёт заново и выйдет хуже.</li>
 <li><b>Что нельзя</b> — явно, каждый раз.</li>
 <li><b>Что сдать</b> — список файлов и формат отчёта, включая слабые места. Агент, которого просят назвать слабые места, их называет; агент, которого не просят, рапортует «всё отлично».</li>
 <li><b>Самопроверка глазами</b> — контактный лист до показа мне.</li>
-</ul>
-
-<h3>Петля фидбека</h3>
-<div class="flow"><span>агент собрал</span><i>→</i><span>продюсер смотрит лист кадров и фактчек</span><i>→</i><span>открывает мне ролик</span><i>→</i><span>я: две-три фразы</span><i>→</i><span>правило в память</span><i>→</i><span>v2 рядом с v1</span></div>
-<p>Реальные примеры: «кривоваты пальцы» → руки убраны из всей серии. «не так же ярко, как наш популярный видос» → ролик пересобран в грамматике хита. «звук пылесоса раздражает» → вжухи убраны, а после 212K и коммента «кто шмыгает» возвращены навсегда. Если три итерации не сходятся, агент сам предлагает сменить подход, а не латать дальше: так голос «босса» ушёл от подбора тембра к клону напористой записи.</p>
-
-<h3>Передача готового</h3>
-<p>Готовый ролик агент копирует на рабочий стол вместе с подписью и инструкцией для лид-магнита и открывает плеером. Instagram я выкладываю с телефона сам, YouTube и TikTok по моему слову заливает скрипт.</p>
+</ul></div></details>
+<details id="agent-6"><summary>Петля фидбека</summary><div class="details-body"><div class="flow"><span>агент собрал</span><i>→</i><span>продюсер смотрит лист кадров и фактчек</span><i>→</i><span>открывает мне ролик</span><i>→</i><span>я: две-три фразы</span><i>→</i><span>правило в память</span><i>→</i><span>v2 рядом с v1</span></div>
+<p>Реальные примеры: «кривоваты пальцы» → руки убраны из всей серии. «не так же ярко, как наш популярный видос» → ролик пересобран в грамматике хита. «звук пылесоса раздражает» → вжухи убраны, а после 212K и коммента «кто шмыгает» возвращены навсегда. Если три итерации не сходятся, агент сам предлагает сменить подход, а не латать дальше: так голос «босса» ушёл от подбора тембра к клону напористой записи.</p></div></details>
+<details id="agent-7"><summary>Передача готового</summary><div class="details-body"><p>Готовый ролик агент копирует на рабочий стол вместе с подписью и инструкцией для лид-магнита и открывает плеером. Instagram я выкладываю с телефона сам, YouTube и TikTok по моему слову заливает скрипт.</p></div></details>
 </section>
 
-<section id="tema">
-<h2><span class="n">03</span>Тема и сценарий</h2>
-<h3>Откуда берём темы</h3>
-<ol>
+<section class="block" id="tema" aria-labelledby="tema-title">
+<h2 id="tema-title">Тема и сценарий</h2>
+<details id="tema-1"><summary>Откуда берём темы</summary><div class="details-body"><ol>
 <li><b>Залетевшие рилсы в нише.</b> Скрипты снимают сетки профилей и считают: прирост подписчиков между двумя срезами, медиану просмотров последних 10–20 роликов к подписчикам (больше 1 значит, что контент разгоняет аккаунт), возраст аккаунта и частоту выхода. Только смотрим: не лайкаем, не подписываемся. YouTube и TikTok читаем через <code>yt-dlp --flat-playlist -J</code>.</li>
 <li><b>Свежие репозитории GitHub.</b> <code>gh search repos</code> и <code>gh api</code> по проектам за последние недели. Звёзды меряют интерес разработчиков, а не зрителей, поэтому темы ранжируем по трём осям: «вау», «касается лично», «сложно ли показать». Так нашлись cleanyourtv, free-my-tv, tv-detox и mibox-skill.</li>
 <li><b>Комменты под своим хитом.</b> Под роликом про телевизор спросили «С WebOS так же можно?» и «От рекламы на телефоне так же можно?». Оба вопроса стали отдельными роликами. «А без Клода как?» вошло в лид-магнит.</li>
 </ol>
 <p><b>Формула серии про телевизоры:</b></p>
-<div class="flow"><span>боль, которая есть у всех</span><i>→</i><span>агент делает руками</span><i>→</i><span>бесплатный открытый репозиторий с цифрами</span><i>→</i><span>«всё обратимо»</span><i>→</i><span>честный подвох</span><i>→</i><span>кодовое слово в комменты</span></div>
-
-<h3>Как пишем текст</h3>
-<ul>
+<div class="flow"><span>боль, которая есть у всех</span><i>→</i><span>агент делает руками</span><i>→</i><span>бесплатный открытый репозиторий с цифрами</span><i>→</i><span>«всё обратимо»</span><i>→</i><span>честный подвох</span><i>→</i><span>кодовое слово в комменты</span></div></div></details>
+<details id="tema-2"><summary>Как пишем текст</summary><div class="details-body"><ul>
 <li><b>Рил до 40 секунд</b>, один пример, тезис в первую секунду, методология в описание. Правило родилось после провала ролика на 2:11 с таблицами. Оговорка: сам хит про телевизор шёл 55 секунд. Длину решает темп, а не секундомер.</li>
 <li><b>Хук картинкой, а не текстом.</b> В ролике про геолокацию первый кадр — голое фото без графики. Зритель сам думает «где это?».</li>
 <li><b>Сценарий видит человек до сборки.</b> Копия удачного ролика на том же каркасе выходит слопом.</li>
@@ -333,10 +333,8 @@ metadata:
 <li><b>Числа пишем словами</b> («двадцать пять приложений»), иначе синтез читает их криво.</li>
 <li><b>Порядок сокращения прописываем заранее:</b> если синтез вышел длиннее 40 с, что резать первым, что вторым.</li>
 <li><b>Текст прогоняем через <a href="https://github.com/ilyautov/humanizer-ru">humanizer-ru</a></b> (MIT, 67 признаков машинного текста): <code>npx skills add ilyautov/humanizer-ru</code>.</li>
-</ul>
-
-<h3>Шаблон брифа для агента-сборщика</h3>
-<div class="code"><pre><code>Рил 1080×1920, ~40 с, без лица, голос за кадром. Ничего не публиковать.
+</ul></div></details>
+<details id="tema-3"><summary>Шаблон брифа для агента-сборщика</summary><div class="details-body"><div class="command"><div class="command-bar"><span>Бриф агенту-сборщику · шаблон</span><button type="button">Копировать</button></div><pre><code>Рил 1080×1920, ~40 с, без лица, голос за кадром. Ничего не публиковать.
 Образец грамматики: &lt;ссылка на хит&gt;, посмотри 20+ кадров. Берём грамматику, не содержание:
 - кадр всё время в движении, ни одного статичного слайда, таблиц и баров;
 - один крупный предмет в кадре, смена каждые 2–4 с по словам голоса;
@@ -349,10 +347,8 @@ metadata:
 Раскадровка: &lt;9–17 планов по фразам&gt;.
 Голос: &lt;движок, референс&gt;, распознать каждый кусок, спорные слова переписать.
 Проверка: сухой просмотр 20+ кадров до рендера, factcheck.md (утверждение → цитата),
-−15 LUFS, распознавание всей склейки.</code></pre></div>
-
-<h3>Правила честности</h3>
-<ul>
+−15 LUFS, распознавание всей склейки.</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="tema-4"><summary>Правила честности</summary><div class="details-body"><ul>
 <li><b>Каждое утверждение подкреплено цитатой.</b> В <code>qa/factcheck.md</code> лежит цитата, в <code>qa/sources/</code> первоисточник: README репозитория, ответ GitHub API с датой, снимок комментов.</li>
 <li><b>Свой замер вместо чужой цифры.</b> Блогеры писали, что Claude по фото находит место «с точностью до двух метров». Мы провели слепой тест: метаданные стёрты, обратный поиск по картинке запрещён, отдельный агент без ключа. Улица в Кунгуре: промах 444 м при собственной уверенности агента 25 %. Дом в Сербии: промах 54 км.</li>
 <li><b>Агент против той же нейросети без инструментов.</b> Одна и та же модель без инструментов дала 20 описаний и ноль телефонов. С веб-поиском — 20 компаний за ~8 минут. Потом все 20 проверены по первоисточникам: телефоны настоящие, но три федеральные сети агент записал в малый бизнес, так что годных 16. Эту ошибку мы вынесли в сценарий.</li>
@@ -361,23 +357,20 @@ metadata:
 <li><b>Чужое без нужды не запускаем.</b> README и SKILL.md читаем через <code>gh api …/contents</code>. Репозиторий с установкой «скачай и выполни» и VPN-клиентом в комплекте отбраковали.</li>
 <li><b>Без логотипов, скриншотов и реальных людей.</b> Интерфейсы рисуем сами, бренды пишем текстом. В пародии персонаж — обобщённый архетип: в промптах нет ни актёра, ни сериала.</li>
 <li><b>Атрибуция:</b> автор и лицензия фото в кадре, источники карты на карте, кредит музыки в описании.</li>
-</ul>
+</ul></div></details>
 </section>
 
-<section id="referensy">
-<h2><span class="n">04</span>Где берём референсы и приёмы</h2>
+<section class="block" id="referensy" aria-labelledby="referensy-title">
+<h2 id="referensy-title">Где берём референсы и приёмы</h2>
 <p>Ни одного приёма мы не придумали с нуля. Всё взято у роликов, которые уже залетели, и разобрано до чисел. Новость без доказанного формата — это гипотеза, а формат, который уже набрал миллион, — это ставка.</p>
 
-<h3>Шаг 1. Срез хитов ниши</h3>
-<ul>
+<details id="referensy-1"><summary>Шаг 1. Срез хитов ниши</summary><div class="details-body"><ul>
 <li><b>Список авторов.</b> 65 русскоязычных аккаунтов про ИИ: нашли поиском по нише и по «похожим», дополняем по ходу.</li>
 <li><b>Сетки профилей.</b> Скрипт снимает страницу <code>/reels/</code> каждого автора: просмотры, лайки, комменты, дата. Только чтение: не лайкаем, не подписываемся. Публичный API профилей быстро отвечает 429, поэтому медленно и через обычную страницу.</li>
 <li><b>Критерий хита:</b> ролик набрал не меньше 5 медиан своего автора и не меньше 100 тыс. просмотров. Так отсекается «большой аккаунт — большие цифры».</li>
 <li><b>Результат первого среза:</b> 106 хитов у 65 авторов. Они сводятся к десяти простым форматам. 62 из 106 без лица. Кодовое слово в комменты почти везде, у маленьких аккаунтов оно даёт от 2,7 до 29 тыс. комментариев.</li>
-</ul>
-
-<h3>Шаг 2. Разбор одного хита до кадра</h3>
-<div class="code"><pre><code># скачать (yt-dlp модулем из Python 3.11)
+</ul></div></details>
+<details id="referensy-2"><summary>Шаг 2. Разбор одного хита до кадра</summary><div class="details-body"><div class="command"><div class="command-bar"><span>В терминал · разбор хита до кадра</span><button type="button">Копировать</button></div><pre><code># скачать (yt-dlp модулем из Python 3.11)
 python3.11 -m yt_dlp -o 'videos/%(id)s.%(ext)s' 'https://www.instagram.com/reel/&lt;ID&gt;/'
 
 # кадр каждые 0,5 с → контактный лист 8×N, смотрим глазами
@@ -389,7 +382,7 @@ ffmpeg -i hit.mp4 -vf "select='gt(scene,0.3)',showinfo" -f null - 2&gt;&amp;1 | 
 # текст речи со словами и таймкодами
 python3.11 -c "from faster_whisper import WhisperModel as W; \
 m=W('large-v3',compute_type='int8'); s,_=m.transcribe('hit.mp4',language='ru',word_timestamps=True); \
-[print(round(x.start,2), x.text) for x in s]"</code></pre></div>
+[print(round(x.start,2), x.text) for x in s]"</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <p>Из этого заполняется карточка разбора:</p>
 <div class="tbl"><table>
 <tr><th>Что смотрим</th><th>Пример (хит про телевизор без рекламы, 1,62 млн)</th></tr>
@@ -403,10 +396,8 @@ m=W('large-v3',compute_type='int8'); s,_=m.transcribe('hit.mp4',language='ru',wo
 <tr><td>Структура</td><td>боль → агент делает → репозиторий с цифрами → обратимо → CTA</td></tr>
 <tr><td>Лицо, голос</td><td>без лица, голос за кадром</td></tr>
 </table></div>
-<div class="note"><b>Берём грамматику, не текст.</b> Первая версия нашего сценария повторила четыре фразы образца. Переписали своими словами, от хита остались только ритм, грамматика кадра и структура.</div>
-
-<h3>Шаг 3. Разбор аккаунта целиком</h3>
-<p>Когда интересен не ролик, а автор, снимаем сетку профиля и считаем: медиана просмотров к подписчикам, какие ролики дали ×3 и больше, частота выхода, есть ли воронка. Так мы разобрали шесть аккаунтов, и от каждого взяли своё:</p>
+<div class="note"><b>Берём грамматику, не текст.</b> Первая версия нашего сценария повторила четыре фразы образца. Переписали своими словами, от хита остались только ритм, грамматика кадра и структура.</div></div></details>
+<details id="referensy-3"><summary>Шаг 3. Разбор аккаунта целиком</summary><div class="details-body"><p>Когда интересен не ролик, а автор, снимаем сетку профиля и считаем: медиана просмотров к подписчикам, какие ролики дали ×3 и больше, частота выхода, есть ли воронка. Так мы разобрали шесть аккаунтов, и от каждого взяли своё:</p>
 <div class="tbl"><table>
 <tr><th>Чей формат</th><th>Что взяли</th></tr>
 <tr><td>Хит про телевизор без рекламы</td><td>грамматику кадра всей серии про ТВ: движение, один предмет, субтитры по слову, счётчики</td></tr>
@@ -415,21 +406,15 @@ m=W('large-v3',compute_type='int8'); s,_=m.transcribe('hit.mp4',language='ru',wo
 <tr><td>Автор, выросший с нуля до 393 тыс.</td><td>схема роста: парсить хиты ниши → 4–5 роликов в день → кодовое слово и лид-магнит</td></tr>
 <tr><td>Аккаунты «как ИИ устроен внутри» и «агенты в бизнесе»</td><td>ролик отвечает на вопрос, который зритель боится задать; бизнес-угол вместо технического</td></tr>
 <tr><td>Западные аналоги</td><td>Shorts в нише ИИ сами по себе не растят (медиана 1,4–2,4 тыс.); растят свой артефакт и воронка</td></tr>
-</table></div>
-
-<h3>Шаг 4. Комменты под своими хитами</h3>
-<p>Самый дешёвый источник. Под нашим роликом спросили «С WebOS так же можно?», «А на телефоне?», «А без Клода как?», «Кто там шмыгает?». Первые два стали отдельными роликами, третий вошёл в лид-магнит, четвёртый решил судьбу звуков на склейках.</p>
-
-<h3>Шаг 5. Приёмы монтажа: свой справочник</h3>
-<ul>
+</table></div></div></details>
+<details id="referensy-4"><summary>Шаг 4. Комменты под своими хитами</summary><div class="details-body"><p>Самый дешёвый источник. Под нашим роликом спросили «С WebOS так же можно?», «А на телефоне?», «А без Клода как?», «Кто там шмыгает?». Первые два стали отдельными роликами, третий вошёл в лид-магнит, четвёртый решил судьбу звуков на склейках.</p></div></details>
+<details id="referensy-5"><summary>Шаг 5. Приёмы монтажа: свой справочник</summary><div class="details-body"><ul>
 <li><b>24 приёма камеры</b> (панорама, наезд, whip, смэш-кат, J-склейка и т. д.) оформлены как скилл для агента: файл <code>SKILL.md</code> в <code>.agents/skills/camera-moves/</code>. У каждого приёма числа (длительность, амплитуда, ease) и вариант для Canvas 2D. Агент читает его перед сценой.</li>
 <li><b>Правила моушена</b> из открытого стартового набора к HyperFrames (MIT): таблица ease и длительностей, законы кадра, ворота качества. Подробно в разделе про HyperFrames.</li>
 <li><b>Наш фидбек как правила.</b> «Ощущение презентации», «иллюстрации статичные», «картинка висит и мешает» превратились в запреты с диагнозом: в памяти агента и в брифе каждого ролика.</li>
-</ul>
-
-<h3>Шаг 6. Бриф собирает всё вместе</h3>
-<p>Каждый ролик начинается с брифа, где референс и запреты прописаны явно:</p>
-<div class="code"><pre><code>Образец грамматики — хит &lt;автор&gt; (1,62 млн): videos/&lt;id&gt;.mp4 — посмотри 20+ кадров.
+</ul></div></details>
+<details id="referensy-6"><summary>Шаг 6. Бриф собирает всё вместе</summary><div class="details-body"><p>Каждый ролик начинается с брифа, где референс и запреты прописаны явно:</p>
+<div class="command"><div class="command-bar"><span>Бриф: референс и запреты · шаблон</span><button type="button">Копировать</button></div><pre><code>Образец грамматики — хит &lt;автор&gt; (1,62 млн): videos/&lt;id&gt;.mp4 — посмотри 20+ кадров.
 Берём ГРАММАТИКУ, не содержание:
 - кадр всё время в движении, ни одного статичного слайда, таблиц, баров;
 - один крупный предмет в кадре, сменяется каждые 2–4 с;
@@ -437,13 +422,12 @@ m=W('large-v3',compute_type='int8'); s,_=m.transcribe('hit.mp4',language='ru',wo
 - интерфейсы аккуратные, как настоящие, плавают поверх сцены;
 - счётчики реально крутятся.
 Обязательно прочитать: память «чего не делать» (провал длинного рила с таблицами),
-«ощущение презентации», «грамматика кадра», «копия удачного = слоп».</code></pre></div>
+«ощущение презентации», «грамматика кадра», «копия удачного = слоп».</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
 </section>
 
-<section id="golos">
-<h2><span class="n">05</span>Голос</h2>
-<h3>Слепой тест шести синтезаторов</h3>
-<p>Условия: один референс (мой живой голос, 7,3 с после чистки щелчков), четыре одинаковые фразы, родной темп, seed 42, движки строго по одному. Номера раздавал <code>random.SystemRandom().shuffle</code>, ключ лежал отдельно. Я слушал склейку с бипами между вариантами, не зная, где какой.</p>
+<section class="block" id="golos" aria-labelledby="golos-title">
+<h2 id="golos-title">Голос</h2>
+<details id="golos-1"><summary>Слепой тест шести синтезаторов</summary><div class="details-body"><p>Условия: один референс (мой живой голос, 7,3 с после чистки щелчков), четыре одинаковые фразы, родной темп, seed 42, движки строго по одному. Номера раздавал <code>random.SystemRandom().shuffle</code>, ключ лежал отдельно. Я слушал склейку с бипами между вариантами, не зная, где какой.</p>
 <div class="tbl"><table>
 <tr><th>Движок</th><th>Слогов/с</th><th>Щелчков/мин</th><th>с на 1 с речи</th><th>Память</th><th>Лицензия</th><th>На слух</th></tr>
 <tr><td>F5-TTS, русский чекпойнт</td><td>6,12</td><td>140</td><td>4,84</td><td>4,5 ГБ</td><td>CC-BY-NC-4.0</td><td>мимо</td></tr>
@@ -453,24 +437,20 @@ m=W('large-v3',compute_type='int8'); s,_=m.transcribe('hit.mp4',language='ru',wo
 <tr><td>Fish Audio S2-Pro (4B)</td><td>5,47</td><td>123</td><td>3,45</td><td>28,7 ГБ</td><td>некоммерческая</td><td>плохо</td></tr>
 <tr class="win"><td><b>OmniVoice (k2-fsa)</b></td><td>5,77</td><td>116</td><td>1,35</td><td>4,4 ГБ</td><td>код Apache-2.0, веса CC-BY-NC</td><td><b>победитель</b></td></tr>
 </table></div>
-<div class="note"><b>Главный вывод.</b> По словам все шесть почти равны: распознавание речи их не различает. Оно не слышит ударений, а главная претензия к синтезу именно в ударениях. Решает только ухо, поэтому тест слепой.</div>
-
-<h3>Референс</h3>
-<ul>
+<div class="note"><b>Главный вывод.</b> По словам все шесть почти равны: распознавание речи их не различает. Оно не слышит ударений, а главная претензия к синтезу именно в ударениях. Решает только ухо, поэтому тест слепой.</div></div></details>
+<details id="golos-2"><summary>Референс</summary><div class="details-body"><ul>
 <li>3–4 дубля по ~12 с. Задание себе: «как другу в машине: живо, с иронией, с ускорением и паузой, без “эээ”».</li>
 <li>Щелчки рта чистим до клонирования: <code>adeclick=w=55:o=75:t=2</code> в два прохода (было 83 щелчка, стало 8). Клон копирует треск референса.</li>
 <li>Рядом с файлом лежит <code>.txt</code> с расшифровкой: модели принимают пару «аудио + текст».</li>
-</ul>
-
-<h3>OmniVoice: основной рецепт</h3>
-<div class="code"><pre><code>import torch, numpy as np, soundfile as sf
+</ul></div></details>
+<details id="golos-3"><summary>OmniVoice: основной рецепт</summary><div class="details-body"><div class="command"><div class="command-bar"><span>Python · OmniVoice, основной рецепт</span><button type="button">Копировать</button></div><pre><code>import torch, numpy as np, soundfile as sf
 from omnivoice import OmniVoice
 
 m = OmniVoice.from_pretrained(MODEL_DIR, device_map='mps', dtype=torch.float16)
 prompt = m.create_voice_clone_prompt(ref_audio='ref.wav', ref_text=open('ref.txt').read().strip())
 torch.manual_seed(42); np.random.seed(42)
 x = m.generate(text=chunk_text, voice_clone_prompt=prompt, speed=1.1)  # темп только родным параметром
-sf.write('raw-N.wav', x, 24000)</code></pre></div>
+sf.write('raw-N.wav', x, 24000)</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <ul>
 <li><b>Одна реплика — один кусок.</b> Ошибка ударения тогда стоит одной реплики, а не всего ролика.</li>
 <li><b>Темп 1.1–1.12 родным <code>speed</code>,</b> не через <code>atempo</code>. Без этого 40-секундный текст выходил на 44 с.</li>
@@ -479,36 +459,30 @@ sf.write('raw-N.wav', x, 24000)</code></pre></div>
 <li><b>Ударение знаком <code>́</code></b> OmniVoice слушает: «попе́й пивка́», «Кло́д».</li>
 <li><b>Выход:</b> <code>voice-track.json</code> с пословными таймкодами. От них зависят субтитры, склейки и звуки.</li>
 <li><b>Голос по описанию (voice design).</b> <code>instruct</code> принимает только теги: пол, возраст, высота, акцент. Каждый вызов даёт новый тембр. Рецепт: 4 набора тегов × 2–6 сидов, удачный дубль сохранить и дальше клонировать его. Минус: интонация у такого голоса ровная, персонаж звучит уныло.</li>
-</ul>
-
-<h3>Chatterbox Multilingual: голос с характером</h3>
-<p>MIT, русский есть, работает на Apple Silicon через <code>mps</code>. Ставим с GitHub: на PyPI старая версия.</p>
-<div class="code"><pre><code>from chatterbox.mtl_tts import ChatterboxMultilingualTTS
+</ul></div></details>
+<details id="golos-4"><summary>Chatterbox Multilingual: голос с характером</summary><div class="details-body"><p>MIT, русский есть, работает на Apple Silicon через <code>mps</code>. Ставим с GitHub: на PyPI старая версия.</p>
+<div class="command"><div class="command-bar"><span>Python · Chatterbox Multilingual</span><button type="button">Копировать</button></div><pre><code>from chatterbox.mtl_tts import ChatterboxMultilingualTTS
 tts = ChatterboxMultilingualTTS.from_pretrained(device='mps', t3_model='v3')
 wav = tts.generate("Да ты кто тако́й вообще?!!", language_id='ru',
-                   audio_prompt_path='ref.wav', exaggeration=2.0, cfg_weight=0.5, temperature=0.8)</code></pre></div>
+                   audio_prompt_path='ref.wav', exaggeration=2.0, cfg_weight=0.5, temperature=0.8)</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <ul>
 <li>Ручка <code>exaggeration</code> в диапазоне 0,5–1,4 подачу почти не меняет. Интонацию задаёт референс. Настоящий крик вышел только на 2,0–2,5 и не на каждом сиде.</li>
 <li>Лучший референс для злого персонажа: <b>своя напористая запись, опущенная на 3 полутона с сохранением формант</b>: <code>rubberband-r3 --formant -p -3</code>.</li>
 <li>Баг с «ё»: нормализация раскладывает букву, и слово теряет последнюю букву. Подавайте «е», в омографах ставьте ударение руками (<code>де́ньги</code>).</li>
 <li>Скорость: ~2,4 с счёта на 1 с речи на M1 Max.</li>
 <li>Дубли отбираем автоматически: сначала только те, где распознавание совпало на 100 %, затем по сумме z-оценок темпа, разброса высоты тона и громкости.</li>
-</ul>
-
-<h3>F5-TTS: почему ушли</h3>
-<ul>
+</ul></div></details>
+<details id="golos-5"><summary>F5-TTS: почему ушли</summary><div class="details-body"><ul>
 <li>Первое слово: с гласной F5 приклеивает «к», с согласной может съесть слово целиком. Лечили жертвенным «Короче.» в начале.</li>
 <li>Обрывает окончания. Лечили жертвенным хвостом и подрезкой по распознаванию.</li>
 <li>Метки ударения F5 не слушает. Слово «модель» читает с твёрдым «э», такие слова приходилось заменять.</li>
 <li>Ускорение 1.15 звучит ужасно. В слепом тесте проиграл и в 3,5 раза медленнее OmniVoice.</li>
-</ul>
-
-<h3>Живой голос</h3>
-<p>Живая начитка пока лучше любого клона. Лучший скетч озвучен мной на айфон, синтезу оставлены мемные голоса.</p>
-<div class="code"><pre><code># айфон
+</ul></div></details>
+<details id="golos-6"><summary>Живой голос</summary><div class="details-body"><p>Живая начитка пока лучше любого клона. Лучший скетч озвучен мной на айфон, синтезу оставлены мемные голоса.</p>
+<div class="command"><div class="command-bar"><span>Фильтры ffmpeg -af · чистка живой записи</span><button type="button">Копировать</button></div><pre><code># айфон
 highpass=f=80,adeclick=w=55:o=75:t=2,acompressor=threshold=-22dB:ratio=1.8:attack=10:release=150:makeup=1.5
 # MacBook (тяжелее)
-highpass=f=80,adeclick=w=55:o=75:t=2,adeclick=w=55:o=75:t=2,afftdn=nf=-25,acompressor=threshold=-24dB:ratio=2.5:attack=8:release=120:makeup=2</code></pre></div>
+highpass=f=80,adeclick=w=55:o=75:t=2,adeclick=w=55:o=75:t=2,afftdn=nf=-25,acompressor=threshold=-24dB:ratio=2.5:attack=8:release=120:makeup=2</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <ol>
 <li>Почистить дубль и прогнать целиком через Whisper large-v3 со словами.</li>
 <li>Сопоставить слова сценария со словами распознавания (<code>difflib.SequenceMatcher</code>). Границы реплики — первое и последнее найденное слово. Оговорки и повторы выпадают сами. Если найдено меньше 70 % слов, скрипт останавливается.</li>
@@ -516,15 +490,14 @@ highpass=f=80,adeclick=w=55:o=75:t=2,adeclick=w=55:o=75:t=2,afftdn=nf=-25,acompr
 <li>Записать тот же <code>voice-track.json</code>: дальше субтитры, звук и рендер пересобираются сами.</li>
 </ol>
 <p><b>Растянуть слово</b> («мат должен быть смачным»): синтез капсом и удвоением не тянет, <code>atempo 0.5</code> даёт искажения. Вырезаем слово по распознаванию и растягиваем всё, кроме последних согласных:</p>
-<div class="code"><pre><code>rubberband-r3 -q --fine --formant -t 2 in.wav out.wav   # затем acrossfade 10 мс и loudnorm TP −2</code></pre></div>
+<div class="command"><div class="command-bar"><span>В терминал · растянуть слово</span><button type="button">Копировать</button></div><pre><code>rubberband-r3 -q --fine --formant -t 2 in.wav out.wav   # затем acrossfade 10 мс и loudnorm TP −2</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
 </section>
 
-<section id="kartinka">
-<h2><span class="n">06</span>Картинка</h2>
+<section class="block" id="kartinka" aria-labelledby="kartinka-title">
+<h2 id="kartinka-title">Картинка</h2>
 <div class="note"><b>Общий принцип: сцена — чистая функция времени.</b> <code>window.setTime(t)</code> рисует кадр для момента t, случайность берётся из сидированного генератора. Playwright выставляет <code>t = i/fps</code>, делает скриншот, JPEG по трубе уходит в ffmpeg. Ни один кадр не теряется, а ролик собирается одинаково при каждом запуске.</div>
 
-<h3>2D-сцены на TypeScript + Canvas</h3>
-<ul>
+<details id="kartinka-1"><summary>2D-сцены на TypeScript + Canvas</summary><div class="details-body"><ul>
 <li>Одна сцена — один файл на 400–470 строк, например <code>scene-tv-clean.ts</code>.</li>
 <li>Компиляция: <code>tsc scene.ts --target ES2020 --lib DOM,ES2020 --strict --skipLibCheck --outFile build/scene.js</code>.</li>
 <li>Вход: <code>story.json</code> (реплики и слова с таймкодами) и <code>reel.json</code> (цифры, бренды, хэндл).</li>
@@ -541,18 +514,14 @@ highpass=f=80,adeclick=w=55:o=75:t=2,adeclick=w=55:o=75:t=2,afftdn=nf=-25,acompr
 <li>счётчики крутятся по-настоящему: 0→25, 1 286→840, 874 МБ→1,8 ГБ;</li>
 <li>хэндл канала только в финале.</li>
 </ul>
-<p>Шрифты: Onest (OFL) и курсивная антиква для акцентов. Берите свободную, например PT Serif Italic или Lora: системные шрифты macOS идут под чужой лицензией.</p>
-
-<h3>3D-карта (MapLibre GL JS 5.6)</h3>
-<ul>
+<p>Шрифты: Onest (OFL) и курсивная антиква для акцентов. Берите свободную, например PT Serif Italic или Lora: системные шрифты macOS идут под чужой лицензией.</p></div></details>
+<details id="kartinka-2"><summary>3D-карта (MapLibre GL JS 5.6)</summary><div class="details-body"><ul>
 <li>Проекция globe, рельеф AWS Terrain Tiles с усилением ×1,3, изолинии maplibre-contour. Ключи и аккаунты не нужны.</li>
 <li><code>setTime(t)</code> ждёт события <code>idle</code> карты: тайлы догружены в каждом кадре, рывков нет.</li>
 <li>Chromium с GPU: <code>--use-angle=metal --enable-gpu --ignore-gpu-blocklist</code>, ≈0,13 с на кадр.</li>
-</ul>
-<div class="note warn"><b>Лицензия спутниковых снимков.</b> Esri World Imagery формально требует лицензии на использование в видео. Свободная альтернатива EOxCloudless (CC BY-NC-SA) мутнее, 10 м на пиксель. Атрибуция в кадре обязательна в любом случае.</div>
-
-<h3>3D-скетчи на three.js</h3>
-<ul>
+</ul></div></details>
+<div class="warn"><b>Лицензия спутниковых снимков.</b> Esri World Imagery формально требует лицензии на использование в видео. Свободная альтернатива EOxCloudless (CC BY-NC-SA) мутнее, 10 м на пиксель. Атрибуция в кадре обязательна в любом случае.</div>
+<details id="kartinka-3"><summary>3D-скетчи на three.js</summary><div class="details-body"><ul>
 <li>Персонажи собраны из примитивов three.js с <code>flatShading</code>: стилизованный я, Claude (своя терракотовая «галька» с визором, не логотип), горилла Горо. Металл отражает <code>RoomEnvironment</code>, глубина резкости через <code>BokehPass</code>.</li>
 <li>Жизнь в кадре: дыхание, моргание по расписанию, поворот головы к собеседнику, жесты по репликам, рот по громкости речи, ручная камера.</li>
 <li>Рендер: headless Chromium, ANGLE/Metal, JPEG 95 → <code>libx264 -preset slow -crf 16</code>. <b>0,03 с на кадр.</b> Сеть не нужна.</li>
@@ -567,15 +536,13 @@ highpass=f=80,adeclick=w=55:o=75:t=2,adeclick=w=55:o=75:t=2,afftdn=nf=-25,acompr
 <tr class="win"><td><b>без огибающей речи</b></td><td><b>0,13 / 0,09 / 0,03</b></td></tr>
 </table></div>
 <p>Сырая громкость кадр-в-кадр управляла ртом, кивками и масштабом тела. Лечение: огибающая с шагом 5 мс, следящий фильтр attack 45 мс / release 110 мс, не больше 4 раскрытий рта в секунду. Камера стала медленным дрейфом: две синусоиды до 0,47 Гц вместо гармоник до 8 Гц. Средний рывок упал с 0,495 до 0,216.</p>
-<p><b>Горилла выглядела как медведь.</b> Помогли признаки гориллы: холодный почти чёрный мех, отдельная холодная подсветка (тёплый свет делал мех коричневым), голая серая маска лица, надбровный валик, плоский широкий нос, без шеи.</p>
-
-<h3>Генеративное видео LTX-2.5 локально</h3>
-<ul>
+<p><b>Горилла выглядела как медведь.</b> Помогли признаки гориллы: холодный почти чёрный мех, отдельная холодная подсветка (тёплый свет делал мех коричневым), голая серая маска лица, надбровный валик, плоский широкий нос, без шеи.</p></div></details>
+<details id="kartinka-4"><summary>Генеративное видео LTX-2.5 локально</summary><div class="details-body"><ul>
 <li><code>dgrauet/ltx-2-mlx</code> (MIT), веса LTX-2.5 q8 distilled. Лицензия весов LTX-2 Community: бесплатно до $10 млн выручки в год.</li>
 <li>576×1024, 24 fps, потом апскейл: кроп, lanczos до 1080×1920, лёгкая резкость и виньетка.</li>
 <li>Режимы: <code>generate</code> (текст в видео; картинка в видео с <code>--image кадр 0 1.0</code>) и <code>a2v</code> (картинка + wav → говорящий персонаж с губами под наш звук).</li>
 </ul>
-<div class="code"><pre><code>export LTX2_COMPUTE_DTYPE=float16
+<div class="command"><div class="command-bar"><span>В терминал · LTX-2.5: паспорт и говорящий шот</span><button type="button">Копировать</button></div><pre><code>export LTX2_COMPUTE_DTYPE=float16
 # 1) «паспорт» персонажа: 9 кадров на нескольких сидах, выбрать лучший кадр
 uv run --project .runtime/ltx-2-mlx ltx-2-mlx generate --distilled --model .runtime/models/ltx-2.5-mlx-q8 \
   -H 1024 -W 576 -f 9 --frame-rate 24 --seed 7 -p "$PASSPORT, realistic cinematic film still, 35mm" -o still.mp4
@@ -584,7 +551,7 @@ ffmpeg -sseof -0.05 -i still.mp4 -frames:v 1 still.png
 # 2) говорящий шот от опорного кадра под нашу реплику
 uv run --project .runtime/ltx-2-mlx ltx-2-mlx a2v --distilled --model .runtime/models/ltx-2.5-mlx-q8 \
   -H 1024 -W 576 -f 81 --frame-rate 24 --seed 42 --image still.png 0 1.0 --audio line1.wav \
-  -p "$PASSPORT, he talks into the phone, mouth moving clearly with the speech, static camera" -o t1.mp4</code></pre></div>
+  -p "$PASSPORT, he talks into the phone, mouth moving clearly with the speech, static camera" -o t1.mp4</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <ul>
 <li><b>Паспорт персонажа:</b> текстовое описание внешности, которое подставляется во все промпты, плюс один опорный кадр. Все шоты делаются от этого кадра, поэтому лицо не плывёт. Последний кадр клипа (<code>ffmpeg -sseof -0.06</code>) становится входом следующего.</li>
 <li><b>Число кадров для a2v:</b> ближайшее 8k+1, не меньше чем (длина wav − 0,55) × 24. Если wav короче, a2v падает: добиваем <code>apad</code> и розовым шумом.</li>
@@ -594,18 +561,15 @@ uv run --project .runtime/ltx-2-mlx ltx-2-mlx a2v --distilled --model .runtime/m
 <li><b>Предметы в руках мутируют:</b> телефон у уха к концу клипа превратился в сигару. Взяли первые 0,55 с.</li>
 <li><b>Утки стали белыми чайками, выросли пальмы.</b> Помог детальный промпт («brown mallard ducks with glossy green heads and orange feet») и другой сид.</li>
 <li>Реальных людей не генерируем. В промптах только архетип, без имён. Исключение — я сам, по своему фото и голосу.</li>
-</ul>
-
-<h3>Руки</h3>
-<p>Нарисованные кодом руки и сгенерированные пальцы одинаково выдают дешёвую картинку. Убрали: телефон или пульт просто парит с тенью.</p>
+</ul></div></details>
+<details id="kartinka-5"><summary>Руки</summary><div class="details-body"><p>Нарисованные кодом руки и сгенерированные пальцы одинаково выдают дешёвую картинку. Убрали: телефон или пульт просто парит с тенью.</p></div></details>
 </section>
 
-<section id="montazh">
-<h2><span class="n">07</span>Приёмы монтажа</h2>
+<section class="block" id="montazh" aria-labelledby="montazh-title">
+<h2 id="montazh-title">Приёмы монтажа</h2>
 <p>Монтаж у нас делается кодом: камера, склейки и субтитры накладываются поверх уже нарисованного кадра. Поэтому каждый приём здесь записан числами.</p>
 
-<h3>Какие из 24 приёмов камеры реально работают</h3>
-<p>За основу взят гайд из 24 приёмов (панорама, наезд, долли-зум, whip и т. д.), оформленный как скилл для агента. У каждого приёма есть вариант для Canvas 2D через параллакс: <code>dx = camX / z</code>, <code>s = f / (z − camZ)</code>. Вот что из этого в деле:</p>
+<details id="montazh-1"><summary>Какие из 24 приёмов камеры реально работают</summary><div class="details-body"><p>За основу взят гайд из 24 приёмов (панорама, наезд, долли-зум, whip и т. д.), оформленный как скилл для агента. У каждого приёма есть вариант для Canvas 2D через параллакс: <code>dx = camX / z</code>, <code>s = f / (z − camZ)</code>. Вот что из этого в деле:</p>
 <div class="tbl"><table>
 <tr><th>Приём</th><th>Как у нас</th></tr>
 <tr><td><b>Наезд</b></td><td>в каждом плане: масштаб 1,0 → 1,08 за 1,2–1,4 с; на хуке 1,08 → 1,75 на предмет</td></tr>
@@ -621,20 +585,16 @@ uv run --project .runtime/ltx-2-mlx ltx-2-mlx a2v --distilled --model .runtime/m
 <tr><td><b>J-склейка</b></td><td>звук склейки на 0,12–0,2 с раньше картинки</td></tr>
 <tr><td>Кран, долли-зум, FPV, слоумо, спидрамп, таймлапс, шторка, L-склейка</td><td>не используем</td></tr>
 </table></div>
-<p>Правило из того же гайда, которое мы соблюдаем: <b>у движения должна быть причина.</b> Камера, которая едет просто так, даёт ощущение презентации.</p>
-
-<h3>Ручная камера</h3>
-<p>Накладывается на готовый кадр плана, поэтому работает поверх любой сцены:</p>
-<div class="code"><pre><code>const sines = (t, l) =&gt; l.reduce((s, [a, f, p]) =&gt; s + a * Math.sin(t * f + p), 0);
+<p>Правило из того же гайда, которое мы соблюдаем: <b>у движения должна быть причина.</b> Камера, которая едет просто так, даёт ощущение презентации.</p></div></details>
+<details id="montazh-2"><summary>Ручная камера</summary><div class="details-body"><p>Накладывается на готовый кадр плана, поэтому работает поверх любой сцены:</p>
+<div class="command"><div class="command-bar"><span>Фрагмент сцены · ручная камера</span><button type="button">Копировать</button></div><pre><code>const sines = (t, l) =&gt; l.reduce((s, [a, f, p]) =&gt; s + a * Math.sin(t * f + p), 0);
 
 const hs = 1.04 + .03 * ease(lt / 3) + .012 * Math.sin(t * 1.3); // оверскан 4 %, наезд +3 % за 3 с, «дыхание» ±1,2 %
 const hx = sines(t, [[16, .8, 0], [7, 2.1, 1]]);                 // ±23 px по X
 const hy = sines(t, [[13, .7, 2], [5, 1.7, 0]]);                 // ±18 px по Y
-const hr = sines(t, [[.007, .6, 0]]);                            // крен ±0,4°</code></pre></div>
-<p>Оверскан 1,04 нужен, чтобы при сдвиге не открывались края. Частоты низкие, 0,1–0,35 Гц. Случайный шум на каждый кадр выглядит как цифровой дребезг, а не как руки оператора.</p>
-
-<h3>Переброска и «панч» на склейке</h3>
-<div class="code"><pre><code>const lt = t - shots[i].at, wd = shots[i].whip ?? 0, TW = .2;
+const hr = sines(t, [[.007, .6, 0]]);                            // крен ±0,4°</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Оверскан 1,04 нужен, чтобы при сдвиге не открывались края. Частоты низкие, 0,1–0,35 Гц. Случайный шум на каждый кадр выглядит как цифровой дребезг, а не как руки оператора.</p></div></details>
+<details id="montazh-3"><summary>Переброска и «панч» на склейке</summary><div class="details-body"><div class="command"><div class="command-bar"><span>Фрагмент сцены · переброска и панч</span><button type="button">Копировать</button></div><pre><code>const lt = t - shots[i].at, wd = shots[i].whip ?? 0, TW = .2;
 if (i &gt; 0 &amp;&amp; lt &lt; TW &amp;&amp; wd !== 0) {             // переброска: 0,2 с после склейки
   const k = 1 - ease(lt / TW);                   // ease = cubic out
   const dx = wd * k * 420;                       // новый план въезжает с 420 px
@@ -642,11 +602,9 @@ if (i &gt; 0 &amp;&amp; lt &lt; TW &amp;&amp; wd !== 0) {             // пер�
   for (let g = 0; g &lt; 5; g++) put(sc, dx + wd * g * k * 60, g === 0 ? 1 : .22); // смаз: 4 «призрака» по 60 px
 } else if (i &gt; 0 &amp;&amp; lt &lt; .16) {                 // простая склейка: панч 6 % за 0,16 с
   const k = 1 - ease(lt / .16); put(1 + k * .06, 0);
-} else put(1, 0);</code></pre></div>
-<p>Направление (<code>whip: 1</code> или <code>-1</code>) чередуем, чтобы склейки не сливались в одно движение. Классический whip длится 0,3 + 0,3 с, у нас короче, потому что план живёт около двух секунд.</p>
-
-<h3>Ритм: склейка на фразу</h3>
-<p>Склейки берутся из слов голоса: план начинается на слове или за 0,04–0,05 с до него. Сцена сама проверяет, что планы идут по порядку, иначе падает. Замер по готовым роликам:</p>
+} else put(1, 0);</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Направление (<code>whip: 1</code> или <code>-1</code>) чередуем, чтобы склейки не сливались в одно движение. Классический whip длится 0,3 + 0,3 с, у нас короче, потому что план живёт около двух секунд.</p></div></details>
+<details id="montazh-4"><summary>Ритм: склейка на фразу</summary><div class="details-body"><p>Склейки берутся из слов голоса: план начинается на слове или за 0,04–0,05 с до него. Сцена сама проверяет, что планы идут по порядку, иначе падает. Замер по готовым роликам:</p>
 <div class="tbl"><table>
 <tr><th>Ролик</th><th>Длина</th><th>Планов</th><th>Медиана плана</th><th>Мин.</th><th>Макс.</th></tr>
 <tr><td>Телевизор без рекламы</td><td>54,7 с</td><td>17</td><td>2,48 с</td><td>1,07</td><td>6,15</td></tr>
@@ -654,17 +612,13 @@ if (i &gt; 0 &amp;&amp; lt &lt; TW &amp;&amp; wd !== 0) {             // пер�
 <tr><td>Телевизор LG</td><td>38,9 с</td><td>15</td><td>2,75 с</td><td>1,47</td><td>4,53</td></tr>
 <tr><td>Тормозит приставка</td><td>37,7 с</td><td>17</td><td>1,92 с</td><td>0,96</td><td>3,93</td></tr>
 </table></div>
-<p>Движение внутри плана начинается сразу, без паузы. Длинные паузы режутся ещё на голосе: между репликами 0,10–0,14 с, внутри реплики всё длиннее 0,34 с ужимается до 0,34 с.</p>
-
-<h3>Хук в первую секунду</h3>
-<ul>
+<p>Движение внутри плана начинается сразу, без паузы. Длинные паузы режутся ещё на голосе: между репликами 0,10–0,14 с, внутри реплики всё длиннее 0,34 с ужимается до 0,34 с.</p></div></details>
+<details id="montazh-5"><summary>Хук в первую секунду</summary><div class="details-body"><ul>
 <li><b>Ролик про приставку:</b> с нулевой секунды наезд 1,08 → 1,75 на коробочку, спиннер «тормозит» рывками и тикает шесть раз. На слове «тормозит» выпрыгивает «83 %»: кегль 170 px, лайм с глоу, ease с перелётом, под удар и мутный аккорд.</li>
 <li><b>Топ-формат:</b> крэш-зум <code>1 + .05·ease(t/.3)</code> за 0,3 с плюс затухающая тряска <code>16·e^(−7t)</code> px.</li>
 <li><b>Штамп</b> («ПОДВОХ», «КЭШ»): масштаб 2,4 → 1 за 0,18 с, наклон −0,08 рад, появление за 0,1 с. Под него всегда глухой удар.</li>
-</ul>
-
-<h3>Субтитры по слову</h3>
-<p>Текст для показа берётся из <code>lines.json</code> (как писать), время из распознавания готового дубля. Произнесённые слова сопоставляются с показываемыми, поэтому на экране «Claude», а в голосе «Кло́д».</p>
+</ul></div></details>
+<details id="montazh-6"><summary>Субтитры по слову</summary><div class="details-body"><p>Текст для показа берётся из <code>lines.json</code> (как писать), время из распознавания готового дубля. Произнесённые слова сопоставляются с показываемыми, поэтому на экране «Claude», а в голосе «Кло́д».</p>
 <div class="tbl"><table>
 <tr><th>Параметр</th><th>Значение</th></tr>
 <tr><td>Граница фразы</td><td>знак препинания и ≥2 слов, или 5 слов, или пауза &gt;0,3 с, или новая реплика</td></tr>
@@ -675,27 +629,19 @@ if (i &gt; 0 &amp;&amp; lt &lt; TW &amp;&amp; wd !== 0) {             // пер�
 <tr><td>Акценты</td><td>выбранное слово курсивной антиквой ×1,08; число ×1,25 лаймом <code>#d6ff43</code></td></tr>
 <tr><td>Вёрстка</td><td>по центру, строка ≤960 px, верх на Y = 300, тень <code>blur 24, dy 4, 75 %</code>, без плашек</td></tr>
 </table></div>
-<p>Поверх кадра лежат радиальная виньетка (до 45 % чёрного), затемнение верха 0–640 px до 55 % под субтитры и зерно 7 % в режиме <code>overlay</code>, которое сдвигается каждый кадр.</p>
-
-<h3>Расфокус под цифры</h3>
-<p>Когда в кадре цифра или финальная шторка комментов, фон рисуется во вспомогательный холст и кладётся с <code>filter = 'blur(14px) brightness(.7)'</code>, с запасом 40 px по краям, чтобы размытие не тянуло прозрачность с краёв. Ники в шторке размываются отдельно, <code>blur(11px)</code>.</p>
-
-<h3>Параллакс по карте глубины</h3>
-<p>Оживляет статичную картинку лучше, чем медленный зум (Ken Burns). Карта глубины строится локально, без сети:</p>
-<div class="code"><pre><code>python3.11 depth.py cover.jpg               # Depth-Anything-V2-Small, 0 = дальше, 255 = ближе
-python3.11 layers.py cover.jpg 55 105 175   # 4 слоя по порогам глубины</code></pre></div>
+<p>Поверх кадра лежат радиальная виньетка (до 45 % чёрного), затемнение верха 0–640 px до 55 % под субтитры и зерно 7 % в режиме <code>overlay</code>, которое сдвигается каждый кадр.</p></div></details>
+<details id="montazh-7"><summary>Расфокус под цифры</summary><div class="details-body"><p>Когда в кадре цифра или финальная шторка комментов, фон рисуется во вспомогательный холст и кладётся с <code>filter = 'blur(14px) brightness(.7)'</code>, с запасом 40 px по краям, чтобы размытие не тянуло прозрачность с краёв. Ники в шторке размываются отдельно, <code>blur(11px)</code>.</p></div></details>
+<details id="montazh-8"><summary>Параллакс по карте глубины</summary><div class="details-body"><p>Оживляет статичную картинку лучше, чем медленный зум (Ken Burns). Карта глубины строится локально, без сети:</p>
+<div class="command"><div class="command-bar"><span>В терминал · карта глубины и слои</span><button type="button">Копировать</button></div><pre><code>python3.11 depth.py cover.jpg               # Depth-Anything-V2-Small, 0 = дальше, 255 = ближе
+python3.11 layers.py cover.jpg 55 105 175   # 4 слоя по порогам глубины</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <ul>
 <li>Маска слоя — диапазон глубины, затем морфология <code>MORPH_CLOSE</code> и <code>MORPH_OPEN</code> эллипсом 9×9. Без неё слой рассыпается на сотни пятен.</li>
 <li>Всё, что ближе текущего слоя, закрашивается <code>cv2.inpaint(…, 7, INPAINT_TELEA)</code> по расширенной маске. Иначе при разъезде слоёв открываются дыры.</li>
 <li>Края ближних слоёв мягкие: расширение и <code>GaussianBlur σ=6</code>.</li>
 <li>Слои едут с разной скоростью. Предел: дальний слой примерно до 60 px, ближний до 190 px, дальше вылезают следы закраски.</li>
-</ul>
-
-<h3>Петля</h3>
-<p>Ролик, который зритель досматривает по кругу. Длина считается от последней реплики: конец = её конец + 1 с, округлённо до кадра. Последние 0,45 с персонаж и экран возвращаются ровно в композицию первого кадра. На шве тихо (×0,06) звучит первая нота мелодии и зовёт на повтор. Проверка петли — разница между первым и последним кадром.</p>
-
-<h3>Метрики «пустого» и «мёртвого» кадра</h3>
-<p>Глазами такое пропускаешь, поэтому меряем. Болезней две, метрик нужно минимум две.</p>
+</ul></div></details>
+<details id="montazh-9"><summary>Петля</summary><div class="details-body"><p>Ролик, который зритель досматривает по кругу. Длина считается от последней реплики: конец = её конец + 1 с, округлённо до кадра. Последние 0,45 с персонаж и экран возвращаются ровно в композицию первого кадра. На шве тихо (×0,06) звучит первая нота мелодии и зовёт на повтор. Проверка петли — разница между первым и последним кадром.</p></div></details>
+<details id="montazh-10"><summary>Метрики «пустого» и «мёртвого» кадра</summary><div class="details-body"><p>Глазами такое пропускаешь, поэтому меряем. Болезней две, метрик нужно минимум две.</p>
 <div class="tbl"><table>
 <tr><th>Что ищем</th><th>Как меряем</th><th>Порог</th></tr>
 <tr><td>Кусок без движения</td><td>серые кадры 135×240, средняя межкадровая разница &lt; 0,15</td><td>≤1,5 с</td></tr>
@@ -707,25 +653,22 @@ python3.11 layers.py cover.jpg 55 105 175   # 4 слоя по порогам г�
 <li>Субтитры, которые меняются каждые полсекунды, формально оживляют кадр. В одном лонге 22 % времени шло пустым фоном при зелёной проверке.</li>
 <li>Пустоту лечит содержимое, а не камера: крупнее кегль, уже блок, элемент приходит на стыке реплик, а не на своём слове. Занятость выросла с 23 % до 33–43 %.</li>
 <li>Мерить по DOM нельзя, он врёт (20,5 % против 25 % по mp4). Только по готовому файлу.</li>
-</ul>
-
-<h3>Что отвергнуто и почему</h3>
-<div class="tbl"><table>
+</ul></div></details>
+<details id="montazh-11"><summary>Что отвергнуто и почему</summary><div class="details-body"><div class="tbl"><table>
 <tr><th>Фидбек</th><th>Диагноз</th><th>Правило</th></tr>
 <tr><td>«ощущение презентации»</td><td>слайд выдаёт вёрстка: заголовок, диаграмма, футер</td><td>один кадр с героем, без заголовков; склейки и смена крупности вместо кроссфейдов</td></tr>
 <tr><td>«иллюстрации статичные»</td><td>зум 6 % за 5 с на карточке = Ken Burns</td><td>движение <b>внутри</b> кадра: печать, построчное появление, прокрутка</td></tr>
 <tr><td>«картинка висит и мешает»</td><td>двухзонная вёрстка = слайд</td><td>картинка занимает весь кадр или её нет</td></tr>
 <tr><td>«моушен-дизайна нет»</td><td>картинка обслуживает реплику, 30 fps, без постобработки</td><td>кинетический набор, движение на каждое слово</td></tr>
 </table></div>
-<p>Мелкие грабли: мигание прозрачностью у последнего слова переживает гашение строки, поэтому мигать надо цветом. Знак «%» в узком шрифте на крупном кегле может прийти из подменного шрифта огрызком. Длинная реплика переносится и накрывает интерфейс, проверяйте по контактному листу.</p>
+<p>Мелкие грабли: мигание прозрачностью у последнего слова переживает гашение строки, поэтому мигать надо цветом. Знак «%» в узком шрифте на крупном кегле может прийти из подменного шрифта огрызком. Длинная реплика переносится и накрывает интерфейс, проверяйте по контактному листу.</p></div></details>
 </section>
 
-<section id="zvuk">
-<h2><span class="n">08</span>Звуки и музыка</h2>
+<section class="block" id="zvuk" aria-labelledby="zvuk-title">
+<h2 id="zvuk-title">Звуки и музыка</h2>
 <div class="note"><b>Ни одного звукового файла.</b> Все эффекты синтезируются numpy из синусов и шума при каждой сборке. Сид генератора шума фиксирован, поэтому пересборка даёт звук бит в бит. Лицензий на эффекты не нужно. Файлами приходят только голос и музыка.</div>
 
-<h3>Каркас: четыре функции и шина</h3>
-<div class="code"><pre><code>import numpy as np
+<details id="zvuk-1"><summary>Каркас: четыре функции и шина</summary><div class="details-body"><div class="command"><div class="command-bar"><span>Python · каркас звука</span><button type="button">Копировать</button></div><pre><code>import numpy as np
 from scipy.signal import butter, sosfilt
 SR = 48000
 rng = np.random.default_rng(1023)
@@ -743,11 +686,9 @@ def put(track, at, x, g=1., pan=0.):   # положить звук на стер
     if b &gt; a0:
         v = x[a0-a:b-a] * g
         track[a0:b, 0] += v * np.sqrt((1-pan)/2) * 1.414   # равномощная панорама
-        track[a0:b, 1] += v * np.sqrt((1+pan)/2) * 1.414</code></pre></div>
-<p><code>decay</code> задаёт скорость спада в 1/с: 300 даёт щелчок в несколько миллисекунд, 3 даёт звон почти на секунду. Три шины (речь, музыка, эффекты) складываются в конце.</p>
-
-<h3>Рецепты</h3>
-<div class="tbl"><table>
+        track[a0:b, 1] += v * np.sqrt((1+pan)/2) * 1.414</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p><code>decay</code> задаёт скорость спада в 1/с: 300 даёт щелчок в несколько миллисекунд, 3 даёт звон почти на секунду. Три шины (речь, музыка, эффекты) складываются в конце.</p></div></details>
+<details id="zvuk-2"><summary>Рецепты</summary><div class="details-body"><div class="tbl"><table>
 <tr><th>Звук</th><th>Рецепт</th><th>Длит.</th><th>Где звучит</th></tr>
 <tr><td><b>клик</b></td><td><code>bp(noise(.03,170),1800,8000)*.8 + sine(2600,.02,240)*.3</code></td><td>30 мс</td><td>тумблеры, Enter</td></tr>
 <tr><td><b>клавиша</b></td><td><code>bp(noise(.025,220),1500,6000)*.7</code>, каждый раз новый шум</td><td>25 мс</td><td>печать: шаг 0,05–0,09 с, панорама ±0,2</td></tr>
@@ -763,23 +704,19 @@ def put(track, at, x, g=1., pan=0.):   # положить звук на стер
 <tr><td><b>грустный тромбон</b></td><td>пила 196 → 185 → 175 → 165 Гц по 0,3 с, последняя 1,15 с с вибрато 6 Гц, lowpass 1400 Гц</td><td>2 с</td><td>провал в скетче</td></tr>
 <tr><td><b>кряканье</b></td><td>пила с падающей частотой через две форманты 900–1700 и 2200–3200 Гц</td><td>0,17 с</td><td>утки</td></tr>
 <tr><td><b>плеск</b></td><td>полосовой шум 600–7000 Гц со спадом 0,16 с и «бульканьем» 23 Гц</td><td>0,7 с</td><td>утки садятся в воду</td></tr>
-</table></div>
-
-<h3>«Пылесос»: два рецепта</h3>
-<p>Тот, что прозвучал в хите про телевизор (его приняли за шмыганье носом): сглаженный белый шум под колоколом громкости, 0,3 с, за 0,12 с до склейки, тихо.</p>
-<div class="code"><pre><code>def whoosh(d=.3):     # хит: мягкий lowpass скользящим средним, колокол sin²
+</table></div></div></details>
+<details id="zvuk-3"><summary>«Пылесос»: два рецепта</summary><div class="details-body"><p>Тот, что прозвучал в хите про телевизор (его приняли за шмыганье носом): сглаженный белый шум под колоколом громкости, 0,3 с, за 0,12 с до склейки, тихо.</p>
+<div class="command"><div class="command-bar"><span>Python · вжух из хита</span><button type="button">Копировать</button></div><pre><code>def whoosh(d=.3):     # хит: мягкий lowpass скользящим средним, колокол sin²
     t = T(d); w = rng.normal(size=len(t)); w = np.convolve(w, np.ones(6)/6, mode='same')
     return w * np.sin(np.pi*t/d)**2
-for at in shots[1:]: put(sfx, at - .12, whoosh(), .10, rng.uniform(-.5, .5))</code></pre></div>
+for at in shots[1:]: put(sfx, at - .12, whoosh(), .10, rng.uniform(-.5, .5))</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <p>В следующих роликах он стал ярче: шум переходит из полосы 300–1400 Гц в 1400–7000 Гц, 0,42 с, за 0,2 с до склейки.</p>
-<div class="code"><pre><code>def vacuum(d=.42):    # полосовой шум с подъёмом частоты и колоколом
+<div class="command"><div class="command-bar"><span>Python · вжух поярче</span><button type="button">Копировать</button></div><pre><code>def vacuum(d=.42):    # полосовой шум с подъёмом частоты и колоколом
     nn = int(d*SR); t = np.arange(nn)/nn; w = rng.normal(size=nn)
     return (bp(w, 300, 1400)*(1-t) + bp(w, 1400, 7000)*t) * np.sin(np.pi*t)**2
-for at in shots[1:]: put(sfx, at - .2, vacuum(), .16, rng.uniform(-.5, .5))</code></pre></div>
-<p>Сначала я хотел их убрать, потом оставил: топ-коммент «Кто там шмыгает постоянно?» собрал 111 лайков, комменты двигают охват сильнее чистоты звука. Если распознавание финала начинает слышать во вжухах слова, приглушайте их под речью: <code>1 − 0.45·активность_голоса</code>.</p>
-
-<h3>Правила расстановки</h3>
-<div class="tbl"><table>
+for at in shots[1:]: put(sfx, at - .2, vacuum(), .16, rng.uniform(-.5, .5))</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Сначала я хотел их убрать, потом оставил: топ-коммент «Кто там шмыгает постоянно?» собрал 111 лайков, комменты двигают охват сильнее чистоты звука. Если распознавание финала начинает слышать во вжухах слова, приглушайте их под речью: <code>1 − 0.45·активность_голоса</code>.</p></div></details>
+<details id="zvuk-4"><summary>Правила расстановки</summary><div class="details-body"><div class="tbl"><table>
 <tr><th>Правило</th><th>Как в коде</th></tr>
 <tr><td>Эффект привязан к <b>слову</b>, а не к секунде</td><td>сцена пишет события в <code>events.json</code>, звук читает <code>E['podvoh']</code></td></tr>
 <tr><td>Вжух <b>раньше</b> склейки</td><td>−0,12…−0,2 с (звук ведёт картинку)</td></tr>
@@ -789,25 +726,19 @@ for at in shots[1:]: put(sfx, at - .2, vacuum(), .16, rng.uniform(-.5, .5))</cod
 <tr><td>Ускорение серии</td><td><code>T0 + (T1−T0)·(1−(1−x)^(1/3))</code></td></tr>
 <tr><td>Ряд звучит «лесенкой»</td><td>частота +90…110 Гц на элемент</td></tr>
 <tr><td>Ряд едет по панораме</td><td><code>−0.4 + 0.8·j/24</code></td></tr>
-</table></div>
-
-<h3>Музыка под голосом</h3>
-<div class="code"><pre><code>for c in cues: duck[round(c['start']*SR):round(c['end']*SR)] = .3   # под репликой ×0,3
+</table></div></div></details>
+<details id="zvuk-5"><summary>Музыка под голосом</summary><div class="details-body"><div class="command"><div class="command-bar"><span>Python · даккинг музыки</span><button type="button">Копировать</button></div><pre><code>for c in cues: duck[round(c['start']*SR):round(c['end']*SR)] = .3   # под репликой ×0,3
 k = np.ones(int(.25*SR)) / int(.25*SR)
 duck = np.convolve(duck, k, mode='same')                             # сглаживание окном 0,25 с
-music *= duck[:, None] * .3                                          # и общий уровень 0,3</code></pre></div>
-<p>Итого под речью музыка на уровне 0,09 от исходной (≈ −21 дБ), в паузах 0,3 (≈ −10,5 дБ). Вариант для скетчей: даккинг по энергии голоса, −17 дБ в паузах и −24 дБ под речью, сглаживание 30 мс.</p>
-
-<h3>Обрыв и тишина как приём</h3>
-<ul>
+music *= duck[:, None] * .3                                          # и общий уровень 0,3</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Итого под речью музыка на уровне 0,09 от исходной (≈ −21 дБ), в паузах 0,3 (≈ −10,5 дБ). Вариант для скетчей: даккинг по энергии голоса, −17 дБ в паузах и −24 дБ под речью, сглаживание 30 мс.</p></div></details>
+<details id="zvuk-6"><summary>Обрыв и тишина как приём</summary><div class="details-body"><ul>
 <li><b>Крик:</b> на крике персонажа музыка падает до −80 дБ, а на следующей реплике возвращается на 3 дБ тише с фейдом 1,2 с.</li>
 <li><b>Удар:</b> музыка гасится за 7,5 мс, в ту же точку кладётся «бум» (синус 70 → 45 Гц, 0,7 с), дальше реакция героя в тишине.</li>
 <li><b>Стоп-кадр:</b> один низкий блип 220 Гц и 0,75 с паузы.</li>
 <li><b>Музыку можно написать кодом:</b> в зацикленном ролике это маримба, до мажор, 128 BPM, 16 нот восьмыми плюс бас четвертями.</li>
-</ul>
-
-<h3>Фонотека</h3>
-<p>Кладём только треки, которые разрешают коммерческое использование с указанием автора.</p>
+</ul></div></details>
+<details id="zvuk-7"><summary>Фонотека</summary><div class="details-body"><p>Кладём только треки, которые разрешают коммерческое использование с указанием автора.</p>
 <div class="tbl"><table>
 <tr><th>Автор</th><th>Треки</th><th>Лицензия</th></tr>
 <tr><td>Kevin MacLeod, incompetech.com</td><td>Voltaic, Electrodoodle, Hard Boiled, Blip Stream</td><td>CC BY 4.0</td></tr>
@@ -818,22 +749,20 @@ music *= duck[:, None] * .3                                          # и общ
 <ul>
 <li>Трек не повторяется в двух роликах подряд, история ведётся в <code>used.json</code>. Правило появилось после жалобы «музыка всё время одна и та же».</li>
 <li>Строка в описание: <code>Music: "Puzzle Pieces" by Lee Rosevere, CC BY 3.0, https://creativecommons.org/licenses/by/3.0/</code>.</li>
-</ul>
-
-<h3>Сведение и мастер</h3>
-<ol>
+</ul></div></details>
+<details id="zvuk-8"><summary>Сведение и мастер</summary><div class="details-body"><ol>
 <li>Голос: <code>loudnorm=I=-18:TP=-4:LRA=7</code>, 48 кГц, ×0,9.</li>
 <li>Музыка: <code>-stream_loop -1</code> и даккинг выше.</li>
 <li>Эффекты ×0,5 к шине, фейды: вход 20–30 мс, выход 0,5–1 с.</li>
 <li>Мастер: <code>loudnorm=I=-15:TP=-3:LRA=7,alimiter=limit=0.7</code>. В mp4 получается −15,2…−15,4 LUFS.</li>
 <li>Синусные эффекты после AAC дают пик выше 0 dBFS. Для скетчей поэтому <code>lowpass=15000,alimiter</code>, затем двухпроходный линейный <code>loudnorm</code> до −15 / TP −2, а перед муксом выброс гасится отдельно.</li>
-</ol>
+</ol></div></details>
 </section>
 
-<section id="sborka">
-<h2><span class="n">09</span>Сборка по шагам</h2>
+<section class="block" id="sborka" aria-labelledby="sborka-title">
+<h2 id="sborka-title">Сборка по шагам</h2>
 <p>На примере ролика про рекламу на телефоне:</p>
-<div class="code"><pre><code>L="python3 locked.py"; PY=python3.11; N=n06-web-ads
+<div class="command"><div class="command-bar"><span>В терминал · сборка по шагам</span><button type="button">Копировать</button></div><pre><code>L="python3 locked.py"; PY=python3.11; N=n06-web-ads
 
 # 0. фактчек: свой замер (~12 мин)
 $PY $N/tools/measure.py
@@ -848,19 +777,18 @@ $L render -- $PY $N/tools/preview.py
 # 4. звук + покадровый рендер → output/picture.mp4 (~4 мин)
 $L render -- $PY $N/tools/build.py
 # 5. сведение и проверка → output/final.mp4, qa/sheet.jpg, qa/final-result.json
-$L render -- $PY $N/tools/finish.py</code></pre></div>
-<h3>Рендер 2D изнутри</h3>
-<p>Playwright Chromium headless, окно 1080×1920, <code>device_scale_factor=1</code>. Ждём <code>window.ready === true</code>, затем для каждого кадра <code>setTime(i/30)</code> → <code>screenshot(type='jpeg', quality=94)</code> → ffmpeg:</p>
-<div class="code"><pre><code>ffmpeg -f image2pipe -vcodec mjpeg -framerate 30 -i - \
+$L render -- $PY $N/tools/finish.py</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<details id="sborka-1"><summary>Рендер 2D изнутри</summary><div class="details-body"><p>Playwright Chromium headless, окно 1080×1920, <code>device_scale_factor=1</code>. Ждём <code>window.ready === true</code>, затем для каждого кадра <code>setTime(i/30)</code> → <code>screenshot(type='jpeg', quality=94)</code> → ffmpeg:</p>
+<div class="command"><div class="command-bar"><span>В терминал · кодирование и сведение</span><button type="button">Копировать</button></div><pre><code>ffmpeg -f image2pipe -vcodec mjpeg -framerate 30 -i - \
   -c:v libx264 -preset fast -crf 18 -pix_fmt yuv420p -movflags +faststart picture.mp4
 
 # сведение
-ffmpeg -i picture.mp4 -i master.wav -c:v copy -c:a aac -b:a 192k -ar 48000 -shortest -movflags +faststart final.mp4</code></pre></div>
-<p>Локальный http-сервер раздаёт корень проекта, шрифты грузятся через <code>FontFace</code>. Любая ошибка страницы (<code>pageerror</code>, <code>console.error</code>) валит сборку.</p>
+ffmpeg -i picture.mp4 -i master.wav -c:v copy -c:a aac -b:a 192k -ar 48000 -shortest -movflags +faststart final.mp4</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Локальный http-сервер раздаёт корень проекта, шрифты грузятся через <code>FontFace</code>. Любая ошибка страницы (<code>pageerror</code>, <code>console.error</code>) валит сборку.</p></div></details>
 </section>
 
-<section id="qa">
-<h2><span class="n">10</span>Проверка</h2>
+<section class="block" id="qa" aria-labelledby="qa-title">
+<h2 id="qa-title">Проверка</h2>
 <p>Итоговый скрипт пишет <code>qa/final-result.json</code>. Флаг <code>technical_pass</code> ставится, только если прошло всё:</p>
 <div class="tbl"><table>
 <tr><th>Проверка</th><th>Порог</th><th>Как</th></tr>
@@ -878,25 +806,23 @@ ffmpeg -i picture.mp4 -i master.wav -c:v copy -c:a aac -b:a 192k -ar 48000 -shor
 <li><b>Сухой просмотр до рендера</b> ловит наложения, переполненные плашки, обрезанные элементы и выдуманные цифры дешевле, чем полный рендер.</li>
 <li>Техническая проверка не значит одобрение. Публикует только человек.</li>
 </ul>
-<h3>Где распознавание врёт</h3>
-<ul>
+<details id="qa-1"><summary>Где распознавание врёт</summary><div class="details-body"><ul>
 <li>оглушение конечных согласных: «баг» → «бак», «прод» → «прот»;</li>
 <li>числа пишет цифрами, «так же» слитно, «чтоб» как «чтобы»;</li>
 <li>дописывает слова из своей языковой модели: «гит» → «гид» во всех 12 дублях. Перепроверяйте со словарной подсказкой, но не подсовывайте текст реплики целиком;</li>
 <li>ударений не слышит вообще. Ухо обязательно.</li>
-</ul>
+</ul></div></details>
 </section>
 
-<section id="cta">
-<h2><span class="n">11</span>Публикация и CTA</h2>
+<section class="block" id="cta" aria-labelledby="cta-title">
+<h2 id="cta-title">Публикация и CTA</h2>
 <p>Ролик выходит только после моего «заливай». YouTube и TikTok заливает скрипт на Playwright, Instagram я чаще выкладываю с телефона сам: там удобнее обложка, музыка и геометка. Что проверять:</p>
 <ul>
 <li>на YouTube после публикации надпись «Комментарии отключены» значит, что выставился флаг «для детей». Снимаем;</li>
 <li>в описании всегда ссылки на канал и кредит музыки;</li>
 <li>не перезаливаем: дубль ролика мешает сам себе.</li>
 </ul>
-<h3>Кодовое слово в комменты</h3>
-<p>Последняя реплика и финальный план: шторка комментариев, в поле печатается кодовое слово, коммент уходит в ленту.</p>
+<details id="cta-1"><summary>Кодовое слово в комменты</summary><div class="details-body"><p>Последняя реплика и финальный план: шторка комментариев, в поле печатается кодовое слово, коммент уходит в ленту.</p>
 <div class="tbl"><table>
 <tr><th>Ролик</th><th>Слово</th><th>Что получает зритель</th></tr>
 <tr><td>Реклама на телефоне</td><td>«реклама»</td><td>профиль DNS для айфона + инструкция</td></tr>
@@ -904,11 +830,11 @@ ffmpeg -i picture.mp4 -i master.wav -c:v copy -c:a aac -b:a 192k -ar 48000 -shor
 <tr><td>Тормозит приставка</td><td>«тормоз»</td><td>способ без ИИ, затем промпт для Claude Code с запретами и откатом</td></tr>
 </table></div>
 <p>Слово выбираем короткое, новое и прямо про боль. Комменты «тормоз» смешные сами по себе, это плюс к вовлечению. Ролики с одинаковой механикой CTA не ставим подряд.</p>
-<p><b>Шаблон подписи:</b> заголовок-хук → кто спросил и честный ответ → подвох → «Напиши в комменты “…”, пришлю…» → ссылка на чужой репозиторий с лицензией и «не наш, спасибо автору» → кредит музыки → ссылки → хэштеги.</p>
+<p><b>Шаблон подписи:</b> заголовок-хук → кто спросил и честный ответ → подвох → «Напиши в комменты “…”, пришлю…» → ссылка на чужой репозиторий с лицензией и «не наш, спасибо автору» → кредит музыки → ссылки → хэштеги.</p></div></details>
 </section>
 
-<section id="dvizhki">
-<h2><span class="n">12</span>HyperFrames, Diffusion Studio и почему мы от них ушли</h2>
+<section class="block" id="dvizhki" aria-labelledby="dvizhki-title">
+<h2 id="dvizhki-title">HyperFrames, Diffusion Studio и почему мы от них ушли</h2>
 <p>Свои Canvas-сцены появились не сразу. До них мы прошли два готовых движка, и от обоих остались полезные куски.</p>
 <div class="tbl"><table>
 <tr><th>Движок</th><th>Когда</th><th>Сейчас</th></tr>
@@ -918,8 +844,7 @@ ffmpeg -i picture.mp4 -i master.wav -c:v copy -c:a aac -b:a 192k -ar 48000 -shor
 <tr><td>three.js / MapLibre / LTX-2.5</td><td>октябрь</td><td>скетчи / карты / живые шоты</td></tr>
 </table></div>
 
-<h3>HyperFrames</h3>
-<div class="tbl"><table>
+<details id="dvizhki-1"><summary>HyperFrames</summary><div class="details-body"><div class="tbl"><table>
 <tr><td>Проект</td><td><a href="https://github.com/heygen-com/hyperframes">heygen-com/hyperframes</a> от HeyGen</td></tr>
 <tr><td>Лицензия</td><td>Apache-2.0</td></tr>
 <tr><td>Версия у нас</td><td>CLI и пакеты <code>@hyperframes/*</code> 0.8.30, GSAP 3.14.2</td></tr>
@@ -927,23 +852,21 @@ ffmpeg -i picture.mp4 -i master.wav -c:v copy -c:a aac -b:a 192k -ar 48000 -shor
 </table></div>
 <p><b>Как устроен.</b> Композиция — это HTML-страница. В корне элемент с <code>data-composition-id</code>, анимация — остановленная GSAP-timeline, зарегистрированная в <code>window.__timelines[id] = tl</code>. Рендерер ролик не проигрывает: для каждого кадра он перематывает timeline (<code>seek</code>) и снимает скриншот. Отсюда главное требование: никаких <code>Math.random()</code> и <code>Date.now()</code>. Кроме GSAP поддерживаются CSS, Lottie, WAAPI и Three.js.</p>
 <p>Наш конвейер одного проекта:</p>
-<div class="code"><pre><code>build.mjs (scene.js + субтитры → index.html)
+<div class="command"><div class="command-bar"><span>Конвейер одного проекта HyperFrames</span><button type="button">Копировать</button></div><pre><code>build.mjs (scene.js + субтитры → index.html)
 → motion_lint.py                       # механика: ≥4 вида ease, ≥2 оси, пружина, blur, нет Math.random
 → hyperframes check --json --snapshots --at &lt;моменты&gt; --samples 5   # выход за кадр, перекрытия, контраст
 → hyperframes render --output picture.mp4 --fps 30 --workers 2 --quality high
 → подготовка звука → «вырезка» полос голоса в музыке → микс → ffmpeg mux
-→ распознавание → сверка с текстом</code></pre></div>
-<p>Для роликов длиннее 4 минут включается потоковое кодирование, и оно работает только с одним воркером.</p>
-
-<h3>Что взяли от HyperFrames навсегда</h3>
-<p><b>Пружина как GSAP-ease</b> (<code>springEase</code>, замкнутая формула затухающего колебания):</p>
-<div class="code"><pre><code>// response — секунд на колебание (0,3–0,6 для появлений);
+→ распознавание → сверка с текстом</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Для роликов длиннее 4 минут включается потоковое кодирование, и оно работает только с одним воркером.</p></div></details>
+<details id="dvizhki-2"><summary>Что взяли от HyperFrames навсегда</summary><div class="details-body"><p><b>Пружина как GSAP-ease</b> (<code>springEase</code>, замкнутая формула затухающего колебания):</p>
+<div class="command"><div class="command-bar"><span>JavaScript · пружина springEase, набросок</span><button type="button">Копировать</button></div><pre><code>// response — секунд на колебание (0,3–0,6 для появлений);
 // dampingFraction 1 = без перелёта, 0,8–0,85 = перелёт «чувствуется, но не видится», 0,6–0,7 = игриво
 function springEase({ response = .5, dampingFraction: z = 1 } = {}) {
   const w = 2 * Math.PI / response;
   // z &lt; 1:  1 − e^(−zωt) · (cos ωd·t + zω/ωd · sin ωd·t),  ωd = ω·√(1−z²)
   // длительность нормируется по моменту, когда |pos − 1| &lt; 0,001
-}</code></pre></div>
+}</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <p><b>Таблица ease и длительностей</b> (из открытого стартового набора к HyperFrames, MIT):</p>
 <div class="tbl"><table>
 <tr><th>Зачем</th><th>Ease</th><th>Длительность</th></tr>
@@ -957,49 +880,43 @@ function springEase({ response = .5, dampingFraction: z = 1 } = {}) {
 <p>Пословный выезд с затуханием: сдвиг 360 → 120 → 60 → 25 → 12 px, главное слово <code>expo.out</code> 0,33 с, остальные <code>power2.out</code> 0,20 с. На ударной реплике картинка опережает звук на 0,2 с.</p>
 <p><b>Законы кадра:</b> одна мысль на бит 1,5–2 с, камера не спит, смаз как приём, финальный кадр держится 4+ с, timeline обязан закрывать весь слот.</p>
 <p><b>Ворота качества по готовому файлу:</b> первый кадр, пословный тайминг, хвост реплики, «не слайд ли это», выдуманные цифры, чужой бренд, повтор музыки. Валидатор проверяем отрицательным контролем: сдвиг подписи на 0,3 с, однокадровая дыра и выброшенное слово обязаны его завалить.</p>
-<p><b>Библиотека карточек: 406 штук</b> (106 в светлом «бумажном» стиле и 300 в тёмном) из открытого стартового набора (MIT). Перекрашены импортом в нашу палитру, GSAP подключён локально, а не с CDN. 80 карточек, которые по сути слайды, помечены как запрещённые.</p>
-<div class="note warn"><b>Осторожно с соседними репозиториями.</b> Надстройка hypit над HyperFrames выходит под Apache-2.0 с поправками, которые запрещают SaaS и продажу производной работы. Ещё в одном форке лицензии нет совсем. Motion-director под AGPL. Мы их не берём.</div>
-
-<h3>Почему рилсы ушли с HyperFrames на свои Canvas-сцены</h3>
-<ol>
+<p><b>Библиотека карточек: 406 штук</b> (106 в светлом «бумажном» стиле и 300 в тёмном) из открытого стартового набора (MIT). Перекрашены импортом в нашу палитру, GSAP подключён локально, а не с CDN. 80 карточек, которые по сути слайды, помечены как запрещённые.</p></div></details>
+<div class="warn"><b>Осторожно с соседними репозиториями.</b> Надстройка hypit над HyperFrames выходит под Apache-2.0 с поправками, которые запрещают SaaS и продажу производной работы. Ещё в одном форке лицензии нет совсем. Motion-director под AGPL. Мы их не берём.</div>
+<details id="dvizhki-3"><summary>Почему рилсы ушли с HyperFrames на свои Canvas-сцены</summary><div class="details-body"><ol>
 <li><b>Рендерер на 30 строк и под нашим контролем.</b> Локальный HTTP-сервер, Playwright, <code>setTime(i/30)</code>, JPEG по трубе в ffmpeg. Без CLI, проверок и воркеров.</li>
 <li><b>Камера и переброска делаются на уровне композитинга.</b> План рисуется в буфер, а ручная камера, смаз с «призраками», панч, виньетка, зерно и субтитры ложатся поверх готового кадра. В DOM и GSAP для этого нужна обёртка-«мир», и анимация камеры спорит с анимацией плана за одно и то же свойство.</li>
 <li><b>Интерфейсы рисуются кодом.</b> Окно Claude, терминал, меню ТВ и счётчики — это функции от t. Нет вёрстки, которая сама тянет к слайду с заголовком и футером.</li>
 </ol>
-<p>Что потеряли: автоматическую проверку перекрытий и контраста. Её заменяет контактный лист каждые 0,75 с и глаза.</p>
-
-<h3>Diffusion Studio</h3>
-<div class="tbl"><table>
+<p>Что потеряли: автоматическую проверку перекрытий и контраста. Её заменяет контактный лист каждые 0,75 с и глаза.</p></div></details>
+<details id="dvizhki-4"><summary>Diffusion Studio</summary><div class="details-body"><div class="tbl"><table>
 <tr><td>Что</td><td>видеоредактор для агентов: проект — папка с JSX (<code>index.tsx</code>), холст и код синхронизируются в обе стороны, CLI <code>dapi</code> работает через локальный сокет</td></tr>
 <tr><td>Исходники</td><td><a href="https://github.com/diffusionstudio/editor">diffusionstudio/editor</a>, MPL-2.0, Electron + SolidJS, WebCodecs</td></tr>
 <tr><td>Версия</td><td>приложение 0.205 для macOS на Apple Silicon</td></tr>
 <tr><td>Облако</td><td>распознавание и генерация идут через их API за кредиты. Мы их не используем: рендер, снимки кадров и экспорт работают локально, без логина</td></tr>
 </table></div>
-<div class="code"><pre><code>./dapi open -b .                                   # открыть проект
+<div class="command"><div class="command-bar"><span>В терминал · CLI dapi</span><button type="button">Копировать</button></div><pre><code>./dapi open -b .                                   # открыть проект
 ./dapi check reel                                  # проверка композиции
 ./dapi capture reel -t 0 6.4 10.6 13.5 --per-sheet 5   # кадры на контактный лист
-./dapi export reel output/picture.mp4              # рендер</code></pre></div>
+./dapi export reel output/picture.mp4              # рендер</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <ul>
 <li>Мы писали исходник <code>design.tsx</code>, сборщик превращал его в композицию с ID для редактора. Правки, сделанные мышкой на холсте, приходилось переносить в исходник руками.</li>
 <li><code>dapi</code> нельзя запускать параллельно другому рендеру: он не знает про общий замок.</li>
 <li>На нём сделаны два ролика, оба вышли в начале сентября. Потом ушли на HyperFrames: агенту проще писать HTML + GSAP, чем держать синхронными JSX и холст.</li>
-</ul>
-
-<h3>Pygmalion</h3>
-<p><a href="https://github.com/ilyautov/pygmalion">Pygmalion</a> (MIT) — мой движок «статья → видео»: сценарий в JSON, HTML-шаблоны с <code>renderAt(t)</code>, рендер через Playwright, голос, караоке, музыка с даккингом, сценарист на локальной LLM через Ollama. Сейчас из него в конвейере живут три модуля: синтез F5 клоном голоса, распознавание WhisperX для лонгов и модуль заливки. Шаблоны и сценарист в рилсах не используются. Мост Pygmalion → Diffusion Studio (экспорт сцен в JSX-проект редактора) был только предложением и так и не написан.</p>
+</ul></div></details>
+<details id="dvizhki-5"><summary>Pygmalion</summary><div class="details-body"><p><a href="https://github.com/ilyautov/pygmalion">Pygmalion</a> (MIT) — мой движок «статья → видео»: сценарий в JSON, HTML-шаблоны с <code>renderAt(t)</code>, рендер через Playwright, голос, караоке, музыка с даккингом, сценарист на локальной LLM через Ollama. Сейчас из него в конвейере живут три модуля: синтез F5 клоном голоса, распознавание WhisperX для лонгов и модуль заливки. Шаблоны и сценарист в рилсах не используются. Мост Pygmalion → Diffusion Studio (экспорт сцен в JSX-проект редактора) был только предложением и так и не написан.</p></div></details>
 </section>
 
-<section id="starter">
-<h2><span class="n">13</span>Стартовый набор: весь код</h2>
-<p class="stop" style="padding:12px 14px">Весь код стартового набора лежит в репозитории: <a href="https://github.com/ilyautov/gorilla-guides/tree/main/mult/starter">github.com/ilyautov/gorilla-guides/…/mult/starter</a>. Склонируйте и запустите <code>./make.sh all</code>.</p>
+<section class="block" id="starter" aria-labelledby="starter-title">
+<h2 id="starter-title">Стартовый набор: весь код</h2>
+<p>Весь код стартового набора лежит в репозитории: <a href="https://github.com/ilyautov/gorilla-guides/tree/main/mult/starter">github.com/ilyautov/gorilla-guides/…/mult/starter</a>. Склонируйте и запустите <code>./make.sh all</code>.</p>
 <p>Урезанная, но рабочая копия нашего конвейера. На выходе вертикальное видео 1080×1920, 30 fps, около 10 секунд: клон голоса → подрезка по распознаванию → сцена на TypeScript + Canvas → звук на numpy → покадровый рендер → сведение и автоматическая проверка. Мы прогнали его целиком на настоящем голосе: проверка зелёная, громкость −15,6 LUFS, текст финала совпал со сценарием на 100 %. Весь прогон на M1 Max занимает около двух минут, из них ~55 с уходит на загрузку модели голоса.</p>
 <div class="flow"><span>./make.sh fonts</span><i>→</i><span>voice</span><i>→</i><span>scene</span><i>→</i><span>frames</span><i>→</i><span>sound</span><i>→</i><span>render</span><i>→</i><span>finish</span></div>
 <p>Нет модели голоса? <code>./make.sh fake</code> делает заглушку с гудками вместо слов, и весь остальной конвейер работает без синтеза.</p>
-<figure class="sheet"><img src="starter-demo-sheet.jpg" alt="Контактный лист демо-ролика: кадры каждые 0,75 секунды" loading="lazy"><figcaption>Контактный лист демо-ролика из стартового набора</figcaption></figure>
+<figure class="sheet"><img src="starter-demo-sheet.jpg" width="2160" height="960" alt="Контактный лист демо-ролика: кадры каждые 0,75 секунды" loading="lazy"><figcaption>Контактный лист демо-ролика из стартового набора</figcaption></figure>
 <div class="note"><b>Что в сцене на 193 строки:</b> <code>setTime(t)</code> как чистая функция, сидированный генератор случайных чисел, планы из слов голоса, ручная камера, переброска и панч на склейке, субтитры по слову с курсивным акцентом, огромная лаймовая цифра со счётчиком, виньетка и зерно, метки склеек и событий для звука. В README есть таблица «приём → где в коде».</div>
 <p>Ограничения: шрифты не вложены, <code>fonts.sh</code> скачивает Onest и PT Serif (OFL) с лицензиями. Музыки в наборе нет, по умолчанию играет синтезированный пэд. Веса OmniVoice некоммерческие. <code>locked.py</code> не работает на Windows. Демо-сцена привязана к словам демо-текста: меняете текст — переписывайте планы и события. Если слова нет, сцена сразу падает с понятной ошибкой.</p>
 <p>Файлы, раскройте нужный:</p>
-<details class="file"><summary><code>README.md</code> <span>187 строк</span></summary><div class="code"><pre><code># Стартовый набор: вертикальный рил из кода
+<details id="file-readme-md"><summary>README.md<small>187 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/README.md</span><button type="button">Копировать</button></div><pre><code># Стартовый набор: вертикальный рил из кода
 
 Урезанная, но рабочая копия пайплайна нашей серии N. Получается вертикальное видео 1080×1920, 30 к/с, примерно 10 с:
 клон голоса (OmniVoice) → подрезка по ASR → сцена на TypeScript + Canvas → звук на numpy → покадровый рендер
@@ -1185,8 +1102,8 @@ JPEG-скриншот и запись в stdin `ffmpeg -f image2pipe` → libx26
 - ASR `large-v3` идёт на CPU (int8). На демо в 10 с это незаметно, на минутном риле закладывай минуты.
 - Порог статики 0,15 считается по средней разнице кадров 135×240. Медленный наезд камеры этот порог проходит,
   хотя глазу кадр может казаться стоящим. Смотри `qa/sheet.jpg` сам.
-</code></pre></div></details>
-<details class="file"><summary><code>make.sh</code> <span>37 строк</span></summary><div class="code"><pre><code>#!/usr/bin/env bash
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-make-sh"><summary>make.sh<small>37 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/make.sh</span><button type="button">Копировать</button></div><pre><code>#!/usr/bin/env bash
 # Связка шагов. Запуск из любой папки: ./make.sh &lt;шаг&gt;
 #   fonts   скачать шрифты (один раз)
 #   voice   OmniVoice -&gt; voice/raw-N.wav, затем trim.py -&gt; voice-track.json   (нужны OMNI_PY, OMNI_MODEL, OMNI_REF)
@@ -1222,8 +1139,8 @@ case &quot;$step&quot; in
           $L render -- &quot;$PY&quot; tools/finish.py ${FINISH_ARGS:-} ;;
   *) sed -n &#x27;2,13p&#x27; &quot;$0&quot;; exit 1 ;;
 esac
-</code></pre></div></details>
-<details class="file"><summary><code>locked.py</code> <span>15 строк</span></summary><div class="code"><pre><code>&quot;&quot;&quot;Запустить команду под именованной блокировкой на всю машину.
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-locked-py"><summary>locked.py<small>15 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/locked.py</span><button type="button">Копировать</button></div><pre><code>&quot;&quot;&quot;Запустить команду под именованной блокировкой на всю машину.
 Зачем: синтез голоса и рендер в Chromium тяжёлые; два параллельных запуска делят GPU/память и падают
 или идут втрое дольше. Блокировка ставит их в очередь.
 Пример: python3 locked.py voice -- python voice/gen_omni.py
@@ -1237,8 +1154,8 @@ lock_dir = os.environ.get(&#x27;LOCK_DIR&#x27;, tempfile.gettempdir())
 with open(os.path.join(lock_dir, f&#x27;quick-reels-{name}.lock&#x27;), &#x27;w&#x27;) as f:
     fcntl.flock(f, fcntl.LOCK_EX)   # ждём, пока предыдущий держатель не отпустит
     sys.exit(subprocess.call(cmd))
-</code></pre></div></details>
-<details class="file"><summary><code>reel.json</code> <span>12 строк</span></summary><div class="code"><pre><code>{
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-reel-json"><summary>reel.json<small>12 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/reel.json</span><button type="button">Копировать</button></div><pre><code>{
  &quot;title&quot;: &quot;Демо: ролик из кода&quot;,
  &quot;music&quot;: {
   &quot;file&quot;: null,
@@ -1249,8 +1166,8 @@ with open(os.path.join(lock_dir, f&#x27;quick-reels-{name}.lock&#x27;), &#x27;w&
  },
  &quot;max_duration&quot;: 60
 }
-</code></pre></div></details>
-<details class="file"><summary><code>index.html</code> <span>12 строк</span></summary><div class="code"><pre><code>&lt;!doctype html&gt;&lt;html lang=&quot;ru&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;Reel scene&lt;/title&gt;
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-index-html"><summary>index.html<small>12 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/index.html</span><button type="button">Копировать</button></div><pre><code>&lt;!doctype html&gt;&lt;html lang=&quot;ru&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;Reel scene&lt;/title&gt;
 &lt;style&gt;
 /* Шрифты качает tools/fonts.sh (Onest и PT Serif, обе OFL). Нет файлов — сцена рисует запасными. */
 @font-face{font-family:Onest;src:url(assets/fonts/onest-cyrillic-700-normal.woff2);font-weight:700;unicode-range:U+0400-052F}
@@ -1261,23 +1178,23 @@ with open(os.path.join(lock_dir, f&#x27;quick-reels-{name}.lock&#x27;), &#x27;w&
 @font-face{font-family:Accent;src:url(assets/fonts/pt-serif-latin-400-italic.woff2);font-style:italic;font-weight:400}
 *{box-sizing:border-box}html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000}canvas{display:block;width:1080px;height:1920px}
 &lt;/style&gt;&lt;canvas id=&quot;film&quot; width=&quot;1080&quot; height=&quot;1920&quot;&gt;&lt;/canvas&gt;&lt;script src=&quot;build/scene.js&quot;&gt;&lt;/script&gt;&lt;/html&gt;
-</code></pre></div></details>
-<details class="file"><summary><code>package.json</code> <span>7 строк</span></summary><div class="code"><pre><code>{
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-package-json"><summary>package.json<small>7 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/package.json</span><button type="button">Копировать</button></div><pre><code>{
   &quot;name&quot;: &quot;reel-starter&quot;,
   &quot;private&quot;: true,
   &quot;description&quot;: &quot;Сцена рила на TypeScript + Canvas; нужен только компилятор&quot;,
   &quot;devDependencies&quot;: {&quot;typescript&quot;: &quot;5.9.3&quot;}
 }
-</code></pre></div></details>
-<details class="file"><summary><code>requirements.txt</code> <span>8 строк</span></summary><div class="code"><pre><code># окружение пайплайна (не OmniVoice: у него свой venv, см. README)
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-requirements-txt"><summary>requirements.txt<small>8 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/requirements.txt</span><button type="button">Копировать</button></div><pre><code># окружение пайплайна (не OmniVoice: у него свой venv, см. README)
 numpy
 scipy
 soundfile
 pillow
 playwright
 faster-whisper
-</code></pre></div></details>
-<details class="file"><summary><code>voice/chunks.json</code> <span>24 строк</span></summary><div class="code"><pre><code>[
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-voice-chunks-json"><summary>voice/chunks.json<small>24 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/voice/chunks.json</span><button type="button">Копировать</button></div><pre><code>[
  {
   &quot;text&quot;: &quot;Короче. Этот ролик собран из кода, без монтажки.&quot;,
   &quot;pause&quot;: 0.12,
@@ -1300,14 +1217,14 @@ faster-whisper
   &quot;omni_speed&quot;: 1.0
  }
 ]
-</code></pre></div></details>
-<details class="file"><summary><code>voice/lines.json</code> <span>6 строк</span></summary><div class="code"><pre><code>[
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-voice-lines-json"><summary>voice/lines.json<small>6 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/voice/lines.json</span><button type="button">Копировать</button></div><pre><code>[
  &quot;Короче. Этот ролик собран из кода, без монтажки.&quot;,
  &quot;Голос, кадры и звук считает скрипт за пару минут.&quot;,
  &quot;В сцене всего 200 строк. Повтори по инструкции.&quot;
 ]
-</code></pre></div></details>
-<details class="file"><summary><code>voice/gen_omni.py</code> <span>73 строк</span></summary><div class="code"><pre><code>&quot;&quot;&quot;Синтез реплик клоном голоса OmniVoice (k2-fsa) -&gt; voice/raw-N.wav.
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-voice-gen-omni-py"><summary>voice/gen_omni.py<small>73 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/voice/gen_omni.py</span><button type="button">Копировать</button></div><pre><code>&quot;&quot;&quot;Синтез реплик клоном голоса OmniVoice (k2-fsa) -&gt; voice/raw-N.wav.
 Читает voice/chunks.json: [{&quot;text&quot;: &quot;...&quot;, &quot;pause&quot;: 0.12}, ...]. Одна реплика = один дубль.
 
 Окружение (все пути через переменные, абсолютных путей в коде нет):
@@ -1379,8 +1296,8 @@ def main():
 
 if __name__ == &#x27;__main__&#x27;:
     main()
-</code></pre></div></details>
-<details class="file"><summary><code>voice/trim.py</code> <span>171 строк</span></summary><div class="code"><pre><code>&quot;&quot;&quot;Подрезка дублей по ASR, склейка и пословная разметка -&gt; voice-track.json.
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-voice-trim-py"><summary>voice/trim.py<small>171 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/voice/trim.py</span><button type="button">Копировать</button></div><pre><code>&quot;&quot;&quot;Подрезка дублей по ASR, склейка и пословная разметка -&gt; voice-track.json.
 
 Что делает с каждым voice/raw-N.wav:
   1. faster-whisper (large-v3, слова с таймкодами) находит первое и последнее слово;
@@ -1550,8 +1467,8 @@ if __name__ == &#x27;__main__&#x27;:
     if &#x27;track&#x27; not in sys.argv:
         for i in (only or range(len(CH))): trim(i, asr)
     concat(); track(asr)
-</code></pre></div></details>
-<details class="file"><summary><code>voice/fake_track.py</code> <span>42 строк</span></summary><div class="code"><pre><code>&quot;&quot;&quot;Заглушка голоса без синтеза: voice-track.json + assets/audio/voice-track.wav из voice/lines.json.
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-voice-fake-track-py"><summary>voice/fake_track.py<small>42 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/voice/fake_track.py</span><button type="button">Копировать</button></div><pre><code>&quot;&quot;&quot;Заглушка голоса без синтеза: voice-track.json + assets/audio/voice-track.wav из voice/lines.json.
 Каждое показанное слово = тихий гудок длиной по числу букв. Нужна, чтобы проверить сцену, звук и рендер
 до установки OmniVoice и Whisper. Формат файла тот же, что пишет voice/trim.py.
 Запуск: python3 voice/fake_track.py   (нужны numpy и soundfile)&quot;&quot;&quot;
@@ -1592,8 +1509,8 @@ def main():
 
 if __name__ == &#x27;__main__&#x27;:
     main()
-</code></pre></div></details>
-<details class="file"><summary><code>scene/scene.ts</code> <span>194 строк</span></summary><div class="code"><pre><code>// Минимальная сцена рила серии N: весь кадр рисуется на &lt;canvas&gt; кодом, время задаёт рендерер.
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-scene-scene-ts"><summary>scene/scene.ts<small>194 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/scene/scene.ts</span><button type="button">Копировать</button></div><pre><code>// Минимальная сцена рила серии N: весь кадр рисуется на &lt;canvas&gt; кодом, время задаёт рендерер.
 // Правила, которые нельзя ломать:
 //  1. setTime(t) — чистая функция от t: никакого состояния между кадрами, никакого Math.random и Date.now.
 //     Тогда кадр 241 рендерится одинаково в превью, в полном рендере и после перезапуска.
@@ -1786,8 +1703,8 @@ async function main() {
   await window.setTime(0); window.ready = true;
 }
 main().catch(e =&gt; {console.error(e); throw e;});
-</code></pre></div></details>
-<details class="file"><summary><code>scene/tsconfig.json</code> <span>11 строк</span></summary><div class="code"><pre><code>{
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-scene-tsconfig-json"><summary>scene/tsconfig.json<small>11 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/scene/tsconfig.json</span><button type="button">Копировать</button></div><pre><code>{
   &quot;compilerOptions&quot;: {
     &quot;target&quot;: &quot;ES2020&quot;,
     &quot;lib&quot;: [&quot;DOM&quot;, &quot;ES2020&quot;],
@@ -1797,8 +1714,8 @@ main().catch(e =&gt; {console.error(e); throw e;});
   },
   &quot;files&quot;: [&quot;scene.ts&quot;]
 }
-</code></pre></div></details>
-<details class="file"><summary><code>tools/render.py</code> <span>100 строк</span></summary><div class="code"><pre><code>&quot;&quot;&quot;Покадровый рендер сцены: headless Chromium (Playwright) -&gt; JPEG в трубу -&gt; ffmpeg image2pipe -&gt; output/picture.mp4.
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-tools-render-py"><summary>tools/render.py<small>100 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/tools/render.py</span><button type="button">Копировать</button></div><pre><code>&quot;&quot;&quot;Покадровый рендер сцены: headless Chromium (Playwright) -&gt; JPEG в трубу -&gt; ffmpeg image2pipe -&gt; output/picture.mp4.
 Почему не запись экрана: браузер не обязан успевать в реальном времени. Мы сами ставим время кадра
 window.setTime(i/FPS) и снимаем скриншот, поэтому тяжёлый кадр не «проседает», а рендер повторяем побайтно.
 
@@ -1897,8 +1814,8 @@ def main():
 
 if __name__ == &#x27;__main__&#x27;:
     main()
-</code></pre></div></details>
-<details class="file"><summary><code>tools/sound.py</code> <span>103 строк</span></summary><div class="code"><pre><code>&quot;&quot;&quot;Звук ролика: голос + музыка с даккингом + синтезированные SFX -&gt; assets/audio/master.wav (−15 LUFS, пик ≤ −1,5 dBTP).
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-tools-sound-py"><summary>tools/sound.py<small>103 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/tools/sound.py</span><button type="button">Копировать</button></div><pre><code>&quot;&quot;&quot;Звук ролика: голос + музыка с даккингом + синтезированные SFX -&gt; assets/audio/master.wav (−15 LUFS, пик ≤ −1,5 dBTP).
 Сэмплов нет: каждый звук — несколько строк numpy (синус с затуханием, полосовой шум, их сумма).
 Где ставить звук, берём из сцены: qa/shots.json (склейки) и qa/events.json (метки по словам). Их пишет tools/render.py --probe.
 
@@ -2000,8 +1917,8 @@ def main():
 
 if __name__ == &#x27;__main__&#x27;:
     main()
-</code></pre></div></details>
-<details class="file"><summary><code>tools/finish.py</code> <span>90 строк</span></summary><div class="code"><pre><code>&quot;&quot;&quot;Сведение и QA: output/picture.mp4 + assets/audio/master.wav -&gt; output/final.mp4, потом проверки:
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-tools-finish-py"><summary>tools/finish.py<small>90 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/tools/finish.py</span><button type="button">Копировать</button></div><pre><code>&quot;&quot;&quot;Сведение и QA: output/picture.mp4 + assets/audio/master.wav -&gt; output/final.mp4, потом проверки:
   - ffmpeg -xerror: файл декодируется без ошибок;
   - faststart: moov в начале файла (площадки начинают показ, не докачав весь файл);
   - громкость ebur128: интегральная −15 ±1 LUFS, true peak ≤ −1,5 dBTP;
@@ -2090,8 +2007,8 @@ def main():
 
 if __name__ == &#x27;__main__&#x27;:
     main()
-</code></pre></div></details>
-<details class="file"><summary><code>tools/fonts.sh</code> <span>14 строк</span></summary><div class="code"><pre><code>#!/usr/bin/env bash
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
+<details id="file-tools-fonts-sh"><summary>tools/fonts.sh<small>14 строк</small></summary><div class="details-body"><div class="command"><div class="command-bar"><span>Файл starter/tools/fonts.sh</span><button type="button">Копировать</button></div><pre><code>#!/usr/bin/env bash
 # Скачать шрифты сцены в assets/fonts: Onest (OFL-1.1) и PT Serif Italic (OFL-1.1) из npm-пакетов @fontsource.
 # Лицензии кладутся рядом. Без шрифтов сцена тоже работает, но рисует системными.
 set -euo pipefail
@@ -2104,10 +2021,10 @@ for f in pt-serif-cyrillic-400-italic pt-serif-latin-400-italic; do
 curl -fsSL -o LICENSE-onest.txt &quot;$CDN/onest@5.2.5/LICENSE&quot;
 curl -fsSL -o LICENSE-pt-serif.txt &quot;$CDN/pt-serif@5.2.5/LICENSE&quot;
 ls -1
-</code></pre></div></details>
+</code></pre><p class="copy-feedback" aria-live="polite"></p></div></div></details>
 </section>
-<section id="grabli">
-<h2><span class="n">14</span>Грабли и как лечили</h2>
+<section class="block" id="grabli" aria-labelledby="grabli-title">
+<h2 id="grabli-title">Грабли и как лечили</h2>
 <div class="tbl"><table>
 <tr><th>Грабля</th><th>Где</th><th>Лечение</th></tr>
 <tr><td>Неверное ударение</td><td>синтез</td><td>переписать слово; знак <code>́</code> (OmniVoice слушает); спорное слово вклеить из живой записи</td></tr>
@@ -2134,8 +2051,8 @@ ls -1
 </table></div>
 </section>
 
-<section id="mimo">
-<h2><span class="n">15</span>Что не сработало</h2>
+<section class="block" id="mimo" aria-labelledby="mimo-title">
+<h2 id="mimo-title">Что не сработало</h2>
 <ul>
 <li><b>F5 как основной голос:</b> «озвучка ужасная», проиграл в слепом тесте.</li>
 <li><b>Длинный рил на клоне с таблицами</b> (2:11): плохо всё, от ударений до удержания. Отсюда правила: до 40 с, тезис первым, без таблиц.</li>
@@ -2148,8 +2065,8 @@ ls -1
 </ul>
 </section>
 
-<section id="ssylki">
-<h2><span class="n">16</span>Ссылки и лицензии</h2>
+<section class="block" id="ssylki" aria-labelledby="ssylki-title">
+<h2 id="ssylki-title">Ссылки и лицензии</h2>
 <ul>
 <li>OmniVoice: Hugging Face <code>k2-fsa/OmniVoice</code> (код Apache-2.0, веса CC-BY-NC).</li>
 <li>F5-TTS: <a href="https://github.com/SWivid/F5-TTS">github.com/SWivid/F5-TTS</a>, русский чекпойнт <code>Misha24-10/F5-TTS_RUSSIAN</code> (CC-BY-NC-4.0).</li>
@@ -2166,31 +2083,43 @@ ls -1
 <li>humanizer-ru: <a href="https://github.com/ilyautov/humanizer-ru">github.com/ilyautov/humanizer-ru</a> (MIT).</li>
 <li>Репозитории из роликов: Gathin23/cleanyourtv, simbasjungles/free-my-tv (MIT), Ansub/tv-detox (MIT), matacoder/mibox-skill (без лицензии, только ссылкой).</li>
 </ul>
-<div class="note warn"><b>Про некоммерческие веса.</b> OmniVoice и F5 нельзя использовать в коммерческих целях. У нас нет монетизации, рекламы и продажи роликов. Если у вас есть, берите VoxCPM2 (Apache-2.0) или Chatterbox (MIT).</div>
+<div class="warn"><b>Про некоммерческие веса.</b> OmniVoice и F5 нельзя использовать в коммерческих целях. У нас нет монетизации, рекламы и продажи роликов. Если у вас есть, берите VoxCPM2 (Apache-2.0) или Chatterbox (MIT).</div>
+</section>
+
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="stuck-word"><summary>Сцена падает с ошибкой «нет слова …»</summary><div class="details-body">
+  <p>Демо-сцена привязана к словам демо-текста. Сменили текст — перепишите объект <code>E</code> и планы в <code>scene.ts</code>.</p>
+</div></details>
+<details id="stuck-count"><summary>trim.py ругается на число слов в реплике</summary><div class="details-body">
+  <p>В <code>lines.json</code> то, что видно, в <code>chunks.json</code> то, что произносится. Если одно показанное слово съедает несколько произнесённых, пишите <code>Mi_Box{2}</code>. Цифры, которые ASR пишет цифрами, добавьте в словарь <code>NUM</code> в <code>trim.py</code> и <code>finish.py</code>.</p>
+</div></details>
+<details id="stuck-take"><summary>Плохой дубль: не то ударение или съедено слово</summary><div class="details-body">
+  <p>Неверное ударение лечится знаком ударения <code>́</code> в <code>chunks.json</code> («Кло́д») или заменой слова. Сид не перебирайте: правьте текст и запускайте <code>gen_omni.py N</code> для одной реплики. Больше случаев — в разделе <a href="#grabli">«Грабли»</a>.</p>
+</div></details>
+<details id="stuck-novoice"><summary>Нет модели голоса</summary><div class="details-body">
+  <p><code>./make.sh fake</code> делает заглушку с гудками вместо слов, и весь остальной конвейер работает без синтеза. Финал тогда собирайте с <code>FINISH_ARGS=--no-asr</code>.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Ограничения стартового набора</h2>
+<ul>
+  <li>Проверено на macOS (Apple Silicon). На Linux должно работать, но мы не запускали. На Windows не будет работать <code>locked.py</code>: он использует <code>fcntl</code>.</li>
+  <li>OmniVoice проверен только на <code>mps</code>. Ветки <code>cuda</code> и <code>cpu</code> в коде есть, но не запускались. <code>pip install omnivoice</code> с нуля в этом наборе не проверялся.</li>
+  <li>Веса OmniVoice некоммерческие.</li>
+  <li>Шрифты не вложены, музыки в наборе нет: по умолчанию играет синтезированный пэд.</li>
+  <li>Зелёная автопроверка не значит, что ролик смотрится. Смотрите <code>qa/sheet.jpg</code> сами.</li>
+</ul>
 </section>
 
 <footer>
-Канал: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a><br>
-Цифры и версии на октябрь 2026. Всё собрано и проверено на одном MacBook с M1 Max.
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Цифры и версии на октябрь 2026. Всё собрано и проверено на одном MacBook с M1 Max.</p>
+  <p>Канал: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
-<p><a href="../">← Все инструкции</a></p>
 </main>
-</div>
-
-<script>
-document.querySelectorAll('.code').forEach(function(box){
-  var b=document.createElement('button');b.className='copy';b.type='button';b.textContent='Копировать';
-  b.addEventListener('click',function(){
-    var t=box.querySelector('pre').innerText;
-    var done=function(){b.textContent='Скопировано';setTimeout(function(){b.textContent='Копировать'},1500)};
-    if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(t).then(done,function(){sel(box)});
-    }else{sel(box)}
-  });
-  box.appendChild(b);
-});
-function sel(box){var r=document.createRange();r.selectNodeContents(box.querySelector('pre'));var s=getSelection();s.removeAllRanges();s.addRange(r)}
-</script>
-
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>

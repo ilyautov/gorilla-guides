@@ -3,107 +3,156 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Сотрудник за 0 ₽</title>
+<title>Сотрудник за 0 ₽ для малого бизнеса: набор и подвохи</title>
 <meta name="description" content="Бесплатный набор small-business-ru: разбор заявок, письма должникам, проверка контрагента по ИНН, бриф на понедельник. Установка, пять поручений обычными словами и три подвоха честно.">
-<meta property="og:title" content="Сотрудник за 0 ₽">
-<meta property="og:description" content="Бесплатный набор small-business-ru: разбор заявок, письма должникам, проверка контрагента по ИНН, бриф на понедельник. Установка, пять поручений обычными словами и три подвоха честно.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Сотрудник за 0 ₽. Подвохов три">
+<meta property="og:description" content="Бесплатный набор ИИ-скиллов для малого бизнеса: заявки, долги, проверка по ИНН. Установка одной командой, пять поручений и честно про подвох «бесплатно».">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/sotrudnik/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/sotrudnik/img/robot.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/guide-v2.css">
 <style>
-.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.tbl td,.tbl th{padding:7px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.tbl td,.tbl th{padding:8px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 .tbl td:last-child,.tbl th:last-child{text-align:right;font-family:var(--mono);white-space:nowrap}
 .tbl tr:last-child td{border-bottom:0}
 </style>
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
-  <h1>Сотрудник <span class="hl">за&nbsp;0&nbsp;₽</span>. Подвохов три</h1>
-  <p class="lede">«Сотрудник» из ролика — это открытый набор AI-скиллов <a href="https://github.com/ilyautov/small-business-ru">small-business-ru</a> для малого бизнеса: заявки, долги, проверка компаний, деньги, налоги УСН, договоры. Здесь: что он умеет, как поставить, пять поручений обычными словами и три подвоха без прикрас.</p>
-  <div class="safe"><span>скиллы бесплатные</span><span>открытый код Apache-2.0</span><span>ничего не отправляет без вас</span><span>где нет данных — «не проверено»</span></div>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Сотрудник <span class="hl">за&nbsp;0&nbsp;₽</span>. Подвохов три</h1>
+    <p class="lede">Обещанный бесплатный набор AI-скиллов <a href="https://github.com/ilyautov/small-business-ru">small-business-ru</a> для малого бизнеса: заявки, долги, проверка по ИНН. Установка, пять поручений и честно про подвох «бесплатно».</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Поставить набор →</a>
+      <a class="secondary-link" href="#catches">Сначала подвохи</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>скиллы бесплатные</li><li>код Apache-2.0</li><li>ничего не отправляет без вас</li><li>где нет данных — «не проверено»</li></ul>
+    <p class="for-video">К ролику «Учебный фильм 1956» · обновлено 27 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/robot.jpg" width="960" height="640" alt="Кадр из ролика: оранжевый робот за конторским столом с пишущей машинкой"><figcaption>Кадр из ролика. Робот и «учебный фильм» — пародия, набор настоящий.</figcaption></figure>
 </header>
 
-<section>
-<h2><span class="step">0</span>Что было в ролике</h2>
-<p><b>Мастерская кухонь в ролике вымышленная, все заявки, должники и выписки — пример.</b> Я дал «сотруднику» четыре задачи обычными словами. Каждая — отдельный запуск Claude Code по подписке, скиллы подключены из репозитория. Время — сколько шёл каждый запуск:</p>
-<table class="tbl">
-<tr><th>Задача</th><th>Время</th></tr>
-<tr><td>Разобрать 20 заявок: кому звонить первым и что сказать (<code>lead-triage</code>). Семь — звонить сегодня, две — вообще не заявки</td><td>48 с</td></tr>
-<tr><td>Письма должникам, ничего не отправлять (<code>invoice-chase</code>). Четыре черновика, тон под каждого клиента</td><td>55 с</td></tr>
-<tr><td>Проверить компанию по ИНН перед отсрочкой (<code>counterparty-guard</code>). Брали крупную публичную компанию</td><td>68 с</td></tr>
-<tr><td>Бриф на понедельник по файлам (<code>monday-brief</code>)</td><td>56 с</td></tr>
-</table>
-<p>Самое интересное — в брифе. Скилл сам заметил, что горячая заявка на 1,2 млн ₽ пришла от клиента, который уже 57 дней должен 240 000 ₽, и посоветовал сначала закрыть долг. Дословно: «Это тот же клиент, что должен 240 000 ₽».</p>
+<nav class="strip" aria-label="Что на странице"><p>Что здесь</p><ol>
+  <li><a href="#step-1"><b>Установка</b><span>одна команда</span></a></li>
+  <li><a href="#step-3"><b>Пять поручений</b><span>обычными словами</span></a></li>
+  <li><a href="#catches"><b>Три подвоха</b><span>честно</span></a></li>
+  <li><a href="#skills-list"><b>Что умеет</b><span>34 скилла</span></a></li>
+</ol></nav>
+
+<div class="start-note"><b>До начала</b><p>Нужна своя нейросеть: Claude Code, Cowork или другой агент, который ставит скиллы. Скиллы бесплатные, а работают внутри нейросети, которой вы уже пользуетесь (это подвох №1).</p></div>
+
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Первый результат за 3 шага</h2>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Поставьте набор</h3><p>Одна команда, в Claude Code и Cowork две.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В Claude Code или Cowork</span><button type="button">Копировать</button></div><pre><code>/plugin marketplace add ilyautov/small-business-ru
+/plugin install small-business-ru@small-business-ru</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Любой другой агент ставится одной командой:</p>
+  <div class="command"><div class="command-bar"><span>В терминал · другие агенты</span><button type="button">Копировать</button></div><pre><code>npx skills add ilyautov/small-business-ru</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Скажите «настрой меня»</h3><p>Скилл спросит про ваш бизнес и поможет подключить инструменты.</p></div></div>
+  <p>1С, банк, CRM подключать не обязательно — всё работает и на выгрузках CSV/Excel.</p>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Дайте первое поручение обычными словами</h3><p>Вызывать скилл по имени не нужно: роутер сам подберёт сценарий.</p></div></div>
+  <p>Положите файлы в папку, откройте там Claude Code и скажите (имена файлов подставьте свои). Первые четыре — дословно задачи из ролика.</p>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · заявки</span><button type="button">Копировать</button></div><pre><code>В файле zayavki.csv заявки за последние две недели. Разбери: кому звонить первым сегодня и что сказать. CRM не подключена, работай по файлу.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · должники</span><button type="button">Копировать</button></div><pre><code>Кто мне должен? Дебиторка в dolgi.csv. Подготовь письма должникам. Ничего не отправляй, только черновики.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · проверка по ИНН</span><button type="button">Копировать</button></div><pre><code>Проверь контрагента по ИНН 0000000000 перед тем, как дать ему отсрочку на два миллиона рублей.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · бриф</span><button type="button">Копировать</button></div><pre><code>Сделай бриф на понедельник по файлам в этой папке: платежи, дебиторка, заявки, календарь. Никуда не отправляй и не сохраняй, просто покажи.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · деньги на 3 месяца</span><button type="button">Копировать</button></div><pre><code>Хватит ли денег на зарплату и налоги в ближайшие три месяца? Выписка в vypiska.csv, долги клиентов в dolgi.csv.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Пятое поручение (<code>cash-flow-snapshot</code>) в ролике не запускали.</p>
+  <div class="warn">Сам он ничего не отправляет. Письма — черновики, звонить и отправлять будете вы. Это alpha: помогает с работой, но не заменяет бухгалтера, юриста или кадровика.</div>
+  <div class="expected"><b>Что должно получиться</b><p>Ответ по вашим файлам. Письма остаются черновиками. Чего скилл не нашёл, помечено «не проверено». Без данных он остановится и попросит выгрузку.</p></div>
+</div>
 </section>
 
-<section>
-<h2><span class="step">0+</span>Если вы из «учебного фильма 1956»</h2>
-<p>В пародии робот рассылает счета всем, включая конкурентов, удаляет архив «ради места», отвечает клиенту стихами и пишет себе тесты, которые сам же проходит. Это шутка, но ошибки настоящие. Скиллы набора устроены наоборот: письма и рассылки остаются черновиками, удалять и отправлять он не будет без вас, а то, что не проверил, так и помечает: «не проверено». И да, «бесплатно» в ролике — с подвохом про «мозги по подписке», он разобран ниже в шаге 4.</p>
-</section>
-
-<section>
-<h2><span class="step">1</span>Что он умеет</h2>
-<p>34 скилла. Вызывать по имени не нужно: скажите, что болит, и роутер сам подберёт сценарий.</p>
-<ul>
-<li><b>Клиенты и продажи:</b> разбор заявок и кому звонить (<code>lead-triage</code>, <code>call-list</code>), порядок в CRM, ответы на жалобы и отзывы.</li>
-<li><b>Деньги:</b> кто должен и письма-напоминания (<code>invoice-chase</code>), прогноз денег на 3 месяца и «хватит ли на зарплату» (<code>cash-flow-snapshot</code>), маржа и цены (<code>margin-analyzer</code>), закрытие месяца.</li>
-<li><b>Проверка контрагента по ИНН:</b> ЕГРЮЛ, суды, приставы, банкротства, финансы → светофор 🟢/🟡/🔴 (<code>counterparty-guard</code>).</li>
-<li><b>Налоги УСН:</b> что горит, когда платить и сколько примерно (<code>tax-calendar-proactive</code>).</li>
-<li><b>Договоры:</b> что я подписываю и где риски, по ГК РФ (<code>contract-review</code>).</li>
-<li><b>Найм:</b> вакансия, вопросы для собеседования, оффер по ТК РФ.</li>
-<li><b>Брифы:</b> утро понедельника, итоги пятницы, квартал (<code>monday-brief</code> и др.).</li>
-</ul>
-<p>Полный список с примерами фраз: <a href="https://github.com/ilyautov/small-business-ru/blob/main/USAGE.md">USAGE.md</a>.</p>
-</section>
-
-<section>
-<h2><span class="step">2</span>Установка</h2>
-<p>В Claude Code или Cowork:</p>
-<div class="code"><pre><code>/plugin marketplace add ilyautov/small-business-ru
-/plugin install small-business-ru@small-business-ru</code></pre></div>
-<p>Любой другой агент ставится одной командой:</p>
-<div class="code"><pre><code>npx skills add ilyautov/small-business-ru</code></pre></div>
-<p>Потом скажите <b>«настрой меня»</b>: скилл спросит про ваш бизнес и поможет подключить инструменты. 1С, банк, CRM подключать не обязательно — всё работает и на выгрузках CSV/Excel.</p>
-</section>
-
-<section>
-<h2><span class="step">3</span>Пять поручений обычными словами</h2>
-<p>Положите файлы в папку, откройте там Claude Code и скажите (имена файлов подставьте свои). Первые четыре — дословно задачи из ролика.</p>
-<div class="code"><pre><code>В файле zayavki.csv заявки за последние две недели. Разбери: кому звонить первым сегодня и что сказать. CRM не подключена, работай по файлу.</code></pre></div>
-<div class="code"><pre><code>Кто мне должен? Дебиторка в dolgi.csv. Подготовь письма должникам. Ничего не отправляй, только черновики.</code></pre></div>
-<div class="code"><pre><code>Проверь контрагента по ИНН 0000000000 перед тем, как дать ему отсрочку на два миллиона рублей.</code></pre></div>
-<div class="code"><pre><code>Сделай бриф на понедельник по файлам в этой папке: платежи, дебиторка, заявки, календарь. Никуда не отправляй и не сохраняй, просто покажи.</code></pre></div>
-<div class="code"><pre><code>Хватит ли денег на зарплату и налоги в ближайшие три месяца? Выписка в vypiska.csv, долги клиентов в dolgi.csv.</code></pre></div>
-<p>Пятое поручение (<code>cash-flow-snapshot</code>) в ролике не запускали.</p>
-</section>
-
-<section>
-<h2><span class="step">4</span>Три подвоха, честно</h2>
+<section class="block" id="catches" aria-labelledby="catches-title">
+<h2 id="catches-title">Три подвоха, честно</h2>
 <ol>
 <li><b>Ноль рублей — это сам «сотрудник», а мозги к нему ваши.</b> Скиллы бесплатные и открытые, но работают внутри нейросети, которой вы уже пользуетесь. В ролике это Claude Code по платной подписке Claude. Бесплатный Gemini CLI для неплатящих пользователей Google заменил на Antigravity CLI с 18.06.2026. Работает ли он со скиллами бесплатно, мы не проверяли.</li>
 <li><b>Данные отдаёте сами.</b> Заявки, долги, выписки — файлами или через подключённую CRM и 1С. Они уходят в ту нейросеть, которой вы пользуетесь. Без данных скилл честно остановится и попросит выгрузку.</li>
 <li><b>Чего не нашёл — так и пишет: «не проверено».</b> В проверке ИНН из ролика один агрегатор попросил капчу, второй вернул ошибку 404, а картотеку арбитражных судов, приставов и реестр банкротств напрямую скилл не открывал: данные по ним взяты из агрегаторов. Для прямой проверки судов нужен браузер. Это лучше уверенной выдумки, но решение всё равно за вами.</li>
 </ol>
-<div class="warn">И ещё: сам он ничего не отправляет. Письма — черновики, звонить и отправлять будете вы. Это alpha: помогает с работой, но не заменяет бухгалтера, юриста или кадровика.</div>
 </section>
 
-<section>
-<h2><span class="step">5</span>Ссылки</h2>
-<p>Исходники: <a href="https://github.com/ilyautov/small-business-ru">github.com/ilyautov/small-business-ru</a>.<br>
-Сайт, инструкции и демо: <a href="https://small-business-ru.aifrontier.tech/">small-business-ru.aifrontier.tech</a>.</p>
+<section class="block" id="film" aria-labelledby="film-title">
+<h2 id="film-title">Если вы из «учебного фильма 1956»</h2>
+<p>В пародии робот рассылает счета всем, включая конкурентов, удаляет архив «ради места», отвечает клиенту стихами и пишет себе тесты, которые сам же проходит. Это шутка, но ошибки настоящие. Скиллы набора устроены наоборот: письма и рассылки остаются черновиками, удалять и отправлять он не будет без вас, а то, что не проверил, так и помечает: «не проверено». И да, «бесплатно» в ролике — с подвохом про «мозги по подписке», он разобран выше в <a href="#catches">трёх подвохах</a>.</p>
 </section>
 
-<a class="back" href="../">← Все инструкции</a>
+<section class="block" id="more" aria-labelledby="more-title">
+<h2 id="more-title">Подробнее</h2>
+<details id="skills-list"><summary><span>Что он умеет<small>34 скилла по разделам</small></span></summary><div class="details-body">
+  <p>34 скилла. Вызывать по имени не нужно: скажите, что болит, и роутер сам подберёт сценарий.</p>
+  <ul>
+  <li><b>Клиенты и продажи:</b> разбор заявок и кому звонить (<code>lead-triage</code>, <code>call-list</code>), порядок в CRM, ответы на жалобы и отзывы.</li>
+  <li><b>Деньги:</b> кто должен и письма-напоминания (<code>invoice-chase</code>), прогноз денег на 3 месяца и «хватит ли на зарплату» (<code>cash-flow-snapshot</code>), маржа и цены (<code>margin-analyzer</code>), закрытие месяца.</li>
+  <li><b>Проверка контрагента по ИНН:</b> ЕГРЮЛ, суды, приставы, банкротства, финансы → светофор 🟢/🟡/🔴 (<code>counterparty-guard</code>).</li>
+  <li><b>Налоги УСН:</b> что горит, когда платить и сколько примерно (<code>tax-calendar-proactive</code>).</li>
+  <li><b>Договоры:</b> что я подписываю и где риски, по ГК РФ (<code>contract-review</code>).</li>
+  <li><b>Найм:</b> вакансия, вопросы для собеседования, оффер по ТК РФ.</li>
+  <li><b>Брифы:</b> утро понедельника, итоги пятницы, квартал (<code>monday-brief</code> и др.).</li>
+  </ul>
+  <p>Полный список с примерами фраз: <a href="https://github.com/ilyautov/small-business-ru/blob/main/USAGE.md">USAGE.md</a>.</p>
+</div></details>
+<details id="runs"><summary><span>Четыре задачи из ролика и время запусков<small>настоящие запуски на вымышленной мастерской</small></span></summary><div class="details-body">
+  <p><b>Мастерская кухонь в ролике вымышленная, все заявки, должники и выписки — пример.</b> Я дал «сотруднику» четыре задачи обычными словами. Каждая — отдельный запуск Claude Code по подписке, скиллы подключены из репозитория. Время — сколько шёл каждый запуск:</p>
+  <table class="tbl">
+  <tr><th>Задача</th><th>Время</th></tr>
+  <tr><td>Разобрать 20 заявок: кому звонить первым и что сказать (<code>lead-triage</code>). Семь — звонить сегодня, две — вообще не заявки</td><td>48 с</td></tr>
+  <tr><td>Письма должникам, ничего не отправлять (<code>invoice-chase</code>). Четыре черновика, тон под каждого клиента</td><td>55 с</td></tr>
+  <tr><td>Проверить компанию по ИНН перед отсрочкой (<code>counterparty-guard</code>). Брали крупную публичную компанию</td><td>68 с</td></tr>
+  <tr><td>Бриф на понедельник по файлам (<code>monday-brief</code>)</td><td>56 с</td></tr>
+  </table>
+  <p>Самое интересное — в брифе. Скилл сам заметил, что горячая заявка на 1,2 млн ₽ пришла от клиента, который уже 57 дней должен 240 000 ₽, и посоветовал сначала закрыть долг. Дословно: «Это тот же клиент, что должен 240 000 ₽».</p>
+</div></details>
+<details id="links"><summary><span>Ссылки<small>исходники, сайт, инструкции и демо</small></span></summary><div class="details-body">
+  <p>Исходники: <a href="https://github.com/ilyautov/small-business-ru">github.com/ilyautov/small-business-ru</a>.<br>
+  Сайт, инструкции и демо: <a href="https://small-business-ru.aifrontier.tech/">small-business-ru.aifrontier.tech</a>.</p>
+</div></details>
+</section>
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="stuck-data"><summary>Скилл остановился и просит выгрузку</summary><div class="details-body">
+  <p>Без данных скилл честно останавливается. 1С, банк и CRM подключать не обязательно: выгрузите нужное в CSV или Excel, положите в папку и повторите поручение.</p>
+</div></details>
+<details id="stuck-unchecked"><summary>В ответе стоит «не проверено»</summary><div class="details-body">
+  <p>Так скилл помечает то, что не смог проверить, вместо уверенной выдумки. В проверке ИНН суды, приставов и банкротства он берёт из агрегаторов; для прямой проверки судов нужен браузер. Решение всё равно за вами.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Чего это не гарантирует</h2>
+<ul>
+<li>Это alpha: помогает с работой, но не заменяет бухгалтера, юриста или кадровика.</li>
+<li>Скиллы бесплатные, нейросеть к ним — ваша. Работает ли бесплатный Antigravity CLI со скиллами, мы не проверяли.</li>
+<li>Картотеку арбитражных судов, приставов и реестр банкротств напрямую скилл не открывает: данные по ним из агрегаторов.</li>
+<li>Пятое поручение (<code>cash-flow-snapshot</code>) в ролике не запускали.</li>
+</ul>
+</section>
+
 <footer>
-Бизнес, заявки и должники в ролике — пример, ответы скиллов взяты из настоящих запусков на этом примере.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Бизнес, заявки и должники в ролике — пример, ответы скиллов взяты из настоящих запусков на этом примере. Робот и «учебный фильм» — пародия.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
-
-<script src="../copy.js"></script>
+<script src="../assets/guide-v2.js"></script>
 </body>
 </html>
