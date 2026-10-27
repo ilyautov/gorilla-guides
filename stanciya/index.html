@@ -3,160 +3,181 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Яндекс Станция: как получить root через lite-kit</title>
-<meta name="description" content="Практическая инструкция: lite-kit, выбор прошивки, DNS, сброс и проверка root. Отдельные способы для Лайт 2, Мини 3 и Станции Макс.">
-<meta property="og:title" content="Станция из-за одной цифры">
-<meta property="og:description" content="Как открыть свою Станцию: команды для Windows, macOS и Linux, версии прошивок и проверка результата.">
+<title>Своя Яндекс Станция: понятная инструкция по шагам</title>
+<meta name="description" content="Визуальная инструкция для Станции Лайт 1 и Мини 1: выбор системы, схема сети, фотографии кнопок, готовые команды и примеры результата. AI не обязателен.">
+<meta property="og:title" content="Своя Станция. По шагам">
+<meta property="og:description" content="Куда нажать, что вставить и какой ответ увидеть. Основной маршрут без AI, помощь агента по желанию.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="../styles.css">
-<style>
-.code pre{padding-top:48px}
-code{overflow-wrap:anywhere}
-details{margin:10px 0;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
-summary{cursor:pointer;font-weight:700;color:var(--olive)}
-summary:focus-visible{outline:2px solid var(--olive);outline-offset:3px}
-</style>
+<link rel="stylesheet" href="guide.css">
 </head>
-<body>
+<body class="station-guide">
+<svg class="icon-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<symbol id="i-pc" viewBox="0 0 64 64"><rect x="9" y="9" width="46" height="33" rx="3"/><path d="M25 42v10m14-10v10M19 53h26M15 35h34"/></symbol>
+<symbol id="i-router" viewBox="0 0 64 64"><rect x="8" y="32" width="48" height="19" rx="4"/><path d="M15 32V17m34 15V17M16 42h2m7 0h2M22 21c6-6 14-6 20 0M27 26c3-3 7-3 10 0"/></symbol>
+<symbol id="i-station" viewBox="0 0 64 64"><ellipse cx="32" cy="15" rx="20" ry="7"/><path d="M12 15v31c0 10 40 10 40 0V15M12 26c4 9 36 9 40 0M25 15h14m-7-4v8"/></symbol>
+<symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v10H3z"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-5-5 5 5-5 5"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+</defs></svg>
 <main>
-<header>
-  <div class="kicker">Инструкция к ролику @gorilla_under_hood · 27.10.2026</div>
-  <h1>Станция <span class="hl">из-за одной цифры</span></h1>
-  <p class="lede">Как получить root на своей Яндекс Станции через lite-kit: выбрать прошивку, настроить DNS и зайти в систему с компьютера.</p>
-  <div class="warn">Сброс удалит настройки колонки. Во время записи прошивки не отключайте питание. ADB на порту 5555 не выставляйте в интернет.</div>
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+<header class="guide-hero">
+<div class="hero-copy">
+<h1>Своя Станция.<br><span class="hl">По шагам.</span></h1>
+<p class="lede">Откроем полный доступ к системе колонки: подготовим компьютер, подключим Станцию и проверим результат.</p>
+<p class="hero-note">Основной маршрут для <b>Лайт 1 и Мини 1</b>. Можно пройти вручную. Помощь AI по желанию.</p>
+<a class="btn" href="#tools">Выбрать свою колонку <svg class="inline-icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+<p class="small">К ролику «Станция из-за одной цифры» · 27 октября 2026</p>
+</div>
+<figure class="network-map" aria-labelledby="network-caption">
+<div class="network-device"><svg class="device-icon" aria-hidden="true"><use href="#i-pc"/></svg><strong>Компьютер</strong><span>Готовит настройки</span><code data-pc>Адрес найдём в шаге 4</code></div>
+<div class="network-device router"><svg class="device-icon" aria-hidden="true"><use href="#i-router"/></svg><strong>Роутер</strong><span>Объединяет устройства</span><span class="network-label">Ваша домашняя Wi-Fi сеть</span></div>
+<div class="network-device"><svg class="device-icon" aria-hidden="true"><use href="#i-station"/></svg><strong>Станция</strong><span>Получает настройки</span><code data-speaker>Адрес найдём в шаге 6</code></div>
+<figcaption id="network-caption">Все три устройства в одной домашней сети. Компьютер временно отвечает на запросы колонки. Схема подключения.</figcaption>
+</figure>
 </header>
+<div class="start-note"><strong>До начала</strong><p>Нужны компьютер, свой роутер с доступом к настройкам и телефон с «Домом с Алисой». Сброс удалит настройки колонки. Во время записи прошивки питание должно оставаться включённым.</p></div>
+<noscript><div class="start-note"><strong>JavaScript выключен.</strong><p>Все ручные инструкции и ссылки доступны ниже. Автоподстановка адресов, копирование и сохранение отметок требуют JavaScript. Используйте команды из блока своей системы; в шаге 6 подставьте адрес своей колонки вручную.</p></div></noscript>
 
-<section id="tools">
-<h2><span class="step">1</span>Выберите свою модель</h2>
-<ul>
-<li><b>Лайт 1 и Мини 1:</b> инструкция ниже, с конкретными сборками.</li>
-<li><b>Мини 2 и Миди:</b> у авторов lite-kit есть успешные проходы, но здесь нет точной пары «модель + сборка». Начните с <a href="https://github.com/krevetkqqq/lite-kit#что-проверено">списка проверок</a>.</li>
-<li><b>Лайт 2:</b> <a href="https://hackalice.me/start/retail-ca/">замена сертификатов через заводской режим</a>.</li>
-<li><b>Мини 3:</b> <a href="https://hackalice.me/start/retail-ca-mini3/">свой способ через заводской образ</a>. Если он тоже обновлён, этот путь не подходит.</li>
-<li><b>Станция 1:</b> <a href="https://hackalice.me/start/root-android/#station-1">AliceBridge и отдельный boot-образ</a>.</li>
-<li><b>Макс:</b> <a href="https://github.com/suddosu/yasta_flasher">yasta_flasher</a>, сервисный USB и работа с платой.</li>
-<li><b>Другая модель:</b> найдите её в <a href="https://hackalice.me/">каталоге устройств</a>.</li>
-</ul>
+<section id="tools" class="route-picker" aria-labelledby="route-heading">
+<div class="section-title"><span class="step-number">1</span><div><h2 id="route-heading">Что у вас за устройства?</h2><p>Начнём с модели колонки и системы компьютера. Остальные данные найдём по ходу.</p></div></div>
+<div class="selection-grid">
+<div class="field"><label for="model">Ваша Станция</label><select id="model"><option value="">Выберите модель</option><option value="lite">Лайт 1 · 2021</option><option value="mini">Мини 1 · 2019</option><option value="mini2">Мини 2</option><option value="midi">Миди</option><option value="lite2">Лайт 2</option><option value="mini3">Мини 3</option><option value="first">Станция первого поколения · большая</option><option value="max">Макс</option><option value="unknown">Другая модель / не знаю</option></select></div>
+<div class="field"><label for="os">Ваш компьютер</label><select id="os"><option value="">Выберите систему</option><option value="windows">Windows 10 / 11</option><option value="mac">macOS · компьютер Apple</option><option value="linux">Linux · Ubuntu / Debian</option></select></div>
+</div>
+<noscript><p>Основные шаги ниже только для Лайт 1 и Мини 1. Для других моделей: <a href="https://hackalice.me/start/retail-ca/">Лайт 2</a>, <a href="https://hackalice.me/start/retail-ca-mini3/">Мини 3</a>, <a href="https://hackalice.me/start/root-android/#station-1">первая большая Станция</a>, <a href="https://github.com/suddosu/yasta_flasher">Макс</a>. Для Мини 2 и Миди сначала сверьте совместимость в <a href="https://github.com/krevetkqqq/lite-kit">lite-kit</a>.</p></noscript>
+<p id="route-status" class="route-status" role="status">Выберите модель и систему. Ниже останутся подходящие инструкции.</p>
+<div id="other-route" class="other-route" hidden><h3 id="other-title"></h3><p id="other-note"></p><a id="other-link" class="btn" href="https://hackalice.me/">Открыть инструкцию для этой модели</a><p class="small">Прежде чем использовать прошивку, сверьте точную модель и условия в её инструкции.</p></div>
+<details class="help"><summary>Не знаю модель или систему</summary>
+<p><b>Модель:</b> в «Доме с Алисой» откройте колонку и её настройки. Посмотрите точное название; при необходимости сверьте наклейку на устройстве с <a href="https://alice.yandex.ru/support/ru/station/">официальной справкой</a>. Лайт 1 и Лайт 2 требуют разных способов.</p>
+<div class="model-references"><figure><img src="assets/station-lite.png" width="498" height="75" alt="Лайт первого поколения: изображение и название из справки Яндекса" loading="lazy"><figcaption>Лайт 1 · без часов</figcaption></figure><figure><img src="assets/station-mini.png" width="200" height="160" alt="Белая Станция Мини первого поколения без экрана" loading="lazy"><figcaption>Мини 1 · без экрана, с управлением жестами</figcaption></figure></div>
+<p><b>Система:</b> у Mac есть меню Apple в левом верхнем углу. В Windows меню «Пуск»; точную версию покажет команда <code>winver</code> в окне <kbd>Win</kbd> + <kbd>R</kbd>. Для другой Linux-системы нужны её собственные команды установки программ.</p>
+</details>
+<label class="step-check"><input type="checkbox" data-complete="1"><span>Я сверил модель и выбрал систему</span></label>
 </section>
 
-<section>
-<h2><span class="step">2</span>Подготовьте компьютер</h2>
-<p>Нужны роутер со сменным DNS, компьютер и приложение «Дом с Алисой». Телефон, компьютер и колонка должны быть в одной локальной сети без изоляции клиентов.</p>
-<p>Скачайте <a href="https://github.com/krevetkqqq/lite-kit/archive/refs/heads/main.zip">архив lite-kit</a>, распакуйте и откройте терминал в его папке. Все дальнейшие команды выполняются оттуда.</p>
-<details>
-<summary>Windows 10/11</summary>
-<p>Установите <a href="https://www.python.org/downloads/windows/">Python 3</a> с добавлением в PATH и <a href="https://developer.android.com/tools/releases/platform-tools">Google Platform-Tools</a>. Папку с <code>adb.exe</code> тоже добавьте в PATH. Затем откройте <b>PowerShell от имени администратора</b> в папке lite-kit и используйте это окно до конца настройки.</p>
-<p>Разрешите запуск скриптов в текущем окне и проверьте инструменты:</p>
-<div class="code"><pre><code>Get-ChildItem -File -Filter *.ps1 | Unblock-File
+<div class="reading-layout" id="manual-route">
+<aside class="guide-sidebar"><nav aria-label="Шаги инструкции"><p class="sidebar-title">Ваш маршрут</p><ol><li><a href="#tools">Выбор устройств</a></li><li><a href="#prepare">Подготовка компьютера</a></li><li><a href="#firmware">Файл прошивки</a></li><li><a href="#server">Запуск и адрес ПК</a></li><li><a href="#network">Подключение Станции</a></li><li><a href="#access">Проверка доступа</a></li><li><a href="#finish">Возврат настроек</a></li></ol></nav><div class="progress-block"><p id="progress-label">Отмечено вами: 0 из 7</p><progress id="progress" value="0" max="7" aria-labelledby="progress-label"></progress><p id="storage-note" class="small">Отметки сохраняются в этом браузере. Это ваш список, а не автоматическая проверка устройств.</p><button type="button" id="clear-checks" class="text-button">Сбросить отметки</button></div></aside>
+<div class="guide-content">
+<section id="prepare">
+<div class="section-title"><span class="step-number">2</span><div><h2>Подготовьте компьютер</h2><p>Понадобится окно, в которое можно вставлять команды. Оно называется терминалом.</p></div></div>
+<ol class="action-list"><li><a href="https://github.com/krevetkqqq/lite-kit/archive/refs/heads/main.zip">Скачайте lite-kit</a> и распакуйте архив. Внутри должны быть папки <code>scripts</code>, <code>firmware</code> и файлы запуска.</li><li>Откройте терминал и перейдите в эту папку. Выберите подсказку для своей системы ниже.</li></ol>
+<details class="platform-panel" data-os="windows"><summary>Windows: открыть окно и установить инструменты</summary>
+<p><b>Открыть окно:</b> нажмите «Пуск», введите <b>PowerShell</b>, нажмите на найденной программе правой кнопкой и выберите <b>«Запуск от имени администратора»</b>. Подтвердите запрос Windows.</p>
+<p><b>Открыть папку:</b> в Проводнике откройте распакованную папку lite-kit, нажмите на адресную строку и скопируйте её путь. В PowerShell напишите <code>cd</code>, пробел и этот путь в кавычках. Нажмите Enter.</p>
+<div class="terminal-example"><div class="window-bar"><span class="window-dots" aria-hidden="true"></span><span>Пример перехода в папку</span></div><pre>PS C:\Users\User&gt; <strong>cd "C:\Users\User\Downloads\lite-kit-main"</strong>
+PS C:\Users\User\Downloads\lite-kit-main&gt;</pre></div>
+<p>Путь в примере замените своим. После Enter в строке должна появиться ваша папка lite-kit.</p>
+<p><b>Инструменты:</b> установите <a href="https://www.python.org/downloads/windows/">Python</a>. Если установщик предлагает <b>Add Python to PATH</b>, отметьте этот пункт. Затем скачайте <a href="https://developer.android.com/tools/releases/platform-tools">Platform-Tools для Windows</a>, распакуйте и положите папку <code>platform-tools</code> внутрь lite-kit. В ней должен быть <code>adb.exe</code>.</p>
+<p>После установки Python заново откройте PowerShell от имени администратора и вернитесь в папку lite-kit. Вставьте весь блок:</p>
+<div class="command"><div class="command-bar"><span>PowerShell · подготовка</span><button type="button" data-copy="cmd-windows">Копировать</button></div><pre><code id="cmd-windows">Get-ChildItem -File -Filter *.ps1 | Unblock-File
 Set-ExecutionPolicy -Scope Process RemoteSigned
+$env:Path = "$PWD\platform-tools;$env:Path"
 python --version
-adb version</code></pre></div>
+adb version</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Если PowerShell задаст вопрос о политике выполнения, подтвердите её изменение для текущего окна. Все дальнейшие команды выполняйте в этом же административном окне.</p>
 </details>
-<details>
-<summary>macOS</summary>
-<p>Нужен <a href="https://brew.sh/">Homebrew</a>. Затем:</p>
-<div class="code"><pre><code>brew install python openssl dnsmasq
+<details class="platform-panel" data-os="mac"><summary>macOS: открыть окно и установить инструменты</summary>
+<p>Нажмите <kbd>⌘</kbd> + <kbd>Пробел</kbd>, введите <b>Терминал</b> и нажмите Enter. Для перехода в папку напишите <code>cd</code> с пробелом, перетащите папку lite-kit из Finder в окно терминала и нажмите Enter.</p>
+<p>Нужен <a href="https://brew.sh/">Homebrew</a>. Если он ещё не установлен, на его сайте есть команда установки и дальнейшие подсказки. Затем в папке lite-kit выполните:</p>
+<div class="command"><div class="command-bar"><span>Терминал · macOS</span><button type="button" data-copy="cmd-mac">Копировать</button></div><pre><code id="cmd-mac">brew install python openssl dnsmasq
 brew install --cask android-platform-tools
 chmod +x start.sh stop.sh
-adb version</code></pre></div>
+adb version</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 </details>
-<details>
-<summary>Ubuntu / Debian</summary>
-<div class="code"><pre><code>sudo apt update
+<details class="platform-panel" data-os="linux"><summary>Ubuntu / Debian: открыть окно и установить инструменты</summary>
+<p>Откройте папку lite-kit в файловом менеджере и выберите «Открыть в терминале». В Ubuntu терминал также открывается сочетанием <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd>. Введите команды в папке lite-kit:</p>
+<div class="command"><div class="command-bar"><span>Терминал · Ubuntu / Debian</span><button type="button" data-copy="cmd-linux">Копировать</button></div><pre><code id="cmd-linux">sudo apt update
 sudo apt install python3 openssl dnsmasq dnsutils adb
 chmod +x start.sh stop.sh
-adb version</code></pre></div>
+adb version</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 </details>
+<div class="expected"><svg class="inline-icon" aria-hidden="true"><use href="#i-check"/></svg><div><strong>Должно получиться</strong><p>Команда <code>adb version</code> выводит номер версии. Если пишет «команда не найдена», вернитесь к установке инструментов; следующий шаг пока не выполняйте.</p></div></div>
+<details class="agent-help"><summary>Необязательно: поручить подготовку AI-агенту</summary><p>Если вы уже пользуетесь агентом с терминалом, скопируйте задание. Можно продолжить вручную.</p><div class="command"><div class="command-bar"><span>Задание агенту</span><button type="button" data-copy="prompt-prepare">Копировать</button></div><pre><code id="prompt-prepare">Открой https://ilyautov.github.io/gorilla-guides/stanciya/ и помоги подготовить компьютер. Сначала уточни модель колонки и мою систему. Сброс и запись прошивки вынеси в отдельный следующий шаг.</code></pre><p class="copy-feedback" aria-live="polite"></p></div></details>
+<label class="step-check"><input type="checkbox" data-complete="2"><span>Папка открыта, ADB показывает версию</span></label>
 </section>
 
-<section>
-<h2><span class="step">3</span>Скачайте нужную прошивку</h2>
-<p>Выберите свой образ и сохраните его в указанную папку внутри lite-kit. Подпапку с именем платформы создайте вручную.</p>
-<p><b>Лайт 1:</b> <a href="https://cdnriqbxswemmatxzibl.svc.cdn.yandex.net/yandexmicro/ota/user/770338e8-a517-4642-a442-d26be2632873/0.369.1.46.4778262442.20261013.297.zip">скачать прошивку</a>. Сохранить как:</p>
-<div class="code"><pre><code>firmware/yandexmicro/0.369.1.46.4778262442.20261013.297.zip</code></pre></div>
-<p><b>Мини 1:</b> <a href="https://cdnriqbxswemmatxzibl.svc.cdn.yandex.net/yandexmini/ota/release/0c7bd167-2fa4-4677-bb29-3748c21d985d/1.305.4.16.3237824040.20250721.zip">скачать прошивку</a>. Сохранить как:</p>
-<div class="code"><pre><code>firmware/yandexmini/1.305.4.16.3237824040.20250721.zip</code></pre></div>
-<p><b>Не распаковывайте файл и не меняйте его имя.</b> В папке вашей платформы должен остаться только выбранный образ. При запуске lite-kit подхватит его по модели и версии.</p>
+<section id="firmware">
+<div class="section-title"><span class="step-number">3</span><div><h2>Положите прошивку в папку</h2><p>Прошивка: файл с программной системой колонки. Для каждой модели он свой.</p></div></div>
+<p class="selection-hint" data-selection-hint>Сначала выберите точную модель в начале страницы. Ниже показаны обе поддержанные версии.</p>
+<div data-model="lite"><p><b>Для Лайт 1:</b> <a class="download-link" href="https://cdnriqbxswemmatxzibl.svc.cdn.yandex.net/yandexmicro/ota/user/770338e8-a517-4642-a442-d26be2632873/0.369.1.46.4778262442.20261013.297.zip">скачать файл с сервера Яндекса</a>.</p><div class="folder-map" role="img" aria-label="В папке lite-kit-main откройте firmware, создайте yandexmicro и положите туда файл прошивки"><p><svg class="inline-icon" aria-hidden="true"><use href="#i-folder"/></svg> lite-kit-main</p><p class="folder-level-1">firmware</p><p class="folder-level-2">yandexmicro <span>создайте эту папку</span></p><p class="folder-file">0.369.1.46.4778262442.20261013.297.zip</p></div></div>
+<div data-model="mini"><p><b>Для Мини 1:</b> <a class="download-link" href="https://cdnriqbxswemmatxzibl.svc.cdn.yandex.net/yandexmini/ota/release/0c7bd167-2fa4-4677-bb29-3748c21d985d/1.305.4.16.3237824040.20250721.zip">скачать файл с сервера Яндекса</a>.</p><div class="folder-map" role="img" aria-label="В папке lite-kit-main откройте firmware, создайте yandexmini и положите туда файл прошивки"><p><svg class="inline-icon" aria-hidden="true"><use href="#i-folder"/></svg> lite-kit-main</p><p class="folder-level-1">firmware</p><p class="folder-level-2">yandexmini <span>создайте эту папку</span></p><p class="folder-file">1.305.4.16.3237824040.20250721.zip</p></div></div>
+<p><b>Не распаковывайте прошивку и не меняйте её имя.</b> В папке вашей платформы должен остаться один выбранный образ. Если имя папки lite-kit после распаковки другое, это нормально: важны вложенные <code>firmware</code> и папка модели.</p>
+<div class="expected"><svg class="inline-icon" aria-hidden="true"><use href="#i-check"/></svg><div><strong>Должно получиться</strong><p>Вы можете открыть папку модели и увидеть в ней один файл, как на схеме выше.</p></div></div>
+<label class="step-check"><input type="checkbox" data-complete="3"><span>Файл моей модели лежит в нужной папке</span></label>
 </section>
 
-<section>
-<h2><span class="step">4</span>Запустите стенд</h2>
-<details>
-<summary>Windows</summary>
-<div class="code"><pre><code>.\start.ps1</code></pre></div>
-<p>Подтвердите запрос прав администратора.</p>
-</details>
-<details>
-<summary>macOS / Linux</summary>
-<div class="code"><pre><code>sudo ./start.sh</code></pre></div>
-</details>
-<p>Скрипт напечатает <b>адрес компьютера</b>, например <code>192.168.1.50</code>. Запишите его. Порты 53, 80 и 443 должны быть свободны.</p>
+<section id="server">
+<div class="section-title"><span class="step-number">4</span><div><h2>Запустите программу и найдите адрес ПК</h2><p>Компьютер временно станет сервером: будет выдавать колонке подготовленные настройки.</p></div></div>
+<div class="command" data-os="windows"><div class="command-bar"><span>PowerShell · запуск</span><button type="button" data-copy="start-windows">Копировать</button></div><pre><code id="start-windows">.\start.ps1</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<div class="command" data-os="mac linux"><div class="command-bar"><span>Терминал · запуск</span><button type="button" data-copy="start-unix">Копировать</button></div><pre><code id="start-unix">sudo ./start.sh</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>При запросе пароля <code>sudo</code> введите пароль своего компьютера и нажмите Enter. В терминале символы пароля могут не отображаться.</p>
+<div class="terminal-example"><div class="window-bar"><span class="window-dots" aria-hidden="true"></span><span>Пример ответа программы</span></div><pre>=== СТЕНД ПОДНЯТ ===
+адрес машины : <mark>192.168.1.50</mark>
+сервер       : 80 и 443</pre><p>Числа в примере условные. Вам нужен адрес из вашего окна.</p></div>
+<p><b>IP-адрес</b> похож на <code>192.168.1.50</code>. Он обозначает конкретное устройство в домашней сети. Перепишите адрес из строки «адрес машины»:</p>
+<form id="pc-form" class="address-form" novalidate><div class="field"><label for="pc-ip">Адрес компьютера</label><input id="pc-ip" inputmode="decimal" maxlength="15" placeholder="Например, 192.168.1.50" autocomplete="off" spellcheck="false" aria-describedby="pc-error"></div><button type="submit" class="primary-button">Подставить в инструкцию</button><p id="pc-error" class="field-message" aria-live="polite"></p></form>
+<p class="small">Этот сайт только подставляет текст. Настройки вашей сети он не меняет.</p>
+<details class="help"><summary>Вместо запуска появилась ошибка</summary><p>Стенду нужны свободные порты 53, 80 и 443. Посмотрите сообщение в окне и файл <code>log/server.log</code>. Не останавливайте сетевые службы наугад. В конце есть блок диагностики и отдельное задание агенту.</p></details>
+<label class="step-check"><input type="checkbox" data-complete="4"><span>Программа запущена, её адрес записан</span></label>
 </section>
 
-<section>
-<h2><span class="step">5</span>Сбросьте и подключите колонку</h2>
-<ol>
-<li><b>Лайт 1:</b> отключите питание, подключите снова и сразу удерживайте кнопку паузы 6–10 секунд до жёлто-зелёного индикатора.<br><b>Мини 1:</b> отключите питание, зажмите кнопку отключения микрофонов, подайте питание и держите кнопку около 5 секунд до жёлтого индикатора.</li>
-<li>В «Доме с Алисой» нажмите <b>«+» → «Устройство с Алисой»</b>. Дойдите до выбора Wi-Fi, пока не нажимайте «Подключиться».</li>
-<li>На роутере сохраните прежние значения DNS. В разделе <b>LAN / DHCP → DNS-сервер</b> укажите адрес компьютера из шага 4. Дополнительный DNS очистите. Нужна настройка для устройств домашней сети, а не только DNS подключения WAN.</li>
-<li>Вернитесь в приложение и подключите колонку к этой сети. Не выключайте компьютер и колонку: стенд должен отдать выбранную прошивку.</li>
-</ol>
-<p>Если началась перепрошивка, дождитесь её завершения и перезагрузки: в <code>log/server.log</code> появятся <code>OTA-AUTO</code> и <code>файл отдан ПОЛНОСТЬЮ</code>. Если нужная версия уже стоит, загрузки не будет. Дальше ищите ответ с включённым <code>adbd</code>.</p>
+<section id="network">
+<div class="section-title"><span class="step-number">5</span><div><h2>Подключите колонку через компьютер</h2><p>Здесь нужны телефон, кнопка на Станции и настройки роутера. Действуйте в этом порядке.</p></div></div>
+<div class="reset-panel" data-model="lite"><figure><img src="assets/lite-buttons.svg" width="350" height="350" alt="Официальная схема Лайт 1: кнопка паузы отмечена цифрой 1" loading="lazy"><figcaption>Лайт 1: нужна кнопка <b>1, пауза</b>. Схема Яндекса.</figcaption></figure><div><h3>Сброс Лайт 1</h3><ol><li>Отключите питание и подключите снова.</li><li><b>Сразу после включения</b> зажмите паузу на 6–10 секунд.</li><li>Дождитесь жёлто-зелёного индикатора и отпустите кнопку.</li></ol><p class="small"><a href="https://alice.yandex.ru/support/ru/station/meet/characteristics-lite">Кнопки и порты в справке Яндекса</a></p></div></div>
+<div class="reset-panel" data-model="mini"><figure><img src="assets/mini-buttons.svg" width="350" height="350" alt="Официальная схема Мини 1: кнопка отключения микрофонов отмечена цифрой 1" loading="lazy"><figcaption>Мини 1: нужна кнопка <b>1, микрофон</b>. Схема Яндекса.</figcaption></figure><div><h3>Сброс Мини 1</h3><ol><li>Отключите питание.</li><li>Зажмите кнопку отключения микрофонов и, удерживая её, подключите питание.</li><li>Держите около 5 секунд до жёлтого индикатора. Отпустите кнопку.</li></ol><p class="small"><a href="https://alice.yandex.ru/support/ru/station/settings/reset-mini1">Сброс в справке Яндекса</a></p></div></div>
+<ol class="phone-path"><li><span>Телефон</span><strong>Дом с Алисой</strong></li><li><span>Добавить</span><strong>«+» → Устройство с Алисой</strong></li><li><span>Остановиться здесь</span><strong>Выбор сети Wi-Fi</strong></li></ol>
+<p>Пока <b>не нажимайте «Подключиться»</b>. Сначала изменим одну настройку роутера.</p>
+<details class="help"><summary>Как открыть настройки роутера?</summary><p>Посмотрите адрес панели управления на наклейке роутера или в его официальной инструкции. Он может выглядеть как <code>192.168.1.1</code> или <code>192.168.0.1</code>. Откройте именно свой адрес в браузере и войдите с данными своего роутера. Адрес роутера и адрес компьютера обычно разные.</p><p>Ищите раздел <b>«Домашняя сеть» / LAN → DHCP → DNS-сервер</b>. DHCP раздаёт настройки устройствам дома. Названия зависят от производителя. Поле DNS только в разделе WAN, то есть подключения к провайдеру, не заменяет эту настройку.</p><p>Если доступа к панели нет или нужного параметра в вашем роутере нет, этот маршрут пока не готов к продолжению.</p></details>
+<p><b>Сохраните, как было:</b> сделайте снимок экрана роутера или запишите прежние значения ниже. Это понадобится для возврата.</p>
+<form id="dns-form" class="dns-memory" novalidate><div class="field"><label for="old-dns-mode">DNS до изменения</label><select id="old-dns-mode"><option value="">Выберите, как было</option><option value="auto">Автоматически</option><option value="manual">Были указаны адреса вручную</option></select></div><div id="old-dns-fields" class="selection-grid" hidden><div class="field"><label for="old-dns-1">Прежний DNS 1</label><input id="old-dns-1" inputmode="decimal" maxlength="15" autocomplete="off" placeholder="Например, 8.8.8.8"></div><div class="field"><label for="old-dns-2">Прежний DNS 2, если был</label><input id="old-dns-2" inputmode="decimal" maxlength="15" autocomplete="off" placeholder="Можно оставить пустым"></div></div><button type="submit" class="secondary-button">Записать для возврата</button><p id="dns-memory-status" class="field-message" aria-live="polite"></p></form>
+<div class="router-example"><div class="example-caption">Схема полей роутера · названия могут отличаться</div><div class="router-form-row"><span>Раздел</span><strong>Домашняя сеть / LAN → DHCP</strong></div><div class="router-form-row"><span>DNS-сервер 1</span><code data-pc>Адрес ПК из шага 4</code></div><div class="router-form-row"><span>DNS-сервер 2</span><span class="empty-field">Очистить</span></div><p>Впишите адрес <b>компьютера</b>, сохраните изменение на роутере. В этом примере нет кнопки сохранения: нажимать её нужно в настоящей панели вашего роутера.</p></div>
+<p>Теперь в «Доме с Алисой» нажмите <b>«Подключиться»</b>. Компьютер и колонка должны оставаться включёнными.</p>
+<div class="expected"><svg class="inline-icon" aria-hidden="true"><use href="#i-check"/></svg><div><strong>Должно получиться</strong><p>Если началась запись прошивки, дождитесь её завершения и перезагрузки. В <code>log/server.log</code> появятся <code>OTA-AUTO</code> и <code>файл отдан ПОЛНОСТЬЮ</code>. Если нужная версия уже стоит, загрузки может не быть. Затем ищите ответ с включённым <code>adbd</code>.</p></div></div>
+<label class="step-check"><input type="checkbox" data-complete="5"><span>Колонка подключилась, запись прошивки завершилась или не требовалась</span></label>
 </section>
 
-<section>
-<h2><span class="step">6</span>Зайдите и проверьте root</h2>
-<p>Найдите <b>IP колонки</b> в списке клиентов роутера. В примере ниже это <code>192.168.1.77</code>; замените его своим адресом.</p>
-<div class="code"><pre><code>adb connect 192.168.1.77:5555
-adb shell id</code></pre></div>
-<p>Нужный результат: <code>uid=0(root)</code>. Если видите <code>uid=2000(shell)</code>, полного доступа ещё нет.</p>
-<p>Открыть командную оболочку:</p>
-<div class="code"><pre><code>adb shell</code></pre></div>
-<p>Выйти из неё: <code>exit</code>.</p>
+<section id="access">
+<div class="section-title"><span class="step-number">6</span><div><h2>Проверьте полный доступ</h2><p>Нужен адрес самой колонки. Адрес компьютера для этой команды не подходит.</p></div></div>
+<ol class="action-list"><li>В панели роутера откройте список <b>«Подключённые устройства»</b> или <b>«Клиенты»</b>.</li><li>Найдите свою Станцию и перепишите её IP-адрес.</li></ol>
+<div class="address-pair"><div><span>Компьютер</span><code data-pc>Из шага 4</code></div><svg class="inline-icon" aria-hidden="true"><use href="#i-arrow"/></svg><div><span>Колонка</span><code data-speaker>Найдите в клиентах роутера</code></div></div>
+<form id="speaker-form" class="address-form" novalidate><div class="field"><label for="speaker-ip">Адрес Станции</label><input id="speaker-ip" inputmode="decimal" maxlength="15" placeholder="Например, 192.168.1.77" autocomplete="off" spellcheck="false" aria-describedby="speaker-error"></div><button type="submit" class="primary-button">Составить команду</button><p id="speaker-error" class="field-message" aria-live="polite"></p></form>
+<div class="command"><div class="command-bar"><span>Вставьте в своё окно терминала</span><button type="button" data-copy="connect-command" data-guard="connect" disabled>Копировать</button></div><pre><code id="connect-command">Укажите адрес компьютера в шаге 4 и адрес колонки выше.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<noscript><p>Замените <code>АДРЕС_ВАШЕЙ_КОЛОНКИ</code> адресом Станции из списка устройств роутера:</p><pre><code>adb connect АДРЕС_ВАШЕЙ_КОЛОНКИ:5555
+adb shell id</code></pre></noscript>
+<p>Скопируйте обе строки, вставьте их в терминал и нажмите Enter. Если терминал просит подтверждение многострочной вставки, подтвердите.</p>
+<div class="terminal-example success-example"><div class="window-bar"><span class="window-dots" aria-hidden="true"></span><span>Пример успешного ответа</span></div><pre><mark>uid=0(root)</mark> gid=0(root) groups=0(root)</pre><p>Найдите именно <b>uid=0(root)</b>. Это означает полный доступ к системе. ADB называют программу подключения к колонке, root означает права суперпользователя.</p></div>
+<details class="help"><summary>Получился другой ответ</summary><p><code>uid=2000(shell)</code>: подключение есть, полного доступа нет. <code>Connection refused</code>: колонка не открыла подключение или адрес неверный. Перейдите к <a href="#troubleshoot">диагностике</a>; один и тот же повтор команды причину не исправит.</p></details>
+<details class="help"><summary>Как открыть командную оболочку колонки?</summary><p>После успешной проверки выполните <code>adb shell</code>. Чтобы выйти обратно в терминал своего компьютера, введите <code>exit</code>. Для самой проверки доступа входить в оболочку отдельно не требуется.</p></details>
+<label class="step-check"><input type="checkbox" data-complete="6"><span>Я увидел uid=0(root) в своём ответе</span></label>
 </section>
 
-<section>
-<h2><span class="step">7</span>Завершите настройку</h2>
-<p><b>Нужен постоянный доступ?</b> До возврата DNS выполните <a href="https://hackalice.me/start/ssh/">закрепление доступа, настройку SSH и отключение OTA</a> для своей модели. Отключение OTA убирает и штатные обновления безопасности.</p>
-<p>Верните на роутере <b>сохранённые значения DNS</b>, затем остановите стенд:</p>
-<details>
-<summary>Windows</summary>
-<div class="code"><pre><code>.\stop.ps1</code></pre></div>
-</details>
-<details>
-<summary>macOS / Linux</summary>
-<div class="code"><pre><code>sudo ./stop.sh</code></pre></div>
-</details>
-<p>Если вы только проверяли способ, можно закончить здесь. Без закрепления доступ может исчезнуть после перезагрузки или обновления.</p>
+<section id="finish">
+<div class="section-title"><span class="step-number">7</span><div><h2>Верните домашнюю сеть в обычный режим</h2><p>Получение доступа и его сохранение после обновлений являются разными задачами.</p></div></div>
+<details class="help"><summary>Хочу сохранить доступ постоянно</summary><p>До возврата DNS изучите <a href="https://hackalice.me/start/ssh/">закрепление доступа, SSH и отключение OTA</a> для своей модели. Отключение OTA останавливает и штатные обновления безопасности. Без закрепления доступ может исчезнуть после перезагрузки или обновления.</p></details>
+<p>Если на этом вы заканчиваете эксперимент:</p><ol class="action-list"><li>В настройках роутера верните прежний DNS. Ваша запись: <strong id="restore-dns">пока не сохранена; используйте свой снимок экрана или запись.</strong></li><li>Сохраните изменение на роутере.</li><li>Остановите стенд командой ниже. В Windows нужно то же окно с правами администратора.</li></ol>
+<div class="command" data-os="windows"><div class="command-bar"><span>PowerShell · остановка</span><button type="button" data-copy="stop-windows">Копировать</button></div><pre><code id="stop-windows">.\stop.ps1</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<div class="command" data-os="mac linux"><div class="command-bar"><span>Терминал · остановка</span><button type="button" data-copy="stop-unix">Копировать</button></div><pre><code id="stop-unix">sudo ./stop.sh</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<div class="expected"><svg class="inline-icon" aria-hidden="true"><use href="#i-check"/></svg><div><strong>Должно получиться</strong><p>В роутере снова стоят исходные значения DNS. Команда остановки выполнилась без ошибок. Порты подключения к колонке 5555 и 2222 не должны быть открыты в интернет.</p></div></div>
+<details class="agent-help"><summary>Необязательно: попросить агента проверить завершение</summary><div class="command"><div class="command-bar"><span>Задание агенту</span><button type="button" data-copy="prompt-finish">Копировать</button></div><pre><code id="prompt-finish">Помоги вернуть исходные настройки DNS, остановить стенд и перечислить оставшиеся изменения. Сохранение доступа после перезагрузки отмечай проверенным только после фактической проверки.</code></pre><p class="copy-feedback" aria-live="polite"></p></div></details>
+<label class="step-check"><input type="checkbox" data-complete="7"><span>Я вернул DNS и остановил стенд</span></label>
 </section>
 
-<section>
-<h2><span class="step">?</span>Если не получилось</h2>
-<ul>
-<li><b>Стенд не запускается:</b> проверьте занятые порты 53/80/443. Не отключайте сетевые службы наугад; посмотрите ошибку в <code>log/server.log</code>.</li>
-<li><b>Колонка не видит стенд:</b> сначала проверьте DNS самого стенда командой ниже. Замените <code>192.168.1.50</code> адресом компьютера из шага 4; он же должен прийти в ответе.</li>
-</ul>
-<div class="code"><pre><code>nslookup quasar.yandex.net 192.168.1.50</code></pre></div>
-<p>Если стенд отвечает правильно, проверьте DNS в настройках DHCP роутера и переподключите колонку к Wi-Fi, чтобы она получила новые параметры.</p>
-<ul>
-<li><b>ADB пишет Connection refused:</b> проверьте IP колонки и журнал стенда. Если прошивка не установилась или не принимает сертификат, повторять <code>adb connect</code> бессмысленно.</li>
-<li><b>Привязка застряла:</b> верните прежний DNS, сбросьте колонку и повторите с шага 5. DNS меняйте только на экране выбора Wi-Fi.</li>
-<li><b>Хотите прервать попытку:</b> верните прежний DNS и выполните <code>stop.ps1</code> или <code>sudo ./stop.sh</code>. Во время записи прошивки дождитесь завершения.</li>
-</ul>
+<section id="troubleshoot">
+<h2>Если что-то пошло иначе</h2>
+<details class="help"><summary>«python» или «adb» не найдены</summary><p>Закройте терминал после установки и откройте заново. В Windows откройте его от имени администратора, перейдите в lite-kit и повторите блок подготовки: он добавляет <code>platform-tools</code> к пути программ только в текущем окне.</p><p>Если Python всё ещё не найден, откройте его установщик и выберите изменение установки с добавлением Python в PATH. Для ADB проверьте, что в <code>lite-kit/platform-tools/</code> лежит именно <code>adb.exe</code>, а не ещё одна вложенная папка.</p></details>
+<details class="help"><summary>Колонка не получает настройки с компьютера</summary><p>Проверьте DNS самой программы на компьютере. Для этого есть команда ниже. Ожидаемый адрес в ответе: <strong data-pc>адрес вашего ПК из шага 4</strong>.</p><div class="command"><div class="command-bar"><span>Проверка DNS стенда</span><button type="button" data-copy="dns-command" data-guard="pc" disabled>Копировать</button></div><pre><code id="dns-command">Сначала укажите адрес компьютера в шаге 4.</code></pre><p class="copy-feedback" aria-live="polite"></p></div><noscript><p>Замените <code>АДРЕС_КОМПЬЮТЕРА</code> адресом из окна запуска программы:</p><pre><code>nslookup quasar.yandex.net АДРЕС_КОМПЬЮТЕРА</code></pre></noscript><p>Если ответ правильный, проверьте поле DNS в DHCP роутера и переподключите колонку к Wi-Fi. Прямая проверка программы не подтверждает, что колонка уже получила новый DNS. Гостевая сеть с изоляцией устройств для этого не подходит.</p></details>
+<details class="help"><summary>Привязка застряла или ADB отвечает Connection refused</summary><p>Сверьте адрес Станции в клиентах роутера и посмотрите <code>log/server.log</code>. Если запись прошивки не закончилась, дождитесь её завершения. При ошибке привязки верните исходный DNS, повторите сброс и меняйте DNS только на экране выбора Wi-Fi. Ошибка приёма сертификата требует сверки модели и прошивки.</p></details>
+<details class="help"><summary>Хочу остановиться</summary><p>Во время записи прошивки дождитесь её завершения. Затем верните старые значения DNS на роутере и выполните команду остановки из шага 7. Возврат DNS останавливает подмену запросов, но сам по себе не восстанавливает прежнюю прошивку колонки.</p></details>
+<details class="agent-help"><summary>Необязательно: разобрать ошибку с AI-агентом</summary><p>Скопируйте задание и добавьте точный текст ошибки. Перед отправкой журнала удалите из него пароли и токены.</p><div class="command"><div class="command-bar"><span>Задание агенту</span><button type="button" data-copy="prompt-diagnose">Копировать</button></div><pre><code id="prompt-diagnose">Уточни мой шаг, модель и систему. Назови 2–3 возможные причины ошибки и проверь их по одной. Начинай с проверок без изменений, предлагай исправление после подтверждения причины.</code></pre><p class="copy-feedback" aria-live="polite"></p></div></details>
 </section>
-
-<section>
-<h2><span class="step">→</span>Что поставить дальше</h2>
-<p><a href="https://github.com/nyakokitsu/yam">YAM</a> для приложений и модулей, <a href="https://hackalice.me/recipes/airplay/">AirPlay</a> для музыки или <a href="../kolonka/">своего помощника на Claude</a> на компьютере. Root сам по себе не заменяет Алису и не даёт бесплатный Плюс.</p>
-<p>Другие инструменты той же истории: <a href="https://github.com/rogovskoy/eQuasar">eQuasar</a>, <a href="https://github.com/otomir23/quasar-unlock">quasar-unlock</a> и <a href="https://hackalice.me/start/root-android/">AliceBridge для Android</a>.</p>
-</section>
-<a class="back" href="../">← Все инструкции</a>
-<footer>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники</a>
-</footer>
+<section class="after-guide"><h2>Что можно сделать дальше</h2><p>Посмотреть <a href="https://github.com/nyakokitsu/yam">YAM с приложениями и модулями</a>, <a href="https://hackalice.me/recipes/airplay/">AirPlay для музыки</a> или собрать <a href="../kolonka/">отдельного помощника на Claude на компьютере</a>. Root сам по себе не заменяет Алису и не даёт бесплатный Плюс.</p><details class="help"><summary>Проекты и первоисточники</summary><p><a href="https://github.com/krevetkqqq/lite-kit">lite-kit</a> · <a href="https://github.com/rogovskoy/eQuasar">eQuasar</a> · <a href="https://github.com/otomir23/quasar-unlock">quasar-unlock</a> · <a href="https://hackalice.me/">Yandex Station Extended</a>. Файлы прошивок в этой инструкции скачиваются с серверов Яндекса. Изображения моделей и кнопок взяты из официальной справки.</p></details></section>
+</div></div>
+<footer><a href="../">← Все инструкции</a><p>Больше разборов: <a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники</a></p></footer>
 </main>
-<script src="../copy.js"></script>
+<script type="module" src="guide.js"></script>
 </body>
 </html>
