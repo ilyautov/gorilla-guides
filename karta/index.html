@@ -17,6 +17,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="../assets/guide-v2.css">
+<style>/* иллюстрация гайда: на телефоне после «До начала», кадр ролика перед шагом 1 */
+.illus-mobile{display:none;margin:0 0 24px}
+.illus-mobile img,.video-frame img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--line)}
+.video-frame{margin:0 0 24px;max-width:640px}
+@media (max-width:760px){.illus-mobile{display:block}}
+</style>
 </head>
 <body>
 <main id="top">
@@ -33,7 +39,7 @@
     <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>платите вы, а не бот</li><li>пароли в чат не попадают</li></ul>
     <p class="for-video">К ролику «Оплачивай все счета» и карусели «5 доступов» · обновлено 27 октября 2026</p>
   </div>
-  <figure class="hero-figure"><img src="img/40-schetov.jpg" width="960" height="640" alt="Кадр из ролика: на экране телевизора «40 счетов из спама», все отмечены оплаченными"><figcaption>Кадр из ролика: «оплачивай все счета» исполнено буквально. Банк, суммы и персонажи вымышленные.</figcaption></figure>
+  <figure class="hero-figure"><img src="img/illus.jpg" width="1200" height="800" alt="Иллюстрация: пустая банковская карта на мокром столе, на ней цепочка с навесным замком"></figure>
 </header>
 
 <nav class="strip" aria-label="Пять доступов из карусели"><p>5 доступов из карусели</p><ol>
@@ -46,8 +52,12 @@
 
 <div class="start-note"><b>До начала</b><p>Ставить ничего не нужно, подойдёт любой чат. Пароли, коды из СМС, PIN, CVC/CVV и кодовое слово банка в чат не вставляйте.</p></div>
 
+<figure class="illus-mobile"><img src="img/illus.jpg" width="1200" height="800" loading="lazy" alt="Иллюстрация: пустая банковская карта на мокром столе, на ней цепочка с навесным замком"></figure>
+
 <section class="block" id="steps" aria-labelledby="steps-title">
 <h2 id="steps-title">Первый результат за 4 шага</h2>
+
+<figure class="video-frame"><img loading="lazy" src="img/40-schetov.jpg" width="960" height="640" alt="Кадр из ролика: на экране телевизора «40 счетов из спама», все отмечены оплаченными"><figcaption>Кадр из ролика: «оплачивай все счета» исполнено буквально. Банк, суммы и персонажи вымышленные.</figcaption></figure>
 
 <div class="step" id="step-1">
   <div class="section-title"><span class="step-number">1</span><div><h3>Заведите отдельную карту с лимитом</h3><p>Лимит, который работает в банке, надёжнее любой инструкции боту.</p></div></div>

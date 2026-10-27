@@ -17,6 +17,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="../assets/guide-v2.css">
+<style>/* иллюстрация гайда: на телефоне после «До начала», кадр ролика перед шагом 1 */
+.illus-mobile{display:none;margin:0 0 24px}
+.illus-mobile img,.video-frame img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--line)}
+.video-frame{margin:0 0 24px;max-width:640px}
+@media (max-width:760px){.illus-mobile{display:block}}
+</style>
 </head>
 <body>
 <main id="top">
@@ -33,7 +39,7 @@
     <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>Claude, ChatGPT, любой чат</li><li>отправляете вы</li></ul>
     <p class="for-video">К ролику «Попросил ИИ найти работу через знакомых» · обновлено 27 октября 2026</p>
   </div>
-  <figure class="hero-figure"><img src="img/otkliki.jpg" width="960" height="640" alt="Кадр из ролика: плашки «100 откликов» и «Отказ за 3 мин»"><figcaption>Кадр из ролика: сто откликов, один ответ, и тот отказ через три минуты.</figcaption></figure>
+  <figure class="hero-figure"><img src="img/illus.jpg" width="1200" height="800" alt="Иллюстрация: картотека с пустыми карточками, одна выдвинута и подсвечена лаймом, рядом конверт с печатью"></figure>
 </header>
 
 <nav class="strip" aria-label="Что на странице"><p>Что здесь</p><ol>
@@ -45,8 +51,12 @@
 
 <div class="start-note"><b>До начала</b><p>Список людей соберите сами: нейросеть не должна придумывать знакомых. Доступ к отправке из своей почты или мессенджера ей не давайте.</p></div>
 
+<figure class="illus-mobile"><img src="img/illus.jpg" width="1200" height="800" loading="lazy" alt="Иллюстрация: картотека с пустыми карточками, одна выдвинута и подсвечена лаймом, рядом конверт с печатью"></figure>
+
 <section class="block" id="steps" aria-labelledby="steps-title">
 <h2 id="steps-title">Первый результат за 3 шага</h2>
+
+<figure class="video-frame"><img loading="lazy" src="img/otkliki.jpg" width="960" height="640" alt="Кадр из ролика: плашки «100 откликов» и «Отказ за 3 мин»"><figcaption>Кадр из ролика: сто откликов, один ответ, и тот отказ через три минуты.</figcaption></figure>
 
 <div class="step" id="step-1">
   <div class="section-title"><span class="step-number">1</span><div><h3>Найдите людей внутри нужных компаний</h3><p>Резюме, которое передал сотрудник, читают глазами.</p></div></div>

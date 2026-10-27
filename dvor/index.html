@@ -28,6 +28,12 @@ figure.shot img{border-radius:var(--radius);border:1px solid var(--line)}
 .tbl th,.tbl td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
 .tbl th{font-weight:700;color:var(--muted);font-size:14px}
 </style>
+<style>/* иллюстрация гайда: на телефоне после «До начала», кадр ролика перед шагом 1 */
+.illus-mobile{display:none;margin:0 0 24px}
+.illus-mobile img,.video-frame img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--line)}
+.video-frame{margin:0 0 24px;max-width:640px}
+@media (max-width:760px){.illus-mobile{display:block}}
+</style>
 </head>
 <body>
 <main id="top">
@@ -44,7 +50,7 @@ figure.shot img{border-radius:var(--radius);border:1px solid var(--line)}
     <ul class="chips" aria-label="Коротко"><li>бесплатно, Apache-2.0</li><li>Mac, Windows, Linux</li><li>300×300 м за 5 с</li><li>без brew и sudo</li></ul>
     <p class="for-video">К ролику «Двор из кубиков» · обновлено 27 октября 2026</p>
   </div>
-  <figure class="hero-figure"><img src="img/dvor-iso.jpg" width="1200" height="722" alt="Воксельный квартал сверху наискосок: длинные панельные дома, школа буквой Ш, детский сад крестом, деревья, футбольная коробка и парковки"><figcaption>Наш прогон: квартал панелек на&nbsp;севере Москвы, 297×301 блок. Мир собран Arnis, а&nbsp;картинку мы отрисовали своим скриптом и&nbsp;своими цветами, без&nbsp;игры и&nbsp;текстур Minecraft. Данные карты © участники OpenStreetMap.</figcaption></figure>
+  <figure class="hero-figure"><img src="img/illus.jpg" width="1200" height="800" alt="Иллюстрация: макет двора из кубиков — панельный дом, деревья и футбольная коробка, в окнах лаймовый свет"></figure>
 </header>
 
 <nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
@@ -56,9 +62,13 @@ figure.shot img{border-radius:var(--radius);border:1px solid var(--line)}
 
 <div class="start-note"><b>До начала</b><p>Нужен Mac, Windows или Linux и терминал. Погулять по двору — Minecraft Java 1.21.4 или новее, игра платная. Minecraft мы сами не запускали.</p></div>
 
+<figure class="illus-mobile"><img src="img/illus.jpg" width="1200" height="800" loading="lazy" alt="Иллюстрация: макет двора из кубиков — панельный дом, деревья и футбольная коробка, в окнах лаймовый свет"></figure>
+
 <section class="block" id="steps" aria-labelledby="steps-title">
 <h2 id="steps-title">Свой двор за 4 шага</h2>
 <p class="intro"><span class="tag ok">прогнано</span>— шаг мы выполнили сами 27.10.2026 на&nbsp;MacBook с&nbsp;M1&nbsp;Max, Arnis&nbsp;v3.3.0. <span class="tag doc">по документации</span>— пересказ официальной вики Arnis, сами не&nbsp;запускали.</p>
+
+<figure class="video-frame"><img loading="lazy" src="img/dvor-iso.jpg" width="1200" height="722" alt="Воксельный квартал сверху наискосок: длинные панельные дома, школа буквой Ш, детский сад крестом, деревья, футбольная коробка и парковки"><figcaption>Наш прогон: квартал панелек на&nbsp;севере Москвы, 297×301 блок. Мир собран Arnis, а&nbsp;картинку мы отрисовали своим скриптом и&nbsp;своими цветами, без&nbsp;игры и&nbsp;текстур Minecraft. Данные карты © участники OpenStreetMap.</figcaption></figure>
 
 <div class="step" id="step-1">
   <div class="section-title"><span class="step-number">1</span><div><h3>Поставьте Arnis</h3><p>Только сам релиз с GitHub, один файл. Ни Java, ни Rust, ни brew не нужны.</p></div></div>

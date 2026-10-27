@@ -17,6 +17,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="../assets/guide-v2.css">
+<style>/* иллюстрация гайда: на телефоне после «До начала», кадр ролика перед шагом 1 */
+.illus-mobile{display:none;margin:0 0 24px}
+.illus-mobile img,.video-frame img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--line)}
+.video-frame{margin:0 0 24px;max-width:640px}
+@media (max-width:760px){.illus-mobile{display:block}}
+</style>
 </head>
 <body>
 <main id="top">
@@ -33,7 +39,7 @@
     <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>без установки пакетов</li><li>ничего не отправляет в сеть</li><li>выключается Ctrl+C</li></ul>
     <p class="for-video">К ролику «Попросил ИИ не пускать меня в рилсы» · обновлено 27 октября 2026</p>
   </div>
-  <figure class="hero-figure"><img src="img/vkladka-x3.jpg" width="960" height="640" alt="Кадр из ролика: на экране «×3, вкладка закрыта»"><figcaption>Кадр из ролика: третье нарушение, вкладка закрыта.</figcaption></figure>
+  <figure class="hero-figure"><img src="img/illus.jpg" width="1200" height="800" alt="Иллюстрация: ноутбук ночью, на тёмном экране две лаймовые полоски света, как прищуренные сердитые глаза"></figure>
 </header>
 
 <nav class="strip" aria-label="Что внутри"><p>Что внутри</p><ol>
@@ -47,8 +53,12 @@
 
 <div class="start-note"><b>До начала</b><p>Нужны только macOS и встроенный <code>python3</code>. Работает с Safari и Google Chrome; Firefox и Яндекс Браузер адрес вкладки не отдают.</p></div>
 
+<figure class="illus-mobile"><img src="img/illus.jpg" width="1200" height="800" loading="lazy" alt="Иллюстрация: ноутбук ночью, на тёмном экране две лаймовые полоски света, как прищуренные сердитые глаза"></figure>
+
 <section class="block" id="steps" aria-labelledby="steps-title">
 <h2 id="steps-title">Первый результат за 3 шага</h2>
+
+<figure class="video-frame"><img loading="lazy" src="img/vkladka-x3.jpg" width="960" height="640" alt="Кадр из ролика: на экране «×3, вкладка закрыта»"><figcaption>Кадр из ролика: третье нарушение, вкладка закрыта.</figcaption></figure>
 
 <div class="step" id="step-1">
   <div class="section-title"><span class="step-number">1</span><div><h3>Скачайте архив</h3><p>Код, настройки и три реплики Горо.</p></div></div>

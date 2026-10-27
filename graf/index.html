@@ -25,6 +25,12 @@
 .tbl tr:last-child td{border-bottom:0}
 .minus{color:var(--warn)}
 </style>
+<style>/* иллюстрация гайда: на телефоне после «До начала», кадр ролика перед шагом 1 */
+.illus-mobile{display:none;margin:0 0 24px}
+.illus-mobile img,.video-frame img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--line)}
+.video-frame{margin:0 0 24px;max-width:640px}
+@media (max-width:760px){.illus-mobile{display:block}}
+</style>
 </head>
 <body>
 <main id="top">
@@ -41,7 +47,7 @@
     <ul class="chips" aria-label="Коротко"><li>бесплатно, Apache-2.0</li><li>код не уходит в облако</li><li>24 сессии замера</li><li>без выдуманных цифр</li></ul>
     <p class="for-video">К ролику «Граф для Claude Code» · обновлено 27 октября 2026</p>
   </div>
-  <figure class="hero-figure"><img src="img/62-protiv-90.jpg" width="960" height="782" alt="Кадр из ролика: без графа 62 000 токенов на вопрос, с графом 90 000 (медиана)"><figcaption>Кадр из ролика. Медиана входных токенов на вопрос: 62 тысячи без графа, 90 тысяч с графом.</figcaption></figure>
+  <figure class="hero-figure"><img src="img/illus.jpg" width="1200" height="800" alt="Иллюстрация: сеть из нитей между латунными булавками на тёмной доске, узлы светятся лаймом"></figure>
 </header>
 
 <nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
@@ -52,6 +58,8 @@
 </ol></nav>
 
 <div class="start-note"><b>До начала</b><p>Нужны Python 3.10+, <a href="https://docs.astral.sh/uv/">uv</a> и Claude Code. Граф по коду строится у вас на компьютере, без нейросети, ключей и интернета.</p></div>
+
+<figure class="illus-mobile"><img src="img/illus.jpg" width="1200" height="800" loading="lazy" alt="Иллюстрация: сеть из нитей между латунными булавками на тёмной доске, узлы светятся лаймом"></figure>
 
 <section class="block" id="result" aria-labelledby="result-title">
 <h2 id="result-title">Наш замер</h2>
@@ -81,6 +89,8 @@
 
 <section class="block" id="steps" aria-labelledby="steps-title">
 <h2 id="steps-title">Проверить на своём проекте за 4 шага</h2>
+
+<figure class="video-frame"><img loading="lazy" src="img/62-protiv-90.jpg" width="960" height="782" alt="Кадр из ролика: без графа 62 000 токенов на вопрос, с графом 90 000 (медиана)"><figcaption>Кадр из ролика. Медиана входных токенов на вопрос: 62 тысячи без графа, 90 тысяч с графом.</figcaption></figure>
 
 <div class="step" id="step-1">
   <div class="section-title"><span class="step-number">1</span><div><h3>Поставьте Graphify в отдельное окружение</h3><p>Внутри проекта, без глобальных установок. Мы ставили именно так.</p></div></div>

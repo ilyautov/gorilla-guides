@@ -27,6 +27,12 @@
 .tbl th{font-weight:700;color:var(--muted);font-size:14px}
 .nw{white-space:nowrap}
 </style>
+<style>/* иллюстрация гайда: на телефоне после «До начала», кадр ролика перед шагом 1 */
+.illus-mobile{display:none;margin:0 0 24px}
+.illus-mobile img,.video-frame img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--line)}
+.video-frame{margin:0 0 24px;max-width:640px}
+@media (max-width:760px){.illus-mobile{display:block}}
+</style>
 </head>
 <body>
 <main id="top">
@@ -43,7 +49,7 @@
     <ul class="chips" aria-label="Коротко"><li>MIT + Apache-2.0</li><li>на своём компьютере</li><li>без облака и подписки</li><li>прогнали 27.10.2026</li></ul>
     <p class="for-video">К ролику «ИИ следит за каждым столом» · обновлено 27 октября 2026</p>
   </div>
-  <figure class="hero-figure"><img src="img/stol-kadr.jpg" width="1200" height="900" alt="Вид сверху на зал ресторана с мультяшными посетителями: столы обведены цветными рамками, у стола 7 таймер 00:04 и официант, стол 6 с грязной посудой подписан «УБРАТЬ»"><figcaption>Кадр 8,4&nbsp;с из&nbsp;нашего прогона. Оранжевым отмечены занятые столы с&nbsp;таймером, жёлтым стол, который пора убрать, зелёным свободные. Людей в&nbsp;кадре нет: это 3D-модели Quaternius (CC0).</figcaption></figure>
+  <figure class="hero-figure"><img src="img/illus.jpg" width="1200" height="800" alt="Иллюстрация: вид сверху на тёмный зал ресторана, вокруг одного столика светится лаймовое кольцо"></figure>
 </header>
 
 <nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
@@ -55,10 +61,14 @@
 
 <div class="start-note"><b>До начала</b><p>Нужны <a href="https://docs.astral.sh/uv/">uv</a>, git и запись зала. Это инструкция к&nbsp;открытому примеру, а&nbsp;не&nbsp;готовая система для ресторана: наши цифры получены на&nbsp;мультяшных 3D-людях, на&nbsp;живой камере они будут другими.</p></div>
 
+<figure class="illus-mobile"><img src="img/illus.jpg" width="1200" height="800" loading="lazy" alt="Иллюстрация: вид сверху на тёмный зал ресторана, вокруг одного столика светится лаймовое кольцо"></figure>
+
 <p><span class="tag ok">прогнано</span>— шаг мы выполнили сами на&nbsp;MacBook с&nbsp;M1&nbsp;Max: supervision&nbsp;0.31.2, rfdetr&nbsp;1.11.2, trackers&nbsp;2.6.1.<br><span class="tag doc">по документации</span>— пересказ README примера, сами не&nbsp;запускали.</p>
 
 <section class="block" id="steps" aria-labelledby="steps-title">
 <h2 id="steps-title">Первый результат за 4 шага</h2>
+
+<figure class="video-frame"><img loading="lazy" src="img/stol-kadr.jpg" width="1200" height="900" alt="Вид сверху на зал ресторана с мультяшными посетителями: столы обведены цветными рамками, у стола 7 таймер 00:04 и официант, стол 6 с грязной посудой подписан «УБРАТЬ»"><figcaption>Кадр 8,4&nbsp;с из&nbsp;нашего прогона. Оранжевым отмечены занятые столы с&nbsp;таймером, жёлтым стол, который пора убрать, зелёным свободные. Людей в&nbsp;кадре нет: это 3D-модели Quaternius (CC0).</figcaption></figure>
 
 <div class="step" id="step-1">
   <div class="section-title"><span class="step-number">1</span><div><h3>Поставьте пример</h3><p>Всё ставится в&nbsp;папку проекта, система и&nbsp;общий Python не&nbsp;меняются.</p></div></div>

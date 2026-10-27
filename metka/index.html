@@ -25,6 +25,12 @@ textarea:focus-visible{outline:3px solid var(--olive);outline-offset:2px}
 #out .result>b{display:block}
 #out .hit{font:14px/1.5 var(--mono);overflow-wrap:anywhere}
 </style>
+<style>/* иллюстрация гайда: на телефоне после «До начала», кадр ролика перед шагом 1 */
+.illus-mobile{display:none;margin:0 0 24px}
+.illus-mobile img,.video-frame img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--line)}
+.video-frame{margin:0 0 24px;max-width:640px}
+@media (max-width:760px){.illus-mobile{display:block}}
+</style>
 </head>
 <body>
 <main id="top">
@@ -41,7 +47,7 @@ textarea:focus-visible{outline:3px solid var(--olive);outline-offset:2px}
     <ul class="chips" aria-label="Коротко"><li>только первоисточники</li><li>16 ответов проверили сами</li><li>проверка в браузере</li><li>без «пройти детектор»</li></ul>
     <p class="for-video">К ролику «Клод, ты ставишь метку на мой текст?» · обновлено 27 октября 2026</p>
   </div>
-  <figure class="hero-figure"><img src="img/metka-kadr.jpg" width="960" height="640" alt="Кадр из ролика: плашка «Метка в выборе слов» над текстом документа"><figcaption>Кадр из ролика. Знак прячется в выборе слов, невидимых символов в тексте нет.</figcaption></figure>
+  <figure class="hero-figure"><img src="img/illus.jpg" width="1200" height="800" alt="Иллюстрация: под ультрафиолетовой лампой на чистом листе проступает светящийся узор, похожий на отпечаток пальца"></figure>
 </header>
 
 <nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
@@ -53,8 +59,12 @@ textarea:focus-visible{outline:3px solid var(--olive);outline-offset:2px}
 
 <div class="start-note"><b>До начала</b><p>Проверка на этой странице ищет невидимые символы. Сам водяной знак Claude она не видит: он в выборе слов, а детектор Anthropic закрыт.</p></div>
 
+<figure class="illus-mobile"><img src="img/illus.jpg" width="1200" height="800" loading="lazy" alt="Иллюстрация: под ультрафиолетовой лампой на чистом листе проступает светящийся узор, похожий на отпечаток пальца"></figure>
+
 <section class="block" id="steps" aria-labelledby="steps-title">
 <h2 id="steps-title">Проверить текст за 2 шага</h2>
+
+<figure class="video-frame"><img loading="lazy" src="img/metka-kadr.jpg" width="960" height="640" alt="Кадр из ролика: плашка «Метка в выборе слов» над текстом документа"><figcaption>Кадр из ролика. Знак прячется в выборе слов, невидимых символов в тексте нет.</figcaption></figure>
 
 <div class="step" id="step-1">
   <div class="section-title"><span class="step-number">1</span><div><h3>Вставьте текст в проверку</h3><p>Проверка идёт в вашем браузере, текст никуда не отправляется.</p></div></div>

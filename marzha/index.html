@@ -24,6 +24,12 @@
 .tbl tr:last-child td{border-bottom:0;font-weight:700}
 .minus{color:var(--warn)}
 </style>
+<style>/* иллюстрация гайда: на телефоне после «До начала», кадр ролика перед шагом 1 */
+.illus-mobile{display:none;margin:0 0 24px}
+.illus-mobile img,.video-frame img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--line)}
+.video-frame{margin:0 0 24px;max-width:640px}
+@media (max-width:760px){.illus-mobile{display:block}}
+</style>
 </head>
 <body>
 <main id="top">
@@ -40,7 +46,7 @@
     <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>числа считает код</li><li>цену не советует</li><li>данные остаются у вас</li></ul>
     <p class="for-video">К ролику «Минус 40 тысяч на самом продаваемом товаре» · обновлено 27 октября 2026</p>
   </div>
-  <figure class="hero-figure"><img src="img/minus-40625.jpg" width="960" height="640" alt="Кадр из ролика: минус 40 625 рублей в месяц с одного товара поверх таблицы выгрузки"><figcaption>Кадр из ролика. Магазин вымышленный, выгрузка — пример.</figcaption></figure>
+  <figure class="hero-figure"><img src="img/illus.jpg" width="1200" height="800" alt="Иллюстрация: латунные весы, одна коробка-товар взлетает вверх, на другой чаше перевешивают чугунные гири"></figure>
 </header>
 
 <nav class="strip" aria-label="Что обещали в ролике"><p>Из ролика</p><ol>
@@ -52,8 +58,12 @@
 
 <div class="start-note"><b>До начала</b><p>Нужны выгрузка продаж за месяц из кабинета продавца и Claude Code (или Cowork, Cursor, Codex). Скилл показывает разбор и цену безубытка, но цену не советует: решение за вами.</p></div>
 
+<figure class="illus-mobile"><img src="img/illus.jpg" width="1200" height="800" loading="lazy" alt="Иллюстрация: латунные весы, одна коробка-товар взлетает вверх, на другой чаше перевешивают чугунные гири"></figure>
+
 <section class="block" id="steps" aria-labelledby="steps-title">
 <h2 id="steps-title">Первый результат за 3 шага</h2>
+
+<figure class="video-frame"><img loading="lazy" src="img/minus-40625.jpg" width="960" height="640" alt="Кадр из ролика: минус 40 625 рублей в месяц с одного товара поверх таблицы выгрузки"><figcaption>Кадр из ролика. Магазин вымышленный, выгрузка — пример.</figcaption></figure>
 
 <div class="step" id="step-1">
   <div class="section-title"><span class="step-number">1</span><div><h3>Заполните шаблон выгрузки</h3><p>Свои товары за месяц вместо трёх строк примера.</p></div></div>

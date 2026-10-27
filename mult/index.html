@@ -27,6 +27,12 @@
 .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:14px 0;font-size:14px}.flow span{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 11px}.flow i{color:var(--muted);font-style:normal}
 figure.sheet{margin:16px 0}figure.sheet img{border-radius:12px;border:1px solid var(--line)}
 </style>
+<style>/* иллюстрация гайда: на телефоне после «До начала», кадр ролика перед шагом 1 */
+.illus-mobile{display:none;margin:0 0 24px}
+.illus-mobile img,.video-frame img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--line)}
+.video-frame{margin:0 0 24px;max-width:640px}
+@media (max-width:760px){.illus-mobile{display:block}}
+</style>
 </head>
 <body>
 <main id="top">
@@ -43,7 +49,7 @@ figure.sheet{margin:16px 0}figure.sheet img{border-radius:12px;border:1px solid 
     <ul class="chips" aria-label="Коротко"><li>0 ₽ на ролик</li><li>M1 Max, без облака</li><li>1080×1920</li></ul>
     <p class="for-video">К ролику «Весь курс за 30 секунд» · обновлено 27 октября 2026</p>
   </div>
-  <figure class="hero-figure"><img src="img/vtroem.jpg" width="960" height="640" alt="Кадр из ролика: горилла Горо, Чувак и Claude в низкополигональной комнате, над Горо ярлык «бесплатный»"><figcaption>Кадр из ролика: персонажи на three.js, голос клоном, звуки синтезом.</figcaption></figure>
+  <figure class="hero-figure"><img src="img/illus.jpg" width="1200" height="800" alt="Иллюстрация: кукольный театр на рабочем столе ночью, на сцене горилла, деревянный человечек и кубический робот"></figure>
 </header>
 
 <nav class="strip" aria-label="Что внутри гайда"><p>Что внутри гайда</p><ol>
@@ -56,6 +62,8 @@ figure.sheet{margin:16px 0}figure.sheet img{border-radius:12px;border:1px solid 
 </ol></nav>
 
 <div class="start-note"><b>До начала</b><p>Для стартового набора нужны macOS или Linux, Python 3.11, Node.js 18+ и ffmpeg (с ffprobe). Веса OmniVoice некоммерческие: если ролики монетизируются или рекламируют что-то, нужен другой движок.</p></div>
+
+<figure class="illus-mobile"><img src="img/illus.jpg" width="1200" height="800" loading="lazy" alt="Иллюстрация: кукольный театр на рабочем столе ночью, на сцене горилла, деревянный человечек и кубический робот"></figure>
 
 <details id="toc"><summary>Все разделы гайда<small>17 разделов: от железа до лицензий</small></summary><div class="details-body"><ol start="0">
   <li><a href="#itog">Что на выходе</a></li>
@@ -80,6 +88,8 @@ figure.sheet{margin:16px 0}figure.sheet img{border-radius:12px;border:1px solid 
 <section class="block" id="steps" aria-labelledby="steps-title">
 <h2 id="steps-title">Первый рил за 4 шага</h2>
 <p class="intro">Стартовый набор — урезанная, но рабочая копия нашего конвейера. На M1 Max весь прогон с настоящим голосом занимает около двух минут.</p>
+
+<figure class="video-frame"><img loading="lazy" src="img/vtroem.jpg" width="960" height="640" alt="Кадр из ролика: горилла Горо, Чувак и Claude в низкополигональной комнате, над Горо ярлык «бесплатный»"><figcaption>Кадр из ролика: персонажи на three.js, голос клоном, звуки синтезом.</figcaption></figure>
 
 <div class="step" id="step-1">
   <div class="section-title"><span class="step-number">1</span><div><h3>Скачайте набор и поставьте зависимости</h3><p>Компилятор сцены, окружение пайплайна и шрифты.</p></div></div>

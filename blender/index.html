@@ -21,6 +21,12 @@
 figure.shot{margin:16px 0;max-width:420px}
 figure.shot img{border-radius:var(--radius);border:1px solid var(--line)}
 </style>
+<style>/* иллюстрация гайда: на телефоне после «До начала», кадр ролика перед шагом 1 */
+.illus-mobile{display:none;margin:0 0 24px}
+.illus-mobile img,.video-frame img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--line)}
+.video-frame{margin:0 0 24px;max-width:640px}
+@media (max-width:760px){.illus-mobile{display:block}}
+</style>
 </head>
 <body>
 <main id="top">
@@ -37,7 +43,7 @@ figure.shot img{border-radius:var(--radius);border:1px solid var(--line)}
     <ul class="chips" aria-label="Коротко"><li>Blender бесплатный</li><li>Claude по подписке</li><li>без платных API</li><li>проверено на M1 Max</li></ul>
     <p class="for-video">К ролику «Blender без Blender» · обновлено 27 октября 2026</p>
   </div>
-  <figure class="hero-figure"><img src="img/15-minut.jpg" width="960" height="640" alt="Кадр из ролика: оранжевый кубик-робот с экраном-лицом на ночной крыше, плашка «≈15 мин Claude»"><figcaption>Кадр из ролика. Около 15 минут работы Claude и ноль кликов в Blender.</figcaption></figure>
+  <figure class="hero-figure"><img src="img/illus.jpg" width="1200" height="800" alt="Иллюстрация: гипсовый куб на пьедестале в тёмной студии, одна грань подсвечена лаймом, на полу светящаяся сетка"></figure>
 </header>
 
 <nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
@@ -49,8 +55,12 @@ figure.shot img{border-radius:var(--radius);border:1px solid var(--line)}
 
 <div class="start-note"><b>До начала</b><p><a href="https://www.blender.org/download/">Blender</a> (бесплатный, мы гоняли на 5.4 Alpha), Claude Code по подписке Claude и ffmpeg. В стабильной версии Blender часть имён может отличаться: тогда смотрите «Если застряли».</p></div>
 
+<figure class="illus-mobile"><img src="img/illus.jpg" width="1200" height="800" loading="lazy" alt="Иллюстрация: гипсовый куб на пьедестале в тёмной студии, одна грань подсвечена лаймом, на полу светящаяся сетка"></figure>
+
 <section class="block" id="steps" aria-labelledby="steps-title">
 <h2 id="steps-title">Первый рендер за 3 шага</h2>
+
+<figure class="video-frame"><img loading="lazy" src="img/15-minut.jpg" width="960" height="640" alt="Кадр из ролика: оранжевый кубик-робот с экраном-лицом на ночной крыше, плашка «≈15 мин Claude»"><figcaption>Кадр из ролика. Около 15 минут работы Claude и ноль кликов в Blender.</figcaption></figure>
 
 <div class="step" id="step-1">
   <div class="section-title"><span class="step-number">1</span><div><h3>Сохраните промпт в prompt.txt</h3><p>Дословно то, что мы дали Claude.</p></div></div>

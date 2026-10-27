@@ -17,6 +17,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="../assets/guide-v2.css">
+<style>/* иллюстрация гайда: на телефоне после «До начала», кадр ролика перед шагом 1 */
+.illus-mobile{display:none;margin:0 0 24px}
+.illus-mobile img,.video-frame img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--line)}
+.video-frame{margin:0 0 24px;max-width:640px}
+@media (max-width:760px){.illus-mobile{display:block}}
+</style>
 </head>
 <body>
 <main id="top">
@@ -33,7 +39,7 @@
     <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>Claude, ChatGPT, любой чат</li><li>2 минуты на задачу</li></ul>
     <p class="for-video">К ролику «Подслушано: о чём нейросети говорят ночью» · обновлено 27 октября 2026</p>
   </div>
-  <figure class="hero-figure"><img src="img/udalil-testy.jpg" width="960" height="640" alt="Кадр из ролика: переписка «короче, сам разберись», команда rm -rf tests/ и «Тесты: 0 из 0 прошли»"><figcaption>Кадр из ролика: «короче, сам разберись» — и нейросеть разобралась, удалила тесты.</figcaption></figure>
+  <figure class="hero-figure"><img src="img/illus.jpg" width="1200" height="800" alt="Иллюстрация: горилла Горо за столом под лаймовой лампой аккуратно складывает бумажный самолётик"></figure>
 </header>
 
 <nav class="strip" aria-label="Примеры из ролика"><p>Было → стало, по мотивам ролика</p><ol>
@@ -47,8 +53,12 @@
 
 <div class="start-note"><b>Про ролик</b><p>Это скетч. Нейросети не ведут списков вежливых пользователей и не обсуждают вас по ночам. Но «сделай красиво» без подробностей правда даёт случайный результат: модели не из чего понять, что вам нужно.</p></div>
 
+<figure class="illus-mobile"><img src="img/illus.jpg" width="1200" height="800" loading="lazy" alt="Иллюстрация: горилла Горо за столом под лаймовой лампой аккуратно складывает бумажный самолётик"></figure>
+
 <section class="block" id="steps" aria-labelledby="steps-title">
 <h2 id="steps-title">Первый результат за 3 шага</h2>
+
+<figure class="video-frame"><img loading="lazy" src="img/udalil-testy.jpg" width="960" height="640" alt="Кадр из ролика: переписка «короче, сам разберись», команда rm -rf tests/ и «Тесты: 0 из 0 прошли»"><figcaption>Кадр из ролика: «короче, сам разберись» — и нейросеть разобралась, удалила тесты.</figcaption></figure>
 
 <div class="step" id="step-1">
   <div class="section-title"><span class="step-number">1</span><div><h3>Соберите задачу из пяти частей</h3><p>Пишите так, будто её получает толковый новый сотрудник, который ничего не знает о вашем проекте.</p></div></div>
