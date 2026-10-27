@@ -1,148 +1,154 @@
-<!doctype html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Claude снимает кино: 8 репозиториев</title>
-<meta name="description" content="Восемь бесплатных репозиториев, с которыми Claude делает видео: HyperFrames, three.js, LTX-2, OmniVoice, F5-TTS, Depth Anything V2, MapLibre GL JS, WhisperX. Можно ли в коммерции, установка, пять наших промптов с кадрами.">
-<meta property="og:title" content="Claude снимает кино: 8 репозиториев">
-<meta property="og:description" content="Восемь бесплатных репозиториев, с которыми Claude делает видео. Можно ли в коммерции, установка, пять наших промптов с кадрами.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="../styles.css">
-<style>
-.tblw{overflow-x:auto;margin:12px 0}
-.tbl{width:100%;border-collapse:collapse;font-size:15px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.tbl td,.tbl th{padding:8px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
-.tbl th{font-size:13px;color:var(--muted);font-weight:500}
-.tbl tr:last-child td{border-bottom:0}
-.tbl td:first-child{font-weight:700;white-space:nowrap}
-.v{display:inline-block;font:600 12px var(--mono);border-radius:6px;padding:1px 7px;margin:0 6px 2px 0;white-space:nowrap}
-.v.yes{background:var(--lime);color:#1a2023}
-.v.cond{border:1px solid var(--olive);color:var(--olive)}
-.v.no{border:1px solid var(--warn);color:var(--warn)}
-.lic{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 14px;margin:12px 0}
-.lic>b:first-child{display:block;margin-bottom:2px}
-.lic ul{margin:4px 0}
-.req{font-size:14px;color:var(--muted)}
-figure.shot{margin:14px 0}
-figure.shot img{display:block;width:100%;height:auto;aspect-ratio:3/2;border-radius:12px;border:1px solid var(--line);background:var(--surface)}
-figure.shot figcaption{font-size:13px;color:var(--muted);margin-top:6px}
-.repo{font:600 12px var(--mono);background:var(--lime);color:#1a2023;border-radius:6px;padding:1px 7px;margin-right:6px}
-.src{font-size:14px;color:var(--muted)}
-details.orig{border:1px solid var(--line);border-radius:10px;background:var(--surface);margin:8px 0}
-details.orig summary{cursor:pointer;padding:9px 14px;font-size:14px}
-details.orig .code{margin:0 10px 10px}
-h3{margin-top:26px}
-.nw{white-space:nowrap}
-.code pre{padding-top:44px}
-</style>
-</head>
-<body>
-<main>
-<header>
-  <div class="kicker">Инструкция к&nbsp;карусели @utov_ilya</div>
-  <h1>Claude снимает кино: <span class="hl">8&nbsp;репозиториев</span></h1>
-  <p class="lede">Все восемь ссылок из&nbsp;карусели: что&nbsp;каждый делает, можно ли его в&nbsp;коммерции, как&nbsp;поставить. В&nbsp;конце пять промптов, по&nbsp;которым мы&nbsp;делали кадры из&nbsp;карусели. Звёзды и&nbsp;лицензии сверены по&nbsp;GitHub и&nbsp;Hugging Face 26.10.2026.</p>
-  <div class="safe"><span>бесплатно</span><span>открытый код</span><span>Claude Code, Codex, Cursor</span><span>лицензии сверены 26.10.2026</span></div>
-</header>
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Claude снимает кино: от идеи до MP4 по шагам</title>
+<meta name="description" content="Визуальный гайд: первый MP4 по шагам, готовый проект и видео, конструктор задания агенту, восемь инструментов и пять реальных примеров с промптами.">
+<meta property="og:title" content="Первый ролик. Потом кино."><meta property="og:description" content="Что открыть, что попросить и как проверить MP4. Готовый учебный проект, схемы и примеры из наших роликов.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap"><link rel="stylesheet" href="../styles.css"><link rel="stylesheet" href="guide.css"></head>
+<body class="kino-guide"><main id="top"><nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+<header class="hero"><div><h1>Первый ролик.<br><span class="hl">Потом кино.</span></h1><p class="lede">Claude, Codex или Cursor могут собрать видео из текста, картинок и звука. Разберём, что им дать и как получить настоящий MP4.</p><p class="hero-note">Начните с одного инструмента. Остальные семь добавляйте, когда понятно, зачем они нужны.</p><a href="#project" class="btn">Собрать свой маршрут →</a><a class="secondary-link" href="#examples">Посмотреть наши примеры</a><p class="small">К карусели «Claude снимает кино: 8 репозиториев» · обновлено 27 октября 2026</p></div>
+<figure class="hero-frames"><img class="hero-main" src="img/r3.jpg" width="960" height="640" alt="Оранжевый робот из нашего пробника «Плёнка» на LTX-2"><img src="img/r2.jpg" width="960" height="640" alt="Бумбокс из 3D-скетча «Бэкенд» на three.js"><img src="img/r6.jpg" width="960" height="640" alt="AI-курьер и карта глубины фотографии"><figcaption>Кадры наших роликов. LTX-2, three.js и Depth Anything решают разные части задачи.</figcaption></figure></header>
+<ol class="pipeline" aria-label="Как собирается ролик"><li><span>Что сказать</span><b>Одна мысль</b></li><li><span>Что показать</span><b>Три сцены</b></li><li><span>Что поправить</span><b>Предпросмотр</b></li><li><span>Что получить</span><b>Файл MP4</b></li></ol>
+<div class="start-note"><b>До начала</b><p>Для своего ролика нужен компьютер. Код инструментов открыт, работа агента или облака может стоить денег. Наш учебный проект можно собрать без AI, клона голоса и видеомоделей.</p></div>
+<noscript><p class="start-note">JavaScript выключен: конструктор и копирование недоступны. Ручные шаги, архив, видео, ссылки и все исходные промпты работают ниже.</p></noscript>
+<section id="project" class="project-picker" aria-labelledby="project-heading"><div class="section-title"><span class="step-number">1</span><div><h2 id="project-heading">Что будем делать?</h2><p>Выберите задачу, затем впишите одну конкретную тему. Сайт составит текст задания, а не сгенерирует ролик.</p></div></div><form id="project-form" novalidate><div class="form-grid"><div class="field"><label for="goal">Хочу сделать</label><select id="goal"><option value="text">Ролик с текстом и графикой · начать здесь</option><option value="photo">Оживить фотографию</option><option value="scene">3D-сцену или скетч</option><option value="map">Пролёт по карте</option><option value="cinema">Кинематографичный шот</option><option value="voice">Ролик с голосом</option></select></div><div class="field"><label for="agent">Чем уже пользуетесь?</label><select id="agent"><option value="new">Пока без агента</option><option value="claude">Claude Code</option><option value="codex">Codex</option><option value="cursor">Cursor</option><option value="chat">Обычный AI-чат</option></select></div><div class="field"><label for="os">Ваш компьютер</label><select id="os"><option value="unknown">Пока не знаю</option><option value="windows">Windows</option><option value="mac">macOS</option><option value="linux">Linux</option></select></div><div class="field"><label for="format">Где смотреть?</label><select id="format"><option value="vertical">На телефоне · 9:16</option><option value="wide">На широком экране · 16:9</option><option value="square">Квадрат · 1:1</option></select></div><div class="field"><label for="duration">Длительность</label><select id="duration"><option value="15">15 секунд · первый опыт</option><option value="30">30 секунд</option></select></div><div class="field"><label for="purpose">Для чего ролик?</label><select id="purpose"><option value="personal">Личный эксперимент</option><option value="commercial">Реклама, заказ или бизнес</option></select></div><div class="field full"><label for="topic">О чём ролик?</label><input id="topic" type="text" maxlength="160" placeholder="Например: почему ответ нейросети нужно проверять" autocomplete="off" aria-describedby="brief-state"></div></div><div class="form-actions"><button type="submit" class="primary-button">Составить задание</button><button type="button" id="fill-example" class="secondary-button">Попробовать на примере</button></div><p id="brief-state" role="status">Выберите задачу и напишите тему. Для первого опыта подойдёт готовый пример.</p></form>
+<div class="route-result"><h3 id="route-name">Ролик с текстом и графикой</h3><p id="route-note">Самый простой старт: текст, фигуры и переходы. Без видеомоделей и клона голоса.</p><p class="tools-line" id="route-tools">HyperFrames</p><p id="agent-note">Можно начать без AI: скачайте учебный проект в шаге 2.</p><p id="license-note" class="small">У моделей и материалов свои условия. Работа агента и облака может стоить денег.</p></div><div class="command"><div class="command-bar"><span>Текст для чата агента</span><button type="button" data-copy="project-brief" disabled>Копировать</button></div><pre><code id="project-brief">Укажите тему выше или нажмите «Попробовать на примере». Готовое задание появится здесь.</code></pre><p class="copy-feedback" aria-live="polite"></p></div><noscript><p>Ручной вариант задания:</p><pre>Собери через HyperFrames вертикальный ролик 1080×1920 на 15 секунд.
+Тема: [впишите свою]. Три сцены: зацепка, пример, вывод.
+Сначала покажи сценарий, затем предпросмотр. После правок выдай MP4 и исходники.
+Не используй платные сервисы и большие модели без отдельного решения.</pre></noscript><label class="step-check"><input type="checkbox" data-complete="1"><span>Я выбрал задачу и сформулировал тему</span></label></section><div class="reading-layout"><aside class="guide-sidebar"><nav aria-label="Шаги гайда"><p class="sidebar-title">До первого MP4</p><ol><li><a href="#project">Выбрать задачу</a></li><li><a href="#start">Открыть проект</a></li><li><a href="#storyboard">Разложить на сцены</a></li><li><a href="#build">Собрать черновик</a></li><li><a href="#review">Внести правки</a></li><li><a href="#export">Получить MP4</a></li></ol><div class="reference-links"><a href="#examples">Наши кадры и промпты</a><a href="#tools">Все 8 инструментов</a><a href="#licenses">Для коммерции</a><a href="#problems">Если застряли</a></div></nav><div class="progress-block"><p id="progress-label">Отмечено вами: 0 из 6</p><progress id="progress" max="6" value="0" aria-labelledby="progress-label"></progress><p id="storage-note" class="small">Данные хранятся в этом браузере. Отметки ставите вы; сайт не проверяет ваш компьютер.</p><button type="button" id="clear-checks" class="text-button">Сбросить отметки</button></div></aside><div class="guide-content">
+<section id="start"><div class="section-title"><span class="step-number">2</span><div><h2 id="start-heading">Откройте рабочую папку</h2><p>Здесь будут сцены, картинки и итоговый файл. Начать можно с готового примера.</p></div></div><div class="starter-download"><div><h3>Учебный проект на 15 секунд</h3><p>Три сцены, крупный текст, без звука. Внутри исходники, локальные шрифты и инструкция. Не требует AI-аккаунта или видеомодели.</p><a href="kino-start.zip" download class="btn">Скачать проект ZIP</a><a class="secondary-link" href="starter/README.md">Что внутри архива</a></div><div class="folder-map" role="img" aria-label="Папка kino-start: главный index.html, сцены в compositions, шрифты и анимация в assets, готовое видео в output"><b>kino-start/</b><span>index.html <em>сборка сцен</em></span><span>compositions/ <em>тексты трёх сцен</em></span><span>assets/ <em>шрифты и анимация</em></span><span>package.json <em>команды запуска</em></span><span class="folder-output">output/first-video.mp4 <em>появится после сборки</em></span></div></div>
+<ol class="action-list"><li>Скачайте и распакуйте ZIP. Откройте папку <code>kino-start</code>, в которой лежит <code>package.json</code>.</li><li>Установите <a href="https://nodejs.org/en/download">Node.js 22 или новее</a> и <a href="https://ffmpeg.org/download.html">FFmpeg</a>, если их ещё нет. После установки заново откройте терминал.</li><li>Откройте терминал в этой папке. Это окно для команд, а не чат с нейросетью.</li></ol>
+<details class="help" data-os="windows"><summary>Windows: как открыть терминал в папке</summary><p>Откройте папку в Проводнике. Нажмите на адресную строку, напишите <code>cmd</code> и нажмите Enter. Или откройте «Командную строку» и выполните <code>cd /d "ПУТЬ_К_ПАПКЕ"</code>, заменив путь своим.</p></details>
+<details class="help" data-os="mac"><summary>Mac: как открыть терминал в папке</summary><p>Нажмите ⌘ + Пробел, напишите «Терминал», Enter. Напишите <code>cd</code> и пробел, перетащите папку kino-start из Finder в окно терминала и нажмите Enter.</p></details>
+<details class="help" data-os="linux"><summary>Linux: как открыть терминал в папке</summary><p>Откройте папку в файловом менеджере и выберите «Открыть в терминале». Или используйте <code>cd "ПУТЬ_К_ПАПКЕ"</code>, заменив путь своим.</p></details><div class="command"><div class="command-bar"><span>В терминал · проверить программы</span><button type="button" data-copy="check-programs">Копировать</button></div><pre><code id="check-programs">node --version
+ffmpeg -version</code></pre><p class="copy-feedback" aria-live="polite"></p></div><p>Первая команда должна показать <code>v22</code> или больше, вторая — версию FFmpeg. Если видите «не найдено», установка пока не закончена. Отдельная мощная видеокарта этому примеру не нужна.</p>
+<details class="help"><summary>Как установить FFmpeg, если не понимаю страницу загрузки?</summary><p>На <a href="https://ffmpeg.org/download.html">официальной странице</a> выберите свою систему: Windows, macOS или Linux. В Windows 10 / 11 с установленным <a href="https://learn.microsoft.com/windows/package-manager/winget/">WinGet</a> можно выполнить <code>winget install --id Gyan.FFmpeg --exact</code>, а затем заново открыть командную строку. Если WinGet не найден, используйте готовую Windows-сборку по ссылке с официальной страницы и добавьте её папку <code>bin</code> в PATH. Для Mac с уже установленным Homebrew: <code>brew install ffmpeg</code>. Для Ubuntu / Debian: <code>sudo apt install ffmpeg</code>.</p><p>Если не хотите разбираться с локальной установкой, у HyperFrames есть <a href="https://hyperframes.heygen.com/quickstart">приложение для компьютера и путь через AI-чат</a>. Это отдельный маршрут с учётной записью; условия агента и облака проверяйте там.</p></details>
+<details class="help"><summary>Не использую AI-агента: что дальше?</summary><p>Учебный пример собирается командами из шагов 4 и 6. Текст можно менять в файлах сцен через обычный текстовый редактор. Для собственного ролика запросами подойдёт <a href="https://hyperframes.heygen.com/quickstart">приложение HyperFrames</a>; в нём нужен вход в HeyGen. Если берёте обычный чат, без подключения к инструментам он выдаст текст, но не создаст файлы на вашем компьютере.</p></details>
+<details class="agent-help"><summary>Уже есть агент: поручить подготовку ему</summary><div class="command"><div class="command-bar"><span>В чат агента · подготовка</span><button type="button" data-copy="task-prepare">Копировать</button></div><pre><code id="task-prepare">Проверь Node.js 22+, FFmpeg и HyperFrames в отдельной папке. Не скачивай большие модели. Объясняй фактические результаты.</code></pre><p class="copy-feedback" aria-live="polite"></p></div><p class="small">Для Claude Code, Codex и Cursor есть <a href="https://github.com/heygen-com/hyperframes#quick-start">официальные плагины и core skills</a>. Если плагина ещё нет, стандартная команда: <code>npx hyperframes skills update</code>. После установки перезапустите сессию агента.</p></details><label class="step-check"><input type="checkbox" data-complete="2"><span>Папка открыта, Node.js и FFmpeg доступны</span></label></section><section id="storyboard"><div class="section-title"><span class="step-number">3</span><div><h2 id="story-heading">Сначала три сцены</h2><p>Сценарий здесь — короткая запись: что зритель видит, читает и слышит в каждый момент.</p></div></div>
+<p>В учебном примере одна мысль: уверенный ответ всё равно нужно проверять. Ниже настоящие кадры из его MP4.</p><p class="small">Нажмите на кадр, чтобы открыть его крупно.</p><div class="storyboard"><figure><a href="img/demo-1.jpg" aria-label="Открыть кадр 1 крупно"><img src="img/demo-1.jpg" width="360" height="640" loading="lazy" alt="Первая сцена: Уверенно. Значит верно?"></a><figcaption><b>0–5 с · зацепка</b><span>Задаём вопрос</span></figcaption></figure><figure><a href="img/demo-2.jpg" aria-label="Открыть кадр 2 крупно"><img src="img/demo-2.jpg" width="360" height="640" loading="lazy" alt="Вторая сцена: пример ошибки два плюс два равно пять"></a><figcaption><b>5–10 с · пример</b><span>Показываем ошибку</span></figcaption></figure><figure><a href="img/demo-3.jpg" aria-label="Открыть кадр 3 крупно"><img src="img/demo-3.jpg" width="360" height="640" loading="lazy" alt="Третья сцена: попросите источник и проверьте его"></a><figcaption><b>10–15 с · вывод</b><span>Даём одно действие</span></figcaption></figure></div>
+<div class="timeline" aria-label="Пример деления выбранной длительности на три равные сцены"><div><span>Зацепка</span><span>Пример</span><span>Вывод</span></div><p><span>0 с</span><span id="timeline-middle">5 с</span><span id="timeline-last">10 с</span><span id="timeline-end">15 с</span></p></div><p class="small">Полоса делит выбранную в начале длительность. Сам скачиваемый пример всегда 15 секунд; задание агенту может быть на 15 или 30.</p>
+<div class="expected"><strong>Должно получиться</strong><p>Три коротких описания сцен. Для каждой понятно, что происходит и сколько времени на это есть. Если всё держится только на озвучке, добавьте видимое действие.</p></div><label class="step-check"><input type="checkbox" data-complete="3"><span>Я могу описать начало, пример и вывод</span></label></section><section id="build"><div class="section-title"><span class="step-number">4</span><div><h2 id="build-heading">Получите первый черновик</h2><p>Предпросмотр позволяет увидеть ролик до окончательной сборки. Это ещё не файл MP4.</p></div></div>
+<p><b>Если повторяете наш пример без AI:</b> вставьте команду в терминал:</p><div class="command"><div class="command-bar"><span>В терминал · открыть предпросмотр</span><button type="button" data-copy="preview-command">Копировать</button></div><pre><code id="preview-command">npm run dev</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<div class="terminal-example"><div class="window-bar">Как выглядит адрес предпросмотра · пример</div><pre>Local: <mark>http://localhost:3000</mark></pre><p>Порт может отличаться. Откройте именно адрес из своего терминала. Окно с программой оставьте открытым; остановить её можно Ctrl+C.</p></div>
+<p><b>Если делаете свой ролик:</b> откройте эту папку в агенте, отправьте задание из шага 1 и при необходимости уточните порядок сборки:</p><details class="agent-help"><summary>Задание агенту: собрать черновик</summary><div class="command"><div class="command-bar"><span>В чат агента · сборка</span><button type="button" data-copy="task-build">Копировать</button></div><pre><code id="task-build">Собери черновик по выбранной теме через HyperFrames. Сначала покажи три сцены и предпросмотр. Не называй HTML готовым MP4.</code></pre><p class="copy-feedback" aria-live="polite"></p></div></details>
+<div class="file-pair"><div><span>Предпросмотр</span><b>Адрес localhost</b><p>Смотреть и править</p></div><div><span>Экспорт</span><b>Файл .mp4</b><p>Отправить и загрузить</p></div></div>
+<div class="expected"><strong>Должно получиться</strong><p>В браузере проигрываются три сцены. Текст появился, картинки загрузились, переходы не дают чёрных кадров. Для выбранного сложного эффекта сначала достаточно одного пробного фрагмента.</p></div><label class="step-check"><input type="checkbox" data-complete="4"><span>Я открыл и посмотрел черновик</span></label></section><section id="review"><div class="section-title"><span class="step-number">5</span><div><h2 id="review-heading">Правьте конкретный кадр</h2><p>«Сделай красивее» не говорит, что именно нужно исправить. Назовите момент, дефект и нужное действие.</p></div></div>
+<div class="edit-example"><p class="edit-before">Было: «Тут как-то скучно»</p><p><b>Лучше:</b> «На 6-й секунде заголовок занимает четыре строки. Сократи до двух, увеличь шрифт и оставь его на экране ещё секунду. Следующую сцену сдвинь, чтобы конец не обрезался».</p></div>
+<details class="help"><summary>Как поменять текст в готовом примере без AI?</summary><p>Откройте в текстовом редакторе файл <code>compositions/hook.html</code>, <code>test.html</code> или <code>takeaway.html</code>. Замените слова между <code>&lt;h1&gt;</code> и <code>&lt;/h1&gt;</code>, а пояснение — внутри <code>&lt;p&gt;</code>. Сами теги не удаляйте. Сохраните файл и проверьте предпросмотр. Длинная фраза может не поместиться.</p></details>
+<ul class="review-list"><li>На телефоне читается без увеличения?</li><li>Каждая сцена сообщает одну мысль?</li><li>Нет пустых кадров и резких обрывов?</li><li>Если есть голос: слова, ударения и конец фразы слышны?</li></ul>
+<details class="agent-help"><summary>Задание агенту: найти причину и исправить</summary><div class="command"><div class="command-bar"><span>В чат агента · правка</span><button type="button" data-copy="task-fix">Копировать</button></div><pre><code id="task-fix">Уточни время и дефект. Проверь 2–3 возможные причины по одной. Покажи кадр до и после.</code></pre><p class="copy-feedback" aria-live="polite"></p></div></details><label class="step-check"><input type="checkbox" data-complete="5"><span>Текст читается, сцены и звук проверены</span></label></section><section id="export"><div class="section-title"><span class="step-number">6</span><div><h2 id="export-heading">Заберите MP4 и исходники</h2><p>Финальная проверка — открыть именно файл, который собираетесь отправлять.</p></div></div>
+<p>Для учебного проекта остановите предпросмотр в терминале: <kbd>Ctrl</kbd> + <kbd>C</kbd>. Затем выполните по очереди:</p><div class="command"><div class="command-bar"><span>В терминал · проверить и собрать</span><button type="button" data-copy="export-command">Копировать</button></div><pre><code id="export-command">npm run check
+npm run render</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>После успешной сборки откройте <code>output/first-video.mp4</code>. У нашего примера это вертикальный ролик 1080×1920, 15 секунд, без звука. Для собственного проекта агент должен назвать его фактический путь.</p>
+<div class="demo-player"><video controls playsinline preload="none" poster="img/demo-1.jpg" width="1080" height="1920" aria-label="Учебный ролик: Уверенно — значит верно? 15 секунд без звука"><source src="demo.mp4" type="video/mp4"><p><a href="demo.mp4">Скачать учебный MP4</a></p></video><div><h3>Вот что собрано из архива</h3><p>Это реальный экспорт HyperFrames, а не анимация страницы. Нажмите Play: ролик без звука.</p><p><a href="demo.mp4" download>Скачать MP4</a> · <a href="kino-start.zip" download>Забрать исходники</a></p><div class="export-facts"><span>1080×1920</span><span>15 секунд</span><span>30 кадров/с</span></div><p class="small">Пример показывает сборку простого ролика. Кинематографичные сцены из карусели используют другие инструменты ниже.</p></div></div>
+<details class="agent-help"><summary>Задание агенту: проверить экспорт</summary><div class="command"><div class="command-bar"><span>В чат агента · проверка файла</span><button type="button" data-copy="task-finish">Копировать</button></div><pre><code id="task-finish">Проверь фактический MP4, размер, длительность, начало, стыки и финал. Покажи сам файл и исходники; отдели проверенное от непроверенного.</code></pre><p class="copy-feedback" aria-live="polite"></p></div></details>
+<div class="expected"><strong>Должно получиться</strong><p>Файл открывается в обычном видеоплеере. Размер и длительность соответствуют задаче. Рядом сохранена папка проекта, чтобы позже изменить текст или сцену.</p></div><label class="step-check"><input type="checkbox" data-complete="6"><span>Я открыл итоговый MP4 и сохранил исходники</span></label></section><section id="examples"><h2>Наши кадры. Наши промпты.</h2><p>Пять приёмов из карусели. Под каждым кадром сохранены исходный запрос или код и пояснения, что в нём менять. Доступность модели и ограничения проверяйте перед запуском.</p><article class="example-row"><figure class="shot"><img src="img/r8.jpg" width="960" height="640" loading="lazy" alt="Тёмный раскоп со старыми жёсткими дисками под лаймовым прожектором, слева крупная цифра 82 %"><figcaption>Лонг «Агент сказал, что&nbsp;тесты прошли»: фон по&nbsp;этому промпту, цифра и&nbsp;подпись свёрстаны в&nbsp;HyperFrames.</figcaption></figure><div class="example-copy"><h3>1. Атмосферный фон для&nbsp;сцены</h3><details class="recipe"><summary>Открыть исходный промпт и пояснения</summary>
+<p><span class="repo">HyperFrames</span>Фон рисует генератор картинок (у&nbsp;нас codex), сверху HyperFrames кладёт текст, цифры и&nbsp;анимацию. Сюжет каждый раз одной фразой, преамбула не&nbsp;меняется.</p>
+<div class="command"><div class="command-bar"><span>Исходный промпт или код · пояснение выше</span><button type="button" data-copy="source-1">Копировать</button></div><pre><code id="source-1">Кинематографичный кадр 16:9 для заставки видео. Тёмная сцена, глубокие тени, один источник света сбоку, лёгкий туман и блики на мокрых поверхностях. Акцентный цвет — кислотный лайм (#d6ff43), он в подсветке и мелких деталях, остальное почти монохромное, угольно-чёрное с тёплой искрой. Композиция с воздухом слева или сверху под крупную типографику. Фотореализм, широкий объектив, малая глубина резкости. БЕЗ текста, БЕЗ букв, БЕЗ надписей, БЕЗ логотипов, БЕЗ интерфейсов и экранов с текстом.
+Сюжет: [одна фраза: метафора, ракурс и сторона, где воздух под текст]</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Сюжет для&nbsp;кадра ниже: «археологический раскоп в&nbsp;серверной: слои породы, из&nbsp;которых торчат старые жёсткие диски и&nbsp;ленты, лаймовый прожектор сверху».</p>
 
-<section>
-<h2><span class="step">★</span>Можно ли в&nbsp;коммерции: коротко</h2>
-<p>Коммерция здесь: реклама, монетизированный канал, ролик на&nbsp;заказ, продукт для&nbsp;клиентов. Подробности под&nbsp;каждым репо.</p>
-<div class="tblw"><table class="tbl">
-<tr><th>Репо</th><th>Коммерция</th></tr>
-<tr><td>HyperFrames</td><td><span class="v yes">да</span><span class="nw">Apache-2.0</span></td></tr>
-<tr><td>three.js</td><td><span class="v yes">да</span>MIT</td></tr>
-<tr><td><span class="nw">LTX-2</span></td><td><span class="v cond">условие</span>бесплатно, пока выручка компании меньше $10&nbsp;млн в&nbsp;год</td></tr>
-<tr><td>OmniVoice</td><td><span class="v yes">код да</span><span class="v no">веса нет</span>веса <span class="nw">CC-BY-NC</span></td></tr>
-<tr><td><span class="nw">F5-TTS</span></td><td><span class="v yes">код да</span><span class="v no">веса нет</span>веса <span class="nw">CC-BY-NC</span></td></tr>
-<tr><td>Depth Anything V2</td><td><span class="v yes">Small да</span><span class="v no">Base, Large нет</span></td></tr>
-<tr><td>MapLibre GL JS</td><td><span class="v yes">да</span><span class="nw">BSD-3</span>; у&nbsp;подложек карт свои условия</td></tr>
-<tr><td>WhisperX</td><td><span class="v yes">да</span><span class="nw">BSD-2</span>; модели тоже разрешают</td></tr>
-</table></div>
-<p class="src">Это&nbsp;пересказ, а&nbsp;не&nbsp;юридическая консультация. Перед деньгами открой файл лицензии сам.</p>
-</section>
 
-<section>
-<h2><span class="step">0</span>С&nbsp;чего начать, если ни&nbsp;разу не&nbsp;делал видео кодом</h2>
-<ol>
-<li>Поставь <a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a> и&nbsp;Node.js 22+.</li>
-<li>Поставь плагин HyperFrames (команда в&nbsp;шаге 1) и&nbsp;открой Claude Code в&nbsp;пустой папке.</li>
-<li>Попроси один короткий ролик: тема, длина, формат. Например промптом ниже.</li>
-<li>Когда первый MP4&nbsp;получится, добавляй по&nbsp;одному: голос (OmniVoice), проверку озвучки и&nbsp;субтитры (WhisperX), фото с&nbsp;параллаксом (Depth Anything).</li></ol>
-<div class="code"><pre><code>Сделай вертикальный ролик 1080×1920 на 15 секунд через HyperFrames.
-Тема: [о чём ролик]. Три сцены, крупный текст, который читается на телефоне.
-Без озвучки, с плавными переходами. В конце отрендери MP4 и покажи,
-где лежит файл.</code></pre></div>
-<p>Полный разбор нашего конвейера со&nbsp;схемами и&nbsp;стартовым кодом: <a href="../mult/">«Фабрика рилсов на&nbsp;Claude Code»</a>.</p>
-</section>
+</details></div></article><article class="example-row"><figure class="shot"><img src="img/r3.jpg" width="960" height="640" loading="lazy" alt="Оранжевый робот-шар с тёмным визором и светящимися глазами на захламлённом столе под лампой, плёночное зерно"><figcaption>Пробник «Плёнка»: кадр клипа <span class="nw">LTX-2</span>, посчитанного на&nbsp;нашем Mac (режим «картинка + звук», 704×1248, 24&nbsp;кадра в&nbsp;секунду).</figcaption></figure><div class="example-copy"><h3>2. Кинокадр на&nbsp;плёнке: картинка, потом движение</h3><details class="recipe"><summary>Открыть исходный промпт и пояснения</summary>
+<p><span class="repo"><span class="nw">LTX-2</span></span>Два шага. Сначала опорный кадр от&nbsp;генератора картинок, потом <span class="nw">LTX-2</span>&nbsp;оживляет его под&nbsp;звук реплики. Без&nbsp;опорного кадра лицо героя плывёт от&nbsp;шота к&nbsp;шоту.</p>
+<p>Шаг 1, опорный кадр:</p>
+<div class="command"><div class="command-bar"><span>Исходный промпт или код · пояснение выше</span><button type="button" data-copy="source-2">Копировать</button></div><pre><code id="source-2">Вертикальный кадр 9:16. Верхняя треть кадра спокойная и тёмная, над головой персонажа много воздуха (там будут субтитры). Персонаж занимает нижние две трети. Без текста, без букв, без логотипов, без надписей на экранах и предметах. Кадр, снятый на 35-мм киноплёнку (высокочувствительная плёнка, проявка с пушингом): сильное видимое плёночное зерно по всему кадру, слегка приподнятые чёрные, лёгкая виньетка, мягкая оптика 35 мм без цифровой резкости. Ограниченная палитра из трёх-четырёх цветов: грязно-зелёные тени, тёплый вольфрамовый жёлтый, тусклый синий монитора; насыщенность приглушена, без модного teal-orange, без глянца. Жёсткий свет: одна голая настольная лампа сбоку, резкие тени с чёткой границей, местами пересвет, фон проваливается почти в черноту. Ощущение кадра из малобюджетного независимого кино начала 2000-х, а не рекламы и не CGI. Ночной тесный офис, захламлённый стол. Сдержанная игра: лицо почти неподвижно, эмоция только в глазах.
+Сюжет: [персонаж, где стоит, куда смотрит, какая эмоция]</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Шаг 2, движение для&nbsp;<span class="nw">LTX-2</span> (перевод с&nbsp;английского, модели мы&nbsp;отдавали оригинал):</p>
+<div class="command"><div class="command-bar"><span>Исходный промпт или код · пояснение выше</span><button type="button" data-copy="source-3">Копировать</button></div><pre><code id="source-3">Зернистая съёмка на 35-мм плёнку из малобюджетного инди-фильма. [Персонаж] сидит ночью на захламлённом столе под жёсткой настольной лампой. Он спокойно говорит: [как именно двигается, когда говорит]. Сдержанная игра: лицо почти неподвижно, эмоция только в глазах, без преувеличенной мимики. Камера неподвижно на штативе, сильное плёночное зерно.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<details class="orig"><summary>Оригинал на&nbsp;английском, для&nbsp;робота из&nbsp;кадра</summary>
+<div class="command"><div class="command-bar"><span>Исходный промпт или код · пояснение выше</span><button type="button" data-copy="source-4">Копировать</button></div><pre><code id="source-4">Grainy 35mm film footage from a low-budget indie movie. A small matte terracotta-orange ball robot prop with a dark visor and two cream glowing eye lights sits on a cluttered desk at night under a hard desk lamp. It speaks calmly: its eye lights dim and brighten with the speech, the body tilts very slightly. It has no mouth. Practical movie prop, static locked-off camera, heavy film grain.</code></pre><p class="copy-feedback" aria-live="polite"></p></div></details>
 
-<section>
-<h2><span class="step">1</span>HyperFrames</h2>
-<p><a href="https://github.com/heygen-com/hyperframes">github.com/heygen-com/hyperframes</a> · ★ 72,8K</p>
+
+</details></div></article><article class="example-row"><figure class="shot"><img src="img/r4.jpg" width="960" height="640" loading="lazy" alt="Два голосовых сообщения А и Б на ярком фоне"><figcaption>Ролик «Угадай, где мой голос»: одна фраза живая, вторая от&nbsp;клона OmniVoice. Весь остальной ролик тоже говорит клон.</figcaption></figure><div class="example-copy"><h3>3. Клон своего голоса по&nbsp;семи секундам</h3><p class="small">Готовые веса OmniVoice имеют NC-ограничение. Для рекламы и заказов используйте исходную запись или модель с подходящей лицензией.</p><details class="recipe"><summary>Открыть исходный промпт и пояснения</summary>
+<p><span class="repo">OmniVoice</span>Промпт для&nbsp;клона — пара: запись своего голоса и&nbsp;её точная расшифровка. Без&nbsp;точной расшифровки клон путает ударения и&nbsp;паузы. Так мы&nbsp;озвучили ролик «Угадай, где мой голос».</p>
+<div class="command"><div class="command-bar"><span>Исходный промпт или код · пояснение выше</span><button type="button" data-copy="source-5">Копировать</button></div><pre><code id="source-5">import torch, numpy as np, soundfile as sf
+from omnivoice import OmniVoice
+
+m = OmniVoice.from_pretrained(&quot;k2-fsa/OmniVoice&quot;, device_map=&quot;mps&quot;, dtype=torch.float16)  # NVIDIA: &quot;cuda&quot;
+prompt = m.create_voice_clone_prompt(
+    ref_audio=&quot;my-voice.wav&quot;,  # 7 секунд моего голоса, чисто, без музыки
+    ref_text=&quot;Слушай, я сегодня проверил одну штуку, и это просто смешно. &quot;
+             &quot;Нейросеть сама сказала, что так не бывает. Представляешь? Сама!&quot;)
+wav = m.generate(text=&quot;[Реплика, которую должен сказать клон.]&quot;, voice_clone_prompt=prompt)[0]
+sf.write(&quot;line.wav&quot;, np.asarray(wav, dtype=np.float32).squeeze(), 24000)</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Клонируй только свой голос или голос человека, который согласился.</p>
+
+
+</details></div></article><article class="example-row"><figure class="shot"><img src="img/r5.jpg" width="960" height="640" loading="lazy" alt="Крупный план гориллы Горо в серебристом шлеме"><figcaption>Шортс «Горо отменил созвон»: Горо говорит клоном F5.</figcaption></figure><div class="example-copy"><h3>4. Текст под&nbsp;клон, чтобы он&nbsp;не&nbsp;глотал слова</h3><p class="small">Готовые веса F5-TTS имеют NC-ограничение. Эти приёмы из нашего опыта не заменяют проверку лицензии модели.</p><details class="recipe"><summary>Открыть исходный промпт и пояснения</summary>
+<p><span class="repo"><span class="nw">F5-TTS</span></span>Этот блок мы&nbsp;вставляем в&nbsp;задание агенту, который пишет реплики. Каждое правило появилось после испорченного дубля.</p>
+<div class="command"><div class="command-bar"><span>Исходный промпт или код · пояснение выше</span><button type="button" data-copy="source-6">Копировать</button></div><pre><code id="source-6">## Голос (F5, мемный референс): правила, проверенные граблями
+- Первая реплика начинается с жертвенного «Короче.»; реплики не начинать с «Так»; первое слово реплики — согласная.
+- Вместо «ИИ» — «нейросеть». Числа словами. Латиницу писать по-русски (Антропик, Опен эй ай, Клод, чат джи пи ти).
+- После синтеза — ASR каждого дубля (faster-whisper large-v3, ru, word_timestamps). Слово съедено или искажено — менять текст, не seed.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Реплика Горо в&nbsp;кадре ниже: «Короче. Попросил нейросеть отменить созвон.» Со&nbsp;словом «ИИ» F5&nbsp;его проглатывал: распознавание слышало короткое «я».</p>
+
+
+</details></div></article><article class="example-row"><figure class="shot"><img src="img/r2.jpg" width="960" height="640" loading="lazy" alt="3D-сцена: бумбокс с лицом на экране, вверху плашка «Радио Бэкенд FM»"><figcaption>Скетч «Бэкенд» на&nbsp;движке three.js: 38&nbsp;из&nbsp;40&nbsp;реплик распознаны дословно. «Grafana рисует» распознавание так и&nbsp;не&nbsp;услышало, вышло «графа нарисует».</figcaption></figure><div class="example-copy"><h3>5. Словарная подсказка для&nbsp;проверки озвучки</h3><details class="recipe"><summary>Открыть исходный промпт и пояснения</summary>
+<p><span class="repo">WhisperX</span>Распознавание подставляет знакомое слово вместо редкого и&nbsp;бьёт ложную тревогу. Подсказка со&nbsp;словарём темы это&nbsp;лечит. Подсказку пишем из&nbsp;терминов ролика, но&nbsp;не&nbsp;из&nbsp;самой реплики: иначе распознавание просто согласится со&nbsp;сценарием и&nbsp;проверка ничего не&nbsp;проверит.</p>
+<div class="command"><div class="command-bar"><span>Исходный промпт или код · пояснение выше</span><button type="button" data-copy="source-7">Копировать</button></div><pre><code id="source-7">import whisperx
+
+HINT = (&quot;Словарь: Клод, бэкенд, API, Redis, Docker, Kafka, RabbitMQ, Kubernetes, &quot;
+        &quot;Postgres, MySQL, MongoDB, Python, Go, Java, JavaScript, FastAPI, Spring Boot, &quot;
+        &quot;Express, POST, orders, Prometheus, Grafana, кэш, веб-сокеты, пуш, &quot;
+        &quot;балансировщик, микросервисы, трассировка, метрики, дата-центр.&quot;)
+model = whisperx.load_model(&quot;large-v3&quot;, &quot;cpu&quot;, compute_type=&quot;int8&quot;, language=&quot;ru&quot;,
+                            asr_options={&quot;initial_prompt&quot;: HINT})
+result = model.transcribe(whisperx.load_audio(&quot;line.wav&quot;))</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p class="src">Словарь дословно из&nbsp;скетча «Бэкенд». Там он&nbsp;шёл в&nbsp;faster-whisper large-v3, на&nbsp;котором построен WhisperX; в&nbsp;WhisperX то же&nbsp;поле передаётся через <code>asr_options</code>.</p>
+
+</details></div></article></section><section id="tools"><h2>Все восемь инструментов</h2><p>Репозиторий — папка с кодом и инструкцией на GitHub. Модель — обученная нейросеть; её веса скачиваются отдельно. Эти восемь инструментов не надо устанавливать разом.</p><details class="tool" id="tool-hyperframes"><summary><span><b>HyperFrames</b><span>Собрать HTML-сцены в MP4</span></span><span class="tool-action">Подробности</span></summary><div class="tool-body">
+
+<p><a href="https://github.com/heygen-com/hyperframes">github.com/heygen-com/hyperframes</a></p>
 <p>Пишешь HTML, CSS и&nbsp;анимации, движок рендерит MP4. Сделан под&nbsp;агентов: для&nbsp;Claude Code, Codex и&nbsp;Cursor есть плагин и&nbsp;скиллы. На&nbsp;нём стоит конвейер роликов этого канала.</p>
 <figure class="shot"><img src="img/r1.jpg" width="960" height="640" loading="lazy" alt="Тёмный кадр с заголовком «Умнее не значит честнее» и мышеловкой на мокром столе"><figcaption>Кадр из&nbsp;нашего лонга «Агент сказал, что&nbsp;тесты прошли», свёрстан в&nbsp;HyperFrames.</figcaption></figure>
 <div class="lic"><b>Можно ли в&nbsp;коммерции:</b> да, хоть в&nbsp;рекламе и&nbsp;платных проектах. Лицензия <span class="nw">Apache-2.0</span>. Если раздаёшь сам код или свою переделку, приложи текст лицензии и&nbsp;отметь, что&nbsp;менял. На&nbsp;отрендеренные ролики лицензия условий не&nbsp;ставит.</div>
-<div class="code"><pre><code>claude plugin marketplace add heygen-com/hyperframes
-claude plugin install hyperframes@hyperframes</code></pre></div>
+<div class="command"><div class="command-bar"><span>Исходный промпт или код · пояснение выше</span><button type="button" data-copy="source-8">Копировать</button></div><pre><code id="source-8">claude plugin marketplace add heygen-com/hyperframes
+claude plugin install hyperframes@hyperframes</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <p class="req">Нужен Node.js 22&nbsp;или новее. В&nbsp;Codex, Cursor и&nbsp;других агентах вместо плагина один раз запусти <code>npx hyperframes skills update</code>.</p>
-</section>
+</div></details><details class="tool" id="tool-three"><summary><span><b>three.js</b><span>Камера, свет и объекты в 3D</span></span><span class="tool-action">Подробности</span></summary><div class="tool-body">
 
-<section>
-<h2><span class="step">2</span>three.js</h2>
-<p><a href="https://github.com/mrdoob/three.js">github.com/mrdoob/three.js</a> · ★ 117K</p>
+<p><a href="https://github.com/mrdoob/three.js">github.com/mrdoob/three.js</a></p>
 <p>3D в&nbsp;браузере. На&nbsp;нём Claude написал движок наших 3D-скетчей: комната, персонажи, камера, свет. Кадры рендерятся в&nbsp;браузере и&nbsp;склеиваются в&nbsp;MP4. Кадр из&nbsp;скетча «Бэкенд» в&nbsp;промпте №5.</p>
 <div class="lic"><b>Можно ли в&nbsp;коммерции:</b> да, хоть в&nbsp;рекламе. Лицензия MIT: сохрани копирайт и&nbsp;текст лицензии, если раздаёшь код.</div>
-<div class="code"><pre><code>npm install three</code></pre></div>
-</section>
+<div class="command"><div class="command-bar"><span>Исходный промпт или код · пояснение выше</span><button type="button" data-copy="source-9">Копировать</button></div><pre><code id="source-9">npm install three</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+</div></details><details class="tool" id="tool-ltx"><summary><span><b>LTX-2</b><span>Сгенерировать короткий видеошот</span></span><span class="tool-action">Подробности</span></summary><div class="tool-body">
 
-<section>
-<h2><span class="step">3</span><span class="nw">LTX-2</span></h2>
-<p><a href="https://github.com/Lightricks/LTX-2">github.com/Lightricks/<span class="nw">LTX-2</span></a> · ★ 9,9K</p>
+<p><a href="https://github.com/Lightricks/LTX-2">github.com/Lightricks/<span class="nw">LTX-2</span></a></p>
 <p>Открытая модель, которая генерирует видео сразу со&nbsp;звуком: по&nbsp;тексту, картинке или аудио. Кадр и&nbsp;промпт в&nbsp;разделе «Пять наших промптов», №2.</p>
-<div class="lic"><b>Можно ли в&nbsp;коммерции:</b> с&nbsp;условием. Код и&nbsp;веса под&nbsp;одной лицензией, <span class="nw">LTX-2.x</span> Community License.
+<div class="lic"><b>Можно ли в&nbsp;коммерции:</b> с&nbsp;условием. Для LTX-2.5 и новых выпусков с 11 августа 2026 действует <a href="https://github.com/Lightricks/LTX-2/blob/main/LICENSE-2_x">LTX-2.x Community License</a>. У LTX-2.3 из нашего примера <a href="https://github.com/Lightricks/LTX-2/blob/main/LICENSE-2">другая редакция</a>; сверяйте конкретный файл весов.
 <ul>
 <li>Человек или компания с&nbsp;выручкой меньше $10&nbsp;млн в&nbsp;год: бесплатно, в&nbsp;том числе в&nbsp;рекламе и&nbsp;на&nbsp;заказ.</li>
 <li>Компания от&nbsp;$10&nbsp;млн: бесплатно только тесты и&nbsp;исследования не&nbsp;в&nbsp;продакшне. Всё, что&nbsp;видят клиенты или что&nbsp;приносит деньги, по&nbsp;платной лицензии от&nbsp;Lightricks.</li>
 <li>Права на&nbsp;сгенерированные ролики Lightricks себе не&nbsp;берёт, но&nbsp;есть список запрещённых применений (приложение A к&nbsp;лицензии).</li>
 <li>Дообученную версию можно раздавать только под&nbsp;этой же&nbsp;лицензией.</li></ul></div>
-<div class="code"><pre><code>git clone https://github.com/Lightricks/LTX-2.git
+<div class="command"><div class="command-bar"><span>Исходный промпт или код · пояснение выше</span><button type="button" data-copy="source-10">Копировать</button></div><pre><code id="source-10">git clone https://github.com/Lightricks/LTX-2.git
 cd LTX-2
-uv sync --extra natten</code></pre></div>
+uv sync --extra natten</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <p class="req">Официальный путь рассчитан на&nbsp;видеокарту NVIDIA. Веса <span class="nw">LTX-2.5</span>&nbsp;скачиваются отдельно с&nbsp;Hugging Face после входа и&nbsp;согласия с&nbsp;условиями: полная версия весит около 70&nbsp;ГБ (видеомодель 42&nbsp;ГБ и&nbsp;текстовый энкодер 26&nbsp;ГБ). На&nbsp;Mac M-серии мы&nbsp;запускали порт <a href="https://github.com/dgrauet/ltx-2-mlx">dgrauet/ltx-2-mlx</a> (MIT) на&nbsp;M1 Max с&nbsp;64&nbsp;ГБ памяти: сжатая модель <span class="nw">LTX-2.3</span>&nbsp;весит 28&nbsp;ГБ, пик памяти около 27&nbsp;ГБ, одна секунда клипа считается 40–70&nbsp;секунд.</p>
-</section>
+</div></details><details class="tool" id="tool-omni"><summary><span><b>OmniVoice</b><span>Синтезировать голос по образцу</span></span><span class="tool-action">Подробности</span></summary><div class="tool-body">
 
-<section>
-<h2><span class="step">4</span>OmniVoice</h2>
-<p><a href="https://github.com/k2-fsa/OmniVoice">github.com/k2-fsa/OmniVoice</a> · ★ 15,9K</p>
+<p><a href="https://github.com/k2-fsa/OmniVoice">github.com/k2-fsa/OmniVoice</a></p>
 <p>Клон голоса по&nbsp;образцу 3–10&nbsp;секунд, 600+ языков, русский тоже. Мы&nbsp;выбрали его в&nbsp;слепом тесте шести моделей озвучки. Промпт и&nbsp;кадр в&nbsp;разделе ниже, №3.</p>
 <div class="lic"><b>Можно ли в&nbsp;коммерции:</b> код да, веса нет.
 <ul>
 <li>Код: <span class="nw">Apache-2.0</span>, в&nbsp;коммерции можно.</li>
 <li>Готовая модель <a href="https://huggingface.co/k2-fsa/OmniVoice">k2-fsa/OmniVoice</a>: <span class="nw">CC-BY-NC</span>, только некоммерчески. Причина в&nbsp;данных, на&nbsp;которых её учили (Emilia). Поле лицензии в&nbsp;карточке модели пустое, условие написано в&nbsp;тексте README модели, раздел License.</li>
-<li>Для&nbsp;монетизированного канала, рекламы и&nbsp;заказов эти веса не&nbsp;подходят. Мы&nbsp;ими пользуемся, потому что&nbsp;ролики не&nbsp;монетизируем.</li></ul></div>
-<div class="code"><pre><code>pip install torch==2.8.0 torchaudio==2.8.0   # на Mac M-серии; для NVIDIA сборка с CUDA
-pip install omnivoice</code></pre></div>
+<li>Для&nbsp;монетизированного канала, рекламы и&nbsp;заказов эти веса не&nbsp;подходят. Для коммерческого ролика выбирайте исходную запись или модель с подходящей лицензией.</li></ul></div>
+<div class="command"><div class="command-bar"><span>Исходный промпт или код · пояснение выше</span><button type="button" data-copy="source-11">Копировать</button></div><pre><code id="source-11">pip install torch==2.8.0 torchaudio==2.8.0   # на Mac M-серии; для NVIDIA сборка с CUDA
+pip install omnivoice</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <p class="req">Python 3.10+, лучше в&nbsp;отдельном venv. На&nbsp;Mac модель работает на <code>mps</code> в&nbsp;float16, так мы&nbsp;и&nbsp;озвучиваем.</p>
-</section>
+</div></details><details class="tool" id="tool-f5"><summary><span><b>F5-TTS</b><span>Альтернативный клон голоса</span></span><span class="tool-action">Подробности</span></summary><div class="tool-body">
 
-<section>
-<h2><span class="step">5</span><span class="nw">F5-TTS</span></h2>
-<p><a href="https://github.com/SWivid/F5-TTS">github.com/SWivid/<span class="nw">F5-TTS</span></a> · ★ 15,5K</p>
+<p><a href="https://github.com/SWivid/F5-TTS">github.com/SWivid/<span class="nw">F5-TTS</span></a></p>
 <p>Клон голоса по&nbsp;короткому образцу. Им говорит наш маскот Горо в&nbsp;мемных шортсах. Правила текста под&nbsp;него в&nbsp;промпте №4.</p>
 <div class="lic"><b>Можно ли в&nbsp;коммерции:</b> код да, веса нет. Код под&nbsp;MIT. Готовые модели под&nbsp;<span class="nw">CC-BY-NC</span>, только некоммерчески: авторы пишут, что&nbsp;причина в&nbsp;обучающих данных Emilia. Для&nbsp;рекламы и&nbsp;монетизации нужна другая модель или своя, обученная на&nbsp;данных с&nbsp;разрешением.</div>
-<div class="code"><pre><code>conda create -n f5-tts python=3.11
+<div class="command"><div class="command-bar"><span>Исходный промпт или код · пояснение выше</span><button type="button" data-copy="source-12">Копировать</button></div><pre><code id="source-12">conda create -n f5-tts python=3.11
 conda activate f5-tts
 pip install torch torchaudio   # на Mac M-серии; для NVIDIA сборка с CUDA
-pip install f5-tts</code></pre></div>
+pip install f5-tts</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <p class="req">Python 3.10+ и&nbsp;ffmpeg (<code>conda install ffmpeg</code> или <code>brew install ffmpeg</code>).</p>
-</section>
+</div></details><details class="tool" id="tool-depth"><summary><span><b>Depth Anything V2</b><span>Сделать карту глубины фотографии</span></span><span class="tool-action">Подробности</span></summary><div class="tool-body">
 
-<section>
-<h2><span class="step">6</span>Depth Anything V2</h2>
-<p><a href="https://github.com/DepthAnything/Depth-Anything-V2">github.com/DepthAnything/Depth-Anything-V2</a> · ★ 9,0K</p>
+<p><a href="https://github.com/DepthAnything/Depth-Anything-V2">github.com/DepthAnything/Depth-Anything-V2</a></p>
 <p>Карта глубины по&nbsp;одной картинке. Режешь фото на&nbsp;слои по&nbsp;глубине, и&nbsp;камера пролетает между ними: параллакс вместо плоского наезда.</p>
 <figure class="shot"><img src="img/r6.jpg" width="960" height="640" loading="lazy" alt="Иллюстрация «AI-курьер»: курьер с лаймовым рюкзаком в офисе, справа от косого шва та же картинка как карта глубины"><figcaption>Ролик «AI-курьер»: слева иллюстрация, справа её карта глубины от&nbsp;модели Small. По&nbsp;ней картинка режется на&nbsp;четыре слоя.</figcaption></figure>
 <div class="lic"><b>Можно ли в&nbsp;коммерции:</b> зависит от&nbsp;размера модели.
@@ -150,121 +156,51 @@ pip install f5-tts</code></pre></div>
 <li>Код и&nbsp;модель Small (24,8&nbsp;млн параметров): <span class="nw">Apache-2.0</span>, в&nbsp;коммерции можно.</li>
 <li>Base, Large и&nbsp;Giant: <span class="nw">CC-BY-NC-4.0</span>, только некоммерчески.</li>
 <li>Мы&nbsp;берём Small: для&nbsp;параллакса её хватает.</li></ul></div>
-<div class="code"><pre><code>git clone https://github.com/DepthAnything/Depth-Anything-V2
+<div class="command"><div class="command-bar"><span>Исходный промпт или код · пояснение выше</span><button type="button" data-copy="source-13">Копировать</button></div><pre><code id="source-13">git clone https://github.com/DepthAnything/Depth-Anything-V2
 cd Depth-Anything-V2
 pip install -r requirements.txt
-# веса depth_anything_v2_vits.pth (Small) скачать по ссылке из README в папку checkpoints/</code></pre></div>
+# веса depth_anything_v2_vits.pth (Small) скачать по ссылке из README в папку checkpoints/</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <p class="req">Без&nbsp;клонирования можно через transformers: модель <code>depth-anything/Depth-Anything-V2-Small-hf</code> скачается сама. Так она у&nbsp;нас и&nbsp;работает, локально на&nbsp;Mac, видеокарта не&nbsp;нужна.</p>
-</section>
+</div></details><details class="tool" id="tool-map"><summary><span><b>MapLibre GL JS</b><span>Показать место и маршрут</span></span><span class="tool-action">Подробности</span></summary><div class="tool-body">
 
-<section>
-<h2><span class="step">7</span>MapLibre GL JS</h2>
-<p><a href="https://github.com/maplibre/maplibre-gl-js">github.com/maplibre/maplibre-gl-js</a> · ★ 12,0K</p>
+<p><a href="https://github.com/maplibre/maplibre-gl-js">github.com/maplibre/maplibre-gl-js</a></p>
 <p>Карты и&nbsp;3D-рельеф в&nbsp;браузере без&nbsp;ключа API. Так сделан пролёт над&nbsp;картой в&nbsp;ролике «Вслепую»: Claude угадывал город по&nbsp;фото.</p>
 <figure class="shot"><img src="img/r7.jpg" width="960" height="640" loading="lazy" alt="Спутниковая карта города: точка «ответ Claude», точка «правда» и счётчик промаха"><figcaption>Ролик «Вслепую»: ответ Claude и&nbsp;правда на&nbsp;карте MapLibre. Снимки: Esri, Vantor, Earthstar Geographics · рельеф: AWS Terrain Tiles.</figcaption></figure>
 <div class="lic"><b>Можно ли в&nbsp;коммерции:</b> библиотека да. Лицензия <span class="nw">BSD-3</span>: сохрани копирайт и&nbsp;нельзя прикрываться именем MapLibre в&nbsp;рекламе своего продукта без&nbsp;разрешения. Подложки карт идут со&nbsp;своими условиями: спутник и&nbsp;рельеф подписывай в&nbsp;кадре, как&nbsp;просит поставщик. Для&nbsp;рекламы или заказа условия спутниковых снимков Esri читай отдельно, мы&nbsp;их считаем риском.</div>
-<div class="code"><pre><code>npm install maplibre-gl</code></pre></div>
-</section>
+<div class="command"><div class="command-bar"><span>Исходный промпт или код · пояснение выше</span><button type="button" data-copy="source-14">Копировать</button></div><pre><code id="source-14">npm install maplibre-gl</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+</div></details><details class="tool" id="tool-whisper"><summary><span><b>WhisperX</b><span>Распознать речь и время слов</span></span><span class="tool-action">Подробности</span></summary><div class="tool-body">
 
-<section>
-<h2><span class="step">8</span>WhisperX</h2>
-<p><a href="https://github.com/m-bain/whisperX">github.com/m-bain/whisperX</a> · ★ 24,9K</p>
+<p><a href="https://github.com/m-bain/whisperX">github.com/m-bain/whisperX</a></p>
 <p>Расшифровка речи с&nbsp;временем каждого слова. Мы&nbsp;сверяем распознаванием каждый дубль озвучки со&nbsp;сценарием до&nbsp;сборки, из&nbsp;таймингов слов собираются субтитры. Работает локально. Как&nbsp;не&nbsp;попасться на&nbsp;его ошибки, в&nbsp;промпте №5.</p>
 <div class="lic"><b>Можно ли в&nbsp;коммерции:</b> да.
 <ul>
 <li>Код: <span class="nw">BSD-2</span>, сохрани копирайт.</li>
 <li>Модели распознавания Whisper: MIT. Русский выравниватель по&nbsp;словам (wav2vec2&nbsp;от&nbsp;jonatasgrosman): <span class="nw">Apache-2.0</span>.</li>
 <li>Разметка по&nbsp;говорящим (pyannote community-1): <span class="nw">CC-BY-4.0</span>, в&nbsp;коммерции можно, нужна ссылка на&nbsp;авторов. Для&nbsp;неё нужен токен Hugging Face и&nbsp;согласие с&nbsp;условиями модели.</li></ul></div>
-<div class="code"><pre><code>pip install whisperx</code></pre></div>
+<div class="command"><div class="command-bar"><span>Исходный промпт или код · пояснение выше</span><button type="button" data-copy="source-15">Копировать</button></div><pre><code id="source-15">pip install whisperx</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
 <p class="req">Python 3.10–3.13 и&nbsp;ffmpeg. На&nbsp;Mac только процессор: <code>whisperx audio.wav --compute_type int8 --device cpu</code>. Видеокарта NVIDIA ускоряет, но&nbsp;не&nbsp;обязательна.</p>
-</section>
+</div></details></section><section id="licenses"><h2>Если ролик для рекламы или клиента</h2><p>Проверять нужно и код, и конкретные веса модели, и ваши картинки, музыку, голоса, карты. Название «open source» не заменяет условия использования.</p><div class="license-table-wrap"><table class="license-table"><caption>Краткая сверка первоисточников · 27 октября 2026</caption><thead><tr><th scope="col">Инструмент</th><th scope="col">Что проверить для коммерции</th></tr></thead><tbody>
+<tr><th scope="row"><a href="https://github.com/heygen-com/hyperframes/blob/main/LICENSE">HyperFrames</a></th><td>Apache-2.0. Лицензии материалов и сторонних библиотек остаются отдельными.</td></tr>
+<tr><th scope="row"><a href="https://github.com/mrdoob/three.js/blob/dev/LICENSE">three.js</a></th><td>MIT. У моделей, текстур и музыки свои права.</td></tr>
+<tr><th scope="row"><a href="https://github.com/Lightricks/LTX-2/blob/main/LICENSE">LTX-2</a></th><td>Сверить версию: LTX-2 или LTX-2.x. Порог $10 млн годовой выручки влияет на разрешённое использование; для нового LTX-2.x у компаний от порога бесплатный доступ ограничен исследованиями и тестами вне продакшна.</td></tr>
+<tr><th scope="row"><a href="https://huggingface.co/k2-fsa/OmniVoice#license">OmniVoice</a></th><td>Код Apache-2.0, готовые веса CC-BY-NC. Для рекламы и заказа выберите свою запись или другую модель.</td></tr>
+<tr><th scope="row"><a href="https://github.com/SWivid/F5-TTS#license">F5-TTS</a></th><td>Код MIT, готовые веса CC-BY-NC. Открытый код не разрешает коммерческое использование этих весов.</td></tr>
+<tr><th scope="row"><a href="https://github.com/DepthAnything/Depth-Anything-V2#license">Depth Anything V2</a></th><td>Small — Apache-2.0. Base / Large / Giant — CC-BY-NC-4.0.</td></tr>
+<tr><th scope="row"><a href="https://github.com/maplibre/maplibre-gl-js/blob/main/LICENSE.txt">MapLibre</a></th><td>BSD-3-Clause у библиотеки. Отдельно условия поставщика карт, снимков и рельефа.</td></tr>
+<tr><th scope="row"><a href="https://github.com/m-bain/whisperX/blob/main/LICENSE">WhisperX</a></th><td>BSD-2-Clause у кода; у выбранных моделей распознавания, выравнивания и разметки свои лицензии.</td></tr>
+</tbody></table></div><p class="small">Полные условия открываются по названиям. У скачиваемого примера также есть отдельные уведомления GSAP и Onest в папке assets.</p></section>
+<section id="problems"><h2>Если застряли</h2>
+<details class="help"><summary>npm пишет, что не видит package.json</summary><p>Терминал открыт не в той папке. В Windows команда <code>dir</code>, на Mac и Linux <code>ls</code> покажет файлы. Найдите папку с <code>package.json</code> и перейдите в неё через <code>cd</code>.</p></details>
+<details class="help"><summary>Команда не найдена или браузер не открылся</summary><p>Проверьте <code>node --version</code> и <code>ffmpeg -version</code>, затем заново откройте терминал. При первом запуске npx нужен интернет для загрузки HyperFrames и, возможно, браузера. Ошибку сети или сертификата не исправляют отключением защиты.</p></details>
+<details class="help"><summary>В браузере всё работает, но MP4 нет</summary><p>Предпросмотр и экспорт — разные действия. Для архива выполните <code>npm run render</code> и прочитайте последнюю строку. Для своего проекта попросите агента показать фактический путь MP4. Папка с HTML или скриншот не подтверждают экспорт.</p></details>
+<details class="help"><summary>Своего компьютера мало для модели</summary><p>Начните с текстового примера на HyperFrames. Для LTX сначала оцените память, объём весов и время одного шота; облако может стоить денег. Уменьшайте сложность конкретного фрагмента, а не устанавливайте все модели сразу.</p></details>
+<details class="help"><summary>Наши грабли с голосом и видеомоделью</summary>
 
-<section>
-<h2><span class="step">9</span>Пять наших промптов</h2>
-<p>Это&nbsp;тексты, которые реально уходили в&nbsp;модели и&nbsp;агентов, когда мы&nbsp;делали кадры из&nbsp;карусели. Квадратные скобки — место, куда ставишь своё.</p>
-
-<h3>1. Атмосферный фон для&nbsp;сцены</h3>
-<p><span class="repo">HyperFrames</span>Фон рисует генератор картинок (у&nbsp;нас codex), сверху HyperFrames кладёт текст, цифры и&nbsp;анимацию. Сюжет каждый раз одной фразой, преамбула не&nbsp;меняется.</p>
-<div class="code"><pre><code>Кинематографичный кадр 16:9 для заставки видео. Тёмная сцена, глубокие тени, один источник света сбоку, лёгкий туман и блики на мокрых поверхностях. Акцентный цвет — кислотный лайм (#d6ff43), он в подсветке и мелких деталях, остальное почти монохромное, угольно-чёрное с тёплой искрой. Композиция с воздухом слева или сверху под крупную типографику. Фотореализм, широкий объектив, малая глубина резкости. БЕЗ текста, БЕЗ букв, БЕЗ надписей, БЕЗ логотипов, БЕЗ интерфейсов и экранов с текстом.
-Сюжет: [одна фраза: метафора, ракурс и сторона, где воздух под текст]</code></pre></div>
-<p>Сюжет для&nbsp;кадра ниже: «археологический раскоп в&nbsp;серверной: слои породы, из&nbsp;которых торчат старые жёсткие диски и&nbsp;ленты, лаймовый прожектор сверху».</p>
-<figure class="shot"><img src="img/r8.jpg" width="960" height="640" loading="lazy" alt="Тёмный раскоп со старыми жёсткими дисками под лаймовым прожектором, слева крупная цифра 82 %"><figcaption>Лонг «Агент сказал, что&nbsp;тесты прошли»: фон по&nbsp;этому промпту, цифра и&nbsp;подпись свёрстаны в&nbsp;HyperFrames.</figcaption></figure>
-
-<h3>2. Кинокадр на&nbsp;плёнке: картинка, потом движение</h3>
-<p><span class="repo"><span class="nw">LTX-2</span></span>Два шага. Сначала опорный кадр от&nbsp;генератора картинок, потом <span class="nw">LTX-2</span>&nbsp;оживляет его под&nbsp;звук реплики. Без&nbsp;опорного кадра лицо героя плывёт от&nbsp;шота к&nbsp;шоту.</p>
-<p>Шаг 1, опорный кадр:</p>
-<div class="code"><pre><code>Вертикальный кадр 9:16. Верхняя треть кадра спокойная и тёмная, над головой персонажа много воздуха (там будут субтитры). Персонаж занимает нижние две трети. Без текста, без букв, без логотипов, без надписей на экранах и предметах. Кадр, снятый на 35-мм киноплёнку (высокочувствительная плёнка, проявка с пушингом): сильное видимое плёночное зерно по всему кадру, слегка приподнятые чёрные, лёгкая виньетка, мягкая оптика 35 мм без цифровой резкости. Ограниченная палитра из трёх-четырёх цветов: грязно-зелёные тени, тёплый вольфрамовый жёлтый, тусклый синий монитора; насыщенность приглушена, без модного teal-orange, без глянца. Жёсткий свет: одна голая настольная лампа сбоку, резкие тени с чёткой границей, местами пересвет, фон проваливается почти в черноту. Ощущение кадра из малобюджетного независимого кино начала 2000-х, а не рекламы и не CGI. Ночной тесный офис, захламлённый стол. Сдержанная игра: лицо почти неподвижно, эмоция только в глазах.
-Сюжет: [персонаж, где стоит, куда смотрит, какая эмоция]</code></pre></div>
-<p>Шаг 2, движение для&nbsp;<span class="nw">LTX-2</span> (перевод с&nbsp;английского, модели мы&nbsp;отдавали оригинал):</p>
-<div class="code"><pre><code>Зернистая съёмка на 35-мм плёнку из малобюджетного инди-фильма. [Персонаж] сидит ночью на захламлённом столе под жёсткой настольной лампой. Он спокойно говорит: [как именно двигается, когда говорит]. Сдержанная игра: лицо почти неподвижно, эмоция только в глазах, без преувеличенной мимики. Камера неподвижно на штативе, сильное плёночное зерно.</code></pre></div>
-<details class="orig"><summary>Оригинал на&nbsp;английском, для&nbsp;робота из&nbsp;кадра</summary>
-<div class="code"><pre><code>Grainy 35mm film footage from a low-budget indie movie. A small matte terracotta-orange ball robot prop with a dark visor and two cream glowing eye lights sits on a cluttered desk at night under a hard desk lamp. It speaks calmly: its eye lights dim and brighten with the speech, the body tilts very slightly. It has no mouth. Practical movie prop, static locked-off camera, heavy film grain.</code></pre></div></details>
-<figure class="shot"><img src="img/r3.jpg" width="960" height="640" loading="lazy" alt="Оранжевый робот-шар с тёмным визором и светящимися глазами на захламлённом столе под лампой, плёночное зерно"><figcaption>Пробник «Плёнка»: кадр клипа <span class="nw">LTX-2</span>, посчитанного на&nbsp;нашем Mac (режим «картинка + звук», 704×1248, 24&nbsp;кадра в&nbsp;секунду).</figcaption></figure>
-
-<h3>3. Клон своего голоса по&nbsp;семи секундам</h3>
-<p><span class="repo">OmniVoice</span>Промпт для&nbsp;клона — пара: запись своего голоса и&nbsp;её точная расшифровка. Без&nbsp;точной расшифровки клон путает ударения и&nbsp;паузы. Так мы&nbsp;озвучили ролик «Угадай, где мой голос».</p>
-<div class="code"><pre><code>import torch, numpy as np, soundfile as sf
-from omnivoice import OmniVoice
-
-m = OmniVoice.from_pretrained("k2-fsa/OmniVoice", device_map="mps", dtype=torch.float16)  # NVIDIA: "cuda"
-prompt = m.create_voice_clone_prompt(
-    ref_audio="my-voice.wav",  # 7 секунд моего голоса, чисто, без музыки
-    ref_text="Слушай, я сегодня проверил одну штуку, и это просто смешно. "
-             "Нейросеть сама сказала, что так не бывает. Представляешь? Сама!")
-wav = m.generate(text="[Реплика, которую должен сказать клон.]", voice_clone_prompt=prompt)[0]
-sf.write("line.wav", np.asarray(wav, dtype=np.float32).squeeze(), 24000)</code></pre></div>
-<p>Клонируй только свой голос или голос человека, который согласился.</p>
-<figure class="shot"><img src="img/r4.jpg" width="960" height="640" loading="lazy" alt="Два голосовых сообщения А и Б на ярком фоне"><figcaption>Ролик «Угадай, где мой голос»: одна фраза живая, вторая от&nbsp;клона OmniVoice. Весь остальной ролик тоже говорит клон.</figcaption></figure>
-
-<h3>4. Текст под&nbsp;клон, чтобы он&nbsp;не&nbsp;глотал слова</h3>
-<p><span class="repo"><span class="nw">F5-TTS</span></span>Этот блок мы&nbsp;вставляем в&nbsp;задание агенту, который пишет реплики. Каждое правило появилось после испорченного дубля.</p>
-<div class="code"><pre><code>## Голос (F5, мемный референс): правила, проверенные граблями
-- Первая реплика начинается с жертвенного «Короче.»; реплики не начинать с «Так»; первое слово реплики — согласная.
-- Вместо «ИИ» — «нейросеть». Числа словами. Латиницу писать по-русски (Антропик, Опен эй ай, Клод, чат джи пи ти).
-- После синтеза — ASR каждого дубля (faster-whisper large-v3, ru, word_timestamps). Слово съедено или искажено — менять текст, не seed.</code></pre></div>
-<p>Реплика Горо в&nbsp;кадре ниже: «Короче. Попросил нейросеть отменить созвон.» Со&nbsp;словом «ИИ» F5&nbsp;его проглатывал: распознавание слышало короткое «я».</p>
-<figure class="shot"><img src="img/r5.jpg" width="960" height="640" loading="lazy" alt="Крупный план гориллы Горо в серебристом шлеме"><figcaption>Шортс «Горо отменил созвон»: Горо говорит клоном F5.</figcaption></figure>
-
-<h3>5. Словарная подсказка для&nbsp;проверки озвучки</h3>
-<p><span class="repo">WhisperX</span>Распознавание подставляет знакомое слово вместо редкого и&nbsp;бьёт ложную тревогу. Подсказка со&nbsp;словарём темы это&nbsp;лечит. Подсказку пишем из&nbsp;терминов ролика, но&nbsp;не&nbsp;из&nbsp;самой реплики: иначе распознавание просто согласится со&nbsp;сценарием и&nbsp;проверка ничего не&nbsp;проверит.</p>
-<div class="code"><pre><code>import whisperx
-
-HINT = ("Словарь: Клод, бэкенд, API, Redis, Docker, Kafka, RabbitMQ, Kubernetes, "
-        "Postgres, MySQL, MongoDB, Python, Go, Java, JavaScript, FastAPI, Spring Boot, "
-        "Express, POST, orders, Prometheus, Grafana, кэш, веб-сокеты, пуш, "
-        "балансировщик, микросервисы, трассировка, метрики, дата-центр.")
-model = whisperx.load_model("large-v3", "cpu", compute_type="int8", language="ru",
-                            asr_options={"initial_prompt": HINT})
-result = model.transcribe(whisperx.load_audio("line.wav"))</code></pre></div>
-<p class="src">Словарь дословно из&nbsp;скетча «Бэкенд». Там он&nbsp;шёл в&nbsp;faster-whisper large-v3, на&nbsp;котором построен WhisperX; в&nbsp;WhisperX то же&nbsp;поле передаётся через <code>asr_options</code>.</p>
-<figure class="shot"><img src="img/r2.jpg" width="960" height="640" loading="lazy" alt="3D-сцена: бумбокс с лицом на экране, вверху плашка «Радио Бэкенд FM»"><figcaption>Скетч «Бэкенд» на&nbsp;движке three.js: 38&nbsp;из&nbsp;40&nbsp;реплик распознаны дословно. «Grafana рисует» распознавание так и&nbsp;не&nbsp;услышало, вышло «графа нарисует».</figcaption></figure>
-</section>
-
-<section>
-<h2><span class="step">10</span>Что&nbsp;у&nbsp;нас не&nbsp;получилось</h2>
 <ul>
 <li><b>F5&nbsp;обрезает окончания реплик.</b> В&nbsp;хвосте сгенерированного дубля ноль тишины, звук обрывается на&nbsp;−44 dB. Лечим жертвенным «Ага.» в&nbsp;конце реплики: F5&nbsp;договаривает настоящее окончание, а&nbsp;«ага» потом отрезаем по&nbsp;таймингу из&nbsp;WhisperX. Но&nbsp;на&nbsp;лонге из&nbsp;246&nbsp;дублей выравниватель проглотил «ага» в&nbsp;34, их пришлось дорезать по&nbsp;громкости.</li>
 <li><b>Распознавание путает слова.</b> «Гит» во&nbsp;всех двенадцати дублях превратился в&nbsp;«гид», хотя озвучка была чистой. Я&nbsp;уже собрался переозвучивать четыре реплики, а&nbsp;настоящих дефектов не&nbsp;было ни&nbsp;одного. Со&nbsp;словарной подсказкой («система контроля версий гит и&nbsp;Гитхаб») все двенадцать услышаны верно.</li>
 <li><b>LTX на&nbsp;своём Mac медленный.</b> Один шот «плёнки» считался 150–270&nbsp;секунд, семь клипов заняли 24&nbsp;минуты. Сдержанную игру модель выполнила, но&nbsp;испуг на&nbsp;«я&nbsp;снёс базу» превратила в&nbsp;неловкую улыбку. Лечится перебором сидов (<span class="nw">3–4</span>&nbsp;минуты на&nbsp;попытку) или прямым «испуганный, не&nbsp;улыбается» в&nbsp;промпте.</li>
 <li><b>OmniVoice читал «Клод Код» как&nbsp;«код-код».</b> В&nbsp;речи заменили на&nbsp;«через Клода», на&nbsp;экране оставили Claude.</li></ul>
-</section>
-
-<section>
-<h2><span class="step">11</span>Честно о&nbsp;подвохах</h2>
-<ul>
-<li>«Бесплатно» значит бесплатный код. Нейросетевым моделям (<span class="nw">LTX-2</span>, OmniVoice, <span class="nw">F5-TTS</span>, Depth Anything) нужна мощная видеокарта или Mac с&nbsp;большим объёмом памяти, иначе облако за&nbsp;деньги.</li>
-<li>Код и&nbsp;веса модели часто под&nbsp;разными лицензиями. У&nbsp;OmniVoice и&nbsp;<span class="nw">F5-TTS</span> код открыт для&nbsp;коммерции, а&nbsp;готовые веса только некоммерческие. Смотри и&nbsp;LICENSE на&nbsp;GitHub, и&nbsp;карточку модели на&nbsp;Hugging Face.</li>
-<li>Если у&nbsp;репо нет файла лицензии, это&nbsp;не&nbsp;значит «бери». По&nbsp;умолчанию смотреть можно, использовать и&nbsp;копировать юридически нельзя. У&nbsp;всех восьми репо отсюда лицензия есть.</li>
-<li>Клонировать можно только свой голос или голос человека, который дал согласие.</li>
-<li>Агент пишет код ролика, но&nbsp;вкус и&nbsp;проверка остаются на&nbsp;тебе: первые ролики почти всегда выглядят как&nbsp;слайды.</li></ul>
-</section>
-<a class="back" href="../">← Все инструкции</a>
-<footer>
-Звёзды и&nbsp;лицензии на&nbsp;26.10.2026, сверены по&nbsp;GitHub и&nbsp;Hugging Face. Репозитории принадлежат их авторам. Кадры на&nbsp;странице из&nbsp;наших роликов.<br>
-Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
-</footer>
-</main>
-
-<script src="../copy.js"></script>
-</body>
-</html>
+</details></section>
+<section class="next-guide"><h2>Когда первый MP4 уже получился</h2><p>Полный конвейер, структура проекта и стартовый код: <a href="../mult/">«Фабрика рилсов на Claude Code»</a>. Добавляйте голос, карту, 3D или генерацию шотов по одной задаче за раз.</p></section>
+</div></div><footer><a href="../">← Все инструкции</a><p>Кадры из исходной карусели сохранены. Учебный MP4 и проект сделаны для этого гайда. Учебный пример показывает сборку в HyperFrames; для остальных моделей сверяйте текущие требования.</p><p><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники</a></p></footer></main><script type="module" src="guide.js"></script></body></html>

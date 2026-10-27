@@ -14,7 +14,7 @@
 | найм | [Найм продавца: человек, а не фильтр](https://ilyautov.github.io/gorilla-guides/naim/) + [промпты](prompts/naim.md) |
 | магазин | [Пять задач магазина за 7 минут](https://ilyautov.github.io/gorilla-guides/magazin/) + [промпты](prompts/magazin.md) |
 | колонка | [Своя колонка на Claude](https://ilyautov.github.io/gorilla-guides/kolonka/) + [промпт](prompts/kolonka.md), [архив](kolonka/kolonka.zip) и [код](kolonka/files/) |
-| кино | [Claude снимает кино: 8 репозиториев](https://ilyautov.github.io/gorilla-guides/kino/) |
+| кино | [Первый ролик: от идеи до MP4](https://ilyautov.github.io/gorilla-guides/kino/) + [учебный проект](kino/kino-start.zip), [MP4](kino/demo.mp4) |
 | акция | [Проверь акцию до запуска](https://ilyautov.github.io/gorilla-guides/akciya/) + [промпт](prompts/akciya.md) |
 | отзыв | [Ответ на плохой отзыв](https://ilyautov.github.io/gorilla-guides/otzyv/) + [промпт](prompts/otzyv.md) |
 | расходы | [Где резать расходы, не трогая людей и налоги](https://ilyautov.github.io/gorilla-guides/rashody/) + [промпт](prompts/rashody.md) |

@@ -1,0 +1,10 @@
+{
+  "name": "goro-kino-start",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.8.208 preview",
+    "check": "npx --yes hyperframes@0.8.208 check",
+    "render": "npx --yes hyperframes@0.8.208 render -o output/first-video.mp4 --fps 30"
+  }
+}

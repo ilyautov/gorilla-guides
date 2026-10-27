@@ -1,0 +1,9 @@
+<template><style>
+@font-face{font-family:Onest;src:url('assets/Onest-800.ttf');font-weight:800}@font-face{font-family:Onest;src:url('assets/Onest-400.ttf');font-weight:400}
+#root{position:relative;width:1080px;height:1920px;background:#111517;color:#e8eddc;font-family:Onest,sans-serif;overflow:hidden}
+.copy{position:absolute;left:120px;right:120px;top:300px}h1{font-size:112px;line-height:1.05;font-weight:800;letter-spacing:-3px}p{font-size:42px;line-height:1.35;margin-top:44px;max-width:800px}
+.visual{position:absolute;left:120px;right:120px;top:1050px;min-height:320px;display:flex;align-items:center;justify-content:center;font-size:220px;font-weight:800;border:3px solid currentColor;border-radius:24px}
+.foot{position:absolute;left:120px;bottom:220px;font-size:28px;font-weight:400}
+</style><div id="root" data-composition-id="hook" data-start="0" data-duration="5" data-width="1080" data-height="1920">
+<div class="copy"><h1>Уверенно.<br>Значит верно?</h1><p>Нейросеть может убедительно ошибаться.</p></div><div class="visual">?</div><div class="foot">gorilla_under_hood · учебный пример</div></div>
+<script>const tl=gsap.timeline({paused:true});tl.fromTo('.copy',{y:50,opacity:1},{y:0,opacity:1,duration:.55,ease:'power3.out'},.08);tl.fromTo('.visual',{scale:.88,opacity:1},{scale:1,opacity:1,duration:.6,ease:'power3.out'},.5);tl.to('.visual',{scale:1.04,duration:2.4,ease:'none'},1.3);window.__timelines=window.__timelines||{};window.__timelines['hook']=tl;</script></template>

@@ -1,0 +1,3 @@
+# Preserve byte-for-byte upstream assets, including their license whitespace.
+kino/starter/assets/gsap.min.js -whitespace
+kino/starter/assets/OFL-Onest.txt -whitespace
