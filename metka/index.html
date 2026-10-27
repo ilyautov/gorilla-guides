@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Метка Claude в тексте</title>
+<meta name="description" content="Claude ставит невидимый водяной знак на текст новых моделей по всему миру. Что пишут Anthropic и OpenAI, что мы проверили на 16 ответах Claude, проверка невидимых символов в браузере и чего не снимают «очистители».">
+<meta property="og:title" content="Claude метит твой текст. Что это значит">
+<meta property="og:description" content="Метка в выборе слов, а не в символах. Что пишут Anthropic и OpenAI, наш прогон на 16 ответах и проверка невидимых символов прямо в браузере.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../styles.css">
+<style>
+textarea{width:100%;min-height:140px;font:14px/1.5 var(--mono);color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;resize:vertical}
+textarea:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
+#out{margin-top:10px}
+#out .hit{font:13px/1.5 var(--mono);overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0}
+th,td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}
+th{font-weight:700}
+.tw{overflow-x:auto}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
+  <h1>Claude метит <span class="hl">твой текст</span></h1>
+  <p class="lede">Новые модели Claude ставят на текст невидимый водяной знак, и не только в Европе, а по всему миру. Ниже: что об этом пишут сами Anthropic и OpenAI, что мы проверили своими руками и почему «очистители» из рилсов не делают того, что обещают.</p>
+  <div class="safe"><span>только первоисточники</span><span>16 ответов Claude проверили сами</span><span>проверка прямо в браузере</span><span>без обещаний «пройти детектор»</span></div>
+</header>
+
+<section>
+<h2><span class="step">1</span>Что пишет Anthropic</h2>
+<p>14 августа 2026 года Anthropic опубликовала статью <a href="https://www.anthropic.com/news/claude-text-watermark">«How Claude's text watermark works»</a>, а подробности держит в справке <a href="https://support.claude.com/en/articles/16266773-how-claude-marks-ai-generated-content">«How Claude marks AI-generated content»</a> (обновлена 21.10.2026). Главное дословно:</p>
+<ul>
+<li><b>Какие модели.</b> «Claude models launched on or after August 2, 2026 support marking at launch»: знак есть у моделей, вышедших со 2 августа 2026 года. По таблице в справке текстовый знак сейчас стоит у Opus 5.5, Opus 5, Opus 4.8, Sonnet 5.5, Sonnet 5, Haiku 5.5, Fable 5 и 5.1, Mythos 5.1. У Opus 4.5–4.7, Sonnet 4.5/4.6 и Haiku 4.5 его пока нет, их обещают добавить «over the coming months».</li>
+<li><b>Где.</b> «Claude Platform (API), Claude, Claude Code, Claude Cowork, and Claude Tag», а также через AWS, Google Cloud и Microsoft Foundry. Знак ставится «at the model level», то есть не зависит от того, в каком приложении вы работаете.</li>
+<li><b>По всему миру.</b> «We're applying watermarking globally at launch because we don't yet have a durable way to scope it by region». Повод — европейский закон об ИИ (EU AI Act), но включили везде.</li>
+<li><b>Как устроен.</b> Это «a version of the SynthID-Text approach» от Google DeepMind. Когда модель выбирает из почти равных слов («пасмурно» или «серо»), выбор делает не обычный генератор случайных чисел, а секретный ключ. Глазом разницы не видно, а тот, у кого есть ключ, видит закономерность.</li>
+<li><b>Никаких скрытых символов.</b> «Nothing is added to the text and there are no hidden characters». Знак живёт в самом выборе слов.</li>
+<li><b>Данных о вас в знаке нет.</b> По знаку нельзя узнать пользователя, компанию или чат.</li>
+</ul>
+<div class="stop"><b>А в России?</b> России нет в <a href="https://www.anthropic.com/supported-countries">списке стран, где работает Claude</a>, и Anthropic про неё ничего не пишет. Но знак ставит сама модель, так что ответ, полученный через VPN или сервис-посредник, по логике тоже помечен. Это наш вывод из описания, а не заявление Anthropic.</div>
+</section>
+
+<section>
+<h2><span class="step">2</span>А ChatGPT?</h2>
+<p>OpenAI объявила свой знак textGrain 5 октября 2026 года в статье <a href="https://openai.com/index/eu-text-provenance/">«Our approach to EU text provenance rules»</a>. Он устроен так же: «adds an invisible statistical signal to the model's word choices», и в справке прямо сказано: «It does not add hidden characters, invisible spaces, or unusual punctuation».</p>
+<ul>
+<li><b>Только Евросоюз.</b> «we will introduce text watermarking to eligible ChatGPT and Codex users across all plans in the EU only. We are not making text watermarking a global default at launch». Включение там обещали «over the coming weeks».</li>
+<li><b>В API по желанию клиента.</b> «Text watermarking will remain off by default in the API».</li>
+</ul>
+<p>Так что фраза «ChatGPT теперь метит всё» — преувеличение. В России ChatGPT знак не ставит и не обещал.</p>
+</section>
+
+<section>
+<h2><span class="step">3</span>Можно ли проверить свой текст?</h2>
+<p>Свой детектор есть у обеих компаний, но обычному человеку он недоступен.</p>
+<ul>
+<li><b>Anthropic:</b> «detection API in private preview» только для регуляторов, полиции, СМИ, фактчекеров, исследователей, учебных заведений и компаний, которым это нужно по закону. Заявка: <a href="https://forms.gle/9tGA33hPJJwtHsMk9">форма Anthropic</a>. Бесплатный <i>Claude Content Checker</i> проверяет только файлы (картинки и т. п.), у которых метка в метаданных, а не текст.</li>
+<li><b>OpenAI:</b> «Access will initially be limited to approved researchers and expert organizations».</li>
+</ul>
+<div class="warn"><b>Сайты «проверь, писал ли ИИ»</b> вроде Pangram ищут не водяной знак, а типичные обороты нейросетей. Ключа Anthropic у них нет, и знак Claude они не видят: Anthropic пишет об этом прямо.</div>
+</section>
+
+<section>
+<h2><span class="step">4</span>Что мы проверили сами</h2>
+<p>Раз знак невидим, мы проверили, нет ли в тексте Claude невидимых <i>символов</i>, которые «очистители» обещают вычистить. Взяли 16 бытовых запросов на русском: сопроводительное письмо, отзыв о кофейне, пост в ВК с эмодзи, эссе, пересказ «Муму» и так далее. Прогнали через Claude Code по подписке (<code>claude -p</code>, без инструментов и настроек). Отвечала модель Fable 5.1: по таблице Anthropic у неё знак есть.</p>
+<div class="skills">
+<div class="skill"><b>Скрытых символов: 0 из 16</b>Ни одного пробела нулевой ширины, тега, символа направления или гомоглифа (латинской буквы внутри русского слова).</div>
+<div class="skill"><b>Одна типографская мелочь</b>В «из‑за» Claude один раз поставил неразрывный дефис (U+2011). Это обычная типографика, у Anthropic скрытых символов нет. Мы его показываем, но меткой не считаем.</div>
+<div class="skill"><b>Эмодзи не в счёт</b>В «👩‍🎨» есть невидимая склейка (U+200D), но так устроен сам эмодзи, проверка её пропускает.</div>
+<div class="skill"><b>Сам знак мы не увидели и увидеть не можем</b>Он в выборе слов, а детектор закрыт. Проверить, снимает ли его правка или пересказ, без ключа Anthropic нельзя, и мы этого не утверждаем.</div>
+</div>
+<p>Проверку мы сначала испытали на подложенном тексте с пробелом нулевой ширины, неразрывными пробелами и латинской «a» в слове «мама»: всё нашлось.</p>
+</section>
+
+<section>
+<h2><span class="step">5</span>Проверь свой текст прямо здесь</h2>
+<p>Вставьте текст в поле. Проверка идёт в вашем браузере, текст никуда не отправляется. Она ищет невидимые символы, странные пробелы и дефисы, а также латинские буквы в русских словах.</p>
+<label for="txt" class="kicker">Ваш текст</label>
+<textarea id="txt" placeholder="Вставьте сюда ответ нейросети или любой текст"></textarea>
+<div id="out" aria-live="polite"></div>
+<div class="warn">«Чисто» значит одно: невидимых символов нет. Это <b>не</b> значит, что в тексте нет водяного знака Claude или OpenAI: он в словах, и эта проверка его не видит.</div>
+<p>То же самое для компьютера, скрипт на Python без установки пакетов: <a href="https://github.com/ilyautov/gorilla-guides/blob/main/metka/check_invisible.py">metka/check_invisible.py</a>. Запуск на Mac:</p>
+<div class="code"><pre><code>python3 check_invisible.py текст.txt
+pbpaste | python3 check_invisible.py -</code></pre></div>
+</section>
+
+<section>
+<h2><span class="step">6</span>Что на самом деле снимает знак</h2>
+<p>Только цифры и слова самих компаний:</p>
+<ul>
+<li><b>OpenAI</b> на отрывках в 400 токенов (английский): заменили синонимами 10 % слов, и знак нашли в 66 % случаев вместо 92 %. Заменили 25 % слов — нашли в 17 %. А на отрывках в 200 токенов детектор и без всяких правок находит знак примерно в 80 % случаев (тексты вроде психологии), на математике заметно реже.</li>
+<li><b>Anthropic:</b> «Light editing probably won't remove the watermark completely; a complete rewrite where every word is replaced will». Знака мало в коротких и фактических текстах, в коде и при лёгкой вычитке вашего текста. Перевод, сделанный Claude, помечен.</li>
+</ul>
+<h3>Про «очиститель» из рилса</h3>
+<p>В оригинальном ролике советуют <a href="https://github.com/guillaumemeyer/watermarks-remover">guillaumemeyer/watermarks-remover</a> (лицензия MIT, около 25 тысяч звёзд). Мы прочитали код, но не запускали его. Он делает две вещи:</p>
+<ol>
+<li><b>Вычищает невидимые символы и метаданные файлов.</b> Для текста Claude и ChatGPT это ничего не меняет: таких символов там нет, мы проверили. В README прямо написано: «Layer A does not remove token-sampling watermarks».</li>
+<li><b>Переписывает текст другой нейросетью.</b> Это и есть пересказ. Сами авторы пишут: «It cannot certify that vendor detectors will fail» и что переписывание портит текст. Детектор Claude у них — пустая заглушка до тех пор, пока Anthropic его не откроет.</li>
+</ol>
+<p>И «вставь ссылку в ChatGPT и скажи install this skill» не сработает: скилл только отправляет запросы в отдельную программу, которую надо поднять у себя (Docker), и для пересказа ей нужна ещё одна модель.</p>
+</section>
+
+<section>
+<h2><span class="step">7</span>Чего мы не обещаем</h2>
+<ul>
+<li>Что какой-то способ «проходит детекторы». Детектора знака у нас нет, у вас тоже.</li>
+<li>Что знака нет, если наша проверка показала «чисто».</li>
+<li>Что знак что-то доказывает. Обе компании пишут: знак значит только, что модель участвовала в тексте. Он не говорит, кто автор, а отсутствие знака не доказывает, что писал человек.</li>
+</ul>
+<div class="stop">Если текст пишете вы сами, а Claude только вычитывает, знака почти не остаётся: «because nearly all the words are the person's, there's very little (if anything) for the watermark to attach to». Самый честный путь — писать своё и звать нейросеть редактором, а не автором.</div>
+</section>
+<a class="back" href="../">← Все инструкции</a>
+<footer>
+Мы не помогаем выдавать текст нейросети за свой там, где это запрещено.<br>
+Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+</footer>
+</main>
+
+<script src="../copy.js"></script>
+<script>
+(function(){
+  var ta=document.getElementById('txt'),out=document.getElementById('out');
+  function kind(cp){
+    if((cp>=0x200B&&cp<=0x200F)||(cp>=0x2060&&cp<=0x2064)||cp===0xFEFF||cp===0xAD||cp===0x34F||cp===0x180E)return 'нулевой ширины';
+    if((cp>=0x202A&&cp<=0x202E)||(cp>=0x2066&&cp<=0x2069))return 'управление направлением';
+    if(cp>=0xE0000&&cp<=0xE007F)return 'теговый символ';
+    if((cp>=0xFE00&&cp<=0xFE0F)||(cp>=0xE0100&&cp<=0xE01EF))return 'селектор варианта';
+    if(cp===0xA0||cp===0x202F||cp===0x205F||cp===0x3000||(cp>=0x2000&&cp<=0x200A))return 'нестандартный пробел';
+    if(cp===0x2010||cp===0x2011||cp===0x2012||cp===0x2043||cp===0xFE63||cp===0xFF0D)return 'нестандартный дефис';
+    if((cp<32&&cp!==9&&cp!==10&&cp!==13)||(cp>=0x7F&&cp<=0x9F))return 'управляющий';
+    if(cp>=0xE000&&cp<=0xF8FF)return 'служебный';
+    return null;
+  }
+  var emoji=/\p{Extended_Pictographic}/u;
+  function esc(s){return s.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+  function run(){
+    var t=ta.value,chars=Array.from(t),hits=[],norm=0;
+    for(var i=0;i<chars.length;i++){
+      var cp=chars[i].codePointAt(0),k=kind(cp);
+      if(!k)continue;
+      var pe=i>0&&emoji.test(chars[i-1]),ne=i+1<chars.length&&emoji.test(chars[i+1]);
+      if((cp===0xFE0F&&pe)||(cp===0x200D&&pe&&ne)){norm++;continue}
+      var ctx=chars.slice(Math.max(0,i-12),i).join('')+'⟦'+'U+'+cp.toString(16).toUpperCase().padStart(4,'0')+'⟧'+chars.slice(i+1,i+13).join('');
+      hits.push(k+': '+ctx.replace(/\n/g,'⏎'));
+    }
+    var mixed=(t.match(/[\p{L}\p{N}_]+/gu)||[]).filter(function(w){return /[Ѐ-ӿ]/.test(w)&&/[A-Za-z]/.test(w)});
+    if(!t.trim()){out.innerHTML='';return}
+    var h='';
+    if(!hits.length&&!mixed.length){h='<div class="skill"><b>Чисто: невидимых символов и смешанных слов нет</b>Символов: '+chars.length+(norm?'. Склеек внутри эмодзи: '+norm+', это норма.':'.')+'</div>'}
+    else{
+      h='<div class="skill"><b>Найдено: символов '+hits.length+', смешанных слов '+mixed.length+'</b>';
+      hits.slice(0,50).forEach(function(x){h+='<div class="hit">'+esc(x)+'</div>'});
+      mixed.slice(0,50).forEach(function(w){h+='<div class="hit">латиница в русском слове: '+esc(w)+'</div>'});
+      h+='</div>';
+    }
+    out.innerHTML=h;
+  }
+  ta.addEventListener('input',run);
+})();
+</script>
+</body>
+</html>

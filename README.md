@@ -6,6 +6,11 @@
 
 | Кодовое слово | Страница |
 |---|---|
+| стол | [ИИ следит за каждым столом](https://ilyautov.github.io/gorilla-guides/stol/) + [скрипт](stol/files/stol_time_in_zone.py) |
+| метка | [Claude метит твой текст](https://ilyautov.github.io/gorilla-guides/metka/) + [скрипт проверки](metka/check_invisible.py) |
+| двор | [Твой двор в Майнкрафте 1:1](https://ilyautov.github.io/gorilla-guides/dvor/) |
+| граф | [Граф для Claude Code: обещали ×79, мы замерили](https://ilyautov.github.io/gorilla-guides/graf/) |
+| blender | [3D-сцена без Blender](https://ilyautov.github.io/gorilla-guides/blender/) + [скрипт сцены](blender/scene.py) |
 | станция | [Своя Станция по шагам: визуальная инструкция](https://ilyautov.github.io/gorilla-guides/stanciya/) |
 | агент | [Обвязка, цикл и граф: как устроен ИИ-агент](https://ilyautov.github.io/gorilla-guides/agent/) + [промпт](prompts/agent.md) |
 | карта | [Дашь ИИ карту? Сначала права](https://ilyautov.github.io/gorilla-guides/karta/) + [промпт](prompts/karta.md) |

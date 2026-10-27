@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Твой двор в Майнкрафте</title>
+<meta name="description" content="Arnis строит из карты OpenStreetMap мир Minecraft один к одному. Как поставить на Mac без лишних установок, как выбрать двор, сколько ждать (наш замер: 5 секунд на 300×300 м) и как открыть мир в игре.">
+<meta property="og:title" content="Твой двор в Майнкрафте 1:1">
+<meta property="og:description" content="Arnis строит из карты OpenStreetMap мир Minecraft один к одному. Как поставить, как выбрать двор, сколько ждать и как открыть мир в игре.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.lic{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 14px;margin:12px 0}
+.lic>b:first-child{display:block;margin-bottom:2px}
+.lic ul{margin:4px 0}
+.req{font-size:14px;color:var(--muted)}
+.tag{display:inline-block;font:600 12px var(--mono);border-radius:6px;padding:1px 7px;margin-right:6px;vertical-align:1px}
+.tag.ok{background:var(--lime);color:#1a2023}
+.tag.doc{border:1px solid var(--line);color:var(--muted)}
+figure.shot{margin:14px 0}
+figure.shot img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:var(--surface)}
+figure.shot figcaption{font-size:13px;color:var(--muted);margin-top:6px}
+.tbl{width:100%;border-collapse:collapse;font-size:15px;margin:10px 0}
+.tbl th,.tbl td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{font-weight:700;color:var(--muted);font-size:13px}
+.nw{white-space:nowrap}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="kicker">Инструкция к ролику @gorilla_under_hood</div>
+  <h1>Твой двор в&nbsp;Майнкрафте <span class="hl">1:1</span></h1>
+  <p class="lede">Программа Arnis берёт настоящую карту и&nbsp;рельеф и&nbsp;строит из&nbsp;них мир Minecraft, где один блок равен метру. Мы поставили её на&nbsp;Mac без&nbsp;установок в&nbsp;систему и&nbsp;собрали квартал панелек: вышло за&nbsp;5&nbsp;секунд.</p>
+  <div class="safe"><span>бесплатно, Apache-2.0</span><span>Mac, Windows, Linux</span><span>300×300 м за 5 с</span><span>без brew и sudo</span></div>
+</header>
+
+<section>
+<p><span class="tag ok">прогнано</span>— шаг мы выполнили сами 27.10.2026 на&nbsp;MacBook с&nbsp;M1&nbsp;Max, Arnis&nbsp;v3.3.0.<br><span class="tag doc">по документации</span>— пересказ официальной вики Arnis, сами не&nbsp;запускали.</p>
+<figure class="shot"><img src="img/dvor-iso.jpg" width="1200" height="722" loading="lazy" alt="Воксельный квартал сверху наискосок: длинные панельные дома, школа буквой Ш, детский сад крестом, деревья, футбольная коробка и парковки"><figcaption>Наш прогон: квартал панелек на&nbsp;севере Москвы, 297×301 блок. Мир собран Arnis, а&nbsp;картинку мы отрисовали своим скриптом и&nbsp;своими цветами, без&nbsp;игры и&nbsp;текстур Minecraft. Данные карты © участники OpenStreetMap.</figcaption></figure>
+</section>
+
+<section>
+<h2><span class="step">1</span>Поставить Arnis на&nbsp;Mac</h2>
+<p><span class="tag ok">прогнано</span>Нужен только сам релиз с&nbsp;GitHub, один файл. Ни&nbsp;Java, ни&nbsp;Rust, ни&nbsp;brew не&nbsp;нужны. Скачивайте только со&nbsp;<a href="https://github.com/louis-e/arnis/releases">страницы релизов</a> или&nbsp;<a href="https://arnismc.com">arnismc.com</a>: авторы пишут, что других официальных сайтов нет.</p>
+<div class="code"><pre><code>mkdir -p ~/arnis && cd ~/arnis
+curl -L -o arnis-mac.tar.gz https://github.com/louis-e/arnis/releases/download/v3.3.0/arnis-mac-universal.tar.gz
+tar -xzf arnis-mac.tar.gz
+chmod +x arnis-mac-universal
+./arnis-mac-universal --help</code></pre></div>
+<p class="req">Архив весит 63&nbsp;МБ, у&nbsp;нас качался 28&nbsp;секунд. Файл универсальный, работает и&nbsp;на&nbsp;M-чипах, и&nbsp;на&nbsp;Intel. Новее v3.3.0 может выйти релиз: номер смотрите на&nbsp;странице релизов.</p>
+<div class="warn"><span class="tag doc">по документации</span>Если скачали архив браузером, macOS скажет, что&nbsp;не&nbsp;может проверить программу: сборка не&nbsp;заверена в&nbsp;Apple. Вики Arnis советует открыть файл один раз, закрыть предупреждение и&nbsp;нажать «Всё равно открыть» в&nbsp;Системных настройках → Конфиденциальность и&nbsp;безопасность. Второй вариант: <code>xattr -d com.apple.quarantine ~/Downloads/arnis-mac-universal</code>. При&nbsp;скачивании через <code>curl</code>, как выше, у&nbsp;нас предупреждения не&nbsp;было.</div>
+<p><span class="tag doc">по документации</span>Запуск без&nbsp;параметров открывает окно с&nbsp;картой: выделяете прямоугольник и&nbsp;жмёте «Start Generation». Окно мы не&nbsp;открывали, всё делали командой из&nbsp;терминала, она ниже.</p>
+<p><span class="tag doc">по документации</span>Windows: файл <code>arnis-windows.exe</code> с&nbsp;той же страницы. Linux: <code>arnis-linux.tar.gz</code>. Команды те&nbsp;же.</p>
+</section>
+
+<section>
+<h2><span class="step">2</span>Выбрать двор</h2>
+<p>Arnis понимает прямоугольник из&nbsp;четырёх чисел: <code>южная широта,западная долгота,северная широта,восточная долгота</code>.</p>
+<ol>
+<li>Откройте <a href="https://www.openstreetmap.org">openstreetmap.org</a> и&nbsp;найдите двор. Посмотрите, нарисованы ли там дома, дорожки, площадки. Чего нет на&nbsp;карте, того не&nbsp;будет в&nbsp;мире.</li>
+<li>Правый клик по&nbsp;центру двора → «Показать адрес». Слева появятся координаты, например <code>55.88700, 37.60500</code>.</li>
+<li>Для квадрата примерно 300×300&nbsp;м отнимите и&nbsp;прибавьте к&nbsp;широте <b>0,00135</b>, а&nbsp;к&nbsp;долготе <b>0,0024</b>. Это для Москвы: на&nbsp;севере шаг по&nbsp;долготе больше (Питер 0,0027), на&nbsp;юге меньше (Краснодар 0,0019).</li>
+</ol>
+<p>Наш квадрат, квартал панелек в&nbsp;Бибирево:</p>
+<div class="code"><pre><code>55.88565,37.60262,55.88835,37.60738</code></pre></div>
+<p>Мы&nbsp;пробовали четыре района Москвы. В&nbsp;Северном Чертаново квадрат попал в&nbsp;парк, в&nbsp;Марьино и&nbsp;Ясенево на&nbsp;магистраль и&nbsp;стадион. Бибирево дало тот самый двор: длинные панельные многоэтажки, башня, школа, детсад, коробка, парковки. Каждый пробный прогон занимает секунды, так что подбирайте квадрат пробами.</p>
+<div class="stop">Если будете выкладывать ролик, не&nbsp;подписывайте адрес своего дома и&nbsp;не&nbsp;показывайте координаты. Хватит района.</div>
+</section>
+
+<section>
+<h2><span class="step">3</span>Собрать мир</h2>
+<p><span class="tag ok">прогнано</span>Одна команда. Вместо <code>~/arnis/worlds</code> можно сразу указать папку сохранений Minecraft, она в&nbsp;шаге&nbsp;5.</p>
+<div class="code"><pre><code>mkdir -p ~/arnis/worlds
+~/arnis/arnis-mac-universal \
+  --bbox="55.88565,37.60262,55.88835,37.60738" \
+  --output-dir="$HOME/arnis/worlds" \
+  --map-preview</code></pre></div>
+<p>В&nbsp;папке появится «Arnis World 1»: это и&nbsp;есть мир для Minecraft Java. Флаг <code>--map-preview</code> кладёт рядом картинку&nbsp;<code>arnis_world_map.png</code> с&nbsp;видом сверху: по&nbsp;ней видно, тот ли двор попал в&nbsp;квадрат, ещё до&nbsp;запуска игры.</p>
+<figure class="shot"><img src="img/dvor-top.jpg" width="600" height="608" loading="lazy" alt="Вид сверху на тот же квартал: серые крыши домов, зелень, дорожки, футбольное поле"><figcaption>Тот же мир сверху, север вверху. Данные карты © участники OpenStreetMap.</figcaption></figure>
+<p class="req">Полезные флаги из&nbsp;<code>--help</code>: <code>--interior</code> (комнаты внутри домов), <code>--winter</code> (зима), <code>--bedrock</code> (мир для Bedrock: телефон, консоли, Windows), <code>--scale 0.5</code> (вдвое меньше).</p>
+</section>
+
+<section>
+<h2><span class="step">4</span>Сколько ждать</h2>
+<p><span class="tag ok">прогнано</span>Наши замеры, MacBook M1&nbsp;Max, домашний интернет:</p>
+<table class="tbl">
+<tr><th>Что</th><th>Время</th></tr>
+<tr><td>Скачать Arnis (63&nbsp;МБ)</td><td>28&nbsp;с</td></tr>
+<tr><td>Первый мир 300×300&nbsp;м</td><td>4,7–5&nbsp;с</td></tr>
+<tr><td>Тот же квадрат ещё раз</td><td>1,6&nbsp;с</td></tr>
+<tr><td>Размер готового мира</td><td>1,5&nbsp;МБ</td></tr>
+</table>
+<p>Повтор быстрее, потому что Arnis кэширует скачанные карты в&nbsp;<code>~/Library/Caches/arnis*</code>, у&nbsp;нас набралось 22&nbsp;МБ. Удалить кэш можно командой <code>rm -rf ~/Library/Caches/arnis*</code>. Большой район или&nbsp;целый город займут заметно дольше: мы мерили только двор.</p>
+<div class="warn"><span class="tag doc">по документации</span>Если генерация встала на&nbsp;10&nbsp;%, это скачивается рельеф. Вики советует флаг <code>--aws-only-elevation</code> (в&nbsp;окне: Settings → Advanced → Legacy terrain), а&nbsp;если не&nbsp;поможет, VPN.</div>
+</section>
+
+<section>
+<h2><span class="step">5</span>Открыть мир в&nbsp;Minecraft Java</h2>
+<p><span class="tag doc">по документации</span>Minecraft мы не&nbsp;запускали: мир проверили своим скриптом, он прочитал файлы мира и&nbsp;отрисовал картинки выше. Дальше пересказ вики Arnis и&nbsp;вики Minecraft.</p>
+<ol>
+<li>Нужна Minecraft Java Edition версии 1.21.4 или&nbsp;новее. Игра платная, покупается на&nbsp;minecraft.net.</li>
+<li>Скопируйте папку «Arnis World 1» в&nbsp;папку сохранений:
+<ul>
+<li>Mac: <code>~/Library/Application Support/minecraft/saves</code></li>
+<li>Windows: <code>%appdata%\.minecraft\saves</code></li>
+<li>Linux: <code>~/.minecraft/saves</code></li>
+</ul></li>
+<li>Запустите игру → «Одиночная игра» → мир «Arnis World 1». Если генерировали несколько раз, номер в&nbsp;названии растёт: берите последний.</li>
+<li>Вы появитесь в&nbsp;углу участка в&nbsp;творческом режиме. Двор лежит от&nbsp;вас в&nbsp;сторону растущих X и&nbsp;Z.</li>
+</ol>
+<p class="req">Для Bedrock соберите мир с&nbsp;флагом <code>--bedrock</code>: получится файл <code>.mcworld</code> (по&nbsp;умолчанию на&nbsp;Рабочем столе), его импортируют в&nbsp;игру. Нужна Bedrock 1.21.0 или&nbsp;новее.</p>
+</section>
+
+<section>
+<h2><span class="step">6</span>Попросить Claude: «Поставь Arnis»</h2>
+<p><span class="tag ok">прогнано</span>Шаги&nbsp;1–4 у&nbsp;нас выполнил агент Claude Code по&nbsp;похожей просьбе: сам нашёл релиз через GitHub, скачал в&nbsp;отдельную папку, собрал мир и&nbsp;замерил время. Промпт для Claude Code:</p>
+<div class="code"><pre><code>Поставь Arnis (github.com/louis-e/arnis) на мой Mac и собери мне мир Minecraft моего двора.
+
+Правила:
+- Ничего не ставь в систему: без brew, sudo и глобальных установок.
+  Только готовый релиз с github.com/louis-e/arnis/releases в папку ~/arnis.
+- Перед запуском покажи мне вывод --help и версию.
+- Мир собирай из терминала, без окна: --bbox и --output-dir, плюс --map-preview.
+
+Двор: [район или координаты центра двора].
+Возьми квадрат примерно 300 на 300 метров вокруг этой точки.
+Покажи картинку arnis_world_map.png и спроси, тот ли это двор.
+Если двор не попал или там пусто, сдвинь квадрат и собери заново.
+
+В конце скажи, сколько заняла генерация и куда скопировать папку мира,
+чтобы открыть её в Minecraft Java.</code></pre></div>
+<p class="req">Не&nbsp;пишите в&nbsp;промпт точный адрес, если потом будете показывать переписку. Координат центра квартала хватит.</p>
+</section>
+
+<section>
+<h2><span class="step">7</span>Права и&nbsp;откуда данные</h2>
+<div class="lic"><b>Arnis</b>Бесплатная программа с&nbsp;открытым кодом, лицензия <span class="nw">Apache-2.0</span>. Миры можно показывать в&nbsp;роликах. Если распространяете сам код или&nbsp;свою переделку, приложите текст лицензии.</div>
+<div class="lic"><b>Карта</b>Дома, дороги и&nbsp;деревья берутся из&nbsp;OpenStreetMap, лицензия ODbL. Показываете мир, указывайте «© участники OpenStreetMap» (<a href="https://www.openstreetmap.org/copyright">openstreetmap.org/copyright</a>). Arnis читает OSM не&nbsp;напрямую, а&nbsp;из&nbsp;своего архива: правки, внесённые в&nbsp;карту сегодня, появятся после его пересборки.</div>
+<div class="lic"><b>Рельеф и&nbsp;остальное</b>Высоты: <a href="https://mapterhorn.com/attribution/">Mapterhorn</a> (основа Copernicus GLO-30 и&nbsp;национальные данные, где они есть). В&nbsp;Москве у&nbsp;нас пришли только крупные тайлы, так что&nbsp;рельеф во&nbsp;дворе грубый, перепад 9&nbsp;м. Ещё Arnis берёт покрытие земли ESA WorldCover, высоту деревьев Meta/WRI и&nbsp;недостающие дома из&nbsp;Overture Maps (в&nbsp;нашем квадрате добавилось 8). Полный список: <a href="https://github.com/louis-e/arnis/wiki/Data-Sources">вики Arnis, Data Sources</a>.</div>
+<div class="lic"><b>Minecraft</b>Игра и&nbsp;её текстуры принадлежат Mojang и&nbsp;Microsoft. На&nbsp;картинках этой страницы их нет: цвета блоков свои.</div>
+</section>
+
+<a class="back" href="../">← Все инструкции</a>
+<footer>
+Arnis написал Louis Erbkamm с&nbsp;сообществом, мы к&nbsp;проекту отношения не&nbsp;имеем. Данные карты © участники OpenStreetMap.<br>
+Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a>
+</footer>
+</main>
+
+<script src="../copy.js"></script>
+</body>
+</html>
