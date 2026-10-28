@@ -149,3 +149,9 @@ footer .back{display:inline-flex;align-items:center;min-height:44px;font-size:15
 }
 
 .command.is-shell pre{white-space:pre;overflow-wrap:normal;overflow-x:auto}
+
+/* Вторая кнопка: телеграм-канал. Тёмная, чтобы не спорить с лаймовой главной. */
+.btn-tg{background:var(--ink,#1a2023);color:#fff}
+.tg-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin:0 0 20px;padding:16px;border-radius:var(--radius);background:rgba(214,255,67,.18)}
+.tg-cta p{margin:0}
+@media (prefers-color-scheme:dark){.btn-tg{background:#f5f7ef;color:#1a2023}}
