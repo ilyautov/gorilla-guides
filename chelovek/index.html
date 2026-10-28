@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Claude пишет как человек: промпты и готовый навык</title>
+<meta name="description" content="Три промпта из ролика: очеловечить текст, выписать признаки нейросети из Википедии, собрать навык. И готовый бесплатный навык humanizer-ru со сканером штампов.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Claude пишет как человек: промпты и готовый навык">
+<meta property="og:description" content="Три промпта из ролика и бесплатный навык humanizer-ru: 67 признаков, сканер штампов. Наш прогон: пост кофейни 97 → 100, длинных тире 3 → 0.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/chelovek/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/chelovek/img/kadr.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/guide-v2.css">
+<style>/* кадр ролика перед шагом 1; две колонки «было/стало» */
+.video-frame{margin:0 0 24px;max-width:640px}
+.video-frame img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--line)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.pair{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Claude пишет <span class="hl">как человек</span>: промпты и навык</h1>
+    <p class="lede">Обещанные промпты из ролика: три сообщения в чат Claude, после которых у вас свой навык-очеловечиватель. И готовый бесплатный навык humanizer-ru, если собирать самому лень.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Собрать свой навык: 3 промпта →</a>
+      <a class="secondary-link" href="#ready">Сразу готовый навык</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>MIT</li><li>67 признаков</li><li>сканер штампов</li></ul>
+    <p class="for-video">К ролику «Claude пишет как человек» · обновлено 28 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/kadr.jpg" width="960" height="640" alt="Кадр из ролика: пост кофейни, сканер humanizer-ru показывает чистоту 100 и ноль длинных тире"></figure>
+</header>
+
+<nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
+  <li><a href="#step-1"><b>Промпт 1</b><span>очеловечивай мой текст</span></a></li>
+  <li><a href="#step-2"><b>Промпт 2</b><span>признаки из Википедии</span></a></li>
+  <li><a href="#step-3"><b>Промпт 3</b><span>собрать навык</span></a></li>
+  <li><a href="#ready"><b>humanizer-ru</b><span>готовый навык, MIT</span></a></li>
+  <li><a href="#proof"><b>Наш прогон</b><span>97 → 100, тире 3 → 0</span></a></li>
+</ol></nav>
+
+<div class="start-note"><b>До начала</b><p>Нужен аккаунт Claude. Создавать навыки в чате можно там, где в настройках включены Skills (Settings → Capabilities). Сканер не детектор нейросети: он считает штампы, а не авторство.</p></div>
+
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Свой навык за 3 промпта</h2>
+
+<figure class="video-frame"><img loading="lazy" src="img/kadr.jpg" width="960" height="640" alt="Кадр из ролика: сканер humanizer-ru, чистота 100, длинных тире 0"><figcaption>Кадр из ролика. Цифры — наш прогон сканера humanizer-ru по посту Claude до и после навыка.</figcaption></figure>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Попросите очеловечивать текст</h3><p>Новый чат в Claude, первое сообщение.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В чат Claude · промпт 1</span><button type="button">Копировать</button></div><pre><code>Очеловечивай весь мой текст, чтобы он не звучал как нейросеть.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Дайте ему список признаков из Википедии</h3><p>Тут же следом, в том же чате.</p></div></div>
+  <p>Страница: <a href="https://ru.wikipedia.org/wiki/Википедия:Признаки_сгенерированности_текста">Википедия:Признаки сгенерированности текста</a>. Вставьте ссылку и промпт:</p>
+  <div class="command"><div class="command-bar"><span>В чат Claude · промпт 2, вместе со ссылкой</span><button type="button">Копировать</button></div><pre><code>Возьми страницу Википедии с признаками нейросетевого текста и составь список всех шаблонов. После этого никогда их не используй.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Нумерованный список шаблонов. У нас Claude выписал 25: «играет ключевую роль», «не только…, но и…», правило трёх, жирный шрифт на каждом термине, злоупотребление длинным тире и другие. Если Claude не открывает ссылку, скопируйте текст страницы в чат целиком.</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Соберите из этого навык</h3><p>В том же чате: «/», выберите skill-creator (создатель навыков).</p></div></div>
+  <div class="command"><div class="command-bar"><span>В чат Claude · после /skill-creator</span><button type="button">Копировать</button></div><pre><code>Создай навык-очеловечиватель на основе всего, что мы определили, чтобы больше ничего не объяснять.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Claude создаёт навык. Дальше в любом чате пишете «/» и имя навыка перед текстом, который надо причесать.</p></div>
+</div>
+</section>
+
+<section class="block" id="ready-block" aria-labelledby="ready-title">
+<h2 id="ready-title">Готовый навык вместо самодельного</h2>
+<p class="intro">humanizer-ru — бесплатный навык для русского текста, лицензия MIT: 67 признаков в каталоге, 21 жёсткий запрет, сканер с баллом чистоты 0–100 и факт-замком (сверяет числа, даты и имена до и после правки). <a href="https://github.com/ilyautov/humanizer-ru">github.com/ilyautov/humanizer-ru</a></p>
+
+<details id="ready"><summary><span>Claude.ai в браузере<small>загрузить архив навыка</small></span></summary><div class="details-body">
+  <ol>
+    <li>Скачайте архив: <a href="https://github.com/ilyautov/humanizer-ru/releases/latest/download/humanizer-ru.zip">humanizer-ru.zip</a>.</li>
+    <li>Claude.ai → Settings → Capabilities → Skills.</li>
+    <li>Upload skill, выберите скачанный архив.</li>
+  </ol>
+  <p>Не берите архив всего репозитория (archive/refs/heads/main.zip): загрузчик ждёт папку навыка в корне архива.</p>
+</div></details>
+
+<details id="ready-code"><summary><span>Claude Code<small>плагином или одной командой</small></span></summary><div class="details-body">
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · две команды по очереди</span><button type="button">Копировать</button></div><pre><code>/plugin marketplace add ilyautov/humanizer-ru
+/plugin install humanizer-ru@ilyautov-plugins</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Или для любого агента (Claude Code, Cursor, Codex и другие):</p>
+  <div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>npx skills add ilyautov/humanizer-ru</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+</div></details>
+
+<details id="ready-use"><summary><span>Как вызвать<small>промпт из нашего прогона</small></span></summary><div class="details-body">
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · промпт, дальше вставьте свой текст</span><button type="button">Копировать</button></div><pre><code>/humanizer-ru:humanizer-ru Очеловечь этот пост. В ответе верни только итоговый текст поста, без комментариев.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>В Claude.ai достаточно написать «очеловечь» или «убери канцелярит» и вставить текст: навык подхватится сам.</p>
+</div></details>
+
+<details id="scanner"><summary><span>Сканер штампов отдельно<small>балл 0–100 без агента</small></span></summary><div class="details-body">
+  <p>В браузере: <a href="https://humanizer-ru.aifrontier.tech/#audit">humanizer-ru.aifrontier.tech</a>, вставьте текст. В терминале:</p>
+  <div class="command"><div class="command-bar"><span>В терминал · нужен uv</span><button type="button">Копировать</button></div><pre><code>uvx ru-humanizer файл.txt</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+</div></details>
+</section>
+
+<section class="block" id="proof" aria-labelledby="proof-title">
+<h2 id="proof-title">Что было в ролике: наш прогон</h2>
+<p>28 октября попросили Claude без навыков: «Напиши пост для Instagram кофейни «Зерно» про новое осеннее меню: тыквенный раф, глинтвейн без алкоголя и пирог с яблоком. Только текст поста». Потом тот же пост прогнали через humanizer-ru.</p>
+<div class="pair">
+  <div><h4>До навыка</h4><p>Чистота 97 из 100, длинных тире 3: «Тыквенный раф — нежный…», «Глинтвейн без алкоголя — апельсин…», «Яблочный пирог — печём сами…».</p></div>
+  <div><h4>После навыка</h4><p>Чистота 100, тире 0, маркеров 0. Навык заменил тире двоеточиями и убрал одно. Факт-замок: 8:00, 22:00 и «до конца ноября» на месте.</p></div>
+</div>
+<p>Свежий Claude пишет пост почти чисто: правка вышла маленькой. Больше штампов бывает в длинных и официальных текстах.</p>
+</section>
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="no-skills"><summary>В меню «/» нет skill-creator</summary><div class="details-body">
+  <p>Включите Skills в Settings → Capabilities. Если раздела нет, поставьте готовый humanizer-ru архивом или пользуйтесь промптами 1 и 2 в начале каждого чата.</p>
+</div></details>
+<details id="no-score"><summary>Навык не показывает балл «Чистота: N/100»</summary><div class="details-body">
+  <p>Сканеру нужны пакеты razdel и pymorphy3. Без них навык правит текст вручную и говорит об этом. Проще всего проверить текст на <a href="https://humanizer-ru.aifrontier.tech/#audit">сайте</a> или командой <code>uvx ru-humanizer файл.txt</code>.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Чего это не гарантирует</h2>
+<ul>
+  <li><b>Детекторы мы не обманываем и не проверяли.</b> Бесплатного детектора без входа и оплаты для такого прогона не нашли, поэтому в ролике только сканер штампов. Детекторы нейросети на русском ошибаются в обе стороны: <a href="https://humanizer-ru.aifrontier.tech/ai-detektory-na-russkom.html">разбор</a>.</li>
+  <li>Балл сканера не определяет авторство и не подтверждает, что смысл сохранён. Перечитайте текст сами.</li>
+  <li>Цифры 97 → 100 и 3 → 0 — один наш прогон на одном посте. У вас будет по-своему.</li>
+</ul>
+</section>
+
+<footer>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>humanizer-ru — навык нашего автора, исходники открыты, лицензия MIT.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
+</footer>
+</main>
+<script src="../assets/guide-v2.js"></script>
+</body>
+</html>
