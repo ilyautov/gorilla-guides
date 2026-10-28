@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Бункер: Википедия и нейросеть на ноутбуке без интернета</title>
+<meta name="description" content="Что скачать заранее, чтобы без интернета под рукой были Википедия, справочники по первой помощи и нейросеть: Survival LLM и Kiwix, только официальные сайты, сколько места нужно.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Бункер: Википедия и нейросеть на ноутбуке без интернета">
+<meta property="og:description" content="Survival LLM (библиотека 9 ГБ, нейросеть под вашу память) и Kiwix с русской Википедией (17 ГБ без картинок). Пошагово, с официальными ссылками.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/bunker/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/bunker/img/kadr.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/guide-v2.css">
+<style>/* таблица «какая модель под какой компьютер» */
+.tbl{width:100%;border-collapse:collapse;font-size:15px}
+.tbl th,.tbl td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl-wrap{overflow-x:auto}
+</style>
+</head>
+<body>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Википедия и нейросеть <span class="hl">без интернета</span></h1>
+    <p class="lede">Что скачать заранее, чтобы без сети на ноутбуке были Википедия, справочники и нейросеть. Только официальные сайты.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Начать: 3 шага</a>
+      <a class="btn btn-tg" href="https://t.me/gorilla_under_hood">Телеграм-канал</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>работает офлайн</li><li>Mac и Windows</li><li>ставить заранее</li></ul>
+    <p class="for-video">К ролику «Бункер» · проверено по официальным страницам 28 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/kadr.jpg" width="960" height="640" alt="Кадр из ролика в стиле учебного фильма 1950-х: карточка «Survival LLM, бесплатно, код открыт»"></figure>
+</header>
+
+<nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
+  <li><a href="#step-1"><b>Survival LLM</b><span>нейросеть + библиотека</span></a></li>
+  <li><a href="#models"><b>Какая модель</b><span>от 16 ГБ памяти</span></a></li>
+  <li><a href="#step-3"><b>Kiwix</b><span>русская Википедия</span></a></li>
+  <li><a href="#limits"><b>Ограничения</b><span>сверяйте источник</span></a></li>
+</ol></nav>
+
+<div class="start-note"><b>До начала</b><p>Всё ставится, пока есть интернет: программы сами скачивают десятки гигабайт. Освободите на диске 40–50 ГБ (расчёт ниже). Это справочник, а не врач: в экстренной ситуации звоните 112, если связь есть.</p></div>
+
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Офлайн-библиотека за 3 шага</h2>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Скачайте Survival LLM с официальной страницы</h3><p>Бесплатная программа с открытым кодом (MIT): нейросеть и библиотека на вашем компьютере.</p></div></div>
+  <p>Страница проекта: <a href="https://www.brangus.io/survival-llm">brangus.io/survival-llm</a>. Версия 0.3.4 вышла 27 октября 2026.</p>
+  <ul>
+    <li><b>Mac:</b> Apple Silicon (M1 и новее), macOS 14 Sonoma и новее.</li>
+    <li><b>Windows:</b> 10 или 11, 64-битная.</li>
+    <li>Linux на странице не указан.</li>
+  </ul>
+  <p>Что внутри библиотеки, по словам авторов: около 930 тысяч самых читаемых статей Википедии; медицина (WikiMed, MedlinePlus Национальной медицинской библиотеки США, британский справочник лекарств A–Z, WikEM); памятки Ready.gov (FEMA) и CDC; армейские пособия США по медицине и выживанию; ремонт (iFixit, wikiHow, Appropedia); ответы Stack Exchange про ремонт дома, готовку, сад, походы и радиолюбительство.</p>
+  <div class="warn"><b>Язык.</b> На странице не сказано, на каком языке библиотека и отвечает ли нейросеть по-русски. Судя по составу (MedlinePlus, FEMA, CDC), источники англоязычные. Русскую Википедию ставьте отдельно, шаг 3.</div>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Запустите и дождитесь полной установки</h3><p>Распакуйте, откройте и пройдите настройку, не выключая интернет.</p></div></div>
+  <p>При первом запуске программа сама скачивает движок нейросети (в версии для Mac он встроен), модель под ваш компьютер и библиотеку. Авторы просят дождаться конца установки онлайн. После этого интернет не нужен.</p>
+  <h4>Сколько места</h4>
+  <ul>
+    <li>Библиотека целиком: 9 ГБ на скачивание, 19 ГБ после установки. Без Википедии и iFixit: 1,3 ГБ и 3 ГБ.</li>
+    <li>На диске нужно: размер модели + 5 ГБ, плюс около 27 ГБ на время установки полной библиотеки (10 ГБ для облегчённой).</li>
+  </ul>
+  <div class="expected"><b>Что должно получиться</b><p>Программа открывается при выключенном Wi-Fi, отвечает на вопрос и показывает, из какого источника взят ответ.</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Поставьте Kiwix и русскую Википедию</h3><p>Kiwix — бесплатная читалка офлайн-архивов Википедии и других сайтов.</p></div></div>
+  <ol>
+    <li>Скачайте Kiwix для своей системы на <a href="https://get.kiwix.org/en/solutions/applications/download-options/">get.kiwix.org</a>: Windows, macOS (есть в Mac App Store), Linux, Android, iPhone и iPad.</li>
+    <li>Архив Википедии выберите в приложении или в каталоге <a href="https://library.kiwix.org/">library.kiwix.org</a>.</li>
+  </ol>
+  <h4>Какой архив брать (выпуски октября 2026, download.kiwix.org)</h4>
+  <ul>
+    <li><b>Русская Википедия без картинок</b> (<code>wikipedia_ru_all_nopic</code>): 17 ГБ.</li>
+    <li>С картинками (<code>maxi</code>): 35 ГБ.</li>
+    <li>Облегчённая (<code>mini</code>): 5,6 ГБ.</li>
+    <li>Медицинская подборка русской Википедии (<code>wikipedia_ru_medicine_maxi</code>): 306 МБ.</li>
+  </ul>
+  <p>Kiwix ищет по статьям, но сам не отвечает на вопросы: нейросети в нём нет.</p>
+  <div class="expected"><b>Что должно получиться</b><p>В режиме самолёта Kiwix открывает статью русской Википедии и ищет по названию.</p></div>
+</div>
+</section>
+
+<section class="block" id="ref" aria-labelledby="ref-title">
+<h2 id="ref-title">Справочное</h2>
+<details id="models"><summary><span>Какую нейросеть поставит Survival LLM<small>зависит от памяти компьютера</small></span></summary><div class="details-body">
+  <p>Таблица со страницы проекта. «Тест» — сколько из 22 вопросов про блэкаут и первую помощь модель ответила по сути верно, сверяя с официальными рекомендациями. Тест гоняли на более ранней сборке библиотеки.</p>
+  <div class="tbl-wrap"><table class="tbl">
+    <tr><th>Компьютер</th><th>Модель</th><th>Тест</th><th>Скачать</th></tr>
+    <tr><td>Mac или PC, 16–31 ГБ памяти</td><td>IBM Granite 4.2 8B</td><td>14 из 22</td><td>6 ГБ</td></tr>
+    <tr><td>Windows, от 32 ГБ</td><td>NVIDIA Nemotron 3.5 Lightning</td><td>19 из 22</td><td>25 ГБ</td></tr>
+    <tr><td>Mac, 32–96 ГБ</td><td>Qwen3.8 27B</td><td>21 из 22</td><td>18 ГБ</td></tr>
+    <tr><td>Mac, от 128 ГБ</td><td>NVIDIA Nemotron 3.5 Super</td><td>21 из 22</td><td>80 ГБ</td></tr>
+  </table></div>
+  <p>Пример расчёта для ноутбука на 16 ГБ: модель 6 ГБ + 5 ГБ + 19 ГБ библиотеки и временные 27 ГБ на установку. Плюс 17 ГБ на русскую Википедию в Kiwix.</p>
+</div></details>
+<details id="licenses"><summary><span>Лицензии<small>программа и библиотека — разное</small></span></summary><div class="details-body">
+  <p>Survival LLM — MIT. У каждого источника библиотеки своя лицензия, некоторые разрешают только некоммерческое использование.</p>
+</div></details>
+</section>
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="old-mac"><summary>Survival LLM не запускается на Mac</summary><div class="details-body">
+  <p>Нужен Mac на Apple Silicon (M1 и новее) и macOS 14 Sonoma или новее. На Intel-Mac программа по требованиям не подходит; Kiwix на нём работает.</p>
+</div></details>
+<details id="no-space"><summary>Не хватает места на диске</summary><div class="details-body">
+  <p>Возьмите облегчённую библиотеку Survival LLM (1,3 ГБ, без Википедии и iFixit) и русскую Википедию в Kiwix: mini 5,6 ГБ или без картинок 17 ГБ.</p>
+</div></details>
+<details id="slow"><summary>Установка идёт часами</summary><div class="details-body">
+  <p>Качаются десятки гигабайт. Не закрывайте программу и не выключайте интернет до конца настройки: без него она не докачает модель и библиотеку.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Чего это не гарантирует</h2>
+<ul>
+  <li><b>Это справочник, а не врач.</b> Нейросеть пересказывает справочники и может ошибиться. Маленькие модели, по словам авторов, ошибаются чаще. Открывайте источник, который она показывает, и сверяйте.</li>
+  <li>Программы и модели мы сами не запускали. Всё на странице — с официальных страниц Survival LLM и Kiwix на 28 октября 2026. Цифры и версии со временем меняются.</li>
+  <li>Без электричества ноутбук проживёт столько, сколько батарея. Подумайте о зарядке заранее.</li>
+</ul>
+</section>
+
+<footer>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Survival LLM и Kiwix — сторонние проекты, мы с ними не связаны. Ссылки ведут только на их официальные сайты.</p>
+  <div class="tg-cta"><p><b>Новые разборы и инструкции — в телеграме.</b> Там раньше, чем в рилсах.</p><a class="btn btn-tg" href="https://t.me/gorilla_under_hood">Подписаться: @gorilla_under_hood</a></div>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
+</footer>
+</main>
+<script src="../assets/guide-v2.js"></script>
+</body>
+</html>
