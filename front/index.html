@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Фронтенд бесплатно: 4 репозитория и маршрут</title>
+<meta name="description" content="Четыре бесплатных ресурса на GitHub вместо курса за 170 тысяч: курс Microsoft на 24 урока с русским переводом, книги You Don't Know JS, сертификаты freeCodeCamp и карта roadmap.sh. Маршрут по шагам.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Фронтенд бесплатно: маршрут по 4 репозиториям">
+<meta property="og:description" content="Курс Microsoft, книги O'Reilly, сертификаты freeCodeCamp и карта навыков. В каком порядке проходить и что делать самому.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/front/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/front/img/kadr.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/guide-v2.css">
+</head>
+<body>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Фронтенд <span class="hl">бесплатно</span>: маршрут по 4 репозиториям</h1>
+    <p class="lede">Обещанный маршрут из ролика. Четыре ресурса с GitHub в том порядке, в котором их удобно проходить, и что делать каждую неделю без куратора.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Начать с первого урока →</a>
+      <a class="secondary-link" href="#price">Откуда 170 тысяч</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>есть русский перевод</li><li>недельные нормы</li></ul>
+    <p class="for-video">К ролику «Профессию продают за 170 тысяч — на гитхабе даром» · обновлено 28 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/kadr.jpg" width="960" height="640" alt="Кадр из ролика: сундук «01 из 04» и карточка репозитория Web-Dev-For-Beginners со звёздами"></figure>
+</header>
+
+<nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
+  <li><a href="#step-1"><b>Web-Dev-For-Beginners</b><span>Microsoft, 24 урока</span></a></li>
+  <li><a href="#step-2"><b>You Don't Know JS</b><span>книги O'Reilly</span></a></li>
+  <li><a href="#step-3"><b>freeCodeCamp</b><span>сертификаты</span></a></li>
+  <li><a href="#step-4"><b>developer-roadmap</b><span>карта навыков</span></a></li>
+</ol></nav>
+
+<div class="start-note"><b>До начала</b><p>Нужны браузер, редактор кода (бесплатный VS Code) и 5–7 часов в неделю. Куратора не будет: напоминать себе придётся самому, поэтому в каждом шаге есть недельная норма.</p></div>
+
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Маршрут за 4 шага</h2>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Пройдите курс Microsoft по веб-разработке</h3><p>База: HTML, CSS, JavaScript и пять проектов руками.</p></div></div>
+  <p><a href="https://github.com/microsoft/Web-Dev-For-Beginners">github.com/microsoft/Web-Dev-For-Beginners</a> · около 97 тысяч звёзд · лицензия MIT.</p>
+  <ul>
+    <li>12 недель, 24 урока. У каждого урока тест до и после, задание и разбор.</li>
+    <li>Проекты: террариум, игра на скорость печати, расширение для браузера, космическая игра, банковское приложение.</li>
+    <li>Русский перевод всех уроков: <a href="https://github.com/microsoft/Web-Dev-For-Beginners/blob/main/translations/ru/README.md">translations/ru</a>. Перевод машинный (сделан инструментом co-op-translator), местами коряво; если непонятно, сверяйтесь с английским.</li>
+  </ul>
+  <p>Скачать к себе, чтобы запускать проекты локально:</p>
+  <div class="command"><div class="command-bar"><span>В терминал · скачать курс</span><button type="button">Копировать</button></div><pre><code>git clone --depth 1 https://github.com/microsoft/Web-Dev-For-Beginners.git</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Норма: 2 урока в неделю. Через 12 недель у вас пять своих проектов в браузере и понятная база, с которой можно идти дальше.</p></div>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Параллельно читайте You Don't Know JS</h3><p>Как JavaScript устроен внутри: область видимости, замыкания, this, асинхронность.</p></div></div>
+  <p><a href="https://github.com/getify/You-Dont-Know-JS/tree/1st-ed">github.com/getify/You-Dont-Know-JS</a> · около 185 тысяч звёзд.</p>
+  <ul>
+    <li>Первое издание — шесть книг, которые O'Reilly выпускало в 2014–2015 годах. По словам автора, тиража больше нет, купить их нельзя, а читать на GitHub можно бесплатно.</li>
+    <li>Второе издание («You Don't Know JS Yet») автор выпускает сам; его тоже можно читать в репозитории бесплатно, а купить — в магазинах.</li>
+    <li>Книги на английском. Если с английским тяжело, вместо них берите русский учебник <a href="https://learn.javascript.ru/">learn.javascript.ru</a> (исходники: <a href="https://github.com/javascript-tutorial/ru.javascript.info">javascript-tutorial/ru.javascript.info</a>).</li>
+  </ul>
+  <div class="expected"><b>Что должно получиться</b><p>Норма: одна глава в неделю, начиная с «Up &amp; Going» и «Scope &amp; Closures». Когда в курсе Microsoft что-то работает «магически», здесь объяснение почему.</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Получите сертификаты freeCodeCamp</h3><p>Проекты с проверкой и экзамен — то, за что на платных курсах берут деньги.</p></div></div>
+  <p><a href="https://github.com/freeCodeCamp/freeCodeCamp">github.com/freeCodeCamp/freeCodeCamp</a> · около 458 тысяч звёзд · проходить на <a href="https://www.freecodecamp.org/learn/">freecodecamp.org/learn</a>.</p>
+  <ul>
+    <li>Для фронтенда три сертификата по порядку: Responsive Web Design, JavaScript, Front-End Development Libraries.</li>
+    <li>В каждом: интерактивные уроки, практика, тесты, 5 обязательных проектов и экзамен. Сертификат бесплатный, на него можно дать ссылку в резюме.</li>
+    <li>Чтобы сохранять прогресс и получить сертификат, нужен бесплатный аккаунт на сайте freeCodeCamp. Задания на английском.</li>
+  </ul>
+  <div class="expected"><b>Что должно получиться</b><p>Начинайте после 8–10 урока курса Microsoft. Норма: 5–7 часов в неделю. Первый сертификат — ваш первый проверенный результат для резюме.</p></div>
+</div>
+
+<div class="step" id="step-4">
+  <div class="section-title"><span class="step-number">4</span><div><h3>Сверьтесь с картой фронтенда</h3><p>Что вы уже знаете и что учить дальше.</p></div></div>
+  <p><a href="https://roadmap.sh/frontend">roadmap.sh/frontend</a> · репозиторий <a href="https://github.com/kamranahmedse/developer-roadmap">developer-roadmap</a> (GitHub перенаправляет его на <code>nilbuild/developer-roadmap</code>) · около 370 тысяч звёзд на все карты сайта.</p>
+  <ul>
+    <li>Карта показывает темы по порядку: интернет, HTML, CSS, JavaScript, Git, фреймворк, тесты и дальше.</li>
+    <li>Раз в месяц открывайте карту и отмечайте для себя, что уже прошли. Следующей берите ближайшую непройденную тему.</li>
+    <li>Для новичков на сайте есть упрощённая версия: <a href="https://roadmap.sh/frontend?r=frontend-beginner">Frontend Beginner Roadmap</a>.</li>
+  </ul>
+  <div class="expected"><b>Что должно получиться</b><p>Список из трёх-пяти тем, которых не хватает именно вам. Обычно после шагов 1–3 это Git, один фреймворк (чаще React) и тесты.</p></div>
+</div>
+</section>
+
+<section class="block" id="price" aria-labelledby="price-title">
+<h2 id="price-title">Откуда цифры в ролике</h2>
+<details id="price-src"><summary><span>170 тысяч за профессию<small>Skillbox, 28 октября 2026</small></span></summary><div class="details-body">
+  <p>Страница <a href="https://skillbox.ru/course/profession-frontend/">«Профессия Фронтенд-разработчик + ИИ»</a> 28.10.2026: базовый тариф 5 036 ₽ в месяц со скидкой 45 % (без скидки 9 157 ₽), рассрочка на 34 месяца, 9 месяцев обучения. 5 036 × 34 = 171 224 ₽. На той же странице в другом блоке рассрочка указана на 36 месяцев; дороже тарифы «Оптимальный» и «Максимальный». Цены у школ меняются почти каждый день.</p>
+</div></details>
+<details id="stars-src"><summary><span>Звёзды репозиториев<small>GitHub API, 28 октября 2026</small></span></summary><div class="details-body">
+  <ul>
+    <li>microsoft/Web-Dev-For-Beginners — 97 026</li>
+    <li>getify/You-Dont-Know-JS — 184 828</li>
+    <li>freeCodeCamp/freeCodeCamp — 458 076</li>
+    <li>developer-roadmap — 370 588</li>
+  </ul>
+</div></details>
+</section>
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="stuck-motivation"><summary>Бросил на третьей неделе</summary><div class="details-body">
+  <p>Так бывает чаще всего, и куратор здесь не поможет. Вернитесь к последнему уроку, который делали руками, и сделайте его проект ещё раз. Меньше нормы лучше, чем ноль: один урок в неделю — тоже темп.</p>
+</div></details>
+<details id="stuck-english"><summary>Тяжело на английском</summary><div class="details-body">
+  <p>Курс Microsoft есть на русском (шаг 1), вместо книг You Don't Know JS — learn.javascript.ru (шаг 2). freeCodeCamp — на английском, но задания короткие, а переводчик в браузере справляется.</p>
+</div></details>
+<details id="stuck-error"><summary>Код не работает, а спросить некого</summary><div class="details-body">
+  <p>Вставьте код и текст ошибки в любой чат-бот и попросите объяснить, что не так, но не переписывать за вас. У freeCodeCamp есть форум, где отвечают на вопросы по их заданиям.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Чего это не гарантирует</h2>
+<ul>
+  <li>Работы. Её не гарантирует и платный курс; у бесплатных ресурсов нет карьерного центра и помощи с резюме.</li>
+  <li>Проверки кода живым человеком. Тесты и проекты freeCodeCamp проверяются автоматически.</li>
+  <li>Дедлайнов и напоминаний. Это главный минус, ради которого люди и платят.</li>
+  <li>Звёзды на GitHub — это популярность, а не оценка качества обучения.</li>
+</ul>
+</section>
+
+<footer>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Мы не связаны с Microsoft, freeCodeCamp, O'Reilly, roadmap.sh и Skillbox. Все ссылки ведут на их официальные страницы.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
+</footer>
+</main>
+<script src="../assets/guide-v2.js"></script>
+</body>
+</html>

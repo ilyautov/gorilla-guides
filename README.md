@@ -6,6 +6,7 @@
 
 | Кодовое слово | Страница |
 |---|---|
+| фронт | [Фронтенд бесплатно: маршрут по 4 репозиториям](https://ilyautov.github.io/gorilla-guides/front/) |
 | моушн | [Свой нейромонтажёр на Claude Code](https://ilyautov.github.io/gorilla-guides/moushn/) + [промпты](prompts/moushn.md) |
 | рилс | [Claude смотрит рилс по ссылке](https://ilyautov.github.io/gorilla-guides/rils/) + [промпт](prompts/rils.md) |
 | стол | [ИИ следит за каждым столом](https://ilyautov.github.io/gorilla-guides/stol/) + [скрипт](stol/files/stol_time_in_zone.py) |
