@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Сайт грузится 20 секунд: промпт и чек-лист</title>
+<meta name="description" content="Четыре причины медленного сайта: картинки, всё сразу, шрифты, кэш. Промпт для Claude Code, который чинит все четыре и меряет до и после, чек-лист и наш замер на демо-сайте.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Сайт грузится 20 секунд, а не полсекунды">
+<meta property="og:description" content="Промпт для Claude Code и чек-лист: картинки в WebP, ленивая загрузка, шрифты заранее, кэш. С замером до и после.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/skorost/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/skorost/img/kadr.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/guide-v2.css">
+<style>/* таблица замера: 6 строк */
+.measure{width:100%;border-collapse:collapse;font-size:16px;margin:0 0 16px}
+.measure th,.measure td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.measure td+td,.measure th+th{text-align:right;white-space:nowrap}
+.check li{margin:0 0 10px}
+</style>
+</head>
+<body>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Сайт грузится <span class="hl">20 секунд</span>, а не полсекунды</h1>
+    <p class="lede">Обещанные промпт и чек-лист. Промпт отдаёте Claude Code в папке сайта: он сначала меряет, потом чинит четыре пункта из ролика, потом меряет снова и показывает «до / после».</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">Сначала замерить →</a>
+      <a class="secondary-link" href="#step-2">Сразу к промпту</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>оригиналы не удаляются</li><li>каждый пункт отдельным коммитом</li></ul>
+    <p class="for-video">К ролику «Два одинаковых сайта» · обновлено 28 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/kadr.jpg" width="960" height="640" alt="Кадр из ролика: два одинаковых сайта рядом, у одного таймер на полсекунды, у другого крутится загрузка"></figure>
+</header>
+
+<nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
+  <li><a href="#p-images"><b>Картинки</b><span>WebP, в 26 раз легче</span></a></li>
+  <li><a href="#p-lazy"><b>Не всё сразу</b><span>loading="lazy"</span></a></li>
+  <li><a href="#p-fonts"><b>Шрифты</b><span>preload, без прыжка</span></a></li>
+  <li><a href="#p-cache"><b>Кэш</b><span>второй визит из памяти</span></a></li>
+</ol></nav>
+
+<div class="start-note"><b>До начала</b><p>Нужен Claude Code и доступ к коду сайта (папка проекта или репозиторий). На конструкторах без доступа к коду (Tilda, Wix в редакторе) промпт не сработает: пройдите <a href="#checklist">чек-лист</a> руками в настройках конструктора.</p></div>
+
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Первый результат за 3 шага</h2>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Замерьте, как сейчас</h3><p>Без цифры «до» не понять, помогло ли.</p></div></div>
+  <p>Откройте <a href="https://pagespeed.web.dev/">pagespeed.web.dev</a>, вставьте адрес сайта, вкладка «Мобильные». Бесплатно, около минуты. Запишите оценку, LCP (когда показалась главная картинка или заголовок) и CLS (насколько прыгает страница).</p>
+  <p>То же самое локально, если сайт ещё не выложен:</p>
+  <div class="command"><div class="command-bar"><span>В терминал · Lighthouse, мобильный режим</span><button type="button">Копировать</button></div><pre><code>npx lighthouse http://localhost:3000 --only-categories=performance --view</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Оценка от 0 до 100 и две цифры: LCP в секундах и CLS. Зелёная зона — 90 и выше, LCP до 2,5 с, CLS до 0,1.</p></div>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Вставьте промпт в Claude Code</h3><p>Откройте Claude Code в папке сайта.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · промпт</span><button type="button">Копировать</button></div><pre><code>Ускорь мой сайт по четырём пунктам. Сначала замерь, потом чини, потом замерь снова.
+
+0. Замер «до». Запусти локальную сборку сайта и прогони Lighthouse в мобильном режиме
+   (npx lighthouse &lt;адрес&gt; --only-categories=performance --form-factor=mobile --output=json),
+   три раза, возьми медиану. Запиши: оценку, LCP, CLS, общий вес страницы в МБ,
+   сколько картинок грузится при открытии. Ничего не меняй, пока не покажешь мне эти цифры.
+
+1. Картинки. Найди все картинки тяжелее 300 КБ. Для каждой сделай копию в WebP
+   (качество 75–80) шириной не больше, чем её реальный размер на экране ×2.
+   Оригиналы НЕ удаляй и не перезаписывай: новые файлы рядом, в разметке поменяй ссылки.
+   Если на сайте есть фреймворк со своим компонентом картинок (next/image, astro:assets),
+   используй его вместо ручной конвертации. Всем &lt;img&gt; проставь width и height.
+
+2. Не всё сразу. Картинкам ниже первого экрана поставь loading="lazy" и decoding="async".
+   Главной картинке первого экрана (обычно это и есть LCP) lazy НЕ ставь,
+   ей поставь fetchpriority="high".
+
+3. Шрифты. Найди веб-шрифты. Если они грузятся с Google Fonts или другого сервера,
+   предложи перенести их к себе (woff2). Основному шрифту (1–2 начертания, не больше)
+   добавь &lt;link rel="preload" as="font" type="font/woff2" crossorigin&gt;,
+   в @font-face поставь font-display: swap. Остальные не предзагружай.
+
+4. Кэш. Найди, где настраиваются заголовки (netlify.toml, vercel.json, _headers, nginx, .htaccess,
+   настройки хостинга). Для статики с хэшем в имени (картинки, шрифты, js, css) поставь
+   Cache-Control: public, max-age=31536000, immutable. Для HTML — no-cache.
+   Если у файлов нет хэша в имени, скажи мне об этом и не ставь им immutable:
+   иначе после обновления посетители будут видеть старую версию.
+
+5. Бонус: скрипты. Сторонние скрипты (счётчики, чаты, виджеты) без defer/async в &lt;head&gt;
+   покажи мне списком. Переносить или ставить defer — только после моего «да».
+
+6. Замер «после» тем же способом. Покажи таблицу «до / после» по каждой цифре.
+   Проверь глазами, что страница выглядит как раньше: скриншот до и после на ширине 390 px.
+
+Правила: не удаляй файлы, не меняй дизайн и тексты, не ставь платные сервисы и CDN.
+Каждый пункт — отдельным коммитом, чтобы любой можно было откатить.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Тот же промпт отдельным файлом: <a href="../prompts/skorost.md">prompts/skorost.md</a>.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Claude сначала показывает цифры «до» и ждёт. Потом делает четыре коммита, по одному на пункт, и в конце даёт таблицу «до / после» и два скриншота страницы.</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Выложите и проверьте снова</h3><p>Кэш работает только на настоящем хостинге.</p></div></div>
+  <p>Выложите изменения и снова прогоните <a href="https://pagespeed.web.dev/">pagespeed.web.dev</a>. Чтобы проверить кэш: откройте сайт в Chrome, DevTools → Network, обновите страницу. У картинок и шрифтов в колонке Size должно стоять «(memory cache)» или «(disk cache)».</p>
+  <div class="expected"><b>Что должно получиться</b><p>Оценка выше, LCP меньше. При повторном заходе картинки и шрифты не качаются заново.</p></div>
+</div>
+</section>
+
+<section class="block" id="checklist" aria-labelledby="checklist-title">
+<h2 id="checklist-title">Чек-лист: четыре пункта из ролика</h2>
+
+<details id="p-images" open><summary><span>1. Картинки<small>фото с телефона весит мегабайты</small></span></summary><div class="details-body">
+  <ul class="check">
+    <li>Ни одной картинки тяжелее 300 КБ на странице. Фото с телефона — это 4000×3000 и 3–5 МБ, на экране телефона оно занимает ~400 px в ширину.</li>
+    <li>Формат WebP (или AVIF). Ширина файла — не больше двойной ширины на экране.</li>
+    <li>У каждого <code>&lt;img&gt;</code> есть <code>width</code> и <code>height</code>: место под картинку резервируется заранее, текст под ней не съезжает.</li>
+  </ul>
+  <p>Сжать одну картинку без Claude: <a href="https://squoosh.app/">squoosh.app</a> (бесплатно, работает в браузере) или в терминале:</p>
+  <div class="command"><div class="command-bar"><span>В терминал · нужен cwebp (brew install webp)</span><button type="button">Копировать</button></div><pre><code>cwebp -q 80 -resize 1200 0 photo.jpg -o photo.webp</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+</div></details>
+
+<details id="p-lazy"><summary><span>2. Не грузить всё сразу<small>картинки внизу — когда до них долистают</small></span></summary><div class="details-body">
+  <ul class="check">
+    <li>Картинкам ниже первого экрана — <code>loading="lazy"</code>. Браузер начнёт их качать, когда до них останется немного прокрутки.</li>
+    <li>Главной картинке первого экрана lazy не ставить: иначе она появится позже, а не раньше. Ей — <code>fetchpriority="high"</code>.</li>
+  </ul>
+  <div class="command"><div class="command-bar"><span>Разметка · пример</span><button type="button">Копировать</button></div><pre><code>&lt;img src="hero.webp" width="1200" height="900" fetchpriority="high" alt="…"&gt;
+&lt;img src="work-01.webp" width="600" height="450" loading="lazy" decoding="async" alt="…"&gt;</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+</div></details>
+
+<details id="p-fonts"><summary><span>3. Шрифты заранее<small>иначе текст на глазах меняется и прыгает</small></span></summary><div class="details-body">
+  <ul class="check">
+    <li>Шрифт лежит на своём сервере в woff2, а не тянется с чужого.</li>
+    <li>Основное начертание предзагружено в <code>&lt;head&gt;</code>. Не больше 2–3 файлов: каждый preload отнимает канал у картинок.</li>
+    <li>В <code>@font-face</code> стоит <code>font-display: swap</code>: пока шрифт едет, текст виден запасным шрифтом, а не пропадает.</li>
+  </ul>
+  <div class="command"><div class="command-bar"><span>&lt;head&gt; · пример</span><button type="button">Копировать</button></div><pre><code>&lt;link rel="preload" href="/fonts/onest-700.woff2" as="font" type="font/woff2" crossorigin&gt;</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+</div></details>
+
+<details id="p-cache"><summary><span>4. Кэш<small>второй раз — из памяти браузера</small></span></summary><div class="details-body">
+  <ul class="check">
+    <li>Статика с хэшем в имени (<code>app.3f9a1c.js</code>, картинки, шрифты): <code>Cache-Control: public, max-age=31536000, immutable</code>.</li>
+    <li>HTML: <code>Cache-Control: no-cache</code> — браузер сверяется с сервером, и обновления сайта видны сразу.</li>
+    <li>Файлам без хэша в имени не ставьте immutable на год: после правки посетители увидят старую версию.</li>
+  </ul>
+  <div class="command"><div class="command-bar"><span>Файл _headers · Netlify и Cloudflare Pages</span><button type="button">Копировать</button></div><pre><code>/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+/*.html
+  Cache-Control: no-cache</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Next.js на Vercel ставит такой кэш файлам из <code>/_next/static</code> сам; проверьте только картинки из <code>public/</code>.</p>
+</div></details>
+
+<details id="p-scripts"><summary><span>Бонус: скрипты<small>в ролик не вошло</small></span></summary><div class="details-body">
+  <ul class="check">
+    <li>Счётчики, чаты и виджеты в <code>&lt;head&gt;</code> без <code>defer</code> или <code>async</code> держат отрисовку страницы. Ставьте <code>defer</code> или переносите вниз, но после этого проверьте, что счётчик и чат работают.</li>
+  </ul>
+</div></details>
+</section>
+
+<section class="block" id="our-test" aria-labelledby="our-test-title">
+<h2 id="our-test-title">Наш замер из ролика</h2>
+<p>Два демо-сайта мастерской с одинаковыми текстами и разметкой: «тяжёлый» (13 фото с телефона в JPEG, всё грузится сразу, шрифт без preload, <code>Cache-Control: no-store</code>) и «быстрый» (те же фото в WebP, lazy, preload шрифта, кэш на год). Разница только в этих четырёх вещах. Chrome на Mac, профиль сети 9 Мбит/с и 165 мс задержки, процессор замедлен в 4 раза, экран телефона 412 px. Медиана трёх прогонов.</p>
+<table class="measure">
+<thead><tr><th>Что меряли</th><th>Тяжёлый</th><th>Быстрый</th></tr></thead>
+<tbody>
+<tr><td>Главная картинка показалась (LCP)</td><td>19,7 с</td><td>0,56 с</td></tr>
+<tr><td>Скачано при открытии</td><td>47,5 МБ</td><td>0,4 МБ</td></tr>
+<tr><td>Картинок запрошено до прокрутки</td><td>13</td><td>5</td></tr>
+<tr><td>Шрифт пришёл</td><td>15,9 с</td><td>0,54 с</td></tr>
+<tr><td>Второй визит: скачано</td><td>47,5 МБ</td><td>0 МБ</td></tr>
+<tr><td>Оценка Lighthouse, мобильный (медиана 5 прогонов)</td><td>57</td><td>90</td></tr>
+</tbody>
+</table>
+<p>Главная картинка: 3,7 МБ JPEG 4000×3000 → 141 КБ WebP 1200×900, в 26 раз легче.</p>
+</section>
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="stuck-worse"><summary>После правок оценка не выросла</summary><div class="details-body">
+  <p>Посмотрите в отчёте PageSpeed раздел «Диагностика»: тормозить может то, чего нет в четырёх пунктах — тяжёлый JavaScript, медленный сервер (TTFB больше 0,8 с), чужие виджеты. Попросите Claude: «разбери отчёт Lighthouse и предложи, что чинить, по одному пункту».</p>
+</div></details>
+<details id="stuck-blurry"><summary>Картинки стали мыльными</summary><div class="details-body">
+  <p>Поднимите качество до 85 или ширину файла до тройной ширины на экране. Оригиналы промпт не удаляет, откатить можно коммитом пункта 1.</p>
+</div></details>
+<details id="stuck-old"><summary>После обновления сайта у людей старая версия</summary><div class="details-body">
+  <p>Кэш на год поставили файлам без хэша в имени. Уберите <code>immutable</code> у этих файлов или добавьте хэш в имя при сборке. Откат — коммит пункта 4.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Чего это не гарантирует</h2>
+<ul>
+  <li>Цифры выше — замер нашего демо-сайта, а не обещание для вашего. «20 секунд» получилось потому, что на демо 13 фото по 3–4 МБ; у вас будет по-своему.</li>
+  <li>Оценка PageSpeed скачет от прогона к прогону на несколько пунктов. Сравнивайте медиану трёх.</li>
+  <li>Медленный сервер, тяжёлый JavaScript и чужие виджеты эти четыре пункта не лечат.</li>
+  <li>Кэш ускоряет только повторный визит. Первый заход он не ускоряет.</li>
+</ul>
+</section>
+
+<footer>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Перед правками сделайте коммит или копию сайта. Промпт ничего не удаляет, но проверяйте результат глазами.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
+</footer>
+</main>
+<script src="../assets/guide-v2.js"></script>
+</body>
+</html>
