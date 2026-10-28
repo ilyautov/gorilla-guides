@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Даром: 5 программ с GitHub вместо подписок</title>
+<meta name="description" content="Пять бесплатных программ с GitHub вместо платных подписок: Upscayl вместо Topaz Gigapixel, Jan вместо ChatGPT Plus, Stirling PDF вместо Acrobat Pro, Buzz вместо Otter, AppFlowy вместо Notion. Ссылки на скачивание, лицензии и честные ограничения.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Даром: 5 программ с GitHub вместо подписок">
+<meta property="og:description" content="Фото, чат-бот, PDF, расшифровка созвонов и заметки. Ставятся установщиком, без кода. Почти $96 в месяц подписок.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/darom/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/darom/img/kadr.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/guide-v2.css">
+<style>.repo-btns{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}</style>
+</head>
+<body>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>5 программ с GitHub, которые отдают <span class="hl">даром</span></h1>
+    <p class="lede">Пять ссылок из ролика: что заменяет каждая программа, сколько стоит платный аналог и где бесплатная версия слабее.</p>
+    <div class="actions">
+      <a class="btn" href="#step-1">К первой программе →</a>
+      <a class="btn btn-tg" href="https://t.me/gorilla_under_hood">Телеграм-канал</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>открытый код</li><li>без кода</li></ul>
+    <p class="for-video">К ролику «Платишь за подписку то, что на гитхабе бесплатно» · обновлено 28 октября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/kadr.jpg" width="960" height="640" alt="Кадр из ролика: чек подписок в месяц на 95,98 доллара"></figure>
+</header>
+
+<nav class="strip" aria-label="Что было в ролике"><p>Из ролика</p><ol>
+  <li><a href="#step-1"><b>Upscayl</b><span>вместо Topaz Gigapixel</span></a></li>
+  <li><a href="#step-2"><b>Jan</b><span>вместо ChatGPT Plus</span></a></li>
+  <li><a href="#step-3"><b>Stirling PDF</b><span>вместо Acrobat Pro</span></a></li>
+  <li><a href="#step-4"><b>Buzz</b><span>вместо Otter</span></a></li>
+  <li><a href="#step-5"><b>AppFlowy</b><span>вместо Notion</span></a></li>
+</ol></nav>
+
+<div class="start-note"><b>До начала</b><p>Качайте только со страницы Releases на GitHub или с сайта проекта по ссылкам ниже. Сборки с «торрентов» и сайтов-зеркал не берите: это открытый код, и подделать установщик легко.</p></div>
+
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Пять программ</h2>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Upscayl — делает мутное фото чётким</h3><p>Вместо Topaz Gigapixel за $29 в месяц.</p></div></div>
+  <p>Увеличивает и улучшает фото низкого разрешения нейросетью, прямо на вашем компьютере. upscayl/upscayl · 51 223 звезды · лицензия AGPL-3.0.</p>
+  <div class="repo-btns"><a class="btn" href="https://github.com/upscayl/upscayl/releases/latest">Скачать с GitHub</a><a class="secondary-link" href="https://github.com/upscayl/upscayl">Репозиторий</a></div>
+  <ul>
+    <li>Установщики: .dmg для macOS, .exe для Windows, AppImage, deb и rpm для Linux.</li>
+    <li>Скачали, перетащили фото в окно, выбрали модель, нажали «Upscayl».</li>
+  </ul>
+  <div class="warn"><p>Нужна видеокарта с поддержкой Vulkan. По словам авторов, многие встроенные видеокарты не подходят, но попробовать можно.</p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Рядом с исходником появится увеличенная копия. Чудес не будет: лица и мелкий текст нейросеть может «дорисовать» не так, как было.</p></div>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Jan — чат-бот, который работает без интернета</h3><p>Вместо ChatGPT Plus за $20 в месяц.</p></div></div>
+  <p>Скачивает открытые языковые модели и запускает их у вас на компьютере, переписка остаётся у вас. janhq/jan · 45 131 звезда · лицензия Apache-2.0.</p>
+  <div class="repo-btns"><a class="btn" href="https://github.com/janhq/jan/releases/latest">Скачать с GitHub</a><a class="secondary-link" href="https://jan.ai/docs/desktop">Инструкция на jan.ai</a></div>
+  <ul>
+    <li>Установщики: .dmg (macOS), .exe (Windows), deb и AppImage (Linux).</li>
+    <li>После установки выберите модель в каталоге внутри программы и скачайте её один раз. Дальше интернет не нужен.</li>
+  </ul>
+  <div class="warn"><p>Это не ChatGPT. Качество ответов зависит от модели, которую тянет ваш компьютер: на ноутбуке с 8–16 ГБ памяти маленькие модели заметно слабее платных. Для черновиков, пересказов и личных заметок хватает.</p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Окно чата, которое отвечает при выключенном Wi-Fi.</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Stirling PDF — режет, склеивает и подписывает PDF</h3><p>Вместо Adobe Acrobat Pro за $19,99 в месяц.</p></div></div>
+  <p>По словам авторов, больше 50 инструментов: редактировать, склеить, разделить, подписать, закрасить, сконвертировать, распознать текст, сжать. Stirling-Tools/Stirling-PDF · 95 258 звёзд · лицензия MIT для основной части (open-core).</p>
+  <div class="repo-btns"><a class="btn" href="https://github.com/Stirling-Tools/Stirling-PDF/releases/latest">Скачать с GitHub</a><a class="secondary-link" href="https://docs.stirlingpdf.com">Документация</a></div>
+  <ul>
+    <li>Десктоп-версия: .dmg (macOS), .msi и .exe (Windows), AppImage, deb, rpm (Linux).</li>
+    <li>Документы обрабатываются у вас, никуда не отправляются.</li>
+  </ul>
+  <div class="expected"><b>Что должно получиться</b><p>Окно со списком инструментов: перетащите PDF и выберите действие.</p></div>
+</div>
+
+<div class="step" id="step-4">
+  <div class="section-title"><span class="step-number">4</span><div><h3>Buzz — расшифровывает созвоны без интернета</h3><p>Вместо Otter Pro за $16,99 в месяц.</p></div></div>
+  <p>Переводит аудио и видео в текст на вашем компьютере, работает на Whisper от OpenAI. Умеет файлы, ссылки YouTube, запись с микрофона, разделение по спикерам, экспорт в TXT, SRT и VTT. chidiwilliams/buzz · 22 242 звезды · лицензия MIT.</p>
+  <div class="repo-btns"><a class="btn" href="https://github.com/chidiwilliams/buzz/releases/latest">Скачать с GitHub</a><a class="secondary-link" href="https://sourceforge.net/projects/buzz-captions/files/">Зеркало авторов на SourceForge</a></div>
+  <ul>
+    <li>Установщики: .dmg для Mac на Apple silicon и Intel, .exe для Windows. В Linux — Flatpak или Snap.</li>
+    <li>Windows покажет предупреждение, потому что установщик не подписан: «Подробнее» → «Выполнить в любом случае».</li>
+  </ul>
+  <div class="warn"><p>В Mac App Store Buzz продаётся за деньги. Бесплатная версия — та, что на GitHub и SourceForge.</p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Текст созвона с таймкодами. Русский язык Whisper понимает, но имена и термины проверяйте глазами.</p></div>
+</div>
+
+<div class="step" id="step-5">
+  <div class="section-title"><span class="step-number">5</span><div><h3>AppFlowy — заметки и задачи, как в Notion, но данные у вас</h3><p>Вместо Notion Plus за $10 в месяц.</p></div></div>
+  <p>Авторы называют его открытой альтернативой Notion: страницы, вики, задачи, базы. AppFlowy-IO/AppFlowy · 77 899 звёзд · лицензия AGPL-3.0.</p>
+  <div class="repo-btns"><a class="btn" href="https://github.com/AppFlowy-IO/AppFlowy/releases/latest">Скачать с GitHub</a><a class="secondary-link" href="https://www.appflowy.com">Сайт</a></div>
+  <ul>
+    <li>Десктоп: macOS, Windows, Linux. Есть приложения для iPhone и Android.</li>
+    <li>Синхронизация между устройствами — через облако AppFlowy или свой сервер (<a href="https://appflowy.com/docs/Step-by-step-Self-Hosting-Guide---From-Zero-to-Production">инструкция по self-hosting</a>).</li>
+  </ul>
+  <div class="expected"><b>Что должно получиться</b><p>Рабочее пространство со страницами и задачами. Переезд из Notion мы не проверяли.</p></div>
+</div>
+</section>
+
+<section class="block" id="price" aria-labelledby="price-title">
+<h2 id="price-title">Откуда цифры в ролике</h2>
+<details id="price-src"><summary><span>Цены подписок<small>официальные страницы, 28 октября 2026</small></span></summary><div class="details-body">
+  <ul>
+    <li>Topaz Gigapixel — $29 в месяц с отменой в любой момент, $19 при оплате на год (<a href="https://www.topazlabs.com/pricing">topazlabs.com/pricing</a>).</li>
+    <li>ChatGPT Plus — $20 в месяц, только помесячно (<a href="https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus">справка OpenAI</a>).</li>
+    <li>Adobe Acrobat Pro — US$19,99 в месяц на годовом плане с помесячной оплатой (<a href="https://www.adobe.com/acrobat/pricing.html">adobe.com</a>; в другой стране сайт покажет свою валюту).</li>
+    <li>Otter Pro — $16,99 в месяц при помесячной оплате, $8,33 при годовой (<a href="https://otter.ai/pricing">otter.ai/pricing</a>).</li>
+    <li>Notion Plus — $10 в месяц за участника при оплате на год (<a href="https://www.notion.com/pricing">notion.com/pricing</a>).</li>
+  </ul>
+  <p>Сумма: 29 + 20 + 19,99 + 16,99 + 10 = 95,98 доллара в месяц. Тарифы разные: часть помесячные, часть годовые. Цены меняются, перед покупкой сверяйтесь со страницей сервиса.</p>
+</div></details>
+<details id="stars-src"><summary><span>Звёзды и лицензии<small>GitHub API, 28 октября 2026</small></span></summary><div class="details-body">
+  <ul>
+    <li>upscayl/upscayl — 51 223, AGPL-3.0</li>
+    <li>janhq/jan — 45 131, Apache-2.0</li>
+    <li>Stirling-Tools/Stirling-PDF — 95 258, MIT + закрытые части для компаний</li>
+    <li>chidiwilliams/buzz — 22 242, MIT</li>
+    <li>AppFlowy-IO/AppFlowy — 77 899, AGPL-3.0</li>
+  </ul>
+  <p>Сами программы мы не запускали: описания взяты из README проектов.</p>
+</div></details>
+</section>
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="stuck-mac"><summary>macOS не открывает программу</summary><div class="details-body">
+  <p>Откройте «Системные настройки» → «Конфиденциальность и безопасность», внизу будет кнопка «Всё равно открыть». Так бывает с программами не из App Store.</p>
+</div></details>
+<details id="stuck-upscayl"><summary>Upscayl выдаёт ошибку или пустую картинку</summary><div class="details-body">
+  <p>Скорее всего, видеокарта не поддерживает Vulkan. Попробуйте другую модель в настройках; если не помогло, на этом компьютере Upscayl не заработает.</p>
+</div></details>
+<details id="stuck-jan"><summary>Jan отвечает очень медленно</summary><div class="details-body">
+  <p>Модель слишком большая для вашего компьютера. Выберите модель поменьше в каталоге Jan.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Чего это не гарантирует</h2>
+<ul>
+  <li>Того же качества, что у платных сервисов. Jan слабее ChatGPT, Upscayl может ошибаться на лицах, AppFlowy — не копия Notion и устроен по-своему.</li>
+  <li>Поддержки. Пишете в issues на GitHub и ждёте, никто не обязан отвечать.</li>
+  <li>Работы на любом компьютере: нейросетевым программам (Upscayl, Jan, Buzz) нужны видеокарта или чип Apple silicon и память.</li>
+  <li>Звёзды на GitHub — это популярность, а не проверка безопасности.</li>
+</ul>
+</section>
+
+<footer>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Мы не связаны с авторами программ и с Topaz Labs, OpenAI, Adobe, Otter.ai и Notion. Все ссылки ведут на официальные страницы.</p>
+  <div class="tg-cta"><p><b>Новые находки на GitHub — в телеграме.</b> Там раньше, чем в рилсах.</p><a class="btn btn-tg" href="https://t.me/gorilla_under_hood">Подписаться: @gorilla_under_hood</a></div>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
+</footer>
+</main>
+<script src="../assets/guide-v2.js"></script>
+</body>
+</html>
