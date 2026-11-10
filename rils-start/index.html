@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Рилс собирает агент: открытый набор not-a-blogger</title>
+<meta name="description" content="Открытый тулкит not-a-blogger: немой пробник на 15 секунд из одной команды и задание агенту Claude Code, Codex или Cursor на ролик с голосом. Вы одобряете сценарий и публикуете сами.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Рилс собирает агент: not-a-blogger">
+<meta property="og:description" content="Первый ролик одной командой и задание агенту на ролик с голосом. Рецепты, скиллы и мини-курс, MIT.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/rils-start/">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/guide-v2.css">
+</head>
+<body>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero">
+  <div>
+    <h1>Этот рилс собрал <span class="hl">агент</span>. Вот набор</h1>
+    <p class="lede">Ролик собрал Claude Code по нашему открытому набору not-a-blogger: сценарий, голос, кадры, рендер и проверка. Ниже два пути: немой пробник на 15 секунд одной командой и задание, с которым агент соберёт ролик с голосом. Сценарий одобряете вы, публикуете тоже вы.</p>
+    <div class="actions"><a class="btn" href="#step-1">Собрать первый ролик →</a><a class="secondary-link" href="https://github.com/ilyautov/not-a-blogger">Репозиторий на GitHub</a></div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно: код MIT, тексты CC BY 4.0</li><li>Claude Code, Codex, Cursor</li><li>сначала сценарий, потом сборка</li><li>публикуете сами</li></ul>
+    <p class="for-video">К ролику «Этот рилс сделал Клод» · обновлено 9 ноября 2026</p>
+  </div>
+</header>
+
+<nav class="strip" aria-label="Что внутри"><p>Что обещали в ролике</p><ol>
+  <li><a href="#step-1"><b>Пробник</b><span>15 с, одна команда</span></a></li>
+  <li><a href="#step-2"><b>Задание агенту</b><span>ролик с голосом</span></a></li>
+  <li><a href="#inside"><b>Что внутри</b><span>скиллы, рецепты, курс</span></a></li>
+  <li><a href="#licenses"><b>Лицензии</b><span>голос NC</span></a></li>
+</ol></nav>
+
+<div class="start-note"><b>До начала</b><p>Для пробника нужны только Node.js 22+ и ffmpeg, без Python, видеокарты и аккаунта у нейросети. Для ролика с голосом нужен агент, который работает с файлами: Claude Code, Codex или Cursor.</p></div>
+
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Первый результат за 2 шага</h2>
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Соберите немой пробник</h3><p>Ролик на 15 секунд без голоса, дальше меняете в нём текст на свой.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>git clone https://github.com/ilyautov/not-a-blogger
+cd not-a-blogger/starter-lite
+npm run render</code></pre><p class="copy-feedback" aria-live="polite"></p></div><div class="expected"><b>Что должно получиться</b><p>Файл <code>output/first-video.mp4</code> внутри <code>starter-lite/</code>. Первый запуск скачивает закреплённую версию HyperFrames и, возможно, браузер для рендера, нужен интернет. Голоса и проверки готового файла здесь нет.</p></div>
+</div>
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Поручите ролик агенту</h3><p>Откройте папку репозитория в агенте и вставьте задание со своей темой.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code, Codex или Cursor · задание</span><button type="button">Копировать</button></div><pre><code>Прочитай AGENTS.md в этом репо. Собери вертикальный ролик на 20 секунд про {твоя тема}, на русском.
+Сначала покажи сценарий и дождись моего ответа.
+Когда соберёшь, покажи контактный лист и отчёт проверки. Ничего не публикуй.</code></pre><p class="copy-feedback" aria-live="polite"></p></div><div class="expected"><b>Что должно получиться</b><p>Агент сначала покажет сценарий и будет ждать вашего ответа. Потом скажет, что поставить, соберёт ролик с голосом в папке <code>starter/</code>, покажет контактный лист и отчёт проверки. Публиковать он не будет.</p></div>
+</div>
+</section>
+
+<section class="block" id="reference" aria-labelledby="reference-title">
+<h2 id="reference-title">Справочное</h2>
+<details id="inside"><summary><span>Что внутри набора<small>по README репозитория</small></span></summary><div class="details-body"><ul><li><a href="https://github.com/ilyautov/not-a-blogger/blob/main/.agents/skills/README.ru.md">18 скиллов</a>: 15 отдельных задач (сценарий, голос, субтитры, рендер, проверки) и 3 на весь процесс.</li><li><a href="https://github.com/ilyautov/not-a-blogger/blob/main/recipes/README.md">143 рецепта</a> для агента: когда применять, что делать, как проверить.</li><li><a href="https://github.com/ilyautov/not-a-blogger/blob/main/examples/README.md">12 разборов</a> опубликованных роликов с цифрами и датами, провалы тоже.</li><li><a href="https://github.com/ilyautov/not-a-blogger/blob/main/learn/ru/README.md">Мини-курс</a> для человека: 12 глав с упражнениями.</li><li><a href="https://github.com/ilyautov/not-a-blogger/blob/main/starter/README.md">starter/</a>: полная сборка с голосом и отчётом проверки.</li></ul></div></details>
+<details id="licenses"><summary><span>Лицензии: что можно в рекламе, а что нет<small>голосовые модели некоммерческие</small></span></summary><div class="details-body"><p>Код набора под MIT, тексты под CC BY 4.0. Веса голосовых моделей OmniVoice и F5-TTS под некоммерческой лицензией CC BY-NC: для рекламы и заказов нужна своя запись голоса или другая модель. Полная таблица в <a href="https://github.com/ilyautov/not-a-blogger/blob/main/docs/THIRD-PARTY.md">THIRD-PARTY.md</a>.</p></div></details>
+</section>
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="stuck-node"><summary>npm run render падает</summary><div class="details-body"><p>Проверьте версию Node (<code>node -v</code>, нужна 22+) и что ffmpeg установлен. Подробности в <a href="https://github.com/ilyautov/not-a-blogger/blob/main/starter-lite/README.ru.md">starter-lite/README.ru.md</a>.</p></div></details>
+<details id="stuck-voice"><summary>Голос не ставится</summary><div class="details-body"><p>Полный стартер с голосом проверен на macOS с Apple Silicon. Linux с настоящей речью и GPU не проверен, нативная Windows не поддерживается. Отказы и что делать: <a href="https://github.com/ilyautov/not-a-blogger/blob/main/starter/DIAGNOSTICS.md">DIAGNOSTICS.md</a>.</p></div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Чего это не гарантирует</h2>
+<ul>
+<li>Набор не обещает просмотров. Это инструменты и наш опыт, а не формула залёта.</li><li>Немой пробник не проверяет готовый файл: смотрите MP4 глазами.</li><li>Веса голосовых моделей некоммерческие. Для рекламы и заказов голос нужен другой.</li><li>Публикатора в наборе нет: выкладываете вы сами.</li>
+</ul>
+</section>
+
+<footer>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>not-a-blogger — открытый набор: код MIT, тексты CC BY 4.0. Сторонние движки и модели под своими лицензиями.</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
+</footer>
+</main>
+<script src="../assets/guide-v2.js"></script>
+</body>
+</html>
