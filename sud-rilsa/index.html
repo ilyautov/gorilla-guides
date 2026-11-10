@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Суд над рилсом: 12 зрителей до публикации</title>
+<meta name="description" content="Скилл /jury-reels для Claude Code: двенадцать зрителей-персон читают сценарий рилса и называют секунду, на которой пролистали бы. Итог «досмотрели N/12» и одна правка. Пишете агенту обычные сообщения, код не нужен.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Суд над рилсом: 12 зрителей">
+<meta property="og:description" content="Скилл /jury-reels: на какой секунде пролистают твой рилс и какая одна правка вернёт больше всего зрителей.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/sud-rilsa/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/sud-rilsa/img/sud.jpg">
+<meta property="og:image:width" content="880">
+<meta property="og:image:height" content="586">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/guide-v2.css">
+<style>
+.step-figure{margin:4px 0 16px;max-width:560px}
+.step-figure img{width:100%;border-radius:var(--radius);border:1px solid var(--line)}
+</style>
+</head>
+<body>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Двенадцать зрителей <span class="hl">судят твой рилс</span></h1>
+    <p class="lede">В ролике Горо собрал двенадцать Клодов-зрителей, и они подняли таблички с секундой, на которой пролистали. Это скилл /jury-reels для Claude Code. Школьница, мама, сеньор, скептик, бабушка и ещё семь зрителей читают ваш сценарий каждый отдельно и не видят ответов друг друга. Итог: «досмотрели N из 12» и одна правка, которая вернёт больше всего зрителей. Код писать не нужно: ниже четыре сообщения агенту.</p>
+    <div class="actions"><a class="btn" href="#step-1">Начать: 4 сообщения агенту →</a><a class="secondary-link" href="jury-reels/SKILL.md">SKILL.md</a></div>
+    <ul class="chips" aria-label="Коротко"><li>бесплатно</li><li>Claude Code</li><li>12 независимых зрителей</li><li>симуляция, а не реальные люди</li></ul>
+    <p class="for-video">К ролику «Суд над рилсом» · обновлено 10 ноября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/sud.jpg" width="880" height="586" alt="Горилла в наушниках скептически смотрит ролик на телефоне, шимпанзе показывает планшет со сплошными галочками"></figure>
+</header>
+
+<nav class="strip" aria-label="Что внутри"><p>Четыре сообщения агенту</p><ol>
+  <li><a href="#step-1"><b>1. Установить</b><span>агент ставит сам</span></a></li>
+  <li><a href="#step-2"><b>2. Сценарий</b><span>посекундно</span></a></li>
+  <li><a href="#step-3"><b>3. Суд</b><span>досмотрели N из 12</span></a></li>
+  <li><a href="#step-4"><b>4. Хуки</b><span>12 первых фраз</span></a></li>
+</ol></nav>
+
+<section class="block" id="how" aria-labelledby="how-title">
+<h2 id="how-title">Как это устроено</h2>
+<p class="intro">Вы даёте сценарий и решаете, что править. Судят двенадцать отдельных вызовов модели.</p>
+<ol class="scheme">
+  <li class="you"><small>вы</small><b>Сценарий</b><span>что видно и что звучит</span></li>
+  <li><small>агент</small><b>Таблица по секундам</b><span>без таймкодов секунду не назвать</span></li>
+  <li><small>12 зрителей</small><b>Каждый судит отдельно</b><span>секунда, причина, правка</span></li>
+  <li><small>агент</small><b>Итог</b><span>досмотрели N из 12</span></li>
+  <li class="you"><small>вы</small><b>Одна правка</b><span>та, что называют чаще</span></li>
+  <li><small>агент</small><b>Пересуд</b><span>было N, стало M</span></li>
+</ol>
+<p class="scheme-legend"><i></i>ваши шаги, остальное делает агент</p>
+</section>
+
+<div class="start-note"><b>До начала</b><p>Нужен <a href="https://code.claude.com/docs/ru/overview">Claude Code</a>: в терминале или в приложении Claude. Скилл вызывает именно Claude, в Codex и Cursor он не заработает. Один суд — двенадцать вызовов, около минуты, и они тратят ваш лимит Claude. Цифры жюри годятся, чтобы сравнить две версии одного сценария, а не предсказать охват. <a href="#no-agent">Claude Code нет?</a></p></div>
+
+<section class="block" id="no-agent" aria-labelledby="no-agent-title">
+<h2 id="no-agent-title">Если Claude Code нет</h2>
+<p class="intro">Выберите один вариант. Проверено по официальным страницам Anthropic 10 ноября 2026.</p>
+<div class="cards">
+  <div><b>Приложение Claude</b>
+    <dl><dt>Что это</dt><dd>Обычное приложение для Mac и Windows. Claude Code там на вкладке Code, терминал не нужен.</dd>
+    <dt>Нужно</dt><dd>Платная подписка Claude: Pro, Max или выше. На бесплатном плане вкладка Code просит обновиться.</dd></dl>
+    <a class="go" href="#claude-app">Как поставить →</a></div>
+  <div><b>Claude Code в терминале</b>
+    <dl><dt>Что это</dt><dd>Та же программа, но запускается командой <code>claude</code>. Так скилл работает быстрее всего: скриптом, по три зрителя параллельно.</dd>
+    <dt>Нужно</dt><dd>Та же платная подписка: Pro, Max или выше.</dd></dl>
+    <a class="go" href="#terminal-install">Одна команда →</a></div>
+  <div><b>Без Claude: любой чат</b>
+    <dl><dt>Что это</dt><dd>Упрощённый суд руками: один зритель — один новый чат, двенадцать раз.</dd>
+    <dt>Нужно</dt><dd>Любая нейросеть с чатом и терпение. Итог считаете сами, повторов нет, поэтому цифра грубее.</dd></dl>
+    <a class="go" href="#any-chat">Промпт →</a></div>
+</div>
+
+<details id="claude-app"><summary><span>Приложение Claude за 4 шага<small>по официальной инструкции Anthropic</small></span></summary><div class="details-body">
+<ol>
+<li>Скачайте приложение со страницы <a href="https://code.claude.com/docs/ru/desktop-quickstart">«Начало работы с настольным приложением»</a>: там кнопки для macOS и Windows. Установите и войдите своей учётной записью.</li>
+<li>Нажмите вкладку <b>Code</b> вверху боковой панели. Если она просит обновиться, нужна платная подписка.</li>
+<li>Под полем ввода выберите окружение <b>Local</b>, затем папку: <b>Open folder…</b>. Подойдёт новая пустая папка, например «Суд».</li>
+<li>Вставьте <a href="#step-1">сообщение 1</a> и дальше идите по шагам. Пока не освоились, держите режим разрешений <b>Manual</b>: Claude будет спрашивать перед каждой командой.</li>
+</ol>
+<p>В приложении команды <code>claude</code> в терминале может не быть. Тогда агент судит без скрипта, двенадцатью субагентами: на шаге 1 он сам скажет, какой способ выбрал.</p>
+</div></details>
+
+<details id="terminal-install"><summary><span>Claude Code в терминале<small>официальная команда установки</small></span></summary><div class="details-body">
+<p>Откройте Терминал (на Mac: Программы → Утилиты → Терминал) и вставьте команду для своей системы.</p>
+<div class="command"><div class="command-bar"><span>macOS и Linux</span><button type="button">Копировать</button></div><pre><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<div class="command"><div class="command-bar"><span>Windows · PowerShell</span><button type="button">Копировать</button></div><pre><code>irm https://claude.ai/install.ps1 | iex</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Установщик молчит, пока скачивает. Когда закончит, откройте новое окно терминала и проверьте: <code>claude --version</code> должна напечатать версию. Потом перейдите в пустую папку, наберите <code>claude</code>, войдите через браузер и вставьте <a href="#step-1">сообщение 1</a>. Если команда не находится, смотрите <a href="https://code.claude.com/docs/en/troubleshoot-install">официальный разбор ошибок установки</a>.</p>
+</div></details>
+
+<details id="any-chat"><summary><span>Без Claude: суд в любом чате<small>двенадцать новых чатов</small></span></summary><div class="details-body">
+<p>Зрители не должны видеть ответы друг друга, поэтому каждому нужен новый чат. Карточки зрителей лежат в <a href="jury-reels/personas.json">personas.json</a>: поле <code>name</code> — кто это, поле <code>card</code> — привычки.</p>
+<div class="command"><div class="command-bar"><span>В новый чат · по одному на зрителя</span><button type="button">Копировать</button></div><pre><code>Ты листаешь ленту Instagram Reels со своего телефона. Ты не помощник и не критик, ты обычный зритель со своими привычками, вежливость не нужна. В ленте тысячи роликов, и ты листаешь дальше, как только становится неинтересно или непонятно.
+
+Кто ты: {name из карточки}. {card из карточки}
+
+Вот рил посекундно: что звучит и что видно на экране.
+
+{ваш сценарий таблицей}
+
+Представь, что этот рил появился у тебя в ленте. Реши честно, на какой секунде ты пролистнёшь его, или досмотришь до конца.
+Ответь тремя строками: секунда (или «досмотрел»), почему, одна правка, которая тебя удержала бы.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Это тот же вопрос, что задаёт скрипт. Посчитайте, сколько из двенадцати досмотрели, и выберите правку, которую называют чаще всего.</p>
+</div></details>
+</section>
+
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Четыре сообщения агенту</h2>
+<p class="intro">Откройте Claude Code, вставьте сообщение, дождитесь ответа, потом следующее. Фигурные скобки замените своим текстом.</p>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Попросите поставить скилл</h3><p>Агент скачает папку jury-reels и проверит, чем судить.</p></div></div>
+  <figure class="step-figure"><img src="img/ustanovka.jpg" width="880" height="586" alt="Горилла настраивает камеру в мастерской, шимпанзе держит микрофон" loading="lazy"></figure>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · сообщение 1</span><button type="button">Копировать</button></div><pre><code>Скачай скилл jury-reels из https://github.com/ilyautov/gorilla-guides: это папка sud-rilsa/jury-reels. Положи её в ~/.claude/skills/jury-reels.
+Прочитай в ней SKILL.md.
+Проверь, есть ли у меня python3 и запускается ли команда claude в терминале. Ничего не ставь без моего «да».
+Скажи, каким способом будешь судить: скриптом или двенадцатью субагентами без скрипта.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Папка <code>~/.claude/skills/jury-reels</code> с файлами <a href="jury-reels/SKILL.md">SKILL.md</a>, <a href="jury-reels/personas.json">personas.json</a> и <a href="jury-reels/scripts/jury.py">scripts/jury.py</a>, и ответ агента, каким способом он будет судить. Оба способа задают зрителям один и тот же вопрос. Если в следующем сообщении агент не узнаёт скилл, начните новый чат: скиллы подхватываются при старте.</p></div>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Дайте сценарий</h3><p>Агент перепишет его по секундам. Без таймкодов зрители не назовут секунду.</p></div></div>
+  <figure class="step-figure"><img src="img/raskadrovka.jpg" width="880" height="586" alt="Горилла со скрещёнными руками разглядывает карточки раскадровки на верёвке, шимпанзе вешает последнюю" loading="lazy"></figure>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · сообщение 2</span><button type="button">Копировать</button></div><pre><code>Вот мой рилс: {сценарий или пересказ: что видно и что звучит, примерная длина}.
+Перепиши его посекундно в файл сценарий.md по образцу ~/.claude/skills/jury-reels/examples/l09-A-original.md: сверху строка «Сюжет: …», ниже таблица «Время | Что видно | Что звучит».
+Ничего не добавляй от себя. Где не хватает времени или кадра, спроси меня.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Файл <code>сценарий.md</code> в вашей папке: одна строка сюжета и таблица на 5–10 строк. Проверьте, что агент ничего не дописал: судить будут ровно этот текст. Как выглядит готовый: <a href="jury-reels/examples/l09-A-original.md">наш пример</a>.</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Засудите и сделайте одну правку</h3><p>Двенадцать зрителей, два повтора, потом пересуд.</p></div></div>
+  <figure class="step-figure"><img src="img/lupa.jpg" width="880" height="586" alt="Горилла с лупой проверяет коробку, которую принёс шимпанзе, и не верит его поднятому пальцу" loading="lazy"></figure>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · сообщение 3</span><button type="button">Копировать</button></div><pre><code>Засуди мой рилс скиллом jury-reels: режим вердикта по сценарий.md, два повтора.
+Каждый зритель судит отдельно и не видит ответов других.
+Покажи «досмотрели N из 12», на каких секундах ушли остальные и одну правку, которую называют чаще всего. Сценарий сам не меняй.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Через минуту-две: «досмотрели N из 12» в каждом повторе, секунды ухода с причинами и самая частая правка. Повторы нужны, потому что модель отвечает по-разному: разброс показывает, насколько верить цифре. Разница меньше двух зрителей между версиями — шум.</p></div>
+  <p>Согласны с правкой? Пересудите:</p>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · пересуд</span><button type="button">Копировать</button></div><pre><code>Внеси в сценарий только эту правку: {правка}. Сохрани как сценарий-2.md и засуди так же, два повтора.
+Покажи рядом: было N из 12, стало M из 12.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Одна правка за раз, иначе не поймёте, что сработало.</p>
+</div>
+
+<div class="step" id="step-4">
+  <div class="section-title"><span class="step-number">4</span><div><h3>Если скучный хук, закажите двенадцать</h3><p>Агент придумает варианты первой фразы, жюри проголосует.</p></div></div>
+  <figure class="step-figure"><img src="img/huki.jpg" width="880" height="586" alt="Шимпанзе несёт стопку набросков, горилла оставляет на доске три карточки, остальные летят в корзину" loading="lazy"></figure>
+  <div class="command"><div class="command-bar"><span>В чат Claude Code · сообщение 4</span><button type="button">Копировать</button></div><pre><code>Запусти jury-reels в режиме хуков по сценарий.md: 12 вариантов первой фразы, зелёный от 8 из 12.
+Покажи таблицу по убыванию.
+Лучший зелёный хук вставь в копию сценария и засуди её обычным вердиктом.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Таблица из двенадцати фраз: сколько зрителей осталось после третьей секунды. Зелёные — от 8 из 12. Финальный вердикт показывает, не обещает ли хук того, чего дальше нет: тогда зрители уходят на 3–5 секунде.</p></div>
+</div>
+</section>
+
+<section class="block" id="reference" aria-labelledby="reference-title">
+<h2 id="reference-title">Справочное</h2>
+<details id="terminal"><summary><span>Без агента: скрипт в терминале<small>три команды и запуск</small></span></summary><div class="details-body">
+<p>Нужны Claude Code в терминале (команда <code>claude</code>, вы в неё вошли) и Python 3.</p>
+<div class="command"><div class="command-bar"><span>В терминал · установка</span><button type="button">Копировать</button></div><pre><code>git clone --depth 1 https://github.com/ilyautov/gorilla-guides /tmp/gorilla-guides
+mkdir -p ~/.claude/skills
+cp -r /tmp/gorilla-guides/sud-rilsa/jury-reels ~/.claude/skills/</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Сценарий запишите сами в файл <code>сценарий.md</code> в таком формате:</p>
+<div class="command"><div class="command-bar"><span>Файл сценарий.md · формат</span><button type="button">Копировать</button></div><pre><code>Сюжет: [одна строка: что происходит и чем кончается]
+
+| Время | Что видно | Что звучит |
+|---|---|---|
+| 0,0–3,0 | [кадр] | [реплика] |
+| 3,0–7,5 | [кадр] | [реплика] |
+| … | … | … |</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<div class="command"><div class="command-bar"><span>В терминал · из папки со сценарием</span><button type="button">Копировать</button></div><pre><code>python3 ~/.claude/skills/jury-reels/scripts/jury.py verdict сценарий.md out/ --repeat 2 --workers 3</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Итог в консоли и в <code>out/summary.json</code>. Режим хуков:</p>
+<div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>python3 ~/.claude/skills/jury-reels/scripts/jury.py hooks сценарий.md out/ --workers 3 --green 8</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Таблица хуков в <code>out/hooks-summary.json</code>.</p>
+</div></details>
+<details id="hooks"><summary><span>По каким правилам пишутся хуки<small>12 вариантов и голосование</small></span></summary><div class="details-body"><p>Один вызов пишет 12 вариантов первой фразы: реплика персонажу по имени, в первую секунду результат, скандал или интрига, до 9 слов. Потом каждый из двенадцати зрителей голосует по всем вариантам: остаётся после третьей секунды или листает. Хук зелёный, если остались хотя бы 8 из 12.</p></div></details>
+<details id="jury-list"><summary><span>Кто в жюри<small>двенадцать карточек в personas.json</small></span></summary><div class="details-body"><p>Школьница, мама, сеньор, скептик, бабушка, фанат канала, маркетолог, студент, офисник, блогер-конкурент, геймер, предприниматель. Карточки написаны под русскоязычный Instagram про нейросети. Для другой ниши попросите агента: «Перепиши personas.json под мою аудиторию: {кто она}».</p></div></details>
+<details id="example"><summary><span>Как это сработало на нашем сценарии<small>133 вызова, 9 ноября 2026</small></span></summary><div class="details-body">
+<p>Мы засудили сценарий нашего рила «Сорок девять агентов» на 30 секунд, пять версий, каждую дважды.</p>
+<ul>
+<li>Оригинал: досмотрели 0 из 12 в обоих повторах. Почти все уходили на финальном вопросе в камеру.</li>
+<li>Поменяли только первую фразу: 1 из 12.</li>
+<li>Заменили вопрос в комменты на концовку-добивку: 5 из 12 в обоих повторах.</li>
+</ul>
+<p>Честная оговорка: последняя версия на 12 секунд короче, часть прироста может давать длина. В режиме хуков из двенадцати вариантов зелёными вышли три, лучший набрал 11 из 12: «Клод, твои сорок девять копий делят один стул».</p>
+</div></details>
+<details id="old-sud"><summary><span>Нужно засудить не рилс, а идею<small>другой суд</small></span></summary><div class="details-body"><p>Для идей, планов и решений есть суд с прокурором, защитником и двенадцатью присяжными: <a href="../sud/">страница «суд» про идеи</a>.</p></div></details>
+</section>
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="stuck-claude"><summary>Скрипт падает с «claude failed»</summary><div class="details-body"><p>Проверьте, что <code>claude</code> запускается из терминала и вы вошли в аккаунт. Каждый вызов идёт с <code>--setting-sources ""</code> из пустой временной папки, ваши настройки не подмешиваются. Упёрлись в лимит — уменьшите <code>--workers</code> или подождите. Можно просто написать агенту: «Суди без скрипта, двенадцатью субагентами».</p></div></details>
+<details id="stuck-skill"><summary>Агент не знает, что такое jury-reels</summary><div class="details-body"><p>Начните новый чат: скиллы подхватываются при старте. Не помогло — проверьте, что папка лежит ровно в <code>~/.claude/skills/jury-reels</code> и внутри есть <code>SKILL.md</code>.</p></div></details>
+<details id="stuck-null"><summary>Все двенадцать «досмотрели»</summary><div class="details-body"><p>Модель добрее живых зрителей: сценарий она читает целиком, а в ленте решают звук и картинка за полсекунды. Смотрите на разницу между версиями, а не на абсолютную цифру.</p></div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Чего это не гарантирует</h2>
+<ul>
+<li>Это симуляция модели, а не реальные зрители. Охват и удержание в Instagram цифры не предсказывают.</li><li>Абсолютное N завышено: модель склонна быть добрее живых зрителей.</li><li>Карточки зрителей написаны под рунет и нейросети. Для другой ниши их надо переписать.</li><li>Двенадцать вызовов на прогон тратят ваш лимит Claude.</li>
+</ul>
+</section>
+
+<footer>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Скилл /jury-reels сделан для серии роликов gorilla_under_hood. Зрители — модели с карточками, а не живые люди. Иллюстрации из учебника not-a-blogger (CC BY 4.0).</p>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
+</footer>
+</main>
+<script src="../assets/guide-v2.js"></script>
+</body>
+</html>

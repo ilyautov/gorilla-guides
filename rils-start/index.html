@@ -58,7 +58,36 @@
 <p class="scheme-legend"><i></i>ваши шаги, остальное делает агент</p>
 </section>
 
-<div class="start-note"><b>До начала</b><p>Нужен агент, который работает с файлами на вашем компьютере: <a href="https://code.claude.com/docs/ru/overview">Claude Code</a>, Codex или Cursor. Ему пишут по-русски, а команды он запускает сам и перед установкой программ спрашивает разрешение. Для пробника хватит Node.js 22+ и ffmpeg, без Python, видеокарты и аккаунта у нейросети: их агент поставит на шаге 1. Ролик с голосом проверен на Mac с Apple Silicon.</p></div>
+<div class="start-note"><b>До начала</b><p>Нужен агент, который работает с файлами на вашем компьютере: <a href="https://code.claude.com/docs/ru/overview">Claude Code</a>, Codex или Cursor. Ему пишут по-русски, а команды он запускает сам и перед установкой программ спрашивает разрешение. Для пробника хватит Node.js 22+ и ffmpeg, без Python, видеокарты и аккаунта у нейросети: их агент поставит на шаге 1. Ролик с голосом проверен на Mac с Apple Silicon. <a href="#no-agent">Агента нет?</a></p></div>
+
+<section class="block" id="no-agent" aria-labelledby="no-agent-title">
+<h2 id="no-agent-title">Если агента нет</h2>
+<p class="intro">Выберите один вариант. Проверено по официальным страницам 10 ноября 2026.</p>
+<div class="cards">
+  <div><b>Приложение Claude</b>
+    <dl><dt>Что это</dt><dd>Обычное приложение для Mac и Windows. Claude Code там на вкладке Code, терминал не нужен.</dd>
+    <dt>Нужно</dt><dd>Платная подписка Claude: Pro, Max или выше. На бесплатном плане вкладка Code просит обновиться.</dd></dl>
+    <a class="go" href="#claude-app">Как поставить →</a></div>
+  <div><b>Cursor</b>
+    <dl><dt>Что это</dt><dd>Редактор кода со встроенным агентом: сообщения вставляете в его чат.</dd>
+    <dt>Нужно</dt><dd>Есть бесплатный тариф Free, но запросы к агенту в нём ограничены, точный лимит на странице цен не указан.</dd></dl>
+    <a class="go" href="https://cursor.com/">cursor.com →</a></div>
+  <div><b>Совсем без агента</b>
+    <dl><dt>Что это</dt><dd>Немой пробник руками: две программы и три команды в терминале.</dd>
+    <dt>Нужно</dt><dd>Node.js 22+ и ffmpeg. Ролик с голосом так собрать сложно, это путь для тех, кто уверенно работает в терминале.</dd></dl>
+    <a class="go" href="#terminal">Пошагово →</a></div>
+</div>
+
+<details id="claude-app"><summary><span>Приложение Claude за 4 шага<small>по официальной инструкции Anthropic</small></span></summary><div class="details-body">
+<ol>
+<li>Скачайте приложение со страницы <a href="https://code.claude.com/docs/ru/desktop-quickstart">«Начало работы с настольным приложением»</a>: там кнопки для macOS (Intel и Apple Silicon) и Windows. Установите и войдите своей учётной записью.</li>
+<li>Нажмите вкладку <b>Code</b> вверху боковой панели. Если она просит обновиться, нужна платная подписка.</li>
+<li>Под полем ввода выберите окружение <b>Local</b>, затем папку: <b>Open folder…</b>. Подойдёт новая пустая папка, например «Ролики».</li>
+<li>Вставьте <a href="#step-1">сообщение 1</a> и дальше идите по шагам. Пока не освоились, держите режим разрешений <b>Manual</b>: Claude будет спрашивать перед каждой командой и правкой файла.</li>
+</ol>
+<p>Для самого приложения больше ничего ставить не нужно: Claude Code уже внутри. Node.js и ffmpeg нужны пробнику, их агент поставит на шаге 1.</p>
+</div></details>
+</section>
 
 <section class="block" id="steps" aria-labelledby="steps-title">
 <h2 id="steps-title">Четыре сообщения агенту</h2>
@@ -121,11 +150,17 @@
 
 <section class="block" id="reference" aria-labelledby="reference-title">
 <h2 id="reference-title">Справочное</h2>
-<details id="terminal"><summary><span>Если удобнее терминал<small>пробник тремя командами, без агента</small></span></summary><div class="details-body">
+<details id="terminal"><summary><span>Без агента: пробник через терминал<small>две программы и три команды</small></span></summary><div class="details-body">
+  <ol>
+  <li>Поставьте Node.js 22+ с <a href="https://nodejs.org/">nodejs.org</a> и FFmpeg по <a href="https://ffmpeg.org/download.html">ffmpeg.org/download.html</a>. После установки закройте и заново откройте терминал.</li>
+  <li>Проверьте: <code>node --version</code> и <code>ffmpeg -version</code>. Обе команды должны напечатать версию.</li>
+  <li>Вставьте три команды ниже. Первый запуск скачает HyperFrames и, возможно, браузер для рендера, нужен интернет.</li>
+  </ol>
   <div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>git clone https://github.com/ilyautov/not-a-blogger
 cd not-a-blogger/starter-lite
 npm run render</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
   <p>Результат тот же, что на шаге 2: <code>output/first-video.mp4</code> внутри <code>starter-lite/</code>.</p>
+  <p>Свой текст: откройте <code>compositions/hook.html</code>, <code>test.html</code> и <code>takeaway.html</code> в любом текстовом редакторе и меняйте текст внутри <code>h1</code> и <code>p</code>, не теги. Сохраните и снова выполните <code>npm run render</code>. Предпросмотр без рендера: <code>npm run dev</code>, остановить Ctrl+C. Полная инструкция в <a href="https://github.com/ilyautov/not-a-blogger/blob/main/starter-lite/README.ru.md">starter-lite/README.ru.md</a>.</p>
 </div></details>
 <details id="licenses"><summary><span>Лицензии: что можно в рекламе, а что нет<small>голосовые модели некоммерческие</small></span></summary><div class="details-body"><p>Код набора под MIT, тексты под CC BY 4.0. Веса голосовых моделей OmniVoice и F5-TTS под некоммерческой лицензией CC BY-NC: для рекламы и заказов нужна своя запись голоса или другая модель. Полная таблица в <a href="https://github.com/ilyautov/not-a-blogger/blob/main/docs/THIRD-PARTY.md">THIRD-PARTY.md</a>.</p></div></details>
 </section>
