@@ -9,60 +9,130 @@
 <meta property="og:title" content="Рилс собирает агент: not-a-blogger">
 <meta property="og:description" content="Первый ролик одной командой и задание агенту на ролик с голосом. Рецепты, скиллы и мини-курс, MIT.">
 <meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/rils-start/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/rils-start/img/konveier.jpg">
+<meta property="og:image:width" content="880">
+<meta property="og:image:height" content="587">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="../assets/guide-v2.css">
+<style>
+.step-figure{margin:4px 0 16px;max-width:560px}
+.step-figure img{width:100%;border-radius:var(--radius);border:1px solid var(--line)}
+</style>
 </head>
 <body>
 <main id="top">
 <nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
 
-<header class="hero">
+<header class="hero has-figure">
   <div>
     <h1>Этот рилс собрал <span class="hl">агент</span>. Вот набор</h1>
-    <p class="lede">Ролик собрал Claude Code по нашему открытому набору not-a-blogger: сценарий, голос, кадры, рендер и проверка. Ниже два пути: немой пробник на 15 секунд одной командой и задание, с которым агент соберёт ролик с голосом. Сценарий одобряете вы, публикуете тоже вы.</p>
-    <div class="actions"><a class="btn" href="#step-1">Собрать первый ролик →</a><a class="secondary-link" href="https://github.com/ilyautov/not-a-blogger">Репозиторий на GitHub</a></div>
+    <p class="lede">Ролик собрал Claude Code по нашему открытому набору not-a-blogger: сценарий, голос, кадры, рендер и проверка. Код писать не нужно: вы пишете агенту обычные сообщения, он ставит, собирает и показывает. Ниже четыре сообщения подряд. Сценарий одобряете вы, публикуете тоже вы.</p>
+    <div class="actions"><a class="btn" href="#step-1">Начать: 4 сообщения агенту →</a><a class="secondary-link" href="https://github.com/ilyautov/not-a-blogger">Репозиторий на GitHub</a></div>
     <ul class="chips" aria-label="Коротко"><li>бесплатно: код MIT, тексты CC BY 4.0</li><li>Claude Code, Codex, Cursor</li><li>сначала сценарий, потом сборка</li><li>публикуете сами</li></ul>
-    <p class="for-video">К ролику «Этот рилс сделал Клод» · обновлено 9 ноября 2026</p>
+    <p class="for-video">К ролику «Этот рилс сделал Клод» · обновлено 10 ноября 2026</p>
   </div>
+  <figure class="hero-figure"><img src="img/konveier.jpg" width="880" height="586" alt="Горилла и шимпанзе у конвейера: лист сценария проходит через микрофон, камеру и колонку и выходит роликом на телефоне"></figure>
 </header>
 
-<nav class="strip" aria-label="Что внутри"><p>Что обещали в ролике</p><ol>
-  <li><a href="#step-1"><b>Пробник</b><span>15 с, одна команда</span></a></li>
-  <li><a href="#step-2"><b>Задание агенту</b><span>ролик с голосом</span></a></li>
-  <li><a href="#inside"><b>Что внутри</b><span>скиллы, рецепты, курс</span></a></li>
-  <li><a href="#licenses"><b>Лицензии</b><span>голос NC</span></a></li>
+<nav class="strip" aria-label="Что внутри"><p>Четыре сообщения агенту</p><ol>
+  <li><a href="#step-1"><b>1. Установить</b><span>агент ставит сам</span></a></li>
+  <li><a href="#step-2"><b>2. Пробник</b><span>15 с, без голоса</span></a></li>
+  <li><a href="#step-3"><b>3. Референсы</b><span>ролики, которые нравятся</span></a></li>
+  <li><a href="#step-4"><b>4. Ролик с голосом</b><span>сценарий, потом сборка</span></a></li>
 </ol></nav>
 
-<div class="start-note"><b>До начала</b><p>Для пробника нужны только Node.js 22+ и ffmpeg, без Python, видеокарты и аккаунта у нейросети. Для ролика с голосом нужен агент, который работает с файлами: Claude Code, Codex или Cursor.</p></div>
+<section class="block" id="how" aria-labelledby="how-title">
+<h2 id="how-title">Как это устроено</h2>
+<p class="intro">Вы даёте тему и решаете. Всё между этим делает агент по рецептам набора.</p>
+<ol class="scheme">
+  <li class="you"><small>вы</small><b>Тема</b><span>одна строка в чат агента</span></li>
+  <li><small>агент</small><b>Сценарий</b><span>показывает и ждёт ответа</span></li>
+  <li class="you"><small>вы</small><b>«Ок» или правки</b><span>без ответа сборки нет</span></li>
+  <li><small>агент</small><b>Голос, кадры, рендер</b><span>в папке starter/</span></li>
+  <li><small>агент</small><b>Проверка</b><span>контактный лист и отчёт</span></li>
+  <li class="you"><small>вы</small><b>Смотрите и публикуете</b><span>агент не публикует</span></li>
+</ol>
+<p class="scheme-legend"><i></i>ваши шаги, остальное делает агент</p>
+</section>
+
+<div class="start-note"><b>До начала</b><p>Нужен агент, который работает с файлами на вашем компьютере: <a href="https://code.claude.com/docs/ru/overview">Claude Code</a>, Codex или Cursor. Ему пишут по-русски, а команды он запускает сам и перед установкой программ спрашивает разрешение. Для пробника хватит Node.js 22+ и ffmpeg, без Python, видеокарты и аккаунта у нейросети: их агент поставит на шаге 1. Ролик с голосом проверен на Mac с Apple Silicon.</p></div>
 
 <section class="block" id="steps" aria-labelledby="steps-title">
-<h2 id="steps-title">Первый результат за 2 шага</h2>
+<h2 id="steps-title">Четыре сообщения агенту</h2>
+<p class="intro">Откройте агента, вставьте сообщение, дождитесь ответа, потом следующее. Фигурные скобки замените своим текстом.</p>
+
 <div class="step" id="step-1">
-  <div class="section-title"><span class="step-number">1</span><div><h3>Соберите немой пробник</h3><p>Ролик на 15 секунд без голоса, дальше меняете в нём текст на свой.</p></div></div>
-  <div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>git clone https://github.com/ilyautov/not-a-blogger
-cd not-a-blogger/starter-lite
-npm run render</code></pre><p class="copy-feedback" aria-live="polite"></p></div><div class="expected"><b>Что должно получиться</b><p>Файл <code>output/first-video.mp4</code> внутри <code>starter-lite/</code>. Первый запуск скачивает закреплённую версию HyperFrames и, возможно, браузер для рендера, нужен интернет. Голоса и проверки готового файла здесь нет.</p></div>
+  <div class="section-title"><span class="step-number">1</span><div><h3>Попросите установить набор</h3><p>Агент скачает набор и поставит две программы для пробника.</p></div></div>
+  <figure class="step-figure"><img src="img/ustanovka.jpg" width="880" height="586" alt="Горилла настраивает камеру в мастерской, шимпанзе держит микрофон" loading="lazy"></figure>
+  <div class="command"><div class="command-bar"><span>В чат агента · сообщение 1</span><button type="button">Копировать</button></div><pre><code>Скачай открытый набор https://github.com/ilyautov/not-a-blogger в папку not-a-blogger в моей домашней папке.
+Прочитай в нём AGENTS.md и starter-lite/README.ru.md.
+Проверь, есть ли у меня Node.js 22+ и ffmpeg. Чего нет, поставь, но перед каждой установкой скажи, что ставишь и зачем, и дождись моего «да».
+В конце покажи версии Node.js и ffmpeg.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Папка <code>not-a-blogger</code> у вас дома, агент показал версии Node.js (22 или выше) и ffmpeg. Если он просит разрешение на команду, прочитайте, что она делает, и отвечайте.</p></div>
 </div>
+
 <div class="step" id="step-2">
-  <div class="section-title"><span class="step-number">2</span><div><h3>Поручите ролик агенту</h3><p>Откройте папку репозитория в агенте и вставьте задание со своей темой.</p></div></div>
+  <div class="section-title"><span class="step-number">2</span><div><h3>Попросите собрать первый ролик</h3><p>Немой пробник на 15 секунд, потом с вашим текстом.</p></div></div>
+  <figure class="step-figure"><img src="img/probnik.jpg" width="924" height="534" alt="Три кадра из готового пробника starter-lite" loading="lazy"><figcaption>Так выглядит пробник: три сцены по 5 секунд.</figcaption></figure>
+  <div class="command"><div class="command-bar"><span>В чат агента · сообщение 2</span><button type="button">Копировать</button></div><pre><code>Собери немой пробник из starter-lite и открой мне готовый файл.
+Потом поменяй текст в трёх сценах на мой и пересобери:
+1) {первая фраза, которая цепляет}
+2) {что произошло}
+3) {вывод}</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Файл <code>output/first-video.mp4</code> внутри <code>starter-lite/</code>: 15 секунд, три сцены, без звука. Первый запуск скачивает закреплённую версию HyperFrames и, возможно, браузер для рендера, нужен интернет. Длинный текст может не поместиться в кадр: сократите фразу. Голоса и проверки готового файла здесь нет, смотрите MP4 глазами.</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Покажите агенту ролики, которые нравятся</h3><p>По примерам он поймёт темп, кадр и подачу.</p></div></div>
+  <figure class="step-figure"><img src="img/referensy.jpg" width="880" height="586" alt="Шимпанзе несёт стопку набросков, горилла разбирает раскадровку на доске" loading="lazy"></figure>
+  <p>Положите 2–3 ролика в папку <code>refs</code> внутри <code>not-a-blogger</code>: скачанные файлы MP4 или скриншоты. Ссылку на Instagram агент сам не откроет. Как обойтись без скачивания вручную, написано в гайде <a href="../rils/">«Как дать Claude смотреть рилс по ссылке»</a>.</p>
+  <div class="command"><div class="command-bar"><span>В чат агента · сообщение 3</span><button type="button">Копировать</button></div><pre><code>В папке refs лежат ролики, которые мне нравятся.
+Разбери каждый: чем цепляет первая секунда, как часто меняется кадр, какие субтитры, голос и музыка.
+Запиши приёмы в refs/notes.md. Текст и картинки не копируй, бери только приёмы.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Файл <code>refs/notes.md</code> с приёмами по каждому ролику. Агент смотрит кадры раз в несколько секунд и расшифровку речи, а не видео целиком: быстрое движение, музыку и интонацию он может пропустить. Поправьте заметки, если с чем-то не согласны.</p></div>
+</div>
+
+<div class="step" id="step-4">
+  <div class="section-title"><span class="step-number">4</span><div><h3>Поручите ролик с голосом</h3><p>Вставьте задание со своей темой. Сначала придёт сценарий.</p></div></div>
+  <figure class="step-figure"><img src="img/scenariy.jpg" width="880" height="586" alt="Горилла правит длинный свиток сценария лаймовым маркером" loading="lazy"></figure>
   <div class="command"><div class="command-bar"><span>В чат Claude Code, Codex или Cursor · задание</span><button type="button">Копировать</button></div><pre><code>Прочитай AGENTS.md в этом репо. Собери вертикальный ролик на 20 секунд про {твоя тема}, на русском.
 Сначала покажи сценарий и дождись моего ответа.
-Когда соберёшь, покажи контактный лист и отчёт проверки. Ничего не публикуй.</code></pre><p class="copy-feedback" aria-live="polite"></p></div><div class="expected"><b>Что должно получиться</b><p>Агент сначала покажет сценарий и будет ждать вашего ответа. Потом скажет, что поставить, соберёт ролик с голосом в папке <code>starter/</code>, покажет контактный лист и отчёт проверки. Публиковать он не будет.</p></div>
+Когда соберёшь, покажи контактный лист и отчёт проверки. Ничего не публикуй.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Делали шаг 3? Допишите в конце задания: «Возьми приёмы из refs/notes.md».</p>
+  <div class="expected"><b>Что должно получиться</b><p>Агент сначала покажет сценарий и будет ждать вашего ответа. Потом скажет, что поставить, соберёт ролик с голосом в папке <code>starter/</code>, покажет контактный лист и отчёт проверки. Публиковать он не будет.</p></div>
+  <figure class="step-figure"><img src="img/proverka.jpg" width="880" height="586" alt="Горилла с лупой проверяет чек-лист, шимпанзе показывает коробку с плёнкой" loading="lazy"><figcaption>Зелёная проверка не значит «хорошо». Решаете вы, глядя на ролик.</figcaption></figure>
+</div>
+</section>
+
+<section class="block" id="inside" aria-labelledby="inside-title">
+<h2 id="inside-title">Что внутри набора</h2>
+<p class="intro">По README репозитория. Карточка ведёт в нужную папку на GitHub.</p>
+<div class="cards">
+  <a class="card" href="https://github.com/ilyautov/not-a-blogger/blob/main/.agents/skills/README.ru.md"><p class="num">18</p><b>скиллов</b><span>15 отдельных задач (сценарий, голос, субтитры, рендер, проверки) и 3 на весь процесс</span></a>
+  <a class="card" href="https://github.com/ilyautov/not-a-blogger/blob/main/recipes/README.md"><p class="num">143</p><b>рецепта для агента</b><span>когда применять, что делать, как проверить</span></a>
+  <a class="card" href="https://github.com/ilyautov/not-a-blogger/blob/main/examples/README.md"><p class="num">12</p><b>разборов роликов</b><span>опубликованных, с цифрами и датами, провалы тоже</span></a>
+  <a class="card" href="https://github.com/ilyautov/not-a-blogger/blob/main/learn/ru/README.md"><p class="num">12</p><b>глав мини-курса</b><span>для человека, с упражнениями</span></a>
+  <a class="card" href="https://github.com/ilyautov/not-a-blogger/blob/main/starter/README.md"><p class="num">starter/</p><b>полная сборка</b><span>с голосом и отчётом проверки</span></a>
 </div>
 </section>
 
 <section class="block" id="reference" aria-labelledby="reference-title">
 <h2 id="reference-title">Справочное</h2>
-<details id="inside"><summary><span>Что внутри набора<small>по README репозитория</small></span></summary><div class="details-body"><ul><li><a href="https://github.com/ilyautov/not-a-blogger/blob/main/.agents/skills/README.ru.md">18 скиллов</a>: 15 отдельных задач (сценарий, голос, субтитры, рендер, проверки) и 3 на весь процесс.</li><li><a href="https://github.com/ilyautov/not-a-blogger/blob/main/recipes/README.md">143 рецепта</a> для агента: когда применять, что делать, как проверить.</li><li><a href="https://github.com/ilyautov/not-a-blogger/blob/main/examples/README.md">12 разборов</a> опубликованных роликов с цифрами и датами, провалы тоже.</li><li><a href="https://github.com/ilyautov/not-a-blogger/blob/main/learn/ru/README.md">Мини-курс</a> для человека: 12 глав с упражнениями.</li><li><a href="https://github.com/ilyautov/not-a-blogger/blob/main/starter/README.md">starter/</a>: полная сборка с голосом и отчётом проверки.</li></ul></div></details>
+<details id="terminal"><summary><span>Если удобнее терминал<small>пробник тремя командами, без агента</small></span></summary><div class="details-body">
+  <div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>git clone https://github.com/ilyautov/not-a-blogger
+cd not-a-blogger/starter-lite
+npm run render</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <p>Результат тот же, что на шаге 2: <code>output/first-video.mp4</code> внутри <code>starter-lite/</code>.</p>
+</div></details>
 <details id="licenses"><summary><span>Лицензии: что можно в рекламе, а что нет<small>голосовые модели некоммерческие</small></span></summary><div class="details-body"><p>Код набора под MIT, тексты под CC BY 4.0. Веса голосовых моделей OmniVoice и F5-TTS под некоммерческой лицензией CC BY-NC: для рекламы и заказов нужна своя запись голоса или другая модель. Полная таблица в <a href="https://github.com/ilyautov/not-a-blogger/blob/main/docs/THIRD-PARTY.md">THIRD-PARTY.md</a>.</p></div></details>
 </section>
 
 <section class="block" id="stuck" aria-labelledby="stuck-title">
 <h2 id="stuck-title">Если застряли</h2>
-<details id="stuck-node"><summary>npm run render падает</summary><div class="details-body"><p>Проверьте версию Node (<code>node -v</code>, нужна 22+) и что ffmpeg установлен. Подробности в <a href="https://github.com/ilyautov/not-a-blogger/blob/main/starter-lite/README.ru.md">starter-lite/README.ru.md</a>.</p></div></details>
+<details id="stuck-node"><summary>npm run render падает</summary><div class="details-body"><p>Проверьте версию Node (<code>node -v</code>, нужна 22+) и что ffmpeg установлен. Подробности в <a href="https://github.com/ilyautov/not-a-blogger/blob/main/starter-lite/README.ru.md">starter-lite/README.ru.md</a>. Можно просто написать агенту: «Пробник не собирается, вот ошибка», и вставить её.</p></div></details>
 <details id="stuck-voice"><summary>Голос не ставится</summary><div class="details-body"><p>Полный стартер с голосом проверен на macOS с Apple Silicon. Linux с настоящей речью и GPU не проверен, нативная Windows не поддерживается. Отказы и что делать: <a href="https://github.com/ilyautov/not-a-blogger/blob/main/starter/DIAGNOSTICS.md">DIAGNOSTICS.md</a>.</p></div></details>
 </section>
 
@@ -75,7 +145,7 @@ npm run render</code></pre><p class="copy-feedback" aria-live="polite"></p></div
 
 <footer>
   <a class="back" href="../">← Все инструкции</a>
-  <p>not-a-blogger — открытый набор: код MIT, тексты CC BY 4.0. Сторонние движки и модели под своими лицензиями.</p>
+  <p>not-a-blogger — открытый набор: код MIT, тексты CC BY 4.0. Сторонние движки и модели под своими лицензиями. Иллюстрации из учебника not-a-blogger (CC BY 4.0).</p>
   <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
 </footer>
 </main>
