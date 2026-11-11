@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Завод роликов на Claude Code: из чего он собран</title>
+<meta name="description" content="Как Claude Code собрал 217 наших роликов без ручного монтажа: текст, озвучка своим голосом, проверка распознаванием, склейка по словам, музыка под паузы, громкость, контакт-лист. Семь станций с кадрами, команды проверок и открытый стартовый набор.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Завод роликов на Claude Code: из чего он собран">
+<meta property="og:description" content="Семь станций от темы до MP4, на каждой проверка вместо рук. Кадры из ролика, команды и стартовый набор.">
+<meta property="og:url" content="https://ilyautov.github.io/gorilla-guides/montazh/">
+<meta property="og:image" content="https://ilyautov.github.io/gorilla-guides/montazh/img/kadr.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/guide-v2.css">
+<style>
+.station{display:grid;grid-template-columns:200px minmax(0,1fr);gap:20px;align-items:start;padding:20px 0;border-top:1px solid var(--line)}
+.station img{width:100%;height:auto;border-radius:12px;border:1px solid var(--line)}
+.station h3{margin-top:0}
+.shot{margin:16px 0}.shot img{width:100%;height:auto;border-radius:12px;border:1px solid var(--line)}
+.shot figcaption{font-size:14px;margin-top:6px;opacity:.8}
+@media (max-width:760px){.station{grid-template-columns:minmax(0,1fr)}.station img{max-width:260px}}
+</style>
+</head>
+<body>
+<main id="top">
+<nav class="topbar" aria-label="Навигация сайта"><a href="../">← Все инструкции</a><a href="https://t.me/gorilla_under_hood">gorilla_under_hood</a></nav>
+
+<header class="hero has-figure">
+  <div>
+    <h1>Из чего собран наш <span class="hl">завод</span> роликов</h1>
+    <p class="lede">Двести с лишним роликов, и ни один мы не монтировали руками. Ниже семь станций, через которые проходит каждый ролик: что на них делает Claude Code и какая проверка стоит вместо рук. В конце открытый стартовый набор, чтобы собрать свой.</p>
+    <div class="actions">
+      <a class="btn" href="#stations">Смотреть станции →</a>
+      <a class="secondary-link" href="#step-1">Сразу собрать свой</a>
+    </div>
+    <ul class="chips" aria-label="Коротко"><li>на своём Mac</li><li>голос только свой</li><li>финал решает человек</li></ul>
+    <p class="for-video">К ролику «Двести роликов. Ни одной склейки руками» · обновлено 11 ноября 2026</p>
+  </div>
+  <figure class="hero-figure"><img src="img/kadr.jpg" width="960" height="640" alt="Сетка из превью наших роликов на фиолетовом фоне"></figure>
+</header>
+
+<nav class="strip" aria-label="Станции"><p>Семь станций</p><ol>
+  <li><a href="#st-tekst"><b>1. Текст</b><span>тема → реплики</span></a></li>
+  <li><a href="#st-golos"><b>2. Голос</b><span>клон, четыре дубля</span></a></li>
+  <li><a href="#st-sluh"><b>3. Слух</b><span>сам себя переслушивает</span></a></li>
+  <li><a href="#st-skleyka"><b>4. Склейка</b><span>по началу слова</span></a></li>
+  <li><a href="#st-muzyka"><b>5. Музыка</b><span>тише под голосом</span></a></li>
+  <li><a href="#st-gromkost"><b>6. Громкость</b><span>−14 LUFS</span></a></li>
+  <li><a href="#st-glaza"><b>7. Глаза</b><span>контакт-лист</span></a></li>
+</ol></nav>
+
+<div class="start-note"><b>До начала</b><p>Наш рабочий движок не выложен: он вырос из сотни ролик-папок и без них не поедет. Для своего завода есть урезанная, но рабочая копия, «стартовый набор» из <a href="../mult/">«Фабрики рилсов»</a>. Нужны Mac на Apple Silicon и подписка на Claude Code.</p></div>
+
+<section class="block" id="stations" aria-labelledby="stations-title">
+<h2 id="stations-title">Семь станций одного ролика</h2>
+<p>Все кадры ниже из ролика «МОНТАЖ». В нём завод показывает сам себя: каждый план — настоящий файл, который получился по пути. Я на этом пути делаю две вещи: пишу тему и в конце смотрю.</p>
+<ul class="scheme" aria-label="Кто что делает">
+  <li class="you"><small>Человек</small><b>Тема</b><span>одна строка</span></li>
+  <li><small>Claude Code</small><b>Станции 1–7</b><span>текст, голос, сборка, проверки</span></li>
+  <li class="you"><small>Человек</small><b>Просмотр</b><span>«гавно» или «заливай»</span></li>
+</ul>
+
+<div class="station" id="st-tekst">
+  <img src="img/terminal.jpg" width="540" height="620" alt="Терминал Claude Code: тема «МОНТАЖ. Claude Code монтирует сам» и запись реплик в voice-lines.json" loading="lazy">
+  <div>
+    <h3>1. Текст: тема превращается в реплики</h3>
+    <p>Я пишу тему одной строкой. Claude Code раскладывает её на 4–6 коротких реплик и кладёт в <code>voice-lines.json</code>. Первая реплика — хук, последняя — кодовое слово. Сценарий я читаю до сборки: переделать текст дешевле, чем готовый ролик.</p>
+    <p><b>Проверка вместо рук:</b> правила в <code>CLAUDE.md</code> проекта. Ролик до 40 секунд, хук в первую секунду, один пример. Слова, которые синтез стабильно читает плохо, заменяются ещё в тексте.</p>
+  </div>
+</div>
+
+<div class="station" id="st-golos">
+  <img src="img/golos.jpg" width="540" height="620" alt="Волна голоса на оранжевом фоне, плейхед бежит по словам, подпись tight-1.wav · OmniVoice · ref-03-dc · ×1,15" loading="lazy">
+  <div>
+    <h3>2. Голос: мой клон, по четыре дубля</h3>
+    <p>Озвучка идёт локально через <a href="https://github.com/k2-fsa/OmniVoice">OmniVoice</a> по образцу моего голоса. Каждая реплика — четыре дубля с разными сидами: синтез иногда глотает слово или обрывает хвост, и из четырёх почти всегда есть чистый.</p>
+    <p>Потом дубль поджимается: темп ×1,15 через rubberband с сохранением тембра, паузы длиннее 0,35 с сокращаются до 0,25 с, между репликами 0,15 с. Без этого синтез звучит сонно.</p>
+    <div class="warn"><b>Клонируйте только свой голос.</b> Веса OmniVoice под CC-BY-NC: только некоммерческое использование.</div>
+  </div>
+</div>
+
+<div class="station" id="st-sluh">
+  <img src="img/volna.jpg" width="540" height="620" alt="Под волной голоса карточка ASR large-v3: «я пишу тему клод пишет текст озвучивает моим голосом и сам себя переслушивает», пометка «дословно»" loading="lazy">
+  <div>
+    <h3>3. Слух: завод переслушивает сам себя</h3>
+    <p>Каждый дубль прогоняется через распознавание речи Whisper large-v3. Берётся тот, где текст совпал слово в слово, первое слово на месте и хвост не обрезан. Отчёт выглядит так:</p>
+    <div class="command"><div class="command-bar"><span>Фрагмент нашего отчёта · qa/asr-takes/REPORT.md</span><button type="button">Копировать</button></div><pre><code>## 1. Я пишу тему. Клод пишет текст, озвучивает моим голосом и сам себя переслушивает.
+- выбран `1-s11.wav` 4.87 с, дословно=True, хвост=True (-23.8 dB)
+- ASR: Я пишу тему. Клод пишет текст, озвучивает моим голосом и сам себя переслушивает.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+    <p>Распознавание по обработанному дублю заодно даёт время каждого слова. На нём держится всё дальше: субтитры по словам и склейки.</p>
+    <p><b>Чего эта проверка не видит:</b> ударений. В этом самом ролике синтез сказал «гАвно», а распознавание честно записало «гавно» и поставило галочку. Ошибку услышал человек. Лечится не знаком ударения (он даёт акцент), а написанием: в синтез ушло «гавнО», на экране осталось прежнее слово.</p>
+  </div>
+</div>
+
+<div class="station" id="st-skleyka">
+  <img src="img/lenta.jpg" width="540" height="620" alt="Кинолента кадров на синем фоне, белая линия склейки, подпись «склейка = начало слова»" loading="lazy">
+  <div>
+    <h3>4. Склейка: по началу слова, а не на глаз</h3>
+    <p>Смена плана ставится ровно на начало слова из таймингов станции 3. Крупные слова на экране появляются по одному в момент, когда звучат. Сцена — HTML-страница, где кадр зависит только от времени, поэтому рендер можно повторять сколько угодно и проверять любой кадр отдельно.</p>
+    <p><b>Проверка вместо рук:</b> кадры рендерятся покадрово через браузер без окна. Пока не готов звук, видно стоп-кадры: наложения, обрезанный текст и пустые места ловятся до полного рендера.</p>
+  </div>
+</div>
+
+<div class="station" id="st-muzyka">
+  <img src="img/muzyka.jpg" width="540" height="620" alt="Волна музыки Blip Stream на зелёном фоне и волна голоса под ней" loading="lazy">
+  <div>
+    <h3>5. Музыка: ниже голоса и проседает под словами</h3>
+    <p>Трек берётся под CC BY с указанием автора, и у каждого ролика свой. Мы ведём журнал использованных треков, чтобы музыка не повторялась подряд. Огибающая голоса считается из той же дорожки, и под словами музыка уходит ниже. Вжухи стоят на склейках, щелчки на выделенных словах.</p>
+    <p><b>Проверка вместо рук:</b> распознавание ещё раз, уже по готовому миксу. В «МОНТАЖЕ» первый микс дал «ставят / паузу / проверяют» вместо правильных слов. Виноваты оказались щелчки на стыках киноленты, которые ложились на начала слов. Их убрали, распознавание снова стало дословным.</p>
+  </div>
+</div>
+
+<div class="station" id="st-gromkost">
+  <img src="img/lufs.jpg" width="540" height="620" alt="Счётчик −14,0 LUFS и столбики громкости на розовом фоне" loading="lazy">
+  <div>
+    <h3>6. Громкость: до децибела</h3>
+    <p>Итог приводится к −14 LUFS линейным усилением, пиковый ограничитель срабатывает редко. Замер — стандартный фильтр ffmpeg. У «МОНТАЖА» вышло −14,1 LUFS, истинный пик около −3,7 dBFS.</p>
+    <div class="command"><div class="command-bar"><span>В терминал · громкость и пик готового ролика</span><button type="button">Копировать</button></div><pre><code>ffmpeg -hide_banner -nostats -i output/final.mp4 -af ebur128=peak=true -f null - 2&gt;&amp;1 | tail -12</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+    <div class="expected"><b>Что должно получиться</b><p>Строка <code>I:</code> около −14 LUFS и <code>Peak:</code> ниже −1 dBFS.</p></div>
+  </div>
+</div>
+
+<div class="station" id="st-glaza">
+  <img src="img/list.jpg" width="540" height="620" alt="Контакт-лист кадров ролика, красная рамка выделяет один кадр" loading="lazy">
+  <div>
+    <h3>7. Глаза: контакт-лист до просмотра</h3>
+    <p>Из готового MP4 собирается лист кадров: первые три секунды через 0,5 с, дальше через секунду. Claude Code смотрит на него как на картинку и чинит то, что видно.</p>
+    <div class="command"><div class="command-bar"><span>В терминал · лист кадров, раз в секунду</span><button type="button">Копировать</button></div><pre><code>ffmpeg -i output/final.mp4 -vf "fps=1,scale=270:-2,tile=6x3" -frames:v 1 sheet.jpg</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+    <p>В «МОНТАЖЕ» лист поймал пять вещей: штампы закрывали морду Горо, сверху была чёрная полоса, терминал обрезался слева, белый текст терялся на лаймовом фоне, контакт-лист заезжал под субтитры. Ещё один замер считает пустой кадр по самому MP4: у этого ролика 0 пустых из 36 проверенных.</p>
+  </div>
+</div>
+
+<figure class="shot"><img src="img/kontakt-list.jpg" width="1200" height="800" alt="Контакт-лист всего ролика МОНТАЖ: сетка превью, терминал, волны, LUFS, Горо со штампом ГАВНО, финал СОБРАН" loading="lazy"><figcaption>Финальный контакт-лист «МОНТАЖА». На нём весь ролик за один взгляд.</figcaption></figure>
+
+<div class="station" id="st-chelovek">
+  <img src="img/goro.jpg" width="540" height="620" alt="Горилла Горо в шлеме, над головой красный штамп «ГАВНО»" loading="lazy">
+  <div>
+    <h3>И восьмая станция — человек</h3>
+    <p>Зелёные проверки значат только, что файл технически цел: слова на месте, громкость в норме, кадр не пустой. Смешно ли, понятно ли, не торопится ли голос, проверки не знают. Поэтому финал всегда один: я смотрю ролик целиком и говорю «гавно» или «заливай». Без этого ничего не публикуется.</p>
+  </div>
+</div>
+</section>
+
+<section class="block" id="steps" aria-labelledby="steps-title">
+<h2 id="steps-title">Свой завод: первый ролик за 3 шага</h2>
+<p>Стартовый набор — урезанная копия нашего конвейера из <a href="../mult/">«Фабрики рилсов»</a>. В нём те же станции: сцена по словам, ASR-сверка, сведение, рендер и QA. Первые два шага обходятся без голоса: вместо слов гудки.</p>
+
+<div class="step" id="step-1">
+  <div class="section-title"><span class="step-number">1</span><div><h3>Скачайте набор и поставьте зависимости</h3><p>Компилятор сцены, окружение пайплайна и шрифты.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В терминал</span><button type="button">Копировать</button></div><pre><code>git clone https://github.com/ilyautov/gorilla-guides
+cd gorilla-guides/mult</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="command"><div class="command-bar"><span>В терминал · из папки mult</span><button type="button">Копировать</button></div><pre><code>cd starter
+
+# Компилятор сцены
+npm install                                   # ставит typescript 5.9.3 в node_modules/
+
+# Окружение пайплайна: ASR, рендер, звук
+python3.11 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/playwright install chromium         # headless-браузер для рендера
+export PY=$PWD/.venv/bin/python
+
+# Шрифты (без них сцена тоже работает, но рисует системными)
+./make.sh fonts</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>В <code>starter/</code> появились <code>node_modules/</code>, <code>.venv/</code> и шрифты в <code>assets/fonts</code>.</p></div>
+</div>
+
+<div class="step" id="step-2">
+  <div class="section-title"><span class="step-number">2</span><div><h3>Прогоните завод без синтеза</h3><p>Так проверяется всё, кроме голоса и ASR.</p></div></div>
+  <div class="command"><div class="command-bar"><span>В терминал · из папки starter</span><button type="button">Копировать</button></div><pre><code>./make.sh fake                       # voice-track.json из гудков по словам lines.json
+FINISH_ARGS=--no-asr ./make.sh all   # сцена -&gt; метки -&gt; звук -&gt; рендер -&gt; final.mp4 + QA
+open output/final.mp4 qa/sheet.jpg</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+  <div class="expected"><b>Что должно получиться</b><p>Открылись <code>output/final.mp4</code> с гудками вместо голоса и контакт-лист <code>qa/sheet.jpg</code>, та самая станция 7.</p></div>
+</div>
+
+<div class="step" id="step-3">
+  <div class="section-title"><span class="step-number">3</span><div><h3>Подключите свой голос и свой текст</h3><p>Станции 2 и 3: OmniVoice и сверка распознаванием.</p></div></div>
+  <p>Установка OmniVoice, образец голоса, сборка с настоящей озвучкой и переделка сцены под свой текст подробно расписаны в «Фабрике рилсов», шаги <a href="../mult/#step-3">3</a> и <a href="../mult/#step-4">4</a>. Повторять их здесь не будем, чтобы не разошлись версии.</p>
+  <div class="expected"><b>Что должно получиться</b><p>Ролик с вашим голосом и <code>technical_pass: true</code> в <code>qa/final-result.json</code>. Это проверки станций 3, 6 и 7, а не одобрение: смотреть всё равно вам.</p></div>
+</div>
+</section>
+
+<section class="block" id="project-rules" aria-labelledby="rules-title">
+<h2 id="rules-title">Правила завода одним файлом</h2>
+<p>Положите в <code>CLAUDE.md</code> папки с роликами. Это выжимка правил, на которых держатся станции выше.</p>
+<div class="command"><div class="command-bar"><span>Файл CLAUDE.md · правила проекта</span><button type="button">Копировать</button></div><pre><code># Завод роликов
+
+- Вертикаль 1080×1920, до 40 секунд. Хук в первую секунду, один пример на ролик.
+- Сценарий показывай мне до сборки. Реплики в voice-lines.json.
+- Голос: клон только моего голоса, по 4 дубля на реплику. Знаки ударения в текст не ставить.
+- Каждый дубль проверять распознаванием (Whisper large-v3) без подсказки текстом реплики. Не совпало — другой дубль или другое слово.
+- Если слово стабильно читается неправильно, меняй написание или слово в тексте для синтеза, на экране оставляй как было.
+- Склейки и появление слов — по таймингам распознавания, на начало слова.
+- Музыка только CC0 или CC BY, автор в описании, тише голоса и ниже под речью.
+- Громкость итога −14 LUFS. Перед сдачей: распознавание финала, замер громкости, контакт-лист, и ты сам смотришь лист.
+- Техническая проверка не значит, что ролик хороший. Ничего не публиковать без моей команды.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<p>Правила собраны из нашего рабочего проекта. В таком виде в пустой папке мы их не прогоняли.</p>
+</section>
+
+<section class="block" id="stuck" aria-labelledby="stuck-title">
+<h2 id="stuck-title">Если застряли</h2>
+<details id="stuck-stress"><summary>Синтез ставит ударение не туда, а проверка зелёная</summary><div class="details-body">
+  <p>Распознавание ударений не видит, это ловит только слух. Знак ударения у OmniVoice даёт акцент. Перепишите слово для синтеза: несловарное слово модель ударяет наугад, словарное или с подсказкой в написании обычно читает верно. Текст на экране оставьте прежним.</p>
+</div></details>
+<details id="stuck-asr-mix"><summary>Голос отдельно распознаётся, а в готовом ролике слова путаются</summary><div class="details-body">
+  <p>Ищите звуки, которые ложатся на начала слов: щелчки, удары, вжухи. Сдвиньте их на склейку и приглушите под голосом.</p>
+</div></details>
+<details id="stuck-sleepy"><summary>Голос звучит сонно и медленно</summary><div class="details-body">
+  <p>Ускорьте готовый дубль, а не синтез: rubberband с сохранением тембра на ×1,1–1,15 и укороченные паузы. Ползунок скорости самого синтеза у нас портил дикцию.</p>
+</div></details>
+<details id="stuck-render"><summary>Каждый рендер выглядит по-разному</summary><div class="details-body">
+  <p>В сцене что-то зависит не от времени кадра: случайные числа без сида, анимация по таймеру браузера. Попросите Claude Code перевести это на время кадра.</p>
+</div></details>
+</section>
+
+<section class="block" id="limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Честные ограничения</h2>
+<ul>
+  <li>Наш рабочий движок не выложен. Стартовый набор проще: в нём нет наших ста с лишним сцен и части проверок.</li>
+  <li>«Ни одной склейки руками» значит, что монтаж собирает код. Тему, правки текста и решение о публикации делает человек.</li>
+  <li>Голос OmniVoice под некоммерческой лицензией. Для рекламы и заказов нужна другая модель.</li>
+  <li>Проверки не слышат ударений и интонации и не знают, смешно ли. В этом ролике ударение поймал только просмотр.</li>
+  <li>217 — число готовых файлов <code>final.mp4</code> в нашем репозитории на 11 ноября 2026. Сюда входят версии одного ролика и пробники, опубликовано меньше.</li>
+</ul>
+</section>
+
+<footer>
+  <a class="back" href="../">← Все инструкции</a>
+  <p>Мы не связаны с Anthropic и k2-fsa. Claude принадлежит Anthropic, OmniVoice сделан k2-fsa и распространяется под своими лицензиями. Музыка в ролике: Kevin MacLeod, «Blip Stream», CC BY 4.0.</p>
+  <div class="tg-cta"><p><b>Разборы новых роликов выходят в телеграме.</b> Там раньше, чем в рилсах.</p><a class="btn btn-tg" href="https://t.me/gorilla_under_hood">Подписаться: @gorilla_under_hood</a></div>
+  <p>Больше разборов: <a href="https://t.me/gorilla_under_hood">t.me/gorilla_under_hood</a> · <a href="https://aifrontier.tech/">aifrontier.tech</a> · <a href="https://github.com/ilyautov/gorilla-guides">исходники страниц</a></p>
+</footer>
+</main>
+<script src="../assets/guide-v2.js"></script>
+</body>
+</html>
