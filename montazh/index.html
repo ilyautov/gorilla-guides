@@ -22,6 +22,7 @@
 .station img{width:100%;height:auto;border-radius:12px;border:1px solid var(--line)}
 .station h3{margin-top:0}
 .shot{margin:16px 0}.shot img{width:100%;height:auto;border-radius:12px;border:1px solid var(--line)}
+.skill-link{font-size:15px;margin-top:8px}
 .shot figcaption{font-size:14px;margin-top:6px;opacity:.8}
 @media (max-width:760px){.station{grid-template-columns:minmax(0,1fr)}.station img{max-width:260px}}
 </style>
@@ -36,7 +37,7 @@
     <p class="lede">Двести с лишним роликов, и ни один мы не монтировали руками. Ниже семь станций, через которые проходит каждый ролик: что на них делает Claude Code и какая проверка стоит вместо рук. В конце открытый стартовый набор, чтобы собрать свой.</p>
     <div class="actions">
       <a class="btn" href="#stations">Смотреть станции →</a>
-      <a class="secondary-link" href="#step-1">Сразу собрать свой</a>
+      <a class="secondary-link" href="#nab">Открытый набор not-a-blogger</a>
     </div>
     <ul class="chips" aria-label="Коротко"><li>на своём Mac</li><li>голос только свой</li><li>финал решает человек</li></ul>
     <p class="for-video">К ролику «Двести роликов. Ни одной склейки руками» · обновлено 11 ноября 2026</p>
@@ -54,7 +55,7 @@
   <li><a href="#st-glaza"><b>7. Глаза</b><span>контакт-лист</span></a></li>
 </ol></nav>
 
-<div class="start-note"><b>До начала</b><p>Наш рабочий движок не выложен: он вырос из сотни ролик-папок и без них не поедет. Для своего завода есть урезанная, но рабочая копия, «стартовый набор» из <a href="../mult/">«Фабрики рилсов»</a>. Нужны Mac на Apple Silicon и подписка на Claude Code.</p></div>
+<div class="start-note"><b>До начала</b><p>Наш рабочий движок не выложен: он вырос из сотни ролик-папок и без них не поедет. Для своего завода есть открытый репозиторий <a href="https://github.com/ilyautov/not-a-blogger">not-a-blogger</a>: скиллы для агента на каждую станцию, рецепты и два стартовых набора. Есть и урезанная копия конвейера из <a href="../mult/">«Фабрики рилсов»</a>. Нужны Mac на Apple Silicon и подписка на Claude Code.</p></div>
 
 <section class="block" id="stations" aria-labelledby="stations-title">
 <h2 id="stations-title">Семь станций одного ролика</h2>
@@ -71,6 +72,7 @@
     <h3>1. Текст: тема превращается в реплики</h3>
     <p>Я пишу тему одной строкой. Claude Code раскладывает её на 4–6 коротких реплик и кладёт в <code>voice-lines.json</code>. Первая реплика — хук, последняя — кодовое слово. Сценарий я читаю до сборки: переделать текст дешевле, чем готовый ролик.</p>
     <p><b>Проверка вместо рук:</b> правила в <code>CLAUDE.md</code> проекта. Ролик до 40 секунд, хук в первую секунду, один пример. Слова, которые синтез стабильно читает плохо, заменяются ещё в тексте.</p>
+    <p class="skill-link">Открытый скилл: <a href="https://github.com/ilyautov/not-a-blogger/tree/main/.agents/skills/nab-script">nab-script</a> · сценарий, хук и финал</p>
   </div>
 </div>
 
@@ -81,6 +83,7 @@
     <p>Озвучка идёт локально через <a href="https://github.com/k2-fsa/OmniVoice">OmniVoice</a> по образцу моего голоса. Каждая реплика — четыре дубля с разными сидами: синтез иногда глотает слово или обрывает хвост, и из четырёх почти всегда есть чистый.</p>
     <p>Потом дубль поджимается: темп ×1,15 через rubberband с сохранением тембра, паузы длиннее 0,35 с сокращаются до 0,25 с, между репликами 0,15 с. Без этого синтез звучит сонно.</p>
     <div class="warn"><b>Клонируйте только свой голос.</b> Веса OmniVoice под CC-BY-NC: только некоммерческое использование.</div>
+    <p class="skill-link">Открытый скилл: <a href="https://github.com/ilyautov/not-a-blogger/tree/main/.agents/skills/nab-voice">nab-voice</a> · синтез, выбор и починка дублей</p>
   </div>
 </div>
 
@@ -94,6 +97,7 @@
 - ASR: Я пишу тему. Клод пишет текст, озвучивает моим голосом и сам себя переслушивает.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
     <p>Распознавание по обработанному дублю заодно даёт время каждого слова. На нём держится всё дальше: субтитры по словам и склейки.</p>
     <p><b>Чего эта проверка не видит:</b> ударений. В этом самом ролике синтез сказал «гАвно», а распознавание честно записало «гавно» и поставило галочку. Ошибку услышал человек. Лечится не знаком ударения (он даёт акцент), а написанием: в синтез ушло «гавнО», на экране осталось прежнее слово.</p>
+    <p class="skill-link">Открытый скилл: <a href="https://github.com/ilyautov/not-a-blogger/tree/main/.agents/skills/nab-qa-speech">nab-qa-speech</a> · сверка слов, пауз и привязки к словам</p>
   </div>
 </div>
 
@@ -103,6 +107,7 @@
     <h3>4. Склейка: по началу слова, а не на глаз</h3>
     <p>Смена плана ставится ровно на начало слова из таймингов станции 3. Крупные слова на экране появляются по одному в момент, когда звучат. Сцена — HTML-страница, где кадр зависит только от времени, поэтому рендер можно повторять сколько угодно и проверять любой кадр отдельно.</p>
     <p><b>Проверка вместо рук:</b> кадры рендерятся покадрово через браузер без окна. Пока не готов звук, видно стоп-кадры: наложения, обрезанный текст и пустые места ловятся до полного рендера.</p>
+    <p class="skill-link">Открытый скилл: <a href="https://github.com/ilyautov/not-a-blogger/tree/main/.agents/skills/nab-captions">nab-captions</a> · субтитры и тайминг слов</p>
   </div>
 </div>
 
@@ -112,6 +117,7 @@
     <h3>5. Музыка: ниже голоса и проседает под словами</h3>
     <p>Трек берётся под CC BY с указанием автора, и у каждого ролика свой. Мы ведём журнал использованных треков, чтобы музыка не повторялась подряд. Огибающая голоса считается из той же дорожки, и под словами музыка уходит ниже. Вжухи стоят на склейках, щелчки на выделенных словах.</p>
     <p><b>Проверка вместо рук:</b> распознавание ещё раз, уже по готовому миксу. В «МОНТАЖЕ» первый микс дал «ставят / паузу / проверяют» вместо правильных слов. Виноваты оказались щелчки на стыках киноленты, которые ложились на начала слов. Их убрали, распознавание снова стало дословным.</p>
+    <p class="skill-link">Открытый скилл: <a href="https://github.com/ilyautov/not-a-blogger/tree/main/.agents/skills/nab-sound">nab-sound</a> · музыка, звуки и сведение с голосом</p>
   </div>
 </div>
 
@@ -122,6 +128,7 @@
     <p>Итог приводится к −14 LUFS линейным усилением, пиковый ограничитель срабатывает редко. Замер — стандартный фильтр ffmpeg. У «МОНТАЖА» вышло −14,1 LUFS, истинный пик около −3,7 dBFS.</p>
     <div class="command"><div class="command-bar"><span>В терминал · громкость и пик готового ролика</span><button type="button">Копировать</button></div><pre><code>ffmpeg -hide_banner -nostats -i output/final.mp4 -af ebur128=peak=true -f null - 2&gt;&amp;1 | tail -12</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
     <div class="expected"><b>Что должно получиться</b><p>Строка <code>I:</code> около −14 LUFS и <code>Peak:</code> ниже −1 dBFS.</p></div>
+    <p class="skill-link">Открытый скилл: <a href="https://github.com/ilyautov/not-a-blogger/tree/main/.agents/skills/nab-qa-file">nab-qa-file</a> · проверка файла, длины и громкости</p>
   </div>
 </div>
 
@@ -132,6 +139,7 @@
     <p>Из готового MP4 собирается лист кадров: первые три секунды через 0,5 с, дальше через секунду. Claude Code смотрит на него как на картинку и чинит то, что видно.</p>
     <div class="command"><div class="command-bar"><span>В терминал · лист кадров, раз в секунду</span><button type="button">Копировать</button></div><pre><code>ffmpeg -i output/final.mp4 -vf "fps=1,scale=270:-2,tile=6x3" -frames:v 1 sheet.jpg</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
     <p>В «МОНТАЖЕ» лист поймал пять вещей: штампы закрывали морду Горо, сверху была чёрная полоса, терминал обрезался слева, белый текст терялся на лаймовом фоне, контакт-лист заезжал под субтитры. Ещё один замер считает пустой кадр по самому MP4: у этого ролика 0 пустых из 36 проверенных.</p>
+    <p class="skill-link">Открытый скилл: <a href="https://github.com/ilyautov/not-a-blogger/tree/main/.agents/skills/nab-qa-picture">nab-qa-picture</a> · кадры, контакт-лист, наложения, пустые места</p>
   </div>
 </div>
 
@@ -146,8 +154,30 @@
 </div>
 </section>
 
+<section class="block" id="nab" aria-labelledby="nab-title">
+<h2 id="nab-title">Всё это открыто: not-a-blogger</h2>
+<p><a href="https://github.com/ilyautov/not-a-blogger">github.com/ilyautov/not-a-blogger</a> — наш открытый набор для агентов, которые делают короткие ролики. Код под MIT, тексты под CC BY 4.0. Внутри скиллы для Claude Code, Codex и Cursor, рецепты с пометкой «замерено» или «гипотеза», разборы роликов и мини-курс для человека.</p>
+<ul class="cards">
+  <li><b><a href="https://github.com/ilyautov/not-a-blogger/tree/main/.agents/skills">Скиллы для агента</a></b>по одному на станцию: сценарий, голос, субтитры, звук, рендер, проверки</li>
+  <li><b><a href="https://github.com/ilyautov/not-a-blogger/tree/main/starter-lite">starter-lite</a></b>немой ролик на 15 секунд, нужны только Node.js 22+ и ffmpeg</li>
+  <li><b><a href="https://github.com/ilyautov/not-a-blogger/tree/main/starter">starter</a></b>ролики с голосом и проверкой готового файла</li>
+  <li><b><a href="https://github.com/ilyautov/not-a-blogger/blob/main/examples/README.md">Разборы роликов</a></b>раскадровка по секундам, что сработало и что нет</li>
+  <li><b><a href="https://github.com/ilyautov/not-a-blogger/blob/main/learn/ru/README.md">Мини-курс</a></b>двенадцать глав: как ставить задачу агенту и проверять результат</li>
+</ul>
+<h3>Самый быстрый старт: немой ролик</h3>
+<div class="command"><div class="command-bar"><span>В терминал · нужны Node.js 22+ и ffmpeg</span><button type="button">Копировать</button></div><pre><code>git clone https://github.com/ilyautov/not-a-blogger
+cd not-a-blogger/starter-lite
+npm run render</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+<div class="expected"><b>Что должно получиться</b><p>Файл <code>output/first-video.mp4</code> внутри <code>starter-lite/</code>. Первый запуск скачивает HyperFrames и, возможно, браузер для рендера: нужен интернет. Голоса и проверки готового файла здесь нет.</p></div>
+<h3>Поручить ролик своему агенту</h3>
+<p>Склонируйте репозиторий, откройте папку в Claude Code и вставьте задание со своей темой:</p>
+<div class="command"><div class="command-bar"><span>В чат Claude Code · задание из README not-a-blogger</span><button type="button">Копировать</button></div><pre><code>Прочитай AGENTS.md в этом репо. Собери вертикальный ролик на 20 секунд про {твоя тема}, на русском.
+Сначала покажи сценарий и дождись моего ответа.
+Когда соберёшь, покажи контактный лист и отчёт проверки. Ничего не публикуй.</code></pre><p class="copy-feedback" aria-live="polite"></p></div>
+</section>
+
 <section class="block" id="steps" aria-labelledby="steps-title">
-<h2 id="steps-title">Свой завод: первый ролик за 3 шага</h2>
+<h2 id="steps-title">Ещё путь: копия конвейера за 3 шага</h2>
 <p>Стартовый набор — урезанная копия нашего конвейера из <a href="../mult/">«Фабрики рилсов»</a>. В нём те же станции: сцена по словам, ASR-сверка, сведение, рендер и QA. Первые два шага обходятся без голоса: вместо слов гудки.</p>
 
 <div class="step" id="step-1">
